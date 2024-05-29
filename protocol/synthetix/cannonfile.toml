@@ -19,16 +19,16 @@ defaultValue = "0x9f76043B23125024Ce5f0Fb4AE707482107dd2a8"
 defaultValue = "fx-oracle-manager"
 
 [setting.usd_token_name]
-defaultValue = "Synthetic USD Token v3"
+defaultValue = "Polynomial USD Token"
 
 [setting.usd_token_symbol]
-defaultValue = "sUSD"
+defaultValue = "fxUSD"
 
 [setting.account_token_name]
-defaultValue = "Synthetix Account"
+defaultValue = "Polynomial Account"
 
 [setting.account_token_symbol]
-defaultValue = "SACCT"
+defaultValue = "fxACCT"
 
 [provision.oracle_manager]
 source = "<%= settings.oracle_manager_source %>"
