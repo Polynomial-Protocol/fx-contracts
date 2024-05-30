@@ -6,6 +6,7 @@ import {SafeCastI128} from "@synthetixio/core-contracts/contracts/utils/SafeCast
 import {OrderFee} from "./OrderFee.sol";
 import {SettlementStrategy} from "./SettlementStrategy.sol";
 import {MathUtil} from "../utils/MathUtil.sol";
+import {IFeeTier} from "../interfaces/IFeeTier.sol";
 
 library PerpsMarketConfiguration {
     using DecimalMath for int256;
@@ -90,8 +91,14 @@ library PerpsMarketConfiguration {
         }
     }
 
+    function getFxOrderFees(Data storage self, uint128 accountId) internal view returns (OrderFee.Data memory) {
+        // fees Contract
+        OrderFee.Data memory fees = IFeeTier(self.feeTierContract).getFees(accountId, self.marketId);
+        return fees;
+    }
+
     function maxLiquidationAmountInWindow(Data storage self) internal view returns (uint256) {
-        OrderFee.Data storage orderFeeData = self.orderFees;
+        OrderFee.Data memory orderFeeData = self.orderFees;
         return
             (orderFeeData.makerFee + orderFeeData.takerFee).mulDecimal(self.skewScale).mulDecimal(
                 self.maxLiquidationLimitAccumulationMultiplier

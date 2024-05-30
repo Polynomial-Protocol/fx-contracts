@@ -308,7 +308,7 @@ library AsyncOrder {
                 runtime.sizeDelta,
                 runtime.fillPrice,
                 perpsMarketData.skew,
-                marketConfig.orderFees
+                marketConfig.getFxOrderFees(order.request.accountId)
             ) +
             settlementRewardCost(strategy);
 
