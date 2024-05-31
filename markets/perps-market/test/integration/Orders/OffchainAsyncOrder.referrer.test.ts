@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
 import { DEFAULT_SETTLEMENT_STRATEGY, bn, bootstrapMarkets } from '../bootstrap';
 import { openPosition } from '../helpers';
 import Wei, { wei } from '@synthetixio/wei';

@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "@synthetixio/core-contracts/contracts/utils/SetUtil.sol";
+import "@polynomial/core-contracts/contracts/utils/SetUtil.sol";
 
 library ElectionSettings {
     struct Data {

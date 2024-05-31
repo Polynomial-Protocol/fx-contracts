@@ -10,9 +10,9 @@ import "./PoolCollateralConfiguration.sol";
 import "./SystemPoolConfiguration.sol";
 import "./PoolCollateralConfiguration.sol";
 
-import "@synthetixio/core-contracts/contracts/errors/AccessError.sol";
-import "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
-import {DecimalMath} from "@synthetixio/core-contracts/contracts/utils/DecimalMath.sol";
+import "@polynomial/core-contracts/contracts/errors/AccessError.sol";
+import "@polynomial/core-contracts/contracts/utils/SafeCast.sol";
+import {DecimalMath} from "@polynomial/core-contracts/contracts/utils/DecimalMath.sol";
 
 /**
  * @title Aggregates collateral from multiple users in order to provide liquidity to a configurable set of markets.

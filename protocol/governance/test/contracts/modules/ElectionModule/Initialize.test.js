@@ -1,10 +1,10 @@
 const { ethers } = hre;
 const assert = require('assert/strict');
-const assertRevert = require('@synthetixio/core-utils/utils/assertions/assert-revert');
-const { daysToSeconds } = require('@synthetixio/core-utils/utils/misc/dates');
-const { getTime } = require('@synthetixio/core-utils/utils/hardhat/rpc');
+const assertRevert = require('@polynomial/core-utils/utils/assertions/assert-revert');
+const { daysToSeconds } = require('@polynomial/core-utils/utils/misc/dates');
+const { getTime } = require('@polynomial/core-utils/utils/hardhat/rpc');
 const { bootstrap } = require('@synthetixio/router/utils/tests');
-const initializer = require('@synthetixio/core-modules/test/helpers/initializer');
+const initializer = require('@polynomial/core-modules/test/helpers/initializer');
 
 describe('SynthetixElectionModule (initialization)', () => {
   const { proxyAddress } = bootstrap(initializer);

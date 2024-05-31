@@ -4,12 +4,12 @@ pragma solidity ^0.8.7;
 import "../../interfaces/IUSDTokenModule.sol";
 import "../../storage/CrossChain.sol";
 
-import "@synthetixio/core-contracts/contracts/utils/ERC2771Context.sol";
-import "@synthetixio/core-modules/contracts/storage/AssociatedSystem.sol";
-import "@synthetixio/core-contracts/contracts/token/ERC20.sol";
-import "@synthetixio/core-modules/contracts/storage/FeatureFlag.sol";
-import "@synthetixio/core-contracts/contracts/initializable/InitializableMixin.sol";
-import "@synthetixio/core-contracts/contracts/ownership/OwnableStorage.sol";
+import "@polynomial/core-contracts/contracts/utils/ERC2771Context.sol";
+import "@polynomial/core-modules/contracts/storage/AssociatedSystem.sol";
+import "@polynomial/core-contracts/contracts/token/ERC20.sol";
+import "@polynomial/core-modules/contracts/storage/FeatureFlag.sol";
+import "@polynomial/core-contracts/contracts/initializable/InitializableMixin.sol";
+import "@polynomial/core-contracts/contracts/ownership/OwnableStorage.sol";
 
 /**
  * @title Module for managing the snxUSD token as an associated system.

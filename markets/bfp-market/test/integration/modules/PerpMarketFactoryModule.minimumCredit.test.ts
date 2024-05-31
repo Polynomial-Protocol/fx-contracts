@@ -1,4 +1,4 @@
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
 import { wei } from '@synthetixio/wei';
 import { shuffle } from 'lodash';
 import { bootstrap } from '../../bootstrap';

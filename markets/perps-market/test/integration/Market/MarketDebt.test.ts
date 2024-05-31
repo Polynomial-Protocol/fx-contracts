@@ -1,8 +1,8 @@
 import { PerpsMarket, bn, bootstrapMarkets } from '../bootstrap';
 import { OpenPositionData, depositCollateral, openPosition } from '../helpers';
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
 import { Signer, ethers } from 'ethers';
-import { snapshotCheckpoint } from '@synthetixio/core-utils/utils/mocha/snapshot';
+import { snapshotCheckpoint } from '@polynomial/core-utils/utils/mocha/snapshot';
 
 describe('Market Debt - single market', () => {
   const orderFees = {

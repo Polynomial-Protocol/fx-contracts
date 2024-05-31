@@ -1,4 +1,4 @@
-import { compileSolidityContents } from '@synthetixio/core-utils/utils/solidity/compiler';
+import { compileSolidityContents } from '@polynomial/core-utils/utils/solidity/compiler';
 import { subtask } from 'hardhat/config';
 import { SUBTASK_STORAGE_PARSE_CONTENTS } from '../task-names';
 

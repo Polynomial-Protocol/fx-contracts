@@ -1,9 +1,9 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import "@synthetixio/core-contracts/contracts/utils/ERC2771Context.sol";
-import {ITokenModule} from "@synthetixio/core-modules/contracts/interfaces/ITokenModule.sol";
-import {INodeModule} from "@synthetixio/oracle-manager/contracts/interfaces/INodeModule.sol";
+import "@polynomial/core-contracts/contracts/utils/ERC2771Context.sol";
+import {ITokenModule} from "@polynomial/core-modules/contracts/interfaces/ITokenModule.sol";
+import {INodeModule} from "@polynomial/oracle-manager/contracts/interfaces/INodeModule.sol";
 import {ISynthetixSystem} from "../interfaces/external/ISynthetixSystem.sol";
 
 /**

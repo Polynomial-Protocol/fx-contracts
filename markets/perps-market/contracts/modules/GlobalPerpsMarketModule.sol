@@ -1,18 +1,18 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import {DecimalMath} from "@synthetixio/core-contracts/contracts/utils/DecimalMath.sol";
-import {ERC165Helper} from "@synthetixio/core-contracts/contracts/utils/ERC165Helper.sol";
-import {SetUtil} from "@synthetixio/core-contracts/contracts/utils/SetUtil.sol";
+import {DecimalMath} from "@polynomial/core-contracts/contracts/utils/DecimalMath.sol";
+import {ERC165Helper} from "@polynomial/core-contracts/contracts/utils/ERC165Helper.sol";
+import {SetUtil} from "@polynomial/core-contracts/contracts/utils/SetUtil.sol";
 import {IFeeCollector} from "../interfaces/external/IFeeCollector.sol";
 import {GlobalPerpsMarketConfiguration} from "../storage/GlobalPerpsMarketConfiguration.sol";
 import {GlobalPerpsMarket} from "../storage/GlobalPerpsMarket.sol";
 import {InterestRate} from "../storage/InterestRate.sol";
 import {PerpsMarketFactory} from "../storage/PerpsMarketFactory.sol";
 import {IGlobalPerpsMarketModule} from "../interfaces/IGlobalPerpsMarketModule.sol";
-import {OwnableStorage} from "@synthetixio/core-contracts/contracts/ownership/OwnableStorage.sol";
-import {AddressError} from "@synthetixio/core-contracts/contracts/errors/AddressError.sol";
-import {ParameterError} from "@synthetixio/core-contracts/contracts/errors/ParameterError.sol";
+import {OwnableStorage} from "@polynomial/core-contracts/contracts/ownership/OwnableStorage.sol";
+import {AddressError} from "@polynomial/core-contracts/contracts/errors/AddressError.sol";
+import {ParameterError} from "@polynomial/core-contracts/contracts/errors/ParameterError.sol";
 import {KeeperCosts} from "../storage/KeeperCosts.sol";
 
 /**

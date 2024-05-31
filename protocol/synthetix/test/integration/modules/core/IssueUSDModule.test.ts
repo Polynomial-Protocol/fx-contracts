@@ -1,7 +1,7 @@
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
-import assertEvent from '@synthetixio/core-utils/utils/assertions/assert-event';
-import { snapshotCheckpoint } from '@synthetixio/core-utils/utils/mocha/snapshot';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
+import assertEvent from '@polynomial/core-utils/utils/assertions/assert-event';
+import { snapshotCheckpoint } from '@polynomial/core-utils/utils/mocha/snapshot';
 import { BigNumber, constants, ethers } from 'ethers';
 import hre from 'hardhat';
 import { bn, bootstrapWithStakedPool } from '../../bootstrap';

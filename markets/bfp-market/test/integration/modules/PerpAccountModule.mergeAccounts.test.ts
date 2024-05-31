@@ -1,10 +1,10 @@
 import { BigNumber, ethers } from 'ethers';
 import { shuffle } from 'lodash';
 import assert from 'assert';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
-import assertEvent from '@synthetixio/core-utils/utils/assertions/assert-event';
-import { fastForwardTo } from '@synthetixio/core-utils/utils/hardhat/rpc';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
+import assertEvent from '@polynomial/core-utils/utils/assertions/assert-event';
+import { fastForwardTo } from '@polynomial/core-utils/utils/hardhat/rpc';
 import Wei, { wei } from '@synthetixio/wei';
 import { bootstrap } from '../../bootstrap';
 import {

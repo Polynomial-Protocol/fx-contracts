@@ -4,10 +4,10 @@ pragma solidity ^0.8.21;
 
 import {Test} from "forge-std/Test.sol";
 import {RewardsDistributorExternal} from "../src/RewardsDistributorExternal.sol";
-import {RewardsDistributor} from "@synthetixio/rewards-distributor/src/RewardsDistributor.sol";
-import {IRewardDistributor} from "@synthetixio/main/contracts/interfaces/external/IRewardDistributor.sol";
-import {AccessError} from "@synthetixio/core-contracts/contracts/errors/AccessError.sol";
-import {ParameterError} from "@synthetixio/core-contracts/contracts/errors/ParameterError.sol";
+import {RewardsDistributor} from "@polynomial/rewards-distributor/src/RewardsDistributor.sol";
+import {IRewardDistributor} from "@polynomial/main/contracts/interfaces/external/IRewardDistributor.sol";
+import {AccessError} from "@polynomial/core-contracts/contracts/errors/AccessError.sol";
+import {ParameterError} from "@polynomial/core-contracts/contracts/errors/ParameterError.sol";
 import {MintableToken} from "./MintableToken.sol";
 
 contract CoreProxyMock {

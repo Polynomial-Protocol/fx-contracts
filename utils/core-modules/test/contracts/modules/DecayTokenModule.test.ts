@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
-import { fastForwardTo, getTime } from '@synthetixio/core-utils/utils/hardhat/rpc';
-import { snapshotCheckpoint } from '@synthetixio/core-utils/utils/mocha/snapshot';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
+import { fastForwardTo, getTime } from '@polynomial/core-utils/utils/hardhat/rpc';
+import { snapshotCheckpoint } from '@polynomial/core-utils/utils/mocha/snapshot';
 import { ethers } from 'ethers';
 import { DecayTokenModule } from '../../../typechain-types';
 import { bootstrap } from '../../bootstrap';

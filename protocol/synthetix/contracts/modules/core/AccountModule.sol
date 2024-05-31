@@ -1,15 +1,15 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import "@synthetixio/core-contracts/contracts/utils/ERC2771Context.sol";
-import "@synthetixio/core-modules/contracts/storage/AssociatedSystem.sol";
+import "@polynomial/core-contracts/contracts/utils/ERC2771Context.sol";
+import "@polynomial/core-modules/contracts/storage/AssociatedSystem.sol";
 
 import "../../interfaces/IAccountModule.sol";
 import "../../interfaces/IAccountTokenModule.sol";
 import "../../storage/Account.sol";
 import "../../storage/SystemAccountConfiguration.sol";
 
-import "@synthetixio/core-modules/contracts/storage/FeatureFlag.sol";
+import "@polynomial/core-modules/contracts/storage/FeatureFlag.sol";
 
 /**
  * @title Module for managing accounts.

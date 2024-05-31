@@ -1,11 +1,11 @@
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
-import assertEvent from '@synthetixio/core-utils/utils/assertions/assert-event';
-import { fastForwardTo, getTime } from '@synthetixio/core-utils/utils/hardhat/rpc';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
+import assertEvent from '@polynomial/core-utils/utils/assertions/assert-event';
+import { fastForwardTo, getTime } from '@polynomial/core-utils/utils/hardhat/rpc';
 import { ethers } from 'ethers';
 import { SynthRouter } from './generated/typechain';
 import { bn, bootstrapTraders, bootstrapWithSynth } from './bootstrap';
 import { SettlementStrategy } from './generated/typechain/SpotMarketProxy';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
 
 const ASYNC_BUY_TRANSACTION = 3;
 

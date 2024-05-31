@@ -1,6 +1,6 @@
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
-import { snapshotCheckpoint } from '@synthetixio/core-utils/utils/mocha/snapshot';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
+import { snapshotCheckpoint } from '@polynomial/core-utils/utils/mocha/snapshot';
 import { wei } from '@synthetixio/wei';
 import { BigNumber, Contract, ethers } from 'ethers';
 import { bootstrap } from '../bootstrap';

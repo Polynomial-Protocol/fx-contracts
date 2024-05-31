@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import {FeatureFlagModule as BaseFeatureFlagModule} from "@synthetixio/core-modules/contracts/modules/FeatureFlagModule.sol";
+import {FeatureFlagModule as BaseFeatureFlagModule} from "@polynomial/core-modules/contracts/modules/FeatureFlagModule.sol";
 
 /**
  * @title Module that allows disabling certain system features.

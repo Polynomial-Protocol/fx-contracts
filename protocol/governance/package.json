@@ -1,5 +1,5 @@
 {
-  "name": "@synthetixio/governance",
+  "name": "@polynomial/governance",
   "version": "2.0.0",
   "description": "On-Chain elections for all Synthetix councils",
   "private": true,
@@ -12,11 +12,11 @@
     "docgen": "hardhat docgen"
   },
   "devDependencies": {
-    "@synthetixio/common-config": "workspace:*",
-    "@synthetixio/core-contracts": "workspace:*",
-    "@synthetixio/core-modules": "workspace:*",
-    "@synthetixio/core-utils": "workspace:*",
-    "@synthetixio/docgen": "workspace:*",
+    "@polynomial/common-config": "workspace:*",
+    "@polynomial/core-contracts": "workspace:*",
+    "@polynomial/core-modules": "workspace:*",
+    "@polynomial/core-utils": "workspace:*",
+    "@polynomial/docgen": "workspace:*",
     "@synthetixio/router": "3.3.7",
     "hardhat": "^2.19.5",
     "solidity-docgen": "^0.6.0-beta.36"

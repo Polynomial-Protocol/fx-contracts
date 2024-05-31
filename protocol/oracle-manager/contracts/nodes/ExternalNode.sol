@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import "@synthetixio/core-contracts/contracts/utils/ERC165Helper.sol";
+import "@polynomial/core-contracts/contracts/utils/ERC165Helper.sol";
 
 import "../storage/NodeDefinition.sol";
 import "../storage/NodeOutput.sol";

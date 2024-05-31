@@ -1,4 +1,4 @@
 module.exports = {
-  ...require('@synthetixio/common-config/.solcover.js'),
+  ...require('@polynomial/common-config/.solcover.js'),
   skipFiles: ['mocks'],
 };

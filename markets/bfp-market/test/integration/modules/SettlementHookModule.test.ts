@@ -1,7 +1,7 @@
 import assert from 'assert';
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
-import assertEvent from '@synthetixio/core-utils/utils/assertions/assert-event';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
+import assertEvent from '@polynomial/core-utils/utils/assertions/assert-event';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
 import { bootstrap } from '../../bootstrap';
 import { genAddress, genBootstrap, genNumber } from '../../generators';
 import { withExplicitEvmMine } from '../../helpers';

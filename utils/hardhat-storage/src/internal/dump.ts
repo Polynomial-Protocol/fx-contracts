@@ -1,5 +1,5 @@
-import { findAll } from '@synthetixio/core-utils/utils/ast/finders';
-import { clone } from '@synthetixio/core-utils/utils/misc/clone';
+import { findAll } from '@polynomial/core-utils/utils/ast/finders';
+import { clone } from '@polynomial/core-utils/utils/misc/clone';
 import { SourceUnit } from 'solidity-ast/types';
 import { iterateContracts, iterateSlotAssignments } from './iterators';
 import { render } from './render';

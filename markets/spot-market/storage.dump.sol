@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity >=0.8.11<0.9.0;
 
-// @custom:artifact @synthetixio/core-contracts/contracts/ownership/OwnableStorage.sol:OwnableStorage
+// @custom:artifact @polynomial/core-contracts/contracts/ownership/OwnableStorage.sol:OwnableStorage
 library OwnableStorage {
     bytes32 private constant _SLOT_OWNABLE_STORAGE = keccak256(abi.encode("io.synthetix.core-contracts.Ownable"));
     struct Data {
@@ -16,7 +16,7 @@ library OwnableStorage {
     }
 }
 
-// @custom:artifact @synthetixio/core-contracts/contracts/proxy/ProxyStorage.sol:ProxyStorage
+// @custom:artifact @polynomial/core-contracts/contracts/proxy/ProxyStorage.sol:ProxyStorage
 contract ProxyStorage {
     bytes32 private constant _SLOT_PROXY_STORAGE = keccak256(abi.encode("io.synthetix.core-contracts.Proxy"));
     struct ProxyStore {
@@ -31,7 +31,7 @@ contract ProxyStorage {
     }
 }
 
-// @custom:artifact @synthetixio/core-contracts/contracts/token/ERC20Storage.sol:ERC20Storage
+// @custom:artifact @polynomial/core-contracts/contracts/token/ERC20Storage.sol:ERC20Storage
 library ERC20Storage {
     bytes32 private constant _SLOT_ERC20_STORAGE = keccak256(abi.encode("io.synthetix.core-contracts.ERC20"));
     struct Data {
@@ -50,7 +50,7 @@ library ERC20Storage {
     }
 }
 
-// @custom:artifact @synthetixio/core-contracts/contracts/utils/DecimalMath.sol:DecimalMath
+// @custom:artifact @polynomial/core-contracts/contracts/utils/DecimalMath.sol:DecimalMath
 library DecimalMath {
     uint256 public constant UNIT = 1e18;
     int256 public constant UNIT_INT = int256(UNIT);
@@ -62,12 +62,12 @@ library DecimalMath {
     uint256 public constant PRECISION_FACTOR = 9;
 }
 
-// @custom:artifact @synthetixio/core-contracts/contracts/utils/ERC2771Context.sol:ERC2771Context
+// @custom:artifact @polynomial/core-contracts/contracts/utils/ERC2771Context.sol:ERC2771Context
 library ERC2771Context {
     address private constant TRUSTED_FORWARDER = 0xE2C5658cC5C448B48141168f3e475dF8f65A1e3e;
 }
 
-// @custom:artifact @synthetixio/core-contracts/contracts/utils/SetUtil.sol:SetUtil
+// @custom:artifact @polynomial/core-contracts/contracts/utils/SetUtil.sol:SetUtil
 library SetUtil {
     struct UintSet {
         Bytes32Set raw;
@@ -81,17 +81,17 @@ library SetUtil {
     }
 }
 
-// @custom:artifact @synthetixio/core-modules/contracts/modules/DecayTokenModule.sol:DecayTokenModule
+// @custom:artifact @polynomial/core-modules/contracts/modules/DecayTokenModule.sol:DecayTokenModule
 contract DecayTokenModule {
     uint256 private constant SECONDS_PER_YEAR = 31536000;
 }
 
-// @custom:artifact @synthetixio/core-modules/contracts/modules/TokenModule.sol:TokenModule
+// @custom:artifact @polynomial/core-modules/contracts/modules/TokenModule.sol:TokenModule
 contract TokenModule {
     bytes32 internal constant _INITIALIZED_NAME = "TokenModule";
 }
 
-// @custom:artifact @synthetixio/core-modules/contracts/storage/AssociatedSystem.sol:AssociatedSystem
+// @custom:artifact @polynomial/core-modules/contracts/storage/AssociatedSystem.sol:AssociatedSystem
 library AssociatedSystem {
     bytes32 public constant KIND_ERC20 = "erc20";
     bytes32 public constant KIND_ERC721 = "erc721";
@@ -109,7 +109,7 @@ library AssociatedSystem {
     }
 }
 
-// @custom:artifact @synthetixio/core-modules/contracts/storage/DecayToken.sol:DecayToken
+// @custom:artifact @polynomial/core-modules/contracts/storage/DecayToken.sol:DecayToken
 library DecayToken {
     bytes32 private constant _SLOT_DECAY_TOKEN_STORAGE = keccak256(abi.encode("io.synthetix.core-modules.DecayToken"));
     struct Data {
@@ -125,7 +125,7 @@ library DecayToken {
     }
 }
 
-// @custom:artifact @synthetixio/core-modules/contracts/storage/FeatureFlag.sol:FeatureFlag
+// @custom:artifact @polynomial/core-modules/contracts/storage/FeatureFlag.sol:FeatureFlag
 library FeatureFlag {
     struct Data {
         bytes32 name;
@@ -142,7 +142,7 @@ library FeatureFlag {
     }
 }
 
-// @custom:artifact @synthetixio/core-modules/contracts/storage/Initialized.sol:Initialized
+// @custom:artifact @polynomial/core-modules/contracts/storage/Initialized.sol:Initialized
 library Initialized {
     struct Data {
         bool initialized;
@@ -155,7 +155,7 @@ library Initialized {
     }
 }
 
-// @custom:artifact @synthetixio/oracle-manager/contracts/interfaces/external/IPyth.sol:PythStructs
+// @custom:artifact @polynomial/oracle-manager/contracts/interfaces/external/IPyth.sol:PythStructs
 contract PythStructs {
     struct Price {
         int64 price;
@@ -170,12 +170,12 @@ contract PythStructs {
     }
 }
 
-// @custom:artifact @synthetixio/oracle-manager/contracts/nodes/ChainlinkNode.sol:ChainlinkNode
+// @custom:artifact @polynomial/oracle-manager/contracts/nodes/ChainlinkNode.sol:ChainlinkNode
 library ChainlinkNode {
     uint256 public constant PRECISION = 18;
 }
 
-// @custom:artifact @synthetixio/oracle-manager/contracts/nodes/ReducerNode.sol:ReducerNode
+// @custom:artifact @polynomial/oracle-manager/contracts/nodes/ReducerNode.sol:ReducerNode
 library ReducerNode {
     enum Operations {
         RECENT,
@@ -190,22 +190,22 @@ library ReducerNode {
     }
 }
 
-// @custom:artifact @synthetixio/oracle-manager/contracts/nodes/UniswapNode.sol:UniswapNode
+// @custom:artifact @polynomial/oracle-manager/contracts/nodes/UniswapNode.sol:UniswapNode
 library UniswapNode {
     uint8 public constant PRECISION = 18;
 }
 
-// @custom:artifact @synthetixio/oracle-manager/contracts/nodes/pyth/PythNode.sol:PythNode
+// @custom:artifact @polynomial/oracle-manager/contracts/nodes/pyth/PythNode.sol:PythNode
 library PythNode {
     int256 public constant PRECISION = 18;
 }
 
-// @custom:artifact @synthetixio/oracle-manager/contracts/nodes/pyth/PythOffchainLookupNode.sol:PythOffchainLookupNode
+// @custom:artifact @polynomial/oracle-manager/contracts/nodes/pyth/PythOffchainLookupNode.sol:PythOffchainLookupNode
 library PythOffchainLookupNode {
     int256 public constant PRECISION = 18;
 }
 
-// @custom:artifact @synthetixio/oracle-manager/contracts/storage/NodeDefinition.sol:NodeDefinition
+// @custom:artifact @polynomial/oracle-manager/contracts/storage/NodeDefinition.sol:NodeDefinition
 library NodeDefinition {
     enum NodeType {
         NONE,
@@ -232,7 +232,7 @@ library NodeDefinition {
     }
 }
 
-// @custom:artifact @synthetixio/oracle-manager/contracts/storage/NodeOutput.sol:NodeOutput
+// @custom:artifact @polynomial/oracle-manager/contracts/storage/NodeOutput.sol:NodeOutput
 library NodeOutput {
     struct Data {
         int256 price;
@@ -242,7 +242,7 @@ library NodeOutput {
     }
 }
 
-// @custom:artifact @synthetixio/oracle-manager/contracts/utils/TickMath.sol:TickMath
+// @custom:artifact @polynomial/oracle-manager/contracts/utils/TickMath.sol:TickMath
 library TickMath {
     int24 internal constant MIN_TICK = -887272;
     int24 internal constant MAX_TICK = -MIN_TICK;

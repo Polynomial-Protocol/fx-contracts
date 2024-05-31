@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import "@synthetixio/core-contracts/contracts/interfaces/IERC20.sol";
-import "@synthetixio/core-contracts/contracts/errors/AccessError.sol";
-import "@synthetixio/core-contracts/contracts/utils/ERC2771Context.sol";
+import "@polynomial/core-contracts/contracts/interfaces/IERC20.sol";
+import "@polynomial/core-contracts/contracts/errors/AccessError.sol";
+import "@polynomial/core-contracts/contracts/utils/ERC2771Context.sol";
 import "../interfaces/IRewardsManagerModule.sol";
 import "../interfaces/external/IRewardDistributor.sol";
 

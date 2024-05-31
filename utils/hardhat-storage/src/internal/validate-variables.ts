@@ -1,4 +1,4 @@
-import { filterContracts } from '@synthetixio/core-utils/utils/hardhat/contracts';
+import { filterContracts } from '@polynomial/core-utils/utils/hardhat/contracts';
 import { getFullyQualifiedName } from 'hardhat/utils/contract-names';
 import { VariableDeclaration } from 'solidity-ast/types';
 import { createError } from './error';

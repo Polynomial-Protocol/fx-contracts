@@ -1,12 +1,12 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import {DecimalMath} from "@synthetixio/core-contracts/contracts/utils/DecimalMath.sol";
-import {SetUtil} from "@synthetixio/core-contracts/contracts/utils/SetUtil.sol";
+import {DecimalMath} from "@polynomial/core-contracts/contracts/utils/DecimalMath.sol";
+import {SetUtil} from "@polynomial/core-contracts/contracts/utils/SetUtil.sol";
 import {MathUtil} from "../utils/MathUtil.sol";
 import {GlobalPerpsMarketConfiguration} from "./GlobalPerpsMarketConfiguration.sol";
-import {SafeCastU256, SafeCastI256, SafeCastU128} from "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
-import {Price} from "@synthetixio/spot-market/contracts/storage/Price.sol";
+import {SafeCastU256, SafeCastI256, SafeCastU128} from "@polynomial/core-contracts/contracts/utils/SafeCast.sol";
+import {Price} from "@polynomial/spot-market/contracts/storage/Price.sol";
 import {PerpsAccount, SNX_USD_MARKET_ID} from "./PerpsAccount.sol";
 import {PerpsMarket} from "./PerpsMarket.sol";
 import {PerpsMarketFactory} from "./PerpsMarketFactory.sol";

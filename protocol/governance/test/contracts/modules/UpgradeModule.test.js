@@ -1,8 +1,8 @@
 const assert = require('assert/strict');
-const assertRevert = require('@synthetixio/core-utils/utils/assertions/assert-revert');
+const assertRevert = require('@polynomial/core-utils/utils/assertions/assert-revert');
 
 const { bootstrap } = require('@synthetixio/router/utils/tests');
-const initializer = require('@synthetixio/core-modules/test/helpers/initializer');
+const initializer = require('@polynomial/core-modules/test/helpers/initializer');
 
 const { ethers } = hre;
 

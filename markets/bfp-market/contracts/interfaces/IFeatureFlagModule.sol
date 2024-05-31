@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import {IFeatureFlagModule as IBaseFeatureFlagModule} from "@synthetixio/core-modules/contracts/interfaces/IFeatureFlagModule.sol";
+import {IFeatureFlagModule as IBaseFeatureFlagModule} from "@polynomial/core-modules/contracts/interfaces/IFeatureFlagModule.sol";
 
 interface IFeatureFlagModule is IBaseFeatureFlagModule {
     /// @notice Emitted when all features get suspended or enabled.

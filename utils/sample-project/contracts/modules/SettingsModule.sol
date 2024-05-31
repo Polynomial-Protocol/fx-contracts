@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import "@synthetixio/core-contracts/contracts/ownership/OwnableStorage.sol";
+import "@polynomial/core-contracts/contracts/ownership/OwnableStorage.sol";
 import "../storage/SettingsStorage.sol";
 import "../interfaces/ISettingsModule.sol";
 

@@ -1,8 +1,8 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import "@synthetixio/core-contracts/contracts/utils/ERC2771Context.sol";
-import {DecimalMath} from "@synthetixio/core-contracts/contracts/utils/DecimalMath.sol";
+import "@polynomial/core-contracts/contracts/utils/ERC2771Context.sol";
+import {DecimalMath} from "@polynomial/core-contracts/contracts/utils/DecimalMath.sol";
 import {SpotMarketFactory} from "../storage/SpotMarketFactory.sol";
 import {MarketConfiguration} from "../storage/MarketConfiguration.sol";
 import {Price} from "../storage/Price.sol";

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
-import { assertAddressEqual } from '@synthetixio/core-utils/utils/assertions/assert-address';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
-import { findEvent } from '@synthetixio/core-utils/utils/ethers/events';
+import { assertAddressEqual } from '@polynomial/core-utils/utils/assertions/assert-address';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
+import { findEvent } from '@polynomial/core-utils/utils/ethers/events';
 import { ethers } from 'ethers';
 import {
   AssociatedSystemsModule,

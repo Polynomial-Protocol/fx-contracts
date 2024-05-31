@@ -1,9 +1,9 @@
 import { ethers } from 'ethers';
-import { snapshotCheckpoint } from '@synthetixio/core-utils/utils/mocha/snapshot';
+import { snapshotCheckpoint } from '@polynomial/core-utils/utils/mocha/snapshot';
 import { Systems } from '../bootstrap';
-import { createStakedPool } from '@synthetixio/main/test/common';
-import { MockPythExternalNode } from '@synthetixio/oracle-manager/typechain-types';
-import { createPythNode } from '@synthetixio/oracle-manager/test/common';
+import { createStakedPool } from '@polynomial/main/test/common';
+import { MockPythExternalNode } from '@polynomial/oracle-manager/typechain-types';
+import { createPythNode } from '@polynomial/oracle-manager/test/common';
 import { SynthRouter } from '../generated/typechain';
 
 export type SynthMarkets = Array<{

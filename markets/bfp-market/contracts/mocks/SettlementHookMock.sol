@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import {IERC165} from "@synthetixio/core-contracts/contracts/interfaces/IERC165.sol";
+import {IERC165} from "@polynomial/core-contracts/contracts/interfaces/IERC165.sol";
 import {ISettlementHook} from "../interfaces/hooks/ISettlementHook.sol";
 
 /* solhint-disable meta-transactions/no-msg-sender */

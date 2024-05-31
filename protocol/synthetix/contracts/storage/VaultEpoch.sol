@@ -4,7 +4,7 @@ pragma solidity >=0.8.11 <0.9.0;
 import "./Distribution.sol";
 import "./ScalableMapping.sol";
 
-import "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
+import "@polynomial/core-contracts/contracts/utils/SafeCast.sol";
 
 /**
  * @title Tracks collateral and debt distributions in a pool, for a specific collateral type, in a given epoch.

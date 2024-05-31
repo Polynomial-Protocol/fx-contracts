@@ -1,4 +1,4 @@
-import { bootstrapStakers } from '@synthetixio/main/test/common';
+import { bootstrapStakers } from '@polynomial/main/test/common';
 import { Systems, bn } from './bootstrap';
 import { ethers } from 'ethers';
 

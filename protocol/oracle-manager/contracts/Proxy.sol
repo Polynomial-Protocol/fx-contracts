@@ -1,8 +1,8 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import {UUPSProxyWithOwner} from "@synthetixio/core-contracts/contracts/proxy/UUPSProxyWithOwner.sol";
-import {OwnableStorage} from "@synthetixio/core-contracts/contracts/ownership/OwnableStorage.sol";
+import {UUPSProxyWithOwner} from "@polynomial/core-contracts/contracts/proxy/UUPSProxyWithOwner.sol";
+import {OwnableStorage} from "@polynomial/core-contracts/contracts/ownership/OwnableStorage.sol";
 
 /**
  * Synthetix Oracle Manager Proxy Contract

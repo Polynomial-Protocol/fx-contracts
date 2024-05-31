@@ -1,5 +1,5 @@
 {
-  "name": "@synthetixio/spot-market",
+  "name": "@polynomial/spot-market",
   "version": "3.3.18",
   "description": "Spot Market implementation",
   "scripts": {
@@ -24,13 +24,13 @@
   "author": "Synthetix",
   "license": "MIT",
   "devDependencies": {
-    "@synthetixio/common-config": "workspace:*",
-    "@synthetixio/core-contracts": "workspace:*",
-    "@synthetixio/core-modules": "workspace:*",
-    "@synthetixio/core-utils": "workspace:*",
-    "@synthetixio/docgen": "workspace:*",
-    "@synthetixio/main": "workspace:*",
-    "@synthetixio/oracle-manager": "workspace:*",
+    "@polynomial/common-config": "workspace:*",
+    "@polynomial/core-contracts": "workspace:*",
+    "@polynomial/core-modules": "workspace:*",
+    "@polynomial/core-utils": "workspace:*",
+    "@polynomial/docgen": "workspace:*",
+    "@polynomial/main": "workspace:*",
+    "@polynomial/oracle-manager": "workspace:*",
     "@synthetixio/router": "3.3.7",
     "@synthetixio/wei": "^2.74.4",
     "@types/node-fetch": "^2.6.11",

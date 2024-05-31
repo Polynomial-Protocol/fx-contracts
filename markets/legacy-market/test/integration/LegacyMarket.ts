@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
 import { ethers } from 'ethers';
 import hre from 'hardhat';
 //@ts-ignore
@@ -9,7 +9,7 @@ import { IV3CoreProxy, LegacyMarket__factory } from '../../typechain-types';
 import { LegacyMarket } from '../../typechain-types/contracts/LegacyMarket';
 
 import Wei, { wei } from '@synthetixio/wei';
-import assertEvent from '@synthetixio/core-utils/utils/assertions/assert-event';
+import assertEvent from '@polynomial/core-utils/utils/assertions/assert-event';
 import { snapshotCheckpoint } from '../utils';
 
 async function getImpersonatedSigner(

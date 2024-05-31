@@ -1,5 +1,5 @@
 import { bn, bootstrapMarkets } from '../bootstrap';
-import assertBn from '@synthetixio/core-utils/src/utils/assertions/assert-bignumber';
+import assertBn from '@polynomial/core-utils/src/utils/assertions/assert-bignumber';
 
 describe('ModifyCollateral Withdraw Deposit/Withdraw', () => {
   const accountIds = [10];

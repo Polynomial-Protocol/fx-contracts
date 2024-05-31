@@ -1,9 +1,9 @@
 import { PerpsMarket, bn, bootstrapMarkets } from './bootstrap';
 import { openPosition } from './helpers';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
 import { ethers } from 'ethers';
-import { fastForwardTo, getTxTime } from '@synthetixio/core-utils/utils/hardhat/rpc';
-import assertBn from '@synthetixio/core-utils/src/utils/assertions/assert-bignumber';
+import { fastForwardTo, getTxTime } from '@polynomial/core-utils/utils/hardhat/rpc';
+import assertBn from '@polynomial/core-utils/src/utils/assertions/assert-bignumber';
 
 describe('System suspend', async () => {
   const { systems, trader1, keeper, provider, perpsMarkets, owner } = bootstrapMarkets({

@@ -26,5 +26,5 @@ yarn generate-testable
 yarn build-testable
 
 # Build and run bfp-market tests.
-yarn workspace @synthetixio/bfp-market {build,test,test:stable}
+yarn workspace @polynomial/bfp-market {build,test,test:stable}
 ```

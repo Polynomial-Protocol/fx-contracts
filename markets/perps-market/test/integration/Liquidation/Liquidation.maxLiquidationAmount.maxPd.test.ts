@@ -1,8 +1,8 @@
 import { BigNumber, ethers } from 'ethers';
 import { PerpsMarket, bn, bootstrapMarkets } from '../bootstrap';
 import { openPosition } from '../helpers';
-import assertBn from '@synthetixio/core-utils/src/utils/assertions/assert-bignumber';
-import { snapshotCheckpoint } from '@synthetixio/core-utils/utils/mocha/snapshot';
+import assertBn from '@polynomial/core-utils/src/utils/assertions/assert-bignumber';
+import { snapshotCheckpoint } from '@polynomial/core-utils/utils/mocha/snapshot';
 
 describe('Liquidation - max premium discount', () => {
   const { systems, provider, owner, trader1, trader2, keeper, perpsMarkets } = bootstrapMarkets({

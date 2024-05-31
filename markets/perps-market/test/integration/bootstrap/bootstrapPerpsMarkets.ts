@@ -1,9 +1,9 @@
-import { createStakedPool } from '@synthetixio/main/test/common';
+import { createStakedPool } from '@polynomial/main/test/common';
 import { Systems, bootstrap, bn } from './bootstrap';
 import { ethers } from 'ethers';
-import { MockPythExternalNode } from '@synthetixio/oracle-manager/typechain-types';
-import { createPythNode } from '@synthetixio/oracle-manager/test/common';
-import { bootstrapSynthMarkets } from '@synthetixio/spot-market/test/common';
+import { MockPythExternalNode } from '@polynomial/oracle-manager/typechain-types';
+import { createPythNode } from '@polynomial/oracle-manager/test/common';
+import { bootstrapSynthMarkets } from '@polynomial/spot-market/test/common';
 
 export type PerpsMarket = {
   marketId: () => ethers.BigNumber;

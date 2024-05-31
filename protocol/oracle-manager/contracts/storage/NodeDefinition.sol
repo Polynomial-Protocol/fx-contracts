@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import {ParameterError} from "@synthetixio/core-contracts/contracts/errors/ParameterError.sol";
+import {ParameterError} from "@polynomial/core-contracts/contracts/errors/ParameterError.sol";
 import {NodeOutput} from "./NodeOutput.sol";
 
 import "../nodes/ReducerNode.sol";

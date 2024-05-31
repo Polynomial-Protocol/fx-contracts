@@ -1,8 +1,8 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import {ERC2771Context} from "@synthetixio/core-contracts/contracts/utils/ERC2771Context.sol";
-import {FeatureFlag} from "@synthetixio/core-modules/contracts/storage/FeatureFlag.sol";
+import {ERC2771Context} from "@polynomial/core-contracts/contracts/utils/ERC2771Context.sol";
+import {FeatureFlag} from "@polynomial/core-modules/contracts/storage/FeatureFlag.sol";
 import {IAsyncOrderSettlementPythModule} from "../interfaces/IAsyncOrderSettlementPythModule.sol";
 import {PerpsAccount, SNX_USD_MARKET_ID} from "../storage/PerpsAccount.sol";
 import {MathUtil} from "../utils/MathUtil.sol";
@@ -18,7 +18,7 @@ import {IMarketEvents} from "../interfaces/IMarketEvents.sol";
 import {IAccountEvents} from "../interfaces/IAccountEvents.sol";
 import {KeeperCosts} from "../storage/KeeperCosts.sol";
 import {IPythERC7412Wrapper} from "../interfaces/external/IPythERC7412Wrapper.sol";
-import {SafeCastU256, SafeCastI256} from "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
+import {SafeCastU256, SafeCastI256} from "@polynomial/core-contracts/contracts/utils/SafeCast.sol";
 
 /**
  * @title Module for settling async orders using pyth as price feed.

@@ -5,14 +5,14 @@ import "../../interfaces/ILiquidationModule.sol";
 
 import "../../storage/Account.sol";
 
-import "@synthetixio/core-modules/contracts/storage/AssociatedSystem.sol";
+import "@polynomial/core-modules/contracts/storage/AssociatedSystem.sol";
 
-import "@synthetixio/core-contracts/contracts/errors/ParameterError.sol";
-import "@synthetixio/core-contracts/contracts/token/ERC20Helper.sol";
-import "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
-import "@synthetixio/core-contracts/contracts/utils/ERC2771Context.sol";
+import "@polynomial/core-contracts/contracts/errors/ParameterError.sol";
+import "@polynomial/core-contracts/contracts/token/ERC20Helper.sol";
+import "@polynomial/core-contracts/contracts/utils/SafeCast.sol";
+import "@polynomial/core-contracts/contracts/utils/ERC2771Context.sol";
 
-import "@synthetixio/core-modules/contracts/storage/FeatureFlag.sol";
+import "@polynomial/core-modules/contracts/storage/FeatureFlag.sol";
 
 /**
  * @title Module for liquidated positions and vaults that are below the liquidation ratio.

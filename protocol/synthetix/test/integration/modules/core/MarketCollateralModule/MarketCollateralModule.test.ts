@@ -1,6 +1,6 @@
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
-import assertEvent from '@synthetixio/core-utils/utils/assertions/assert-event';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
+import assertEvent from '@polynomial/core-utils/utils/assertions/assert-event';
 import { ContractTransaction, ethers, Signer } from 'ethers';
 import { bootstrapWithMockMarketAndPool } from '../../../bootstrap';
 import { verifyUsesFeatureFlag } from '../../../verifications';

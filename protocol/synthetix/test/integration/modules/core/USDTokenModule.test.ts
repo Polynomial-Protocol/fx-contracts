@@ -1,5 +1,5 @@
-import assertBn from '@synthetixio/core-utils/src/utils/assertions/assert-bignumber';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
+import assertBn from '@polynomial/core-utils/src/utils/assertions/assert-bignumber';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
 import assert from 'assert/strict';
 import { ethers } from 'ethers';
 import { bn, bootstrapWithStakedPool } from '../../bootstrap';

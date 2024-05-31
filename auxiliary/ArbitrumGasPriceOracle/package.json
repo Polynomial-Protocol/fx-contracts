@@ -1,5 +1,5 @@
 {
-  "name": "@synthetixio/arbitrum-gas-price-oracle",
+  "name": "@polynomial/arbitrum-gas-price-oracle",
   "version": "3.3.18",
   "description": "Arbitrum Gas Price Oracle Node",
   "publishConfig": {
@@ -23,10 +23,10 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@synthetixio/common-config": "workspace:*",
-    "@synthetixio/core-contracts": "workspace:*",
-    "@synthetixio/core-modules": "workspace:*",
-    "@synthetixio/docgen": "workspace:*",
+    "@polynomial/common-config": "workspace:*",
+    "@polynomial/core-contracts": "workspace:*",
+    "@polynomial/core-modules": "workspace:*",
+    "@polynomial/docgen": "workspace:*",
     "hardhat": "^2.19.5",
     "solidity-docgen": "^0.6.0-beta.36",
     "ts-node": "^10.9.2",

@@ -1,4 +1,4 @@
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
 import { ethers } from 'ethers';
 
 import { bootstrap } from '../bootstrap';

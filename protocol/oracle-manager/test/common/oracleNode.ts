@@ -1,7 +1,7 @@
 import { BigNumberish, Contract, ethers } from 'ethers';
 import hre from 'hardhat';
 import { Proxy } from '../generated/typechain';
-import { findSingleEvent } from '@synthetixio/core-utils/utils/ethers/events';
+import { findSingleEvent } from '@polynomial/core-utils/utils/ethers/events';
 import NodeTypes from '../integration/mixins/Node.types';
 
 /* utility function to use for other bootstrappers wanting to add a new oracle node */

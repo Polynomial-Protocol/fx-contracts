@@ -1,10 +1,10 @@
 import { ethers as Ethers } from 'ethers';
 import { bn, bootstrapTraders, bootstrapWithSynth } from './bootstrap';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
 import { SynthRouter } from './generated/typechain';
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
-import assertEvent from '@synthetixio/core-utils/utils/assertions/assert-event';
-import { generateExternalNode } from '@synthetixio/oracle-manager/test/common';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
+import assertEvent from '@polynomial/core-utils/utils/assertions/assert-event';
+import { generateExternalNode } from '@polynomial/oracle-manager/test/common';
 import { STRICT_PRICE_TOLERANCE } from './common';
 
 describe('Atomic Order Module buy()', () => {

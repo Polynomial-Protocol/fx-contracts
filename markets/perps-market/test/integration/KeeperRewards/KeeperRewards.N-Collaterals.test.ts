@@ -1,9 +1,9 @@
 import { ethers } from 'ethers';
 import { bn, bootstrapMarkets } from '../bootstrap';
 import { depositCollateral, openPosition } from '../helpers';
-import { SynthMarkets } from '@synthetixio/spot-market/test/common';
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
-import assertEvent from '@synthetixio/core-utils/utils/assertions/assert-event';
+import { SynthMarkets } from '@polynomial/spot-market/test/common';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
+import assertEvent from '@polynomial/core-utils/utils/assertions/assert-event';
 
 describe('Keeper Rewards - Multiple Collaterals', () => {
   const KeeperCosts = {

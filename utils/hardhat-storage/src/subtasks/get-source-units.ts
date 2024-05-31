@@ -1,4 +1,4 @@
-import { getContractsAsts } from '@synthetixio/core-utils/utils/hardhat/contracts';
+import { getContractsAsts } from '@polynomial/core-utils/utils/hardhat/contracts';
 import { subtask } from 'hardhat/config';
 import { iterateFunctions } from '../internal/iterators';
 import { SUBTASK_STORAGE_GET_SOURCE_UNITS } from '../task-names';

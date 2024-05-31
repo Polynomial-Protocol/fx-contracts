@@ -1,9 +1,9 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import {SafeCastI256} from "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
-import {SetUtil} from "@synthetixio/core-contracts/contracts/utils/SetUtil.sol";
-import {INodeModule} from "@synthetixio/oracle-manager/contracts/interfaces/INodeModule.sol";
+import {SafeCastI256} from "@polynomial/core-contracts/contracts/utils/SafeCast.sol";
+import {SetUtil} from "@polynomial/core-contracts/contracts/utils/SetUtil.sol";
+import {INodeModule} from "@polynomial/oracle-manager/contracts/interfaces/INodeModule.sol";
 import {PerpsMarketFactory} from "./PerpsMarketFactory.sol";
 import {PerpsAccount} from "./PerpsAccount.sol";
 import {PerpsMarketConfiguration} from "./PerpsMarketConfiguration.sol";

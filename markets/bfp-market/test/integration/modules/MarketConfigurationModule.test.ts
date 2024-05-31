@@ -1,6 +1,6 @@
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
-import assertEvent from '@synthetixio/core-utils/utils/assertions/assert-event';
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
+import assertEvent from '@polynomial/core-utils/utils/assertions/assert-event';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
 import assert from 'assert';
 import { bootstrap } from '../../bootstrap';
 import { bn, genBootstrap, genMarket, genOneOf } from '../../generators';

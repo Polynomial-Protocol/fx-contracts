@@ -1,11 +1,11 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "@synthetixio/core-contracts/contracts/utils/ERC2771Context.sol";
-import "@synthetixio/core-contracts/contracts/errors/InitError.sol";
-import "@synthetixio/core-contracts/contracts/initializable/InitializableMixin.sol";
-import "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
-import "@synthetixio/core-contracts/contracts/ownership/OwnableStorage.sol";
+import "@polynomial/core-contracts/contracts/utils/ERC2771Context.sol";
+import "@polynomial/core-contracts/contracts/errors/InitError.sol";
+import "@polynomial/core-contracts/contracts/initializable/InitializableMixin.sol";
+import "@polynomial/core-contracts/contracts/utils/SafeCast.sol";
+import "@polynomial/core-contracts/contracts/ownership/OwnableStorage.sol";
 import "../../interfaces/IElectionModule.sol";
 import "../../submodules/election/ElectionSchedule.sol";
 import "../../submodules/election/ElectionCredentials.sol";

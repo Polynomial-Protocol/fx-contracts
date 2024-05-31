@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 
 import assert from 'node:assert/strict';
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
 import { BigNumberish } from 'ethers';
 import hre from 'hardhat';
 import { AddressSetMock, Bytes32SetMock, UintSetMock } from '../../../typechain-types';

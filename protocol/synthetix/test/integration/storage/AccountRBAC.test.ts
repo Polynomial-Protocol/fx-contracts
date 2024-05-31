@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 
-import { getContractAst } from '@synthetixio/core-utils/src/utils/hardhat/contracts';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
-import { findAll } from '@synthetixio/core-utils/utils/ast/finders';
+import { getContractAst } from '@polynomial/core-utils/src/utils/hardhat/contracts';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
+import { findAll } from '@polynomial/core-utils/utils/ast/finders';
 import assert from 'assert/strict';
 import { ethers } from 'ethers';
 import hre from 'hardhat';

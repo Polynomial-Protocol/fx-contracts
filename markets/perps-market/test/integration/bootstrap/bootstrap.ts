@@ -1,13 +1,13 @@
-import { CoreProxy, USDProxy } from '@synthetixio/main/test/generated/typechain';
-import { CollateralMock } from '@synthetixio/main/typechain-types';
-import { Proxy as OracleManagerProxy } from '@synthetixio/oracle-manager/test/generated/typechain';
+import { CoreProxy, USDProxy } from '@polynomial/main/test/generated/typechain';
+import { CollateralMock } from '@polynomial/main/typechain-types';
+import { Proxy as OracleManagerProxy } from '@polynomial/oracle-manager/test/generated/typechain';
 import { coreBootstrap } from '@synthetixio/router/utils/tests';
-import { bootstrapSynthMarkets, SynthArguments } from '@synthetixio/spot-market/test/common';
+import { bootstrapSynthMarkets, SynthArguments } from '@polynomial/spot-market/test/common';
 import {
   SpotMarketProxy,
   SynthRouter,
   TrustedMulticallForwarder,
-} from '@synthetixio/spot-market/test/generated/typechain';
+} from '@polynomial/spot-market/test/generated/typechain';
 import { wei } from '@synthetixio/wei';
 import { ethers } from 'ethers';
 import { AccountProxy, FeeCollectorMock, PerpsMarketProxy } from '../../generated/typechain';

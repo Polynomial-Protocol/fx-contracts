@@ -1,6 +1,6 @@
 import { coreBootstrap } from '@synthetixio/router/utils/tests';
 import { ethers } from 'ethers';
-import { createStakedPool } from '@synthetixio/main/test/common';
+import { createStakedPool } from '@polynomial/main/test/common';
 import type { WstEthToStEthRatioOracle, WstETHMock } from '../typechain-types';
 import { AggregatorV3Mock } from '../typechain-types/contracts/mocks';
 

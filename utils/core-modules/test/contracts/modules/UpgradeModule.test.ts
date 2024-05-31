@@ -1,5 +1,5 @@
-import { assertAddressEqual } from '@synthetixio/core-utils/utils/assertions/assert-address';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
+import { assertAddressEqual } from '@polynomial/core-utils/utils/assertions/assert-address';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
 import { ethers } from 'ethers';
 import { UpgradeModule } from '../../../typechain-types';
 import { bootstrap } from '../../bootstrap';

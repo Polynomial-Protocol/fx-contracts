@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity >=0.8.11 < 0.9.0;
 
-// @custom:artifact @synthetixio/core-contracts/contracts/ownership/OwnableStorage.sol:OwnableStorage
+// @custom:artifact @polynomial/core-contracts/contracts/ownership/OwnableStorage.sol:OwnableStorage
 library OwnableStorage {
     bytes32 private constant _SLOT_OWNABLE_STORAGE = keccak256(abi.encode("io.synthetix.core-contracts.Ownable"));
     struct Data {
@@ -17,7 +17,7 @@ library OwnableStorage {
     }
 }
 
-// @custom:artifact @synthetixio/core-contracts/contracts/proxy/ProxyStorage.sol:ProxyStorage
+// @custom:artifact @polynomial/core-contracts/contracts/proxy/ProxyStorage.sol:ProxyStorage
 contract ProxyStorage {
     bytes32 private constant _SLOT_PROXY_STORAGE = keccak256(abi.encode("io.synthetix.core-contracts.Proxy"));
     struct ProxyStore {
@@ -32,7 +32,7 @@ contract ProxyStorage {
     }
 }
 
-// @custom:artifact @synthetixio/core-contracts/contracts/token/ERC20Storage.sol:ERC20Storage
+// @custom:artifact @polynomial/core-contracts/contracts/token/ERC20Storage.sol:ERC20Storage
 library ERC20Storage {
     bytes32 private constant _SLOT_ERC20_STORAGE = keccak256(abi.encode("io.synthetix.core-contracts.ERC20"));
     struct Data {
@@ -51,7 +51,7 @@ library ERC20Storage {
     }
 }
 
-// @custom:artifact @synthetixio/core-contracts/contracts/token/ERC721EnumerableStorage.sol:ERC721EnumerableStorage
+// @custom:artifact @polynomial/core-contracts/contracts/token/ERC721EnumerableStorage.sol:ERC721EnumerableStorage
 library ERC721EnumerableStorage {
     bytes32 private constant _SLOT_ERC721_ENUMERABLE_STORAGE = keccak256(abi.encode("io.synthetix.core-contracts.ERC721Enumerable"));
     struct Data {
@@ -68,7 +68,7 @@ library ERC721EnumerableStorage {
     }
 }
 
-// @custom:artifact @synthetixio/core-contracts/contracts/token/ERC721Storage.sol:ERC721Storage
+// @custom:artifact @polynomial/core-contracts/contracts/token/ERC721Storage.sol:ERC721Storage
 library ERC721Storage {
     bytes32 private constant _SLOT_ERC721_STORAGE = keccak256(abi.encode("io.synthetix.core-contracts.ERC721"));
     struct Data {
@@ -88,7 +88,7 @@ library ERC721Storage {
     }
 }
 
-// @custom:artifact @synthetixio/core-contracts/contracts/utils/DecimalMath.sol:DecimalMath
+// @custom:artifact @polynomial/core-contracts/contracts/utils/DecimalMath.sol:DecimalMath
 library DecimalMath {
     uint256 public constant UNIT = 1e18;
     int256 public constant UNIT_INT = int256(UNIT);
@@ -100,7 +100,7 @@ library DecimalMath {
     uint256 public constant PRECISION_FACTOR = 9;
 }
 
-// @custom:artifact @synthetixio/core-contracts/contracts/utils/SetUtil.sol:SetUtil
+// @custom:artifact @polynomial/core-contracts/contracts/utils/SetUtil.sol:SetUtil
 library SetUtil {
     struct UintSet {
         Bytes32Set raw;

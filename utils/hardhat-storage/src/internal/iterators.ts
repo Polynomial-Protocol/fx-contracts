@@ -1,4 +1,4 @@
-import { findAll } from '@synthetixio/core-utils/utils/ast/finders';
+import { findAll } from '@polynomial/core-utils/utils/ast/finders';
 import {
   ContractDefinition,
   FunctionDefinition,

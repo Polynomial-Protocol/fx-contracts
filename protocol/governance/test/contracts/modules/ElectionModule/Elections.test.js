@@ -1,21 +1,21 @@
 const { ethers } = hre;
 const assert = require('assert/strict');
-const assertBn = require('@synthetixio/core-utils/utils/assertions/assert-bignumber');
+const assertBn = require('@polynomial/core-utils/utils/assertions/assert-bignumber');
 
-const assertRevert = require('@synthetixio/core-utils/utils/assertions/assert-revert');
+const assertRevert = require('@polynomial/core-utils/utils/assertions/assert-revert');
 const { bootstrap } = require('@synthetixio/router/utils/tests');
-const initializer = require('@synthetixio/core-modules/test/helpers/initializer');
+const initializer = require('@polynomial/core-modules/test/helpers/initializer');
 const {
   getTime,
   fastForwardTo,
   takeSnapshot,
   restoreSnapshot,
-} = require('@synthetixio/core-utils/utils/hardhat/rpc');
+} = require('@polynomial/core-utils/utils/hardhat/rpc');
 
-const { daysToSeconds } = require('@synthetixio/core-utils/utils/misc/dates');
+const { daysToSeconds } = require('@polynomial/core-utils/utils/misc/dates');
 const {
   ElectionPeriod,
-} = require('@synthetixio/core-modules/test/contracts/modules/ElectionModule/helpers/election-helper');
+} = require('@polynomial/core-modules/test/contracts/modules/ElectionModule/helpers/election-helper');
 const {
   simulateDebtShareData,
   simulateCrossChainDebtShareData,
@@ -24,7 +24,7 @@ const {
   expectedCrossChainDebtShare,
   getCrossChainMerkleTree,
 } = require('./helpers/debt-share-helper');
-const { findEvent } = require('@synthetixio/core-utils/utils/ethers/events');
+const { findEvent } = require('@polynomial/core-utils/utils/ethers/events');
 
 describe('SynthetixElectionModule - general elections', function () {
   const { proxyAddress } = bootstrap(initializer);

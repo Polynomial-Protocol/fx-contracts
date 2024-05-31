@@ -1,5 +1,5 @@
 {
-  "name": "@synthetixio/hardhat-storage",
+  "name": "@polynomial/hardhat-storage",
   "version": "3.3.18",
   "publishConfig": {
     "access": "public"
@@ -31,7 +31,7 @@
     "prepublishOnly": "yarn build"
   },
   "dependencies": {
-    "@synthetixio/core-utils": "workspace:*",
+    "@polynomial/core-utils": "workspace:*",
     "mustache": "^4.2.0",
     "solidity-ast": "^0.4.55"
   },

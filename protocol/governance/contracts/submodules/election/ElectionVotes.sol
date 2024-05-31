@@ -2,10 +2,10 @@
 pragma solidity ^0.8.0;
 
 import "./ElectionBase.sol";
-import "@synthetixio/core-contracts/contracts/utils/AddressUtil.sol";
-import "@synthetixio/core-contracts/contracts/utils/DecimalMath.sol";
-import "@synthetixio/core-contracts/contracts/errors/ChangeError.sol";
-import "@synthetixio/core-contracts/contracts/errors/AddressError.sol";
+import "@polynomial/core-contracts/contracts/utils/AddressUtil.sol";
+import "@polynomial/core-contracts/contracts/utils/DecimalMath.sol";
+import "@polynomial/core-contracts/contracts/errors/ChangeError.sol";
+import "@polynomial/core-contracts/contracts/errors/AddressError.sol";
 
 /// @dev Defines core functionality for recording votes in ElectionModule.cast()
 contract ElectionVotes is ElectionBase {

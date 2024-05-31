@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import {OwnableStorage} from "@synthetixio/core-contracts/contracts/ownership/OwnableStorage.sol";
+import {OwnableStorage} from "@polynomial/core-contracts/contracts/ownership/OwnableStorage.sol";
 import {IMarketConfigurationModule} from "../interfaces/IMarketConfigurationModule.sol";
 import {SettlementStrategy} from "../storage/SettlementStrategy.sol";
 import {PerpsMarketConfiguration} from "../storage/PerpsMarketConfiguration.sol";

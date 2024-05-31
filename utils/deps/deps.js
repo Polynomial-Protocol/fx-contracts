@@ -33,8 +33,8 @@ const options = {
     'typescript',
     '@types/jest',
     'webpack-dev-server',
-    '@synthetixio/core-contracts',
-    '@synthetixio/core-modules',
+    '@polynomial/core-contracts',
+    '@polynomial/core-modules',
   ],
   parsers: {
     '**/*.js': [depcheck.parser.es6, depcheck.parser.jsx],

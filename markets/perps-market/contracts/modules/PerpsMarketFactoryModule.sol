@@ -1,10 +1,10 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import {OwnableStorage} from "@synthetixio/core-contracts/contracts/ownership/OwnableStorage.sol";
-import {FeatureFlag} from "@synthetixio/core-modules/contracts/storage/FeatureFlag.sol";
-import {IERC165} from "@synthetixio/core-contracts/contracts/interfaces/IERC165.sol";
-import {DecimalMath} from "@synthetixio/core-contracts/contracts/utils/DecimalMath.sol";
+import {OwnableStorage} from "@polynomial/core-contracts/contracts/ownership/OwnableStorage.sol";
+import {FeatureFlag} from "@polynomial/core-modules/contracts/storage/FeatureFlag.sol";
+import {IERC165} from "@polynomial/core-contracts/contracts/interfaces/IERC165.sol";
+import {DecimalMath} from "@polynomial/core-contracts/contracts/utils/DecimalMath.sol";
 import {PerpsMarketFactory} from "../storage/PerpsMarketFactory.sol";
 import {GlobalPerpsMarket} from "../storage/GlobalPerpsMarket.sol";
 import {PerpsMarket} from "../storage/PerpsMarket.sol";
@@ -15,11 +15,11 @@ import {InterestRate} from "../storage/InterestRate.sol";
 import {IPerpsMarketFactoryModule} from "../interfaces/IPerpsMarketFactoryModule.sol";
 import {ISpotMarketSystem} from "../interfaces/external/ISpotMarketSystem.sol";
 import {ISynthetixSystem} from "../interfaces/external/ISynthetixSystem.sol";
-import {ParameterError} from "@synthetixio/core-contracts/contracts/errors/ParameterError.sol";
+import {ParameterError} from "@polynomial/core-contracts/contracts/errors/ParameterError.sol";
 import {PerpsMarketConfiguration} from "../storage/PerpsMarketConfiguration.sol";
-import {IMarket} from "@synthetixio/main/contracts/interfaces/external/IMarket.sol";
-import {SetUtil} from "@synthetixio/core-contracts/contracts/utils/SetUtil.sol";
-import {SafeCastU256, SafeCastI256} from "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
+import {IMarket} from "@polynomial/main/contracts/interfaces/external/IMarket.sol";
+import {SetUtil} from "@polynomial/core-contracts/contracts/utils/SetUtil.sol";
+import {SafeCastU256, SafeCastI256} from "@polynomial/core-contracts/contracts/utils/SafeCast.sol";
 
 /**
  * @title Module for registering perpetual futures markets. The factory tracks all markets in the system and consolidates implementation.

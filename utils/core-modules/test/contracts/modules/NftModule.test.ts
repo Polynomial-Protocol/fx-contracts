@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
 import { ethers } from 'ethers';
 import { NftModule } from '../../../typechain-types';
 import { bootstrap } from '../../bootstrap';

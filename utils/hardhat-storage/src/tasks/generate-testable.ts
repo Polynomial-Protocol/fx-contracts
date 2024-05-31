@@ -1,8 +1,8 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import * as types from '@synthetixio/core-utils/utils/hardhat/argument-types';
-import { getContractsFullyQualifiedNames } from '@synthetixio/core-utils/utils/hardhat/contracts';
-import logger from '@synthetixio/core-utils/utils/io/logger';
+import * as types from '@polynomial/core-utils/utils/hardhat/argument-types';
+import { getContractsFullyQualifiedNames } from '@polynomial/core-utils/utils/hardhat/contracts';
+import logger from '@polynomial/core-utils/utils/io/logger';
 import { task } from 'hardhat/config';
 import { parseFullyQualifiedName } from 'hardhat/utils/contract-names';
 import { quietCompile } from '../internal/quiet-compile';

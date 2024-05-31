@@ -1,11 +1,11 @@
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
-import assertEvent from '@synthetixio/core-utils/utils/assertions/assert-event';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
-import { snapshotCheckpoint } from '@synthetixio/core-utils/utils/mocha/snapshot';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
+import assertEvent from '@polynomial/core-utils/utils/assertions/assert-event';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
+import { snapshotCheckpoint } from '@polynomial/core-utils/utils/mocha/snapshot';
 import { ethers as Ethers } from 'ethers';
 import { SynthRouter } from './generated/typechain';
 import { bn, bootstrapTraders, bootstrapWithSynth } from './bootstrap';
-import { generateExternalNode } from '@synthetixio/oracle-manager/test/common';
+import { generateExternalNode } from '@polynomial/oracle-manager/test/common';
 import { STRICT_PRICE_TOLERANCE } from './common';
 
 describe('Atomic Order Module sell()', () => {

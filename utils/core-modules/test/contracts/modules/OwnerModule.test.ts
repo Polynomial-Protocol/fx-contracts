@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
 import { ethers } from 'ethers';
 import { OwnerModule, SampleOwnedModule } from '../../../typechain-types';
 import { bootstrap } from '../../bootstrap';

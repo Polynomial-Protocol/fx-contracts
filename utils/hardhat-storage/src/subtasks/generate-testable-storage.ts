@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { getContractAst } from '@synthetixio/core-utils/utils/hardhat/contracts';
-import logger from '@synthetixio/core-utils/utils/io/logger';
+import { getContractAst } from '@polynomial/core-utils/utils/hardhat/contracts';
+import logger from '@polynomial/core-utils/utils/io/logger';
 import { subtask } from 'hardhat/config';
 import { parseFullyQualifiedName } from 'hardhat/utils/contract-names';
 import { renderTestableStorage } from '../internal/render-testable-storage';

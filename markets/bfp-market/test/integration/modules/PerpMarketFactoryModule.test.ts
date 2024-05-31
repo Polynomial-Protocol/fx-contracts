@@ -1,7 +1,7 @@
 import assert from 'assert';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
-import { fastForward } from '@synthetixio/core-utils/utils/hardhat/rpc';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
+import { fastForward } from '@polynomial/core-utils/utils/hardhat/rpc';
 import { wei } from '@synthetixio/wei';
 import forEach from 'mocha-each';
 import { BigNumber } from 'ethers';

@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import {ERC165Helper} from "@synthetixio/core-contracts/contracts/utils/ERC165Helper.sol";
+import {ERC165Helper} from "@polynomial/core-contracts/contracts/utils/ERC165Helper.sol";
 import {IMarketConfigurationModule} from "../interfaces/IMarketConfigurationModule.sol";
 import {IFeeCollector} from "../interfaces/external/IFeeCollector.sol";
 import {SpotMarketFactory} from "../storage/SpotMarketFactory.sol";

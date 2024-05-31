@@ -1,6 +1,6 @@
 require('@nomiclabs/hardhat-ethers');
 require('hardhat-cannon');
-require('@synthetixio/hardhat-storage');
+require('@polynomial/hardhat-storage');
 require('solidity-coverage');
 
 module.exports = {

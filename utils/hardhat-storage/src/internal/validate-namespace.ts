@@ -1,4 +1,4 @@
-import { findOne } from '@synthetixio/core-utils/utils/ast/finders';
+import { findOne } from '@polynomial/core-utils/utils/ast/finders';
 import { Node, YulNode } from 'solidity-ast/node';
 import { FunctionCall, FunctionDefinition, VariableDeclaration } from 'solidity-ast/types';
 import { createError } from './error';

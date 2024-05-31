@@ -1,6 +1,6 @@
-import assertEvent from '@synthetixio/core-utils/utils/assertions/assert-event';
-import { formatErrorMessage } from '@synthetixio/core-utils/utils/assertions/assert-revert';
-import { fastForwardTo, getTime } from '@synthetixio/core-utils/utils/hardhat/rpc';
+import assertEvent from '@polynomial/core-utils/utils/assertions/assert-event';
+import { formatErrorMessage } from '@polynomial/core-utils/utils/assertions/assert-revert';
+import { fastForwardTo, getTime } from '@polynomial/core-utils/utils/hardhat/rpc';
 import { BytesLike, ethers } from 'ethers';
 import hre from 'hardhat';
 import { bn, bootstrapTraders, bootstrapWithSynth } from '../test/bootstrap';

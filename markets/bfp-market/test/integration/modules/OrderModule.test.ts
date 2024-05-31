@@ -1,7 +1,7 @@
-import assertEvent from '@synthetixio/core-utils/utils/assertions/assert-event';
-import { fastForwardTo, getTxTime } from '@synthetixio/core-utils/utils/hardhat/rpc';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
+import assertEvent from '@polynomial/core-utils/utils/assertions/assert-event';
+import { fastForwardTo, getTxTime } from '@polynomial/core-utils/utils/hardhat/rpc';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
 import assert from 'assert';
 import { wei } from '@synthetixio/wei';
 import forEach from 'mocha-each';

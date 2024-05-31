@@ -1,7 +1,7 @@
 import { ethers } from 'ethers';
 import hre from 'hardhat';
-import { Proxy } from '@synthetixio/oracle-manager/test/generated/typechain';
-import NodeTypes from '@synthetixio/oracle-manager/test/integration/mixins/Node.types';
+import { Proxy } from '@polynomial/oracle-manager/test/generated/typechain';
+import NodeTypes from '@polynomial/oracle-manager/test/integration/mixins/Node.types';
 
 export const createKeeperCostNode = async (owner: ethers.Signer, OracleManager: Proxy) => {
   const abi = ethers.utils.defaultAbiCoder;

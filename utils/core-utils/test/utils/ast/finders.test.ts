@@ -72,7 +72,7 @@ describe('utils/ast/finders.ts find AST artifacts', function () {
 
       equal(
         dependencies.includes(
-          '@synthetixio/core-contracts/contracts/ownership/OwnableMixin.sol:OwnableMixin'
+          '@polynomial/core-contracts/contracts/ownership/OwnableMixin.sol:OwnableMixin'
         ),
         true,
         'OwnableMixin should be present in the list of dependencies (inherited from core-contracts)'
@@ -206,7 +206,7 @@ describe('utils/ast/finders.ts find AST artifacts', function () {
         astNodes
       );
 
-      equal(result, '@synthetixio/core-contracts/contracts/token/ERC20.sol:ERC20');
+      equal(result, '@polynomial/core-contracts/contracts/token/ERC20.sol:ERC20');
     });
 
     it('finds a aliased imported contract', function () {
@@ -217,7 +217,7 @@ describe('utils/ast/finders.ts find AST artifacts', function () {
         astNodes
       );
 
-      equal(result, '@synthetixio/core-contracts/contracts/token/ERC721.sol:ERC721');
+      equal(result, '@polynomial/core-contracts/contracts/token/ERC721.sol:ERC721');
     });
 
     it('returns undefined when not finding it', function () {

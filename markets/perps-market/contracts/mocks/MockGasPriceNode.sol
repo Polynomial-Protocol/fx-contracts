@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.0;
 
-import "@synthetixio/oracle-manager/contracts/interfaces/external/IExternalNode.sol";
+import "@polynomial/oracle-manager/contracts/interfaces/external/IExternalNode.sol";
 
 contract MockGasPriceNode is IExternalNode {
     NodeOutput.Data private output;

@@ -1,10 +1,10 @@
 import { ethers } from 'ethers';
 import { DEFAULT_SETTLEMENT_STRATEGY, bn, bootstrapMarkets } from '../bootstrap';
-import { fastForwardTo } from '@synthetixio/core-utils/utils/hardhat/rpc';
+import { fastForwardTo } from '@polynomial/core-utils/utils/hardhat/rpc';
 import { depositCollateral } from '../helpers';
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
-import assertEvent from '@synthetixio/core-utils/utils/assertions/assert-event';
-import { getTxTime } from '@synthetixio/core-utils/src/utils/hardhat/rpc';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
+import assertEvent from '@polynomial/core-utils/utils/assertions/assert-event';
+import { getTxTime } from '@polynomial/core-utils/src/utils/hardhat/rpc';
 import { calculateFillPrice } from '../helpers/fillPrice';
 import { wei } from '@synthetixio/wei';
 import { calcCurrentFundingVelocity } from '../helpers/funding-calcs';

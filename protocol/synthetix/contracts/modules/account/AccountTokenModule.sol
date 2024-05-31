@@ -1,11 +1,11 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import "@synthetixio/core-modules/contracts/modules/NftModule.sol";
+import "@polynomial/core-modules/contracts/modules/NftModule.sol";
 import "../../../contracts/interfaces/IAccountTokenModule.sol";
 import "../../../contracts/interfaces/IAccountModule.sol";
 
-import "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
+import "@polynomial/core-contracts/contracts/utils/SafeCast.sol";
 
 /**
  * @title Module with custom NFT logic for the account token.

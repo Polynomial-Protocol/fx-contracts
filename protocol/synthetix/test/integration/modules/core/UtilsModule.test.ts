@@ -1,7 +1,7 @@
 import assert from 'assert/strict';
 import { bootstrap } from '../../bootstrap';
 import { ethers } from 'ethers';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
 
 describe('UtilsModule', function () {
   const { systems, signers } = bootstrap();

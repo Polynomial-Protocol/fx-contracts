@@ -1,5 +1,5 @@
 {
-  "name": "@synthetixio/buyback-snx",
+  "name": "@polynomial/buyback-snx",
   "version": "3.3.18",
   "description": "Market buys and burns SNX",
   "publishConfig": {
@@ -23,11 +23,11 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@synthetixio/common-config": "workspace:*",
-    "@synthetixio/core-contracts": "workspace:*",
-    "@synthetixio/core-modules": "workspace:*",
-    "@synthetixio/core-utils": "workspace:*",
-    "@synthetixio/docgen": "workspace:*",
+    "@polynomial/common-config": "workspace:*",
+    "@polynomial/core-contracts": "workspace:*",
+    "@polynomial/core-modules": "workspace:*",
+    "@polynomial/core-utils": "workspace:*",
+    "@polynomial/docgen": "workspace:*",
     "@synthetixio/router": "3.3.7",
     "@synthetixio/wei": "^2.74.4",
     "ethers": "^5.7.2",

@@ -1,12 +1,12 @@
 /* eslint-disable no-unexpected-multiline */
 import assert from 'node:assert';
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
-import { snapshotCheckpoint } from '@synthetixio/core-utils/utils/mocha/snapshot';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
+import { snapshotCheckpoint } from '@polynomial/core-utils/utils/mocha/snapshot';
 import { ethers } from 'ethers';
 import hre from 'hardhat';
 import { bn, bootstrapWithMockMarketAndPool } from '../../bootstrap';
-import { fastForwardTo, getTime } from '@synthetixio/core-utils/utils/hardhat/rpc';
+import { fastForwardTo, getTime } from '@polynomial/core-utils/utils/hardhat/rpc';
 
 describe('PoolModule Admin', function () {
   const {

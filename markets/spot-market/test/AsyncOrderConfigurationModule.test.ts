@@ -1,8 +1,8 @@
 import { Signer, utils } from 'ethers';
 import { bn, bootstrapTraders, bootstrapWithSynth } from './bootstrap';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
-import assertEvent from '@synthetixio/core-utils/utils/assertions/assert-event';
-import assertBn from '@synthetixio/core-utils/src/utils/assertions/assert-bignumber';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
+import assertEvent from '@polynomial/core-utils/utils/assertions/assert-event';
+import assertBn from '@polynomial/core-utils/src/utils/assertions/assert-bignumber';
 import assert from 'assert';
 
 const settlementStrategy = {

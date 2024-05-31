@@ -1,6 +1,6 @@
 import assert from 'assert';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
 import { bootstrap } from '../../bootstrap';
 import {
   bn,

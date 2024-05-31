@@ -1,21 +1,21 @@
-import { snapshotCheckpoint } from '@synthetixio/core-utils/utils/mocha/snapshot';
-import { bootstrapStakers, createStakedPool } from '@synthetixio/main/test/common';
+import { snapshotCheckpoint } from '@polynomial/core-utils/utils/mocha/snapshot';
+import { bootstrapStakers, createStakedPool } from '@polynomial/main/test/common';
 import {
   AccountProxy,
   CollateralMock,
   CoreProxy,
   USDProxy,
   USDRouter,
-} from '@synthetixio/main/test/generated/typechain';
-import { createPythNode } from '@synthetixio/oracle-manager/test/common';
-import { Proxy as OracleManagerProxy } from '@synthetixio/oracle-manager/test/generated/typechain';
+} from '@polynomial/main/test/generated/typechain';
+import { createPythNode } from '@polynomial/oracle-manager/test/common';
+import { Proxy as OracleManagerProxy } from '@polynomial/oracle-manager/test/generated/typechain';
 import { coreBootstrap } from '@synthetixio/router/utils/tests';
 import { wei } from '@synthetixio/wei';
 import { BigNumber, ethers } from 'ethers';
 import { MockPythERC7412Wrapper } from '../typechain-types';
 import { FeeCollectorMock, SpotMarketProxy, SynthRouter } from './generated/typechain';
 import { STRICT_PRICE_TOLERANCE } from './common';
-import { MockPythExternalNode } from '@synthetixio/oracle-manager/typechain-types';
+import { MockPythExternalNode } from '@polynomial/oracle-manager/typechain-types';
 
 type Proxies = {
   ['synthetix.CoreProxy']: CoreProxy;

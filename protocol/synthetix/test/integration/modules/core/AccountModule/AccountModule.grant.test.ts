@@ -1,9 +1,9 @@
 import assert from 'assert/strict';
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
 import { ethers } from 'ethers';
-import { findSingleEvent } from '@synthetixio/core-utils/utils/ethers/events';
-import { restoreSnapshot, takeSnapshot } from '@synthetixio/core-utils/utils/hardhat/rpc';
+import { findSingleEvent } from '@polynomial/core-utils/utils/ethers/events';
+import { restoreSnapshot, takeSnapshot } from '@polynomial/core-utils/utils/hardhat/rpc';
 
 import Permissions from '../../../mixins/AccountRBACMixin.permissions';
 import { bootstrap } from '../../../bootstrap';

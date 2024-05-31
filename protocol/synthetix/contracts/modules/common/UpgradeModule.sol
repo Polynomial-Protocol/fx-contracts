@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import {UpgradeModule as BaseUpgradeModule} from "@synthetixio/core-modules/contracts/modules/UpgradeModule.sol";
+import {UpgradeModule as BaseUpgradeModule} from "@polynomial/core-modules/contracts/modules/UpgradeModule.sol";
 
 /**
  * @title Module UUPS type upgradeability.

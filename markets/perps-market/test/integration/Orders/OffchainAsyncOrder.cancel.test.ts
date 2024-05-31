@@ -1,15 +1,15 @@
 import { ethers } from 'ethers';
 import { DEFAULT_SETTLEMENT_STRATEGY, bn, bootstrapMarkets } from '../bootstrap';
-import { fastForwardTo } from '@synthetixio/core-utils/utils/hardhat/rpc';
-import { snapshotCheckpoint } from '@synthetixio/core-utils/utils/mocha/snapshot';
-import { SynthMarkets } from '@synthetixio/spot-market/test/common';
+import { fastForwardTo } from '@polynomial/core-utils/utils/hardhat/rpc';
+import { snapshotCheckpoint } from '@polynomial/core-utils/utils/mocha/snapshot';
+import { SynthMarkets } from '@polynomial/spot-market/test/common';
 import { DepositCollateralData, depositCollateral } from '../helpers';
-import assertEvent from '@synthetixio/core-utils/utils/assertions/assert-event';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
-import { getTxTime } from '@synthetixio/core-utils/src/utils/hardhat/rpc';
+import assertEvent from '@polynomial/core-utils/utils/assertions/assert-event';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
+import { getTxTime } from '@polynomial/core-utils/src/utils/hardhat/rpc';
 import { calculateFillPrice } from '../helpers/fillPrice';
 import { wei } from '@synthetixio/wei';
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
 import { deepEqual } from 'assert';
 
 describe('Cancel Offchain Async Order test', () => {

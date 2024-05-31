@@ -1,4 +1,4 @@
-import commonConfig from '@synthetixio/common-config/hardhat.config';
+import commonConfig from '@polynomial/common-config/hardhat.config';
 
 const config = {
   ...commonConfig,

@@ -1,4 +1,4 @@
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
 import { BigNumber, ethers } from 'ethers';
 import hre from 'hardhat';
 import { ERC20PermitMock, VaultMock } from '../../../typechain-types';

@@ -1,12 +1,12 @@
 import assert from 'assert/strict';
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
 import { ethers } from 'ethers';
 
 import { bootstrapWithNodes } from '../bootstrap';
 import NodeTypes from '../mixins/Node.types';
 import NodeOperations from '../mixins/Node.operations';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
-import { findSingleEvent } from '@synthetixio/core-utils/utils/ethers/events';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
+import { findSingleEvent } from '@polynomial/core-utils/utils/ethers/events';
 
 const abi = ethers.utils.defaultAbiCoder;
 

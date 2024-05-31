@@ -1,10 +1,10 @@
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
 import { BigNumberish, ethers, Signer } from 'ethers';
 
 import { bn, bootstrap } from '../bootstrap';
 import NodeTypes from '../mixins/Node.types';
 import NodeOperations from '../mixins/Node.operations';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
 import hre from 'hardhat';
 import { NodeModule } from '../../../typechain-types/index';
 

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity >=0.8.11<0.9.0;
 
-// @custom:artifact @synthetixio/core-contracts/contracts/ownership/OwnableStorage.sol:OwnableStorage
+// @custom:artifact @polynomial/core-contracts/contracts/ownership/OwnableStorage.sol:OwnableStorage
 library OwnableStorage {
     bytes32 private constant _SLOT_OWNABLE_STORAGE = keccak256(abi.encode("io.synthetix.core-contracts.Ownable"));
     struct Data {
@@ -16,7 +16,7 @@ library OwnableStorage {
     }
 }
 
-// @custom:artifact @synthetixio/core-contracts/contracts/proxy/ProxyStorage.sol:ProxyStorage
+// @custom:artifact @polynomial/core-contracts/contracts/proxy/ProxyStorage.sol:ProxyStorage
 contract ProxyStorage {
     bytes32 private constant _SLOT_PROXY_STORAGE = keccak256(abi.encode("io.synthetix.core-contracts.Proxy"));
     struct ProxyStore {
@@ -31,7 +31,7 @@ contract ProxyStorage {
     }
 }
 
-// @custom:artifact @synthetixio/core-contracts/contracts/utils/DecimalMath.sol:DecimalMath
+// @custom:artifact @polynomial/core-contracts/contracts/utils/DecimalMath.sol:DecimalMath
 library DecimalMath {
     uint256 public constant UNIT = 1e18;
     int256 public constant UNIT_INT = int256(UNIT);

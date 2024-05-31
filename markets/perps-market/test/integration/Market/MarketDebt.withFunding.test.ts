@@ -1,7 +1,7 @@
-import { fastForwardTo, getTxTime } from '@synthetixio/core-utils/utils/hardhat/rpc';
+import { fastForwardTo, getTxTime } from '@polynomial/core-utils/utils/hardhat/rpc';
 import { PerpsMarket, bn, bootstrapMarkets } from '../bootstrap';
 import { openPosition } from '../helpers';
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
 import { ethers } from 'ethers';
 
 const _SKEW_SCALE = bn(25_000);

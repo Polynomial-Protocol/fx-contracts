@@ -31,7 +31,7 @@ codegen() {
 }
 
 
-# releaseVersion=$(yarn workspace '@synthetixio/spot-market' node -p 'require(`./package.json`).version')
+# releaseVersion=$(yarn workspace '@polynomial/spot-market' node -p 'require(`./package.json`).version')
 releaseVersion="latest"
 
 codegen base-sepolia-andromeda 84532 "synthetix-omnibus:$releaseVersion" andromeda

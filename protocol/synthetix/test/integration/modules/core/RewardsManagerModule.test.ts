@@ -1,7 +1,7 @@
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
-import { fastForward, fastForwardTo, getTime } from '@synthetixio/core-utils/utils/hardhat/rpc';
-import { snapshotCheckpoint } from '@synthetixio/core-utils/utils/mocha/snapshot';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
+import { fastForward, fastForwardTo, getTime } from '@polynomial/core-utils/utils/hardhat/rpc';
+import { snapshotCheckpoint } from '@polynomial/core-utils/utils/mocha/snapshot';
 import { ethers } from 'ethers';
 import hre from 'hardhat';
 import { RewardDistributorMock, CollateralMock } from '../../../../typechain-types/index';

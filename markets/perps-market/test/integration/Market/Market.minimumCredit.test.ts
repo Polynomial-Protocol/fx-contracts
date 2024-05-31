@@ -2,7 +2,7 @@ import { PerpsMarket, bn, bootstrapMarkets } from '../bootstrap';
 import { openPosition } from '../helpers';
 import { wei } from '@synthetixio/wei';
 
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
 
 describe('Market Minimum Credit', () => {
   const traderAccountIds = [2, 3, 4];

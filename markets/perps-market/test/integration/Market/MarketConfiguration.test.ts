@@ -1,9 +1,9 @@
-import { bn } from '@synthetixio/main/test/common';
+import { bn } from '@polynomial/main/test/common';
 import { bootstrapMarkets } from '../bootstrap';
 import { Signer, ethers, utils } from 'ethers';
-import assertRevert from '@synthetixio/core-utils/src/utils/assertions/assert-revert';
-import assertBn from '@synthetixio/core-utils/src/utils/assertions/assert-bignumber';
-import assertEvent from '@synthetixio/core-utils/src/utils/assertions/assert-event';
+import assertRevert from '@polynomial/core-utils/src/utils/assertions/assert-revert';
+import assertBn from '@polynomial/core-utils/src/utils/assertions/assert-bignumber';
+import assertEvent from '@polynomial/core-utils/src/utils/assertions/assert-event';
 import assert from 'assert';
 
 describe('MarketConfiguration', () => {

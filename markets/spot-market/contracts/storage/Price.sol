@@ -1,10 +1,10 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import {INodeModule} from "@synthetixio/oracle-manager/contracts/interfaces/INodeModule.sol";
-import {NodeOutput} from "@synthetixio/oracle-manager/contracts/storage/NodeOutput.sol";
-import {DecimalMath} from "@synthetixio/core-contracts/contracts/utils/DecimalMath.sol";
-import {SafeCastI256} from "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
+import {INodeModule} from "@polynomial/oracle-manager/contracts/interfaces/INodeModule.sol";
+import {NodeOutput} from "@polynomial/oracle-manager/contracts/storage/NodeOutput.sol";
+import {DecimalMath} from "@polynomial/core-contracts/contracts/utils/DecimalMath.sol";
+import {SafeCastI256} from "@polynomial/core-contracts/contracts/utils/SafeCast.sol";
 import {SpotMarketFactory} from "./SpotMarketFactory.sol";
 import {Transaction} from "../utils/TransactionUtil.sol";
 

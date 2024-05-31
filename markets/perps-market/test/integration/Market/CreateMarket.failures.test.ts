@@ -1,5 +1,5 @@
 import { bootstrap } from '../bootstrap';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
 
 describe('Create Market test - not initialized failure', () => {
   const name = 'Ether',

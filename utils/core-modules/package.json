@@ -1,5 +1,5 @@
 {
-  "name": "@synthetixio/core-modules",
+  "name": "@polynomial/core-modules",
   "version": "3.3.18",
   "publishConfig": {
     "access": "public"
@@ -22,8 +22,8 @@
   "author": "Synthetix",
   "license": "MIT",
   "devDependencies": {
-    "@synthetixio/common-config": "workspace:*",
-    "@synthetixio/core-utils": "workspace:*",
+    "@polynomial/common-config": "workspace:*",
+    "@polynomial/core-utils": "workspace:*",
     "@synthetixio/router": "3.3.7",
     "ethers": "^5.7.2",
     "hardhat": "^2.19.5"

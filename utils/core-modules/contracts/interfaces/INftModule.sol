@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import "@synthetixio/core-contracts/contracts/interfaces/IERC721Enumerable.sol";
+import "@polynomial/core-contracts/contracts/interfaces/IERC721Enumerable.sol";
 
 /**
  * @title Module wrapping an ERC721 token implementation.

@@ -2,9 +2,9 @@
 // solhint-disable meta-transactions/no-msg-sender
 pragma solidity >=0.8.11 <0.9.0;
 
-import {AccessError} from "@synthetixio/core-contracts/contracts/errors/AccessError.sol";
-import {ParameterError} from "@synthetixio/core-contracts/contracts/errors/ParameterError.sol";
-import {RewardsDistributor} from "@synthetixio/rewards-distributor/src/RewardsDistributor.sol";
+import {AccessError} from "@polynomial/core-contracts/contracts/errors/AccessError.sol";
+import {ParameterError} from "@polynomial/core-contracts/contracts/errors/ParameterError.sol";
+import {RewardsDistributor} from "@polynomial/rewards-distributor/src/RewardsDistributor.sol";
 
 contract RewardsDistributorExternal is RewardsDistributor {
     address public authorizedExternalDistributor;

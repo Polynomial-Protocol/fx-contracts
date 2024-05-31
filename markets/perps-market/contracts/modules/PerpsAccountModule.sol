@@ -1,12 +1,12 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import {ERC2771Context} from "@synthetixio/core-contracts/contracts/utils/ERC2771Context.sol";
-import {FeatureFlag} from "@synthetixio/core-modules/contracts/storage/FeatureFlag.sol";
-import {Account} from "@synthetixio/main/contracts/storage/Account.sol";
-import {AccountRBAC} from "@synthetixio/main/contracts/storage/AccountRBAC.sol";
-import {SetUtil} from "@synthetixio/core-contracts/contracts/utils/SetUtil.sol";
-import {ITokenModule} from "@synthetixio/core-modules/contracts/interfaces/ITokenModule.sol";
+import {ERC2771Context} from "@polynomial/core-contracts/contracts/utils/ERC2771Context.sol";
+import {FeatureFlag} from "@polynomial/core-modules/contracts/storage/FeatureFlag.sol";
+import {Account} from "@polynomial/main/contracts/storage/Account.sol";
+import {AccountRBAC} from "@polynomial/main/contracts/storage/AccountRBAC.sol";
+import {SetUtil} from "@polynomial/core-contracts/contracts/utils/SetUtil.sol";
+import {ITokenModule} from "@polynomial/core-modules/contracts/interfaces/ITokenModule.sol";
 import {PerpsMarketFactory} from "../storage/PerpsMarketFactory.sol";
 import {IPerpsAccountModule} from "../interfaces/IPerpsAccountModule.sol";
 import {PerpsAccount, SNX_USD_MARKET_ID} from "../storage/PerpsAccount.sol";
@@ -17,8 +17,8 @@ import {GlobalPerpsMarket} from "../storage/GlobalPerpsMarket.sol";
 import {PerpsPrice} from "../storage/PerpsPrice.sol";
 import {MathUtil} from "../utils/MathUtil.sol";
 import {Flags} from "../utils/Flags.sol";
-import {SafeCastU256, SafeCastI256} from "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
-import {OwnableStorage} from "@synthetixio/core-contracts/contracts/ownership/OwnableStorage.sol";
+import {SafeCastU256, SafeCastI256} from "@polynomial/core-contracts/contracts/utils/SafeCast.sol";
+import {OwnableStorage} from "@polynomial/core-contracts/contracts/ownership/OwnableStorage.sol";
 
 /**
  * @title Module to manage accounts

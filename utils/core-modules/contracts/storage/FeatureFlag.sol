@@ -1,8 +1,8 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import "@synthetixio/core-contracts/contracts/utils/SetUtil.sol";
-import "@synthetixio/core-contracts/contracts/utils/ERC2771Context.sol";
+import "@polynomial/core-contracts/contracts/utils/SetUtil.sol";
+import "@polynomial/core-contracts/contracts/utils/ERC2771Context.sol";
 
 library FeatureFlag {
     using SetUtil for SetUtil.AddressSet;

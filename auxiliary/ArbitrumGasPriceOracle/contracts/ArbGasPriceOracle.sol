@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import {SafeCastU256} from "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
-import {IExternalNode, NodeOutput, NodeDefinition} from "@synthetixio/oracle-manager/contracts/interfaces/external/IExternalNode.sol";
+import {SafeCastU256} from "@polynomial/core-contracts/contracts/utils/SafeCast.sol";
+import {IExternalNode, NodeOutput, NodeDefinition} from "@polynomial/oracle-manager/contracts/interfaces/external/IExternalNode.sol";
 import {ArbGasInfo} from "./interfaces/ArbGasInfo.sol";
 
 contract ArbGasPriceOracle is IExternalNode {

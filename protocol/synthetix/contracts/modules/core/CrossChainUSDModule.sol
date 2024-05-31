@@ -2,13 +2,13 @@
 pragma solidity >=0.8.11 <0.9.0;
 
 import "../../interfaces/ICrossChainUSDModule.sol";
-import "@synthetixio/core-modules/contracts/interfaces/ITokenModule.sol";
-import "@synthetixio/core-contracts/contracts/utils/ERC2771Context.sol";
+import "@polynomial/core-modules/contracts/interfaces/ITokenModule.sol";
+import "@polynomial/core-contracts/contracts/utils/ERC2771Context.sol";
 
 import "../../storage/CrossChain.sol";
 
-import "@synthetixio/core-modules/contracts/storage/AssociatedSystem.sol";
-import "@synthetixio/core-modules/contracts/storage/FeatureFlag.sol";
+import "@polynomial/core-modules/contracts/storage/AssociatedSystem.sol";
+import "@polynomial/core-modules/contracts/storage/FeatureFlag.sol";
 
 /**
  * @title Module for the cross-chain transfers of stablecoins.

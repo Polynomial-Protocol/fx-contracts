@@ -1,8 +1,8 @@
 import { ethers as Ethers } from 'ethers';
 import { bn, bootstrapTraders, bootstrapWithSynth } from './bootstrap';
 import { SynthRouter } from './generated/typechain';
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
-import assertEvent from '@synthetixio/core-utils/utils/assertions/assert-event';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
+import assertEvent from '@polynomial/core-utils/utils/assertions/assert-event';
 
 describe('Atomic Order Module referrer', () => {
   const { systems, signers, marketId, aggregator, restore } = bootstrapTraders(

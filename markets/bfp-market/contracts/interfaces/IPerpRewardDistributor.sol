@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import {IRewardDistributor} from "@synthetixio/main/contracts/interfaces/external/IRewardDistributor.sol";
+import {IRewardDistributor} from "@polynomial/main/contracts/interfaces/external/IRewardDistributor.sol";
 
 // @see: https://github.com/Synthetixio/rewards-distributors
 interface IPerpRewardDistributor is IRewardDistributor {

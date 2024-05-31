@@ -2,14 +2,14 @@
 // solhint-disable meta-transactions/no-msg-sender
 pragma solidity >=0.8.11 <0.9.0;
 
-import {IRewardDistributor} from "@synthetixio/main/contracts/interfaces/external/IRewardDistributor.sol";
-import {IRewardsManagerModule} from "@synthetixio/main/contracts/interfaces/IRewardsManagerModule.sol";
-import {IPoolModule} from "@synthetixio/main/contracts/interfaces/IPoolModule.sol";
-import {AccessError} from "@synthetixio/core-contracts/contracts/errors/AccessError.sol";
-import {ParameterError} from "@synthetixio/core-contracts/contracts/errors/ParameterError.sol";
-import {ERC20Helper} from "@synthetixio/core-contracts/contracts/token/ERC20Helper.sol";
-import {IERC165} from "@synthetixio/core-contracts/contracts/interfaces/IERC165.sol";
-import {IERC20} from "@synthetixio/core-contracts/contracts/interfaces/IERC20.sol";
+import {IRewardDistributor} from "@polynomial/main/contracts/interfaces/external/IRewardDistributor.sol";
+import {IRewardsManagerModule} from "@polynomial/main/contracts/interfaces/IRewardsManagerModule.sol";
+import {IPoolModule} from "@polynomial/main/contracts/interfaces/IPoolModule.sol";
+import {AccessError} from "@polynomial/core-contracts/contracts/errors/AccessError.sol";
+import {ParameterError} from "@polynomial/core-contracts/contracts/errors/ParameterError.sol";
+import {ERC20Helper} from "@polynomial/core-contracts/contracts/token/ERC20Helper.sol";
+import {IERC165} from "@polynomial/core-contracts/contracts/interfaces/IERC165.sol";
+import {IERC20} from "@polynomial/core-contracts/contracts/interfaces/IERC20.sol";
 
 contract RewardsDistributor is IRewardDistributor {
     error NotEnoughRewardsLeft(uint256 amountRequested, uint256 amountLeft);

@@ -2,8 +2,8 @@ import { DEFAULT_SETTLEMENT_STRATEGY, PerpsMarket, bn, bootstrapMarkets } from '
 import { ethers } from 'ethers';
 import { openPosition } from '../helpers';
 import { wei } from '@synthetixio/wei';
-import { fastForwardTo } from '@synthetixio/core-utils/utils/hardhat/rpc';
-import assertEvent from '@synthetixio/core-utils/utils/assertions/assert-event';
+import { fastForwardTo } from '@polynomial/core-utils/utils/hardhat/rpc';
+import assertEvent from '@polynomial/core-utils/utils/assertions/assert-event';
 
 const _SECONDS_IN_DAY = 24 * 60 * 60;
 

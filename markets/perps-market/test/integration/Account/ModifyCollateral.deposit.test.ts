@@ -1,7 +1,7 @@
 import { ethers } from 'ethers';
 import { bn, bootstrapMarkets } from '../bootstrap';
-import assertBn from '@synthetixio/core-utils/src/utils/assertions/assert-bignumber';
-import assertEvent from '@synthetixio/core-utils/utils/assertions/assert-event';
+import assertBn from '@polynomial/core-utils/src/utils/assertions/assert-bignumber';
+import assertEvent from '@polynomial/core-utils/utils/assertions/assert-event';
 import { deepEqual } from 'assert/strict';
 
 describe('ModifyCollateral Deposit', () => {

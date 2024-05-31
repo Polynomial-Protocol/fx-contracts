@@ -2,8 +2,8 @@ import { PerpsMarket, bn, bootstrapMarkets } from './bootstrap';
 import { calculateInterestRate, openPosition } from './helpers';
 import Wei, { wei } from '@synthetixio/wei';
 import { ethers } from 'ethers';
-import { fastForwardTo, getTime } from '@synthetixio/core-utils/utils/hardhat/rpc';
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
+import { fastForwardTo, getTime } from '@polynomial/core-utils/utils/hardhat/rpc';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
 
 const _SECONDS_IN_DAY = 24 * 60 * 60;
 

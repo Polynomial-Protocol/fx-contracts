@@ -1,9 +1,9 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import {ERC2771Context} from "@synthetixio/core-contracts/contracts/utils/ERC2771Context.sol";
-import {DecimalMath} from "@synthetixio/core-contracts/contracts/utils/DecimalMath.sol";
-import {SafeCastU256, SafeCastI256, SafeCastU128} from "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
+import {ERC2771Context} from "@polynomial/core-contracts/contracts/utils/ERC2771Context.sol";
+import {DecimalMath} from "@polynomial/core-contracts/contracts/utils/DecimalMath.sol";
+import {SafeCastU256, SafeCastI256, SafeCastU128} from "@polynomial/core-contracts/contracts/utils/SafeCast.sol";
 import {Position} from "./Position.sol";
 import {AsyncOrder} from "./AsyncOrder.sol";
 import {PerpsMarketConfiguration} from "./PerpsMarketConfiguration.sol";

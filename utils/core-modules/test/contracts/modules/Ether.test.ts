@@ -1,4 +1,4 @@
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
 import { ethers } from 'ethers';
 import { bootstrap } from '../../bootstrap';
 import { SampleOwnedModule } from '../../../typechain-types';

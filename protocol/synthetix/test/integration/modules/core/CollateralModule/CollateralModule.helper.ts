@@ -1,8 +1,8 @@
 import { ethers } from 'hardhat';
 import { BigNumberish, ethers as Ethers } from 'ethers';
 import assert from 'assert/strict';
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
-import NodeTypes from '@synthetixio/oracle-manager/test/integration/mixins/Node.types';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
+import NodeTypes from '@polynomial/oracle-manager/test/integration/mixins/Node.types';
 
 export async function addCollateral(
   tokenName: string,

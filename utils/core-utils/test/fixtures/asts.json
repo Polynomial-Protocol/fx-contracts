@@ -960,8 +960,8 @@
         "src": "37:23:11"
       },
       {
-        "absolutePath": "@synthetixio/core-contracts/contracts/ownership/Ownable.sol",
-        "file": "@synthetixio/core-contracts/contracts/ownership/Ownable.sol",
+        "absolutePath": "@polynomial/core-contracts/contracts/ownership/Ownable.sol",
+        "file": "@polynomial/core-contracts/contracts/ownership/Ownable.sol",
         "id": 623,
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
@@ -1559,7 +1559,7 @@
     "src": "37:687:11"
   },
   "Ownable": {
-    "absolutePath": "@synthetixio/core-contracts/contracts/ownership/Ownable.sol",
+    "absolutePath": "@polynomial/core-contracts/contracts/ownership/Ownable.sol",
     "exportedSymbols": {
       "Ownable": [146],
       "OwnableMixin": [199]
@@ -1575,7 +1575,7 @@
         "src": "38:23:0"
       },
       {
-        "absolutePath": "@synthetixio/core-contracts/contracts/ownership/OwnableMixin.sol",
+        "absolutePath": "@polynomial/core-contracts/contracts/ownership/OwnableMixin.sol",
         "file": "./OwnableMixin.sol",
         "id": 2,
         "nameLocation": "-1:-1:-1",
@@ -3393,7 +3393,7 @@
     "src": "38:1579:0"
   },
   "OwnableMixin": {
-    "absolutePath": "@synthetixio/core-contracts/contracts/ownership/OwnableMixin.sol",
+    "absolutePath": "@polynomial/core-contracts/contracts/ownership/OwnableMixin.sol",
     "exportedSymbols": {
       "OwnableMixin": [199]
     },
@@ -4788,8 +4788,8 @@
         "src": "37:23:8"
       },
       {
-        "absolutePath": "@synthetixio/core-contracts/contracts/ownership/OwnableMixin.sol",
-        "file": "@synthetixio/core-contracts/contracts/ownership/OwnableMixin.sol",
+        "absolutePath": "@polynomial/core-contracts/contracts/ownership/OwnableMixin.sol",
+        "file": "@polynomial/core-contracts/contracts/ownership/OwnableMixin.sol",
         "id": 552,
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
@@ -6033,8 +6033,8 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "@synthetixio/core-contracts/contracts/proxy/UniversalProxyImplementation.sol",
-        "file": "@synthetixio/core-contracts/contracts/proxy/UniversalProxyImplementation.sol",
+        "absolutePath": "@polynomial/core-contracts/contracts/proxy/UniversalProxyImplementation.sol",
+        "file": "@polynomial/core-contracts/contracts/proxy/UniversalProxyImplementation.sol",
         "id": 783,
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
@@ -6866,7 +6866,7 @@
     "src": "37:1067:14"
   },
   "UniversalProxyImplementation": {
-    "absolutePath": "@synthetixio/core-contracts/contracts/proxy/UniversalProxyImplementation.sol",
+    "absolutePath": "@polynomial/core-contracts/contracts/proxy/UniversalProxyImplementation.sol",
     "exportedSymbols": {
       "ContractUtil": [448],
       "TransformUtil": [471],
@@ -6883,7 +6883,7 @@
         "src": "37:23:3"
       },
       {
-        "absolutePath": "@synthetixio/core-contracts/contracts/utils/ContractUtil.sol",
+        "absolutePath": "@polynomial/core-contracts/contracts/utils/ContractUtil.sol",
         "file": "../utils/ContractUtil.sol",
         "id": 249,
         "nameLocation": "-1:-1:-1",
@@ -6895,7 +6895,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "@synthetixio/core-contracts/contracts/utils/TransformUtil.sol",
+        "absolutePath": "@polynomial/core-contracts/contracts/utils/TransformUtil.sol",
         "file": "../utils/TransformUtil.sol",
         "id": 250,
         "nameLocation": "-1:-1:-1",
@@ -9251,7 +9251,7 @@
     "src": "37:2624:3"
   },
   "ContractUtil": {
-    "absolutePath": "@synthetixio/core-contracts/contracts/utils/ContractUtil.sol",
+    "absolutePath": "@polynomial/core-contracts/contracts/utils/ContractUtil.sol",
     "exportedSymbols": {
       "ContractUtil": [448]
     },
@@ -9518,7 +9518,7 @@
     "src": "38:249:4"
   },
   "TransformUtil": {
-    "absolutePath": "@synthetixio/core-contracts/contracts/utils/TransformUtil.sol",
+    "absolutePath": "@polynomial/core-contracts/contracts/utils/TransformUtil.sol",
     "exportedSymbols": {
       "TransformUtil": [471]
     },
@@ -11442,8 +11442,8 @@
         "src": "37:23:6"
       },
       {
-        "absolutePath": "@synthetixio/core-contracts/contracts/proxy/ForwardingProxy.sol",
-        "file": "@synthetixio/core-contracts/contracts/proxy/ForwardingProxy.sol",
+        "absolutePath": "@polynomial/core-contracts/contracts/proxy/ForwardingProxy.sol",
+        "file": "@polynomial/core-contracts/contracts/proxy/ForwardingProxy.sol",
         "id": 474,
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
@@ -11865,7 +11865,7 @@
     "src": "37:604:6"
   },
   "ForwardingProxy": {
-    "absolutePath": "@synthetixio/core-contracts/contracts/proxy/ForwardingProxy.sol",
+    "absolutePath": "@polynomial/core-contracts/contracts/proxy/ForwardingProxy.sol",
     "exportedSymbols": {
       "ForwardingProxy": [246]
     },

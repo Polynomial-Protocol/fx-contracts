@@ -1,8 +1,8 @@
-import assertBn from '@synthetixio/core-utils/src/utils/assertions/assert-bignumber';
-import { assertAddressEqual } from '@synthetixio/core-utils/utils/assertions/assert-address';
-import assertEvent from '@synthetixio/core-utils/utils/assertions/assert-event';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
-import { generateExternalNode } from '@synthetixio/oracle-manager/test/common';
+import assertBn from '@polynomial/core-utils/src/utils/assertions/assert-bignumber';
+import { assertAddressEqual } from '@polynomial/core-utils/utils/assertions/assert-address';
+import assertEvent from '@polynomial/core-utils/utils/assertions/assert-event';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
+import { generateExternalNode } from '@polynomial/oracle-manager/test/common';
 import assert from 'assert';
 import { constants, ethers } from 'ethers';
 import { ISynthTokenModule__factory } from '../typechain-types/index';

@@ -2509,6 +2509,440 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@polynomial/arbitrum-gas-price-oracle@workspace:auxiliary/ArbitrumGasPriceOracle":
+  version: 0.0.0-use.local
+  resolution: "@polynomial/arbitrum-gas-price-oracle@workspace:auxiliary/ArbitrumGasPriceOracle"
+  dependencies:
+    "@polynomial/common-config": "workspace:*"
+    "@polynomial/core-contracts": "workspace:*"
+    "@polynomial/core-modules": "workspace:*"
+    "@polynomial/docgen": "workspace:*"
+    hardhat: "npm:^2.19.5"
+    solidity-docgen: "npm:^0.6.0-beta.36"
+    ts-node: "npm:^10.9.2"
+    typescript: "npm:^5.3.3"
+  languageName: unknown
+  linkType: soft
+
+"@polynomial/bfp-market@workspace:markets/bfp-market":
+  version: 0.0.0-use.local
+  resolution: "@polynomial/bfp-market@workspace:markets/bfp-market"
+  dependencies:
+    "@openzeppelin/contracts": "npm:4.9.3"
+    "@polynomial/common-config": "workspace:*"
+    "@polynomial/core-utils": "workspace:*"
+    "@polynomial/docgen": "workspace:*"
+    "@polynomial/main": "workspace:*"
+    "@polynomial/oracle-manager": "workspace:*"
+    "@synthetixio/router": "npm:3.3.7"
+    "@synthetixio/wei": "npm:^2.74.4"
+    "@types/lodash": "npm:^4.14.199"
+    "@types/mocha-each": "npm:2.0.1"
+    "@usecannon/cli": "npm:2.13.6"
+    ethers: "npm:^5.7.2"
+    hardhat: "npm:^2.19.5"
+    lodash: "npm:^4.17.21"
+    mocha-each: "npm:2.0.1"
+    solidity-docgen: "npm:^0.6.0-beta.36"
+    ts-node: "npm:^10.9.2"
+    typescript: "npm:^5.3.3"
+  languageName: unknown
+  linkType: soft
+
+"@polynomial/buyback-snx@workspace:auxiliary/BuybackSnx":
+  version: 0.0.0-use.local
+  resolution: "@polynomial/buyback-snx@workspace:auxiliary/BuybackSnx"
+  dependencies:
+    "@polynomial/common-config": "workspace:*"
+    "@polynomial/core-contracts": "workspace:*"
+    "@polynomial/core-modules": "workspace:*"
+    "@polynomial/core-utils": "workspace:*"
+    "@polynomial/docgen": "workspace:*"
+    "@synthetixio/router": "npm:3.3.7"
+    "@synthetixio/wei": "npm:^2.74.4"
+    ethers: "npm:^5.7.2"
+    hardhat: "npm:^2.19.5"
+    solidity-docgen: "npm:^0.6.0-beta.36"
+    ts-node: "npm:^10.9.2"
+    typescript: "npm:^5.3.3"
+  languageName: unknown
+  linkType: soft
+
+"@polynomial/common-config@workspace:*, @polynomial/common-config@workspace:utils/common-config":
+  version: 0.0.0-use.local
+  resolution: "@polynomial/common-config@workspace:utils/common-config"
+  dependencies:
+    "@nomiclabs/hardhat-ethers": "npm:^2.2.3"
+    "@nomiclabs/hardhat-etherscan": "npm:^3.1.8"
+    "@polynomial/hardhat-storage": "workspace:*"
+    "@typechain/ethers-v5": "npm:^11.1.2"
+    "@typechain/hardhat": "npm:^9.1.0"
+    dotenv: "npm:^16.4.3"
+    hardhat: "npm:^2.19.5"
+    hardhat-cannon: "npm:2.13.6"
+    hardhat-contract-sizer: "npm:^2.10.0"
+    hardhat-gas-reporter: "npm:^1.0.10"
+    hardhat-ignore-warnings: "npm:^0.2.9"
+    solidity-coverage: "npm:^0.8.7"
+    typechain: "npm:^8.3.2"
+  languageName: unknown
+  linkType: soft
+
+"@polynomial/core-contracts@workspace:*, @polynomial/core-contracts@workspace:utils/core-contracts":
+  version: 0.0.0-use.local
+  resolution: "@polynomial/core-contracts@workspace:utils/core-contracts"
+  dependencies:
+    "@ethersproject/abstract-provider": "npm:^5.7.0"
+    "@ethersproject/bignumber": "npm:^5.7.0"
+    "@polynomial/common-config": "workspace:*"
+    "@polynomial/core-utils": "workspace:*"
+    ethers: "npm:^5.7.2"
+    hardhat: "npm:^2.19.5"
+  languageName: unknown
+  linkType: soft
+
+"@polynomial/core-modules@workspace:*, @polynomial/core-modules@workspace:utils/core-modules":
+  version: 0.0.0-use.local
+  resolution: "@polynomial/core-modules@workspace:utils/core-modules"
+  dependencies:
+    "@polynomial/common-config": "workspace:*"
+    "@polynomial/core-utils": "workspace:*"
+    "@synthetixio/router": "npm:3.3.7"
+    ethers: "npm:^5.7.2"
+    hardhat: "npm:^2.19.5"
+  languageName: unknown
+  linkType: soft
+
+"@polynomial/core-subgraph@workspace:protocol/synthetix/subgraph":
+  version: 0.0.0-use.local
+  resolution: "@polynomial/core-subgraph@workspace:protocol/synthetix/subgraph"
+  dependencies:
+    "@graphprotocol/graph-cli": "npm:^0.68.0"
+    "@graphprotocol/graph-ts": "npm:^0.32.0"
+    "@usecannon/cli": "npm:2.13.6"
+    ethers: "npm:^5.7.2"
+    matchstick-as: "npm:^0.6.0"
+    prettier: "npm:^3.2.5"
+  languageName: unknown
+  linkType: soft
+
+"@polynomial/core-utils@workspace:*, @polynomial/core-utils@workspace:utils/core-utils":
+  version: 0.0.0-use.local
+  resolution: "@polynomial/core-utils@workspace:utils/core-utils"
+  dependencies:
+    "@ethersproject/abi": "npm:^5.7.0"
+    "@istanbuljs/nyc-config-typescript": "npm:^1.0.2"
+    "@types/micromatch": "npm:^4"
+    "@types/prompts": "npm:^2.4.9"
+    "@usecannon/builder": "npm:2.13.6"
+    chalk: "npm:^4.1.2"
+    ethereumjs-util: "npm:^7.1.5"
+    ethers: "npm:^5.7.2"
+    fast-glob: "npm:^3.3.2"
+    hardhat: "npm:^2.19.5"
+    micromatch: "npm:^4.0.5"
+    mocha: "npm:^10.3.0"
+    nyc: "npm:^15.1.0"
+    prompts: "npm:^2.4.2"
+    rfdc: "npm:^1.3.1"
+    sinon: "npm:^17.0.1"
+    solc: "npm:0.8.21"
+    solidity-ast: "npm:^0.4.55"
+    typescript: "npm:^5.3.3"
+  peerDependencies:
+    "@usecannon/builder": ^2.4.7
+    ethers: ^5.7.2
+    solidity-ast: ^0.4.0
+  peerDependenciesMeta:
+    "@usecannon/builder":
+      optional: true
+    ethers:
+      optional: true
+    solidity-ast:
+      optional: true
+  languageName: unknown
+  linkType: soft
+
+"@polynomial/deps@workspace:*, @polynomial/deps@workspace:utils/deps":
+  version: 0.0.0-use.local
+  resolution: "@polynomial/deps@workspace:utils/deps"
+  dependencies:
+    depcheck: "npm:^1.4.7"
+    prettier: "npm:^3.2.5"
+    typescript: "npm:^5.3.3"
+  bin:
+    deps: ./deps.js
+    deps-circular: ./circular.js
+    deps-mismatched: ./mismatched.js
+  languageName: unknown
+  linkType: soft
+
+"@polynomial/docgen@workspace:*, @polynomial/docgen@workspace:utils/docgen":
+  version: 0.0.0-use.local
+  resolution: "@polynomial/docgen@workspace:utils/docgen"
+  dependencies:
+    handlebars: "npm:^4.7.8"
+    solidity-ast: "npm:^0.4.55"
+    solidity-docgen: "npm:^0.6.0-beta.36"
+  languageName: unknown
+  linkType: soft
+
+"@polynomial/governance@workspace:protocol/governance":
+  version: 0.0.0-use.local
+  resolution: "@polynomial/governance@workspace:protocol/governance"
+  dependencies:
+    "@polynomial/common-config": "workspace:*"
+    "@polynomial/core-contracts": "workspace:*"
+    "@polynomial/core-modules": "workspace:*"
+    "@polynomial/core-utils": "workspace:*"
+    "@polynomial/docgen": "workspace:*"
+    "@synthetixio/router": "npm:3.3.7"
+    hardhat: "npm:^2.19.5"
+    solidity-docgen: "npm:^0.6.0-beta.36"
+  languageName: unknown
+  linkType: soft
+
+"@polynomial/hardhat-storage@workspace:*, @polynomial/hardhat-storage@workspace:utils/hardhat-storage":
+  version: 0.0.0-use.local
+  resolution: "@polynomial/hardhat-storage@workspace:utils/hardhat-storage"
+  dependencies:
+    "@polynomial/core-utils": "workspace:*"
+    "@types/jest": "npm:^29.5.12"
+    "@types/mustache": "npm:^4.2.5"
+    hardhat: "npm:^2.19.5"
+    jest: "npm:^29.7.0"
+    mustache: "npm:^4.2.0"
+    solidity-ast: "npm:^0.4.55"
+    ts-jest: "npm:^29.1.2"
+    typescript: "npm:^5.3.3"
+  languageName: unknown
+  linkType: soft
+
+"@polynomial/legacy-market@workspace:markets/legacy-market":
+  version: 0.0.0-use.local
+  resolution: "@polynomial/legacy-market@workspace:markets/legacy-market"
+  dependencies:
+    "@polynomial/common-config": "workspace:*"
+    "@polynomial/core-utils": "workspace:*"
+    "@polynomial/docgen": "workspace:*"
+    "@synthetixio/wei": "npm:^2.74.4"
+    ethers: "npm:^5.7.2"
+    hardhat: "npm:^2.19.5"
+    solidity-docgen: "npm:^0.6.0-beta.36"
+  languageName: unknown
+  linkType: soft
+
+"@polynomial/main@workspace:*, @polynomial/main@workspace:protocol/synthetix":
+  version: 0.0.0-use.local
+  resolution: "@polynomial/main@workspace:protocol/synthetix"
+  dependencies:
+    "@polynomial/common-config": "workspace:*"
+    "@polynomial/core-contracts": "workspace:*"
+    "@polynomial/core-modules": "workspace:*"
+    "@polynomial/core-utils": "workspace:*"
+    "@polynomial/docgen": "workspace:*"
+    "@polynomial/oracle-manager": "workspace:*"
+    "@synthetixio/router": "npm:3.3.7"
+    "@synthetixio/wei": "npm:^2.74.4"
+    ethers: "npm:^5.7.2"
+    hardhat: "npm:^2.19.5"
+    solidity-ast: "npm:^0.4.55"
+    solidity-docgen: "npm:^0.6.0-beta.36"
+    ts-node: "npm:^10.9.2"
+  languageName: unknown
+  linkType: soft
+
+"@polynomial/op-gas-price-oracle@workspace:auxiliary/OpGasPriceOracle":
+  version: 0.0.0-use.local
+  resolution: "@polynomial/op-gas-price-oracle@workspace:auxiliary/OpGasPriceOracle"
+  dependencies:
+    "@polynomial/common-config": "workspace:*"
+    "@polynomial/core-contracts": "workspace:*"
+    "@polynomial/core-modules": "workspace:*"
+    "@polynomial/docgen": "workspace:*"
+    hardhat: "npm:^2.19.5"
+    solidity-docgen: "npm:^0.6.0-beta.36"
+    ts-node: "npm:^10.9.2"
+    typescript: "npm:^5.3.3"
+  languageName: unknown
+  linkType: soft
+
+"@polynomial/oracle-manager@workspace:*, @polynomial/oracle-manager@workspace:protocol/oracle-manager":
+  version: 0.0.0-use.local
+  resolution: "@polynomial/oracle-manager@workspace:protocol/oracle-manager"
+  dependencies:
+    "@polynomial/common-config": "workspace:*"
+    "@polynomial/core-contracts": "workspace:*"
+    "@polynomial/core-modules": "workspace:*"
+    "@polynomial/core-utils": "workspace:*"
+    "@polynomial/docgen": "workspace:*"
+    "@synthetixio/router": "npm:3.3.7"
+    "@synthetixio/wei": "npm:^2.74.4"
+    "@types/node": "npm:^20.11.17"
+    ethers: "npm:^5.7.2"
+    hardhat: "npm:^2.19.5"
+    solidity-docgen: "npm:^0.6.0-beta.36"
+    ts-node: "npm:^10.9.2"
+    typescript: "npm:^5.3.3"
+  languageName: unknown
+  linkType: soft
+
+"@polynomial/perps-market-subgraph@workspace:markets/perps-market/subgraph":
+  version: 0.0.0-use.local
+  resolution: "@polynomial/perps-market-subgraph@workspace:markets/perps-market/subgraph"
+  dependencies:
+    "@graphprotocol/graph-cli": "npm:^0.68.0"
+    "@graphprotocol/graph-ts": "npm:^0.32.0"
+    "@usecannon/cli": "npm:2.13.6"
+    ethers: "npm:^5.7.2"
+    matchstick-as: "npm:^0.6.0"
+    prettier: "npm:^3.2.5"
+  languageName: unknown
+  linkType: soft
+
+"@polynomial/perps-market@workspace:markets/perps-market":
+  version: 0.0.0-use.local
+  resolution: "@polynomial/perps-market@workspace:markets/perps-market"
+  dependencies:
+    "@polynomial/common-config": "workspace:*"
+    "@polynomial/core-contracts": "workspace:*"
+    "@polynomial/core-modules": "workspace:*"
+    "@polynomial/core-utils": "workspace:*"
+    "@polynomial/docgen": "workspace:*"
+    "@polynomial/main": "workspace:*"
+    "@polynomial/oracle-manager": "workspace:*"
+    "@polynomial/spot-market": "workspace:*"
+    "@synthetixio/router": "npm:3.3.7"
+    "@synthetixio/wei": "npm:^2.74.4"
+    "@usecannon/cli": "npm:2.13.6"
+    ethers: "npm:^5.7.2"
+    hardhat: "npm:^2.19.5"
+    solidity-docgen: "npm:^0.6.0-beta.36"
+    ts-node: "npm:^10.9.2"
+    typescript: "npm:^5.3.3"
+  languageName: unknown
+  linkType: soft
+
+"@polynomial/pyth-erc7412-wrapper@workspace:auxiliary/PythERC7412Wrapper":
+  version: 0.0.0-use.local
+  resolution: "@polynomial/pyth-erc7412-wrapper@workspace:auxiliary/PythERC7412Wrapper"
+  dependencies:
+    "@polynomial/common-config": "workspace:*"
+    "@polynomial/core-contracts": "workspace:*"
+    "@polynomial/core-modules": "workspace:*"
+    "@polynomial/docgen": "workspace:*"
+    hardhat: "npm:^2.19.5"
+    solidity-docgen: "npm:^0.6.0-beta.36"
+    ts-node: "npm:^10.9.2"
+    typescript: "npm:^5.3.3"
+  languageName: unknown
+  linkType: soft
+
+"@polynomial/rewards-dist-ext@workspace:auxiliary/RewardsDistributorExternal":
+  version: 0.0.0-use.local
+  resolution: "@polynomial/rewards-dist-ext@workspace:auxiliary/RewardsDistributorExternal"
+  dependencies:
+    "@usecannon/cli": "npm:2.13.6"
+    forge-std: "github:foundry-rs/forge-std#master"
+  languageName: unknown
+  linkType: soft
+
+"@polynomial/rewards-distributor@workspace:auxiliary/RewardsDistributor":
+  version: 0.0.0-use.local
+  resolution: "@polynomial/rewards-distributor@workspace:auxiliary/RewardsDistributor"
+  dependencies:
+    "@usecannon/cli": "npm:2.13.6"
+    forge-std: "github:foundry-rs/forge-std#master"
+  languageName: unknown
+  linkType: soft
+
+"@polynomial/sample-project@workspace:utils/sample-project":
+  version: 0.0.0-use.local
+  resolution: "@polynomial/sample-project@workspace:utils/sample-project"
+  dependencies:
+    "@nomiclabs/hardhat-ethers": "npm:^2.2.3"
+    "@polynomial/core-contracts": "workspace:*"
+    "@polynomial/core-modules": "workspace:*"
+    "@polynomial/core-utils": "workspace:*"
+    "@polynomial/hardhat-storage": "workspace:*"
+    "@synthetixio/router": "npm:3.3.7"
+    ethers: "npm:^5.7.2"
+    hardhat: "npm:^2.19.5"
+    hardhat-cannon: "npm:2.13.6"
+    solidity-coverage: "npm:^0.8.7"
+  languageName: unknown
+  linkType: soft
+
+"@polynomial/spot-market-oracle@workspace:auxiliary/SpotMarketOracle":
+  version: 0.0.0-use.local
+  resolution: "@polynomial/spot-market-oracle@workspace:auxiliary/SpotMarketOracle"
+  dependencies:
+    "@polynomial/common-config": "workspace:*"
+    "@polynomial/core-contracts": "workspace:*"
+    "@polynomial/core-modules": "workspace:*"
+    "@polynomial/docgen": "workspace:*"
+    hardhat: "npm:^2.19.5"
+    solidity-docgen: "npm:^0.6.0-beta.36"
+    ts-node: "npm:^10.9.2"
+    typescript: "npm:^5.3.3"
+  languageName: unknown
+  linkType: soft
+
+"@polynomial/spot-market-subgraph@workspace:markets/spot-market/subgraph":
+  version: 0.0.0-use.local
+  resolution: "@polynomial/spot-market-subgraph@workspace:markets/spot-market/subgraph"
+  dependencies:
+    "@graphprotocol/graph-cli": "npm:^0.68.0"
+    "@graphprotocol/graph-ts": "npm:^0.32.0"
+    "@usecannon/cli": "npm:2.13.6"
+    ethers: "npm:^5.7.2"
+    matchstick-as: "npm:^0.6.0"
+    prettier: "npm:^3.2.5"
+  languageName: unknown
+  linkType: soft
+
+"@polynomial/spot-market@workspace:*, @polynomial/spot-market@workspace:markets/spot-market":
+  version: 0.0.0-use.local
+  resolution: "@polynomial/spot-market@workspace:markets/spot-market"
+  dependencies:
+    "@polynomial/common-config": "workspace:*"
+    "@polynomial/core-contracts": "workspace:*"
+    "@polynomial/core-modules": "workspace:*"
+    "@polynomial/core-utils": "workspace:*"
+    "@polynomial/docgen": "workspace:*"
+    "@polynomial/main": "workspace:*"
+    "@polynomial/oracle-manager": "workspace:*"
+    "@synthetixio/router": "npm:3.3.7"
+    "@synthetixio/wei": "npm:^2.74.4"
+    "@types/node-fetch": "npm:^2.6.11"
+    "@usecannon/cli": "npm:2.13.6"
+    ethers: "npm:^5.7.2"
+    hardhat: "npm:^2.19.5"
+    node-fetch: "npm:^2.7.0"
+    solidity-docgen: "npm:^0.6.0-beta.36"
+    ts-node: "npm:^10.9.2"
+    typescript: "npm:^5.3.3"
+  languageName: unknown
+  linkType: soft
+
+"@polynomial/wsteth-to-steth-ratio-oracle@workspace:auxiliary/WstEthToStEthRatioOracle":
+  version: 0.0.0-use.local
+  resolution: "@polynomial/wsteth-to-steth-ratio-oracle@workspace:auxiliary/WstEthToStEthRatioOracle"
+  dependencies:
+    "@polynomial/common-config": "workspace:*"
+    "@polynomial/core-contracts": "workspace:*"
+    "@polynomial/core-utils": "workspace:*"
+    "@polynomial/docgen": "workspace:*"
+    "@polynomial/main": "workspace:*"
+    "@synthetixio/router": "npm:3.3.7"
+    "@synthetixio/wei": "npm:^2.74.4"
+    "@usecannon/cli": "npm:2.13.6"
+    ethers: "npm:^5.7.2"
+    hardhat: "npm:^2.19.5"
+    solidity-docgen: "npm:^0.6.0-beta.36"
+  languageName: unknown
+  linkType: soft
+
 "@protobufjs/aspromise@npm:^1.1.1, @protobufjs/aspromise@npm:^1.1.2":
   version: 1.1.2
   resolution: "@protobufjs/aspromise@npm:1.1.2"
@@ -2883,353 +3317,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@synthetixio/arbitrum-gas-price-oracle@workspace:auxiliary/ArbitrumGasPriceOracle":
-  version: 0.0.0-use.local
-  resolution: "@synthetixio/arbitrum-gas-price-oracle@workspace:auxiliary/ArbitrumGasPriceOracle"
-  dependencies:
-    "@synthetixio/common-config": "workspace:*"
-    "@synthetixio/core-contracts": "workspace:*"
-    "@synthetixio/core-modules": "workspace:*"
-    "@synthetixio/docgen": "workspace:*"
-    hardhat: "npm:^2.19.5"
-    solidity-docgen: "npm:^0.6.0-beta.36"
-    ts-node: "npm:^10.9.2"
-    typescript: "npm:^5.3.3"
-  languageName: unknown
-  linkType: soft
-
-"@synthetixio/bfp-market@workspace:markets/bfp-market":
-  version: 0.0.0-use.local
-  resolution: "@synthetixio/bfp-market@workspace:markets/bfp-market"
-  dependencies:
-    "@openzeppelin/contracts": "npm:4.9.3"
-    "@synthetixio/common-config": "workspace:*"
-    "@synthetixio/core-utils": "workspace:*"
-    "@synthetixio/docgen": "workspace:*"
-    "@synthetixio/main": "workspace:*"
-    "@synthetixio/oracle-manager": "workspace:*"
-    "@synthetixio/router": "npm:3.3.7"
-    "@synthetixio/wei": "npm:^2.74.4"
-    "@types/lodash": "npm:^4.14.199"
-    "@types/mocha-each": "npm:2.0.1"
-    "@usecannon/cli": "npm:2.13.6"
-    ethers: "npm:^5.7.2"
-    hardhat: "npm:^2.19.5"
-    lodash: "npm:^4.17.21"
-    mocha-each: "npm:2.0.1"
-    solidity-docgen: "npm:^0.6.0-beta.36"
-    ts-node: "npm:^10.9.2"
-    typescript: "npm:^5.3.3"
-  languageName: unknown
-  linkType: soft
-
-"@synthetixio/buyback-snx@workspace:auxiliary/BuybackSnx":
-  version: 0.0.0-use.local
-  resolution: "@synthetixio/buyback-snx@workspace:auxiliary/BuybackSnx"
-  dependencies:
-    "@synthetixio/common-config": "workspace:*"
-    "@synthetixio/core-contracts": "workspace:*"
-    "@synthetixio/core-modules": "workspace:*"
-    "@synthetixio/core-utils": "workspace:*"
-    "@synthetixio/docgen": "workspace:*"
-    "@synthetixio/router": "npm:3.3.7"
-    "@synthetixio/wei": "npm:^2.74.4"
-    ethers: "npm:^5.7.2"
-    hardhat: "npm:^2.19.5"
-    solidity-docgen: "npm:^0.6.0-beta.36"
-    ts-node: "npm:^10.9.2"
-    typescript: "npm:^5.3.3"
-  languageName: unknown
-  linkType: soft
-
-"@synthetixio/common-config@workspace:*, @synthetixio/common-config@workspace:utils/common-config":
-  version: 0.0.0-use.local
-  resolution: "@synthetixio/common-config@workspace:utils/common-config"
-  dependencies:
-    "@nomiclabs/hardhat-ethers": "npm:^2.2.3"
-    "@nomiclabs/hardhat-etherscan": "npm:^3.1.8"
-    "@synthetixio/hardhat-storage": "workspace:*"
-    "@typechain/ethers-v5": "npm:^11.1.2"
-    "@typechain/hardhat": "npm:^9.1.0"
-    dotenv: "npm:^16.4.3"
-    hardhat: "npm:^2.19.5"
-    hardhat-cannon: "npm:2.13.6"
-    hardhat-contract-sizer: "npm:^2.10.0"
-    hardhat-gas-reporter: "npm:^1.0.10"
-    hardhat-ignore-warnings: "npm:^0.2.9"
-    solidity-coverage: "npm:^0.8.7"
-    typechain: "npm:^8.3.2"
-  languageName: unknown
-  linkType: soft
-
-"@synthetixio/core-contracts@workspace:*, @synthetixio/core-contracts@workspace:utils/core-contracts":
-  version: 0.0.0-use.local
-  resolution: "@synthetixio/core-contracts@workspace:utils/core-contracts"
-  dependencies:
-    "@ethersproject/abstract-provider": "npm:^5.7.0"
-    "@ethersproject/bignumber": "npm:^5.7.0"
-    "@synthetixio/common-config": "workspace:*"
-    "@synthetixio/core-utils": "workspace:*"
-    ethers: "npm:^5.7.2"
-    hardhat: "npm:^2.19.5"
-  languageName: unknown
-  linkType: soft
-
-"@synthetixio/core-modules@workspace:*, @synthetixio/core-modules@workspace:utils/core-modules":
-  version: 0.0.0-use.local
-  resolution: "@synthetixio/core-modules@workspace:utils/core-modules"
-  dependencies:
-    "@synthetixio/common-config": "workspace:*"
-    "@synthetixio/core-utils": "workspace:*"
-    "@synthetixio/router": "npm:3.3.7"
-    ethers: "npm:^5.7.2"
-    hardhat: "npm:^2.19.5"
-  languageName: unknown
-  linkType: soft
-
-"@synthetixio/core-subgraph@workspace:protocol/synthetix/subgraph":
-  version: 0.0.0-use.local
-  resolution: "@synthetixio/core-subgraph@workspace:protocol/synthetix/subgraph"
-  dependencies:
-    "@graphprotocol/graph-cli": "npm:^0.68.0"
-    "@graphprotocol/graph-ts": "npm:^0.32.0"
-    "@usecannon/cli": "npm:2.13.6"
-    ethers: "npm:^5.7.2"
-    matchstick-as: "npm:^0.6.0"
-    prettier: "npm:^3.2.5"
-  languageName: unknown
-  linkType: soft
-
-"@synthetixio/core-utils@workspace:*, @synthetixio/core-utils@workspace:utils/core-utils":
-  version: 0.0.0-use.local
-  resolution: "@synthetixio/core-utils@workspace:utils/core-utils"
-  dependencies:
-    "@ethersproject/abi": "npm:^5.7.0"
-    "@istanbuljs/nyc-config-typescript": "npm:^1.0.2"
-    "@types/micromatch": "npm:^4"
-    "@types/prompts": "npm:^2.4.9"
-    "@usecannon/builder": "npm:2.13.6"
-    chalk: "npm:^4.1.2"
-    ethereumjs-util: "npm:^7.1.5"
-    ethers: "npm:^5.7.2"
-    fast-glob: "npm:^3.3.2"
-    hardhat: "npm:^2.19.5"
-    micromatch: "npm:^4.0.5"
-    mocha: "npm:^10.3.0"
-    nyc: "npm:^15.1.0"
-    prompts: "npm:^2.4.2"
-    rfdc: "npm:^1.3.1"
-    sinon: "npm:^17.0.1"
-    solc: "npm:0.8.21"
-    solidity-ast: "npm:^0.4.55"
-    typescript: "npm:^5.3.3"
-  peerDependencies:
-    "@usecannon/builder": ^2.4.7
-    ethers: ^5.7.2
-    solidity-ast: ^0.4.0
-  peerDependenciesMeta:
-    "@usecannon/builder":
-      optional: true
-    ethers:
-      optional: true
-    solidity-ast:
-      optional: true
-  languageName: unknown
-  linkType: soft
-
-"@synthetixio/deps@workspace:*, @synthetixio/deps@workspace:utils/deps":
-  version: 0.0.0-use.local
-  resolution: "@synthetixio/deps@workspace:utils/deps"
-  dependencies:
-    depcheck: "npm:^1.4.7"
-    prettier: "npm:^3.2.5"
-    typescript: "npm:^5.3.3"
-  bin:
-    deps: ./deps.js
-    deps-circular: ./circular.js
-    deps-mismatched: ./mismatched.js
-  languageName: unknown
-  linkType: soft
-
-"@synthetixio/docgen@workspace:*, @synthetixio/docgen@workspace:utils/docgen":
-  version: 0.0.0-use.local
-  resolution: "@synthetixio/docgen@workspace:utils/docgen"
-  dependencies:
-    handlebars: "npm:^4.7.8"
-    solidity-ast: "npm:^0.4.55"
-    solidity-docgen: "npm:^0.6.0-beta.36"
-  languageName: unknown
-  linkType: soft
-
-"@synthetixio/governance@workspace:protocol/governance":
-  version: 0.0.0-use.local
-  resolution: "@synthetixio/governance@workspace:protocol/governance"
-  dependencies:
-    "@synthetixio/common-config": "workspace:*"
-    "@synthetixio/core-contracts": "workspace:*"
-    "@synthetixio/core-modules": "workspace:*"
-    "@synthetixio/core-utils": "workspace:*"
-    "@synthetixio/docgen": "workspace:*"
-    "@synthetixio/router": "npm:3.3.7"
-    hardhat: "npm:^2.19.5"
-    solidity-docgen: "npm:^0.6.0-beta.36"
-  languageName: unknown
-  linkType: soft
-
-"@synthetixio/hardhat-storage@workspace:*, @synthetixio/hardhat-storage@workspace:utils/hardhat-storage":
-  version: 0.0.0-use.local
-  resolution: "@synthetixio/hardhat-storage@workspace:utils/hardhat-storage"
-  dependencies:
-    "@synthetixio/core-utils": "workspace:*"
-    "@types/jest": "npm:^29.5.12"
-    "@types/mustache": "npm:^4.2.5"
-    hardhat: "npm:^2.19.5"
-    jest: "npm:^29.7.0"
-    mustache: "npm:^4.2.0"
-    solidity-ast: "npm:^0.4.55"
-    ts-jest: "npm:^29.1.2"
-    typescript: "npm:^5.3.3"
-  languageName: unknown
-  linkType: soft
-
-"@synthetixio/legacy-market@workspace:markets/legacy-market":
-  version: 0.0.0-use.local
-  resolution: "@synthetixio/legacy-market@workspace:markets/legacy-market"
-  dependencies:
-    "@synthetixio/common-config": "workspace:*"
-    "@synthetixio/core-utils": "workspace:*"
-    "@synthetixio/docgen": "workspace:*"
-    "@synthetixio/wei": "npm:^2.74.4"
-    ethers: "npm:^5.7.2"
-    hardhat: "npm:^2.19.5"
-    solidity-docgen: "npm:^0.6.0-beta.36"
-  languageName: unknown
-  linkType: soft
-
-"@synthetixio/main@workspace:*, @synthetixio/main@workspace:protocol/synthetix":
-  version: 0.0.0-use.local
-  resolution: "@synthetixio/main@workspace:protocol/synthetix"
-  dependencies:
-    "@synthetixio/common-config": "workspace:*"
-    "@synthetixio/core-contracts": "workspace:*"
-    "@synthetixio/core-modules": "workspace:*"
-    "@synthetixio/core-utils": "workspace:*"
-    "@synthetixio/docgen": "workspace:*"
-    "@synthetixio/oracle-manager": "workspace:*"
-    "@synthetixio/router": "npm:3.3.7"
-    "@synthetixio/wei": "npm:^2.74.4"
-    ethers: "npm:^5.7.2"
-    hardhat: "npm:^2.19.5"
-    solidity-ast: "npm:^0.4.55"
-    solidity-docgen: "npm:^0.6.0-beta.36"
-    ts-node: "npm:^10.9.2"
-  languageName: unknown
-  linkType: soft
-
-"@synthetixio/op-gas-price-oracle@workspace:auxiliary/OpGasPriceOracle":
-  version: 0.0.0-use.local
-  resolution: "@synthetixio/op-gas-price-oracle@workspace:auxiliary/OpGasPriceOracle"
-  dependencies:
-    "@synthetixio/common-config": "workspace:*"
-    "@synthetixio/core-contracts": "workspace:*"
-    "@synthetixio/core-modules": "workspace:*"
-    "@synthetixio/docgen": "workspace:*"
-    hardhat: "npm:^2.19.5"
-    solidity-docgen: "npm:^0.6.0-beta.36"
-    ts-node: "npm:^10.9.2"
-    typescript: "npm:^5.3.3"
-  languageName: unknown
-  linkType: soft
-
-"@synthetixio/oracle-manager@workspace:*, @synthetixio/oracle-manager@workspace:protocol/oracle-manager":
-  version: 0.0.0-use.local
-  resolution: "@synthetixio/oracle-manager@workspace:protocol/oracle-manager"
-  dependencies:
-    "@synthetixio/common-config": "workspace:*"
-    "@synthetixio/core-contracts": "workspace:*"
-    "@synthetixio/core-modules": "workspace:*"
-    "@synthetixio/core-utils": "workspace:*"
-    "@synthetixio/docgen": "workspace:*"
-    "@synthetixio/router": "npm:3.3.7"
-    "@synthetixio/wei": "npm:^2.74.4"
-    "@types/node": "npm:^20.11.17"
-    ethers: "npm:^5.7.2"
-    hardhat: "npm:^2.19.5"
-    solidity-docgen: "npm:^0.6.0-beta.36"
-    ts-node: "npm:^10.9.2"
-    typescript: "npm:^5.3.3"
-  languageName: unknown
-  linkType: soft
-
-"@synthetixio/perps-market-subgraph@workspace:markets/perps-market/subgraph":
-  version: 0.0.0-use.local
-  resolution: "@synthetixio/perps-market-subgraph@workspace:markets/perps-market/subgraph"
-  dependencies:
-    "@graphprotocol/graph-cli": "npm:^0.68.0"
-    "@graphprotocol/graph-ts": "npm:^0.32.0"
-    "@usecannon/cli": "npm:2.13.6"
-    ethers: "npm:^5.7.2"
-    matchstick-as: "npm:^0.6.0"
-    prettier: "npm:^3.2.5"
-  languageName: unknown
-  linkType: soft
-
-"@synthetixio/perps-market@workspace:markets/perps-market":
-  version: 0.0.0-use.local
-  resolution: "@synthetixio/perps-market@workspace:markets/perps-market"
-  dependencies:
-    "@synthetixio/common-config": "workspace:*"
-    "@synthetixio/core-contracts": "workspace:*"
-    "@synthetixio/core-modules": "workspace:*"
-    "@synthetixio/core-utils": "workspace:*"
-    "@synthetixio/docgen": "workspace:*"
-    "@synthetixio/main": "workspace:*"
-    "@synthetixio/oracle-manager": "workspace:*"
-    "@synthetixio/router": "npm:3.3.7"
-    "@synthetixio/spot-market": "workspace:*"
-    "@synthetixio/wei": "npm:^2.74.4"
-    "@usecannon/cli": "npm:2.13.6"
-    ethers: "npm:^5.7.2"
-    hardhat: "npm:^2.19.5"
-    solidity-docgen: "npm:^0.6.0-beta.36"
-    ts-node: "npm:^10.9.2"
-    typescript: "npm:^5.3.3"
-  languageName: unknown
-  linkType: soft
-
-"@synthetixio/pyth-erc7412-wrapper@workspace:auxiliary/PythERC7412Wrapper":
-  version: 0.0.0-use.local
-  resolution: "@synthetixio/pyth-erc7412-wrapper@workspace:auxiliary/PythERC7412Wrapper"
-  dependencies:
-    "@synthetixio/common-config": "workspace:*"
-    "@synthetixio/core-contracts": "workspace:*"
-    "@synthetixio/core-modules": "workspace:*"
-    "@synthetixio/docgen": "workspace:*"
-    hardhat: "npm:^2.19.5"
-    solidity-docgen: "npm:^0.6.0-beta.36"
-    ts-node: "npm:^10.9.2"
-    typescript: "npm:^5.3.3"
-  languageName: unknown
-  linkType: soft
-
-"@synthetixio/rewards-dist-ext@workspace:auxiliary/RewardsDistributorExternal":
-  version: 0.0.0-use.local
-  resolution: "@synthetixio/rewards-dist-ext@workspace:auxiliary/RewardsDistributorExternal"
-  dependencies:
-    "@usecannon/cli": "npm:2.13.6"
-    forge-std: "github:foundry-rs/forge-std#master"
-  languageName: unknown
-  linkType: soft
-
-"@synthetixio/rewards-distributor@workspace:auxiliary/RewardsDistributor":
-  version: 0.0.0-use.local
-  resolution: "@synthetixio/rewards-distributor@workspace:auxiliary/RewardsDistributor"
-  dependencies:
-    "@usecannon/cli": "npm:2.13.6"
-    forge-std: "github:foundry-rs/forge-std#master"
-  languageName: unknown
-  linkType: soft
-
 "@synthetixio/router@npm:3.3.7, @synthetixio/router@npm:^3.3.7":
   version: 3.3.7
   resolution: "@synthetixio/router@npm:3.3.7"
@@ -3244,75 +3331,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@synthetixio/sample-project@workspace:utils/sample-project":
-  version: 0.0.0-use.local
-  resolution: "@synthetixio/sample-project@workspace:utils/sample-project"
-  dependencies:
-    "@nomiclabs/hardhat-ethers": "npm:^2.2.3"
-    "@synthetixio/core-contracts": "workspace:*"
-    "@synthetixio/core-modules": "workspace:*"
-    "@synthetixio/core-utils": "workspace:*"
-    "@synthetixio/hardhat-storage": "workspace:*"
-    "@synthetixio/router": "npm:3.3.7"
-    ethers: "npm:^5.7.2"
-    hardhat: "npm:^2.19.5"
-    hardhat-cannon: "npm:2.13.6"
-    solidity-coverage: "npm:^0.8.7"
-  languageName: unknown
-  linkType: soft
-
-"@synthetixio/spot-market-oracle@workspace:auxiliary/SpotMarketOracle":
-  version: 0.0.0-use.local
-  resolution: "@synthetixio/spot-market-oracle@workspace:auxiliary/SpotMarketOracle"
-  dependencies:
-    "@synthetixio/common-config": "workspace:*"
-    "@synthetixio/core-contracts": "workspace:*"
-    "@synthetixio/core-modules": "workspace:*"
-    "@synthetixio/docgen": "workspace:*"
-    hardhat: "npm:^2.19.5"
-    solidity-docgen: "npm:^0.6.0-beta.36"
-    ts-node: "npm:^10.9.2"
-    typescript: "npm:^5.3.3"
-  languageName: unknown
-  linkType: soft
-
-"@synthetixio/spot-market-subgraph@workspace:markets/spot-market/subgraph":
-  version: 0.0.0-use.local
-  resolution: "@synthetixio/spot-market-subgraph@workspace:markets/spot-market/subgraph"
-  dependencies:
-    "@graphprotocol/graph-cli": "npm:^0.68.0"
-    "@graphprotocol/graph-ts": "npm:^0.32.0"
-    "@usecannon/cli": "npm:2.13.6"
-    ethers: "npm:^5.7.2"
-    matchstick-as: "npm:^0.6.0"
-    prettier: "npm:^3.2.5"
-  languageName: unknown
-  linkType: soft
-
-"@synthetixio/spot-market@workspace:*, @synthetixio/spot-market@workspace:markets/spot-market":
-  version: 0.0.0-use.local
-  resolution: "@synthetixio/spot-market@workspace:markets/spot-market"
-  dependencies:
-    "@synthetixio/common-config": "workspace:*"
-    "@synthetixio/core-contracts": "workspace:*"
-    "@synthetixio/core-modules": "workspace:*"
-    "@synthetixio/core-utils": "workspace:*"
-    "@synthetixio/docgen": "workspace:*"
-    "@synthetixio/main": "workspace:*"
-    "@synthetixio/oracle-manager": "workspace:*"
-    "@synthetixio/router": "npm:3.3.7"
-    "@synthetixio/wei": "npm:^2.74.4"
-    "@types/node-fetch": "npm:^2.6.11"
-    "@usecannon/cli": "npm:2.13.6"
-    ethers: "npm:^5.7.2"
-    hardhat: "npm:^2.19.5"
-    node-fetch: "npm:^2.7.0"
-    solidity-docgen: "npm:^0.6.0-beta.36"
-    ts-node: "npm:^10.9.2"
-    typescript: "npm:^5.3.3"
-  languageName: unknown
-  linkType: soft
-
 "@synthetixio/wei@npm:^2.74.4":
   version: 2.74.4
   resolution: "@synthetixio/wei@npm:2.74.4"
@@ -3323,24 +3341,6 @@ __metadata:
   checksum: 10/84c7e8a3717682e50debacb6fabf887d74caa71d1d558426c26a6b787930ad601a256a7fee64664fe4501e2197b205a8dffb1867053213eaa2fa66a4bb7e309c
   languageName: node
   linkType: hard
-
-"@synthetixio/wsteth-to-steth-ratio-oracle@workspace:auxiliary/WstEthToStEthRatioOracle":
-  version: 0.0.0-use.local
-  resolution: "@synthetixio/wsteth-to-steth-ratio-oracle@workspace:auxiliary/WstEthToStEthRatioOracle"
-  dependencies:
-    "@synthetixio/common-config": "workspace:*"
-    "@synthetixio/core-contracts": "workspace:*"
-    "@synthetixio/core-utils": "workspace:*"
-    "@synthetixio/docgen": "workspace:*"
-    "@synthetixio/main": "workspace:*"
-    "@synthetixio/router": "npm:3.3.7"
-    "@synthetixio/wei": "npm:^2.74.4"
-    "@usecannon/cli": "npm:2.13.6"
-    ethers: "npm:^5.7.2"
-    hardhat: "npm:^2.19.5"
-    solidity-docgen: "npm:^0.6.0-beta.36"
-  languageName: unknown
-  linkType: soft
 
 "@szmarczak/http-timer@npm:^5.0.1":
   version: 5.0.1
@@ -13406,6 +13406,38 @@ __metadata:
   languageName: node
   linkType: hard
 
+"polynomial@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "polynomial@workspace:."
+  dependencies:
+    "@ethersproject/abi": "npm:^5.7.0"
+    "@ethersproject/providers": "npm:^5.7.2"
+    "@lerna-lite/changed": "npm:^3.3.0"
+    "@lerna-lite/cli": "npm:^3.3.0"
+    "@lerna-lite/exec": "npm:^3.3.0"
+    "@lerna-lite/publish": "npm:^3.3.0"
+    "@nomiclabs/hardhat-ethers": "npm:^2.2.3"
+    "@polynomial/deps": "workspace:*"
+    "@types/mocha": "npm:^10.0.6"
+    "@types/node": "npm:^20.11.17"
+    "@typescript-eslint/eslint-plugin": "npm:^7.0.1"
+    "@typescript-eslint/parser": "npm:^7.0.1"
+    eslint: "npm:^8.56.0"
+    eslint-plugin-no-only-tests: "npm:^3.1.0"
+    lint-staged: "npm:^15.2.2"
+    mocha: "npm:^10.3.0"
+    mocha-junit-reporter: "npm:^2.2.1"
+    pre-commit: "npm:^1.2.2"
+    prettier: "npm:^3.2.5"
+    prettier-plugin-solidity: "npm:^1.3.1"
+    prettier-plugin-toml: "npm:^2.0.1"
+    solhint: "npm:^4.1.1"
+    solhint-plugin-meta-transactions: "npm:^0.1.0"
+    solhint-plugin-numcast: "npm:^1.0.0"
+    typescript: "npm:^5.3.3"
+  languageName: unknown
+  linkType: soft
+
 "postcss-selector-parser@npm:^6.0.10":
   version: 6.0.13
   resolution: "postcss-selector-parser@npm:6.0.13"
@@ -15640,38 +15672,6 @@ __metadata:
   checksum: 10/13c05461a32f06f9f41993374b3b9e3145105baede4097bd385e57d841ac0b47dad51737a919c1592df5b04aabdfee03f1d28562c37d5a76ef704069db1b4522
   languageName: node
   linkType: hard
-
-"synthetix-v3@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "synthetix-v3@workspace:."
-  dependencies:
-    "@ethersproject/abi": "npm:^5.7.0"
-    "@ethersproject/providers": "npm:^5.7.2"
-    "@lerna-lite/changed": "npm:^3.3.0"
-    "@lerna-lite/cli": "npm:^3.3.0"
-    "@lerna-lite/exec": "npm:^3.3.0"
-    "@lerna-lite/publish": "npm:^3.3.0"
-    "@nomiclabs/hardhat-ethers": "npm:^2.2.3"
-    "@synthetixio/deps": "workspace:*"
-    "@types/mocha": "npm:^10.0.6"
-    "@types/node": "npm:^20.11.17"
-    "@typescript-eslint/eslint-plugin": "npm:^7.0.1"
-    "@typescript-eslint/parser": "npm:^7.0.1"
-    eslint: "npm:^8.56.0"
-    eslint-plugin-no-only-tests: "npm:^3.1.0"
-    lint-staged: "npm:^15.2.2"
-    mocha: "npm:^10.3.0"
-    mocha-junit-reporter: "npm:^2.2.1"
-    pre-commit: "npm:^1.2.2"
-    prettier: "npm:^3.2.5"
-    prettier-plugin-solidity: "npm:^1.3.1"
-    prettier-plugin-toml: "npm:^2.0.1"
-    solhint: "npm:^4.1.1"
-    solhint-plugin-meta-transactions: "npm:^0.1.0"
-    solhint-plugin-numcast: "npm:^1.0.0"
-    typescript: "npm:^5.3.3"
-  languageName: unknown
-  linkType: soft
 
 "table-layout@npm:^1.0.2":
   version: 1.0.2

@@ -1,4 +1,4 @@
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
 import { wei } from '@synthetixio/wei';
 import forEach from 'mocha-each';
 import { bootstrap } from '../../bootstrap';

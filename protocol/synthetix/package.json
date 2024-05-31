@@ -1,5 +1,5 @@
 {
-  "name": "@synthetixio/main",
+  "name": "@polynomial/main",
   "version": "3.3.18",
   "description": "Core Synthetix Protocol Contracts",
   "publishConfig": {
@@ -24,12 +24,12 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@synthetixio/common-config": "workspace:*",
-    "@synthetixio/core-contracts": "workspace:*",
-    "@synthetixio/core-modules": "workspace:*",
-    "@synthetixio/core-utils": "workspace:*",
-    "@synthetixio/docgen": "workspace:*",
-    "@synthetixio/oracle-manager": "workspace:*",
+    "@polynomial/common-config": "workspace:*",
+    "@polynomial/core-contracts": "workspace:*",
+    "@polynomial/core-modules": "workspace:*",
+    "@polynomial/core-utils": "workspace:*",
+    "@polynomial/docgen": "workspace:*",
+    "@polynomial/oracle-manager": "workspace:*",
     "@synthetixio/router": "3.3.7",
     "@synthetixio/wei": "^2.74.4",
     "ethers": "^5.7.2",

@@ -1,14 +1,14 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import {IRewardDistributor} from "@synthetixio/main/contracts/interfaces/external/IRewardDistributor.sol";
-import {IPoolModule} from "@synthetixio/main/contracts/interfaces/IPoolModule.sol";
-import {IRewardsManagerModule} from "@synthetixio/main/contracts/interfaces/IRewardsManagerModule.sol";
-import {IERC165} from "@synthetixio/core-contracts/contracts/interfaces/IERC165.sol";
-import {AccessError} from "@synthetixio/core-contracts/contracts/errors/AccessError.sol";
-import {ParameterError} from "@synthetixio/core-contracts/contracts/errors/ParameterError.sol";
-import {ERC20Helper} from "@synthetixio/core-contracts/contracts/token/ERC20Helper.sol";
-import {ERC20} from "@synthetixio/core-contracts/contracts/token/ERC20.sol";
+import {IRewardDistributor} from "@polynomial/main/contracts/interfaces/external/IRewardDistributor.sol";
+import {IPoolModule} from "@polynomial/main/contracts/interfaces/IPoolModule.sol";
+import {IRewardsManagerModule} from "@polynomial/main/contracts/interfaces/IRewardsManagerModule.sol";
+import {IERC165} from "@polynomial/core-contracts/contracts/interfaces/IERC165.sol";
+import {AccessError} from "@polynomial/core-contracts/contracts/errors/AccessError.sol";
+import {ParameterError} from "@polynomial/core-contracts/contracts/errors/ParameterError.sol";
+import {ERC20Helper} from "@polynomial/core-contracts/contracts/token/ERC20Helper.sol";
+import {ERC20} from "@polynomial/core-contracts/contracts/token/ERC20.sol";
 import {Initializable} from "@openzeppelin/contracts/proxy/utils/Initializable.sol";
 import {IPerpRewardDistributor} from "../../interfaces/IPerpRewardDistributor.sol";
 

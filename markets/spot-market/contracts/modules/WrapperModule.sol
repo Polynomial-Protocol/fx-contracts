@@ -1,15 +1,15 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import "@synthetixio/core-contracts/contracts/utils/ERC2771Context.sol";
-import {ERC20Helper} from "@synthetixio/core-contracts/contracts/token/ERC20Helper.sol";
-import {IERC20} from "@synthetixio/core-contracts/contracts/interfaces/IERC20.sol";
-import {SafeCastU256, SafeCastI256} from "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
+import "@polynomial/core-contracts/contracts/utils/ERC2771Context.sol";
+import {ERC20Helper} from "@polynomial/core-contracts/contracts/token/ERC20Helper.sol";
+import {IERC20} from "@polynomial/core-contracts/contracts/interfaces/IERC20.sol";
+import {SafeCastU256, SafeCastI256} from "@polynomial/core-contracts/contracts/utils/SafeCast.sol";
 import {SpotMarketFactory} from "../storage/SpotMarketFactory.sol";
 import {IWrapperModule} from "../interfaces/IWrapperModule.sol";
 import {OrderFees} from "../storage/OrderFees.sol";
 import {Transaction} from "../utils/TransactionUtil.sol";
-import {ITokenModule} from "@synthetixio/core-modules/contracts/interfaces/ITokenModule.sol";
+import {ITokenModule} from "@polynomial/core-modules/contracts/interfaces/ITokenModule.sol";
 import {Wrapper} from "../storage/Wrapper.sol";
 import {Price} from "../storage/Price.sol";
 import {MarketConfiguration} from "../storage/MarketConfiguration.sol";

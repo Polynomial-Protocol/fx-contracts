@@ -1,6 +1,6 @@
 import assert from 'assert/strict';
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
-import { findSingleEvent } from '@synthetixio/core-utils/utils/ethers/events';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
+import { findSingleEvent } from '@polynomial/core-utils/utils/ethers/events';
 import { ethers } from 'ethers';
 import { bootstrap } from '../bootstrap';
 import NodeTypes from '../mixins/Node.types';

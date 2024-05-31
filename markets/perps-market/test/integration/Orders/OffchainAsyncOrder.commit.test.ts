@@ -1,14 +1,14 @@
 import { ethers } from 'ethers';
 import { DEFAULT_SETTLEMENT_STRATEGY, bn, bootstrapMarkets } from '../bootstrap';
-import { fastForwardTo } from '@synthetixio/core-utils/utils/hardhat/rpc';
-import { snapshotCheckpoint } from '@synthetixio/core-utils/utils/mocha/snapshot';
-import { SynthMarkets } from '@synthetixio/spot-market/test/common';
+import { fastForwardTo } from '@polynomial/core-utils/utils/hardhat/rpc';
+import { snapshotCheckpoint } from '@polynomial/core-utils/utils/mocha/snapshot';
+import { SynthMarkets } from '@polynomial/spot-market/test/common';
 import { DepositCollateralData, depositCollateral, settleOrder } from '../helpers';
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
-import assertEvent from '@synthetixio/core-utils/utils/assertions/assert-event';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
+import assertEvent from '@polynomial/core-utils/utils/assertions/assert-event';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
 import assert from 'assert';
-import { getTxTime } from '@synthetixio/core-utils/src/utils/hardhat/rpc';
+import { getTxTime } from '@polynomial/core-utils/src/utils/hardhat/rpc';
 
 describe('Commit Offchain Async Order test', () => {
   const { systems, perpsMarkets, synthMarkets, provider, trader1, keeper, owner } =

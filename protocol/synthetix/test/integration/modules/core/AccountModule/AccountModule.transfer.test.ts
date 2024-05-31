@@ -1,5 +1,5 @@
 import assert from 'assert/strict';
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
 import { ethers } from 'ethers';
 import { bootstrap } from '../../../bootstrap';
 import Permissions from '../../../mixins/AccountRBACMixin.permissions';

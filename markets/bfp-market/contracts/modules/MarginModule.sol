@@ -1,15 +1,15 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import {IRewardDistributor} from "@synthetixio/main/contracts/interfaces/external/IRewardDistributor.sol";
-import {ITokenModule} from "@synthetixio/core-modules/contracts/interfaces/ITokenModule.sol";
-import {Account} from "@synthetixio/main/contracts/storage/Account.sol";
-import {AccountRBAC} from "@synthetixio/main/contracts/storage/AccountRBAC.sol";
-import {OwnableStorage} from "@synthetixio/core-contracts/contracts/ownership/OwnableStorage.sol";
-import {FeatureFlag} from "@synthetixio/core-modules/contracts/storage/FeatureFlag.sol";
-import {SafeCastI256, SafeCastU256, SafeCastU128} from "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
-import {ERC165Helper} from "@synthetixio/core-contracts/contracts/utils/ERC165Helper.sol";
-import {ERC2771Context} from "@synthetixio/core-contracts/contracts/utils/ERC2771Context.sol";
+import {IRewardDistributor} from "@polynomial/main/contracts/interfaces/external/IRewardDistributor.sol";
+import {ITokenModule} from "@polynomial/core-modules/contracts/interfaces/ITokenModule.sol";
+import {Account} from "@polynomial/main/contracts/storage/Account.sol";
+import {AccountRBAC} from "@polynomial/main/contracts/storage/AccountRBAC.sol";
+import {OwnableStorage} from "@polynomial/core-contracts/contracts/ownership/OwnableStorage.sol";
+import {FeatureFlag} from "@polynomial/core-modules/contracts/storage/FeatureFlag.sol";
+import {SafeCastI256, SafeCastU256, SafeCastU128} from "@polynomial/core-contracts/contracts/utils/SafeCast.sol";
+import {ERC165Helper} from "@polynomial/core-contracts/contracts/utils/ERC165Helper.sol";
+import {ERC2771Context} from "@polynomial/core-contracts/contracts/utils/ERC2771Context.sol";
 import {ISynthetixSystem} from "../external/ISynthetixSystem.sol";
 import {IMarginModule} from "../interfaces/IMarginModule.sol";
 import {PerpMarket} from "../storage/PerpMarket.sol";

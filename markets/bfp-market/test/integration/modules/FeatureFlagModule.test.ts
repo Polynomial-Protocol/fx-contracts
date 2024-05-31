@@ -1,5 +1,5 @@
-import assertEvent from '@synthetixio/core-utils/utils/assertions/assert-event';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
+import assertEvent from '@polynomial/core-utils/utils/assertions/assert-event';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
 import { wei } from '@synthetixio/wei';
 import assert from 'assert';
 import { formatBytes32String } from 'ethers/lib/utils';

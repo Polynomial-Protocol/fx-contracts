@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import {UUPSProxyWithOwner} from "@synthetixio/core-contracts/contracts/proxy/UUPSProxyWithOwner.sol";
+import {UUPSProxyWithOwner} from "@polynomial/core-contracts/contracts/proxy/UUPSProxyWithOwner.sol";
 
 /**
  * Synthetix V3 Perps Factory -- Proxy Contract

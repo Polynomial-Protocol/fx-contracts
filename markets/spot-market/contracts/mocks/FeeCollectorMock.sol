@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import "@synthetixio/core-modules/contracts/interfaces/ITokenModule.sol";
+import "@polynomial/core-modules/contracts/interfaces/ITokenModule.sol";
 import "../interfaces/external/IFeeCollector.sol";
 
 contract FeeCollectorMock is IFeeCollector {

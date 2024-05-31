@@ -1,5 +1,5 @@
 import { bn, bootstrapMarkets } from '../bootstrap';
-import assertBn from '@synthetixio/core-utils/src/utils/assertions/assert-bignumber';
+import assertBn from '@polynomial/core-utils/src/utils/assertions/assert-bignumber';
 import { openPosition } from '../helpers';
 import Wei, { wei } from '@synthetixio/wei';
 import { calculatePricePnl } from '../helpers/fillPrice';

@@ -1,8 +1,8 @@
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
 import { PerpsMarket, bn, bootstrapMarkets } from '../bootstrap';
 import { depositCollateral, openPosition } from '../helpers';
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
-import { snapshotCheckpoint } from '@synthetixio/core-utils/utils/mocha/snapshot';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
+import { snapshotCheckpoint } from '@polynomial/core-utils/utils/mocha/snapshot';
 
 describe('Market - size test', () => {
   const { systems, perpsMarkets, provider, trader1, trader2, keeper } = bootstrapMarkets({

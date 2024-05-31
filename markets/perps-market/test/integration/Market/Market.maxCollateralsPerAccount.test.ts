@@ -1,7 +1,7 @@
 import { bn, bootstrapMarkets } from '../bootstrap';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
 import { BigNumber, ethers } from 'ethers';
-import { snapshotCheckpoint } from '@synthetixio/core-utils/utils/mocha/snapshot';
+import { snapshotCheckpoint } from '@polynomial/core-utils/utils/mocha/snapshot';
 
 describe('Markets - Max Collaterals per account', () => {
   const traderAccountIds = [2];

@@ -1,8 +1,8 @@
 import { ethers } from 'ethers';
 import { Systems } from '../bootstrap';
-import { fastForwardTo } from '@synthetixio/core-utils/utils/hardhat/rpc';
+import { fastForwardTo } from '@polynomial/core-utils/utils/hardhat/rpc';
 import { settleOrder } from '.';
-import { getTxTime } from '@synthetixio/core-utils/src/utils/hardhat/rpc';
+import { getTxTime } from '@polynomial/core-utils/src/utils/hardhat/rpc';
 
 export type OpenPositionData = {
   trader: ethers.Signer;

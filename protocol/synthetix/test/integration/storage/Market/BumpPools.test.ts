@@ -1,5 +1,5 @@
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
-import { snapshotCheckpoint } from '@synthetixio/core-utils/utils/mocha/snapshot';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
+import { snapshotCheckpoint } from '@polynomial/core-utils/utils/mocha/snapshot';
 import { ethers } from 'ethers';
 import hre from 'hardhat';
 import { MockMarket } from '../../../../typechain-types/contracts/mocks/MockMarket';

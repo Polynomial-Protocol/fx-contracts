@@ -1,5 +1,5 @@
-import { snapshotCheckpoint } from '@synthetixio/core-utils/utils/mocha/snapshot';
-import { Proxy as OracleManagerProxy } from '@synthetixio/oracle-manager/test/generated/typechain';
+import { snapshotCheckpoint } from '@polynomial/core-utils/utils/mocha/snapshot';
+import { Proxy as OracleManagerProxy } from '@polynomial/oracle-manager/test/generated/typechain';
 import { coreBootstrap } from '@synthetixio/router/utils/tests';
 import { wei } from '@synthetixio/wei';
 import { ethers } from 'ethers';

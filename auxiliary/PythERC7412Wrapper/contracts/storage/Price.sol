@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import {PythStructs, IPyth} from "@synthetixio/oracle-manager/contracts/interfaces/external/IPyth.sol";
+import {PythStructs, IPyth} from "@polynomial/oracle-manager/contracts/interfaces/external/IPyth.sol";
 
 /**
  * @title Benchmark price storage for a specific price id.

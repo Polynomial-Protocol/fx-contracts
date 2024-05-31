@@ -5,22 +5,22 @@ import "../../interfaces/IMarketManagerModule.sol";
 import "../../interfaces/IUSDTokenModule.sol";
 import "../../interfaces/external/IMarket.sol";
 
-import "@synthetixio/core-contracts/contracts/errors/AccessError.sol";
-import "@synthetixio/core-contracts/contracts/ownership/OwnableStorage.sol";
-import "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
-import "@synthetixio/core-contracts/contracts/utils/ERC165Helper.sol";
-import "@synthetixio/core-contracts/contracts/utils/HeapUtil.sol";
-import "@synthetixio/core-contracts/contracts/utils/ERC2771Context.sol";
+import "@polynomial/core-contracts/contracts/errors/AccessError.sol";
+import "@polynomial/core-contracts/contracts/ownership/OwnableStorage.sol";
+import "@polynomial/core-contracts/contracts/utils/SafeCast.sol";
+import "@polynomial/core-contracts/contracts/utils/ERC165Helper.sol";
+import "@polynomial/core-contracts/contracts/utils/HeapUtil.sol";
+import "@polynomial/core-contracts/contracts/utils/ERC2771Context.sol";
 
 import "../../storage/Config.sol";
 import "../../storage/Market.sol";
 import "../../storage/MarketCreator.sol";
 import "../../storage/Distribution.sol";
 
-import "@synthetixio/core-modules/contracts/storage/AssociatedSystem.sol";
-import "@synthetixio/core-modules/contracts/storage/FeatureFlag.sol";
+import "@polynomial/core-modules/contracts/storage/AssociatedSystem.sol";
+import "@polynomial/core-modules/contracts/storage/FeatureFlag.sol";
 
-import "@synthetixio/core-contracts/contracts/errors/ParameterError.sol";
+import "@polynomial/core-contracts/contracts/errors/ParameterError.sol";
 
 /**
  * @title System-wide entry point for the management of markets connected to the system.

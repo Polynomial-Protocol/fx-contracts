@@ -1,10 +1,10 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import "@synthetixio/core-contracts/contracts/token/ERC20Helper.sol";
-import "@synthetixio/core-contracts/contracts/errors/ArrayError.sol";
-import "@synthetixio/core-contracts/contracts/errors/ParameterError.sol";
-import "@synthetixio/core-contracts/contracts/utils/ERC2771Context.sol";
+import "@polynomial/core-contracts/contracts/token/ERC20Helper.sol";
+import "@polynomial/core-contracts/contracts/errors/ArrayError.sol";
+import "@polynomial/core-contracts/contracts/errors/ParameterError.sol";
+import "@polynomial/core-contracts/contracts/utils/ERC2771Context.sol";
 
 import "../../interfaces/ICollateralModule.sol";
 
@@ -12,7 +12,7 @@ import "../../storage/Account.sol";
 import "../../storage/CollateralConfiguration.sol";
 import "../../storage/Config.sol";
 
-import "@synthetixio/core-modules/contracts/storage/FeatureFlag.sol";
+import "@polynomial/core-modules/contracts/storage/FeatureFlag.sol";
 
 /**
  * @title Module for managing user collateral.

@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import { TransactionReceipt } from '@ethersproject/abstract-provider';
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
-import { findEvent } from '@synthetixio/core-utils/utils/ethers/events';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
+import { findEvent } from '@polynomial/core-utils/utils/ethers/events';
 import { BigNumber, ethers } from 'ethers';
 import hre from 'hardhat';
 import { ERC20Mock } from '../../../typechain-types';

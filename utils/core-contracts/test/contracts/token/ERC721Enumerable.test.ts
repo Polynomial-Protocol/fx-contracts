@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict';
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
 import { ethers } from 'ethers';
 import hre from 'hardhat';
 import { ERC721EnumerableMock } from '../../../typechain-types';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
 
 describe('ERC721Enumerable', function () {
   let ERC721Enumerable: ERC721EnumerableMock;

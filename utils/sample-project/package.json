@@ -1,5 +1,5 @@
 {
-  "name": "@synthetixio/sample-project",
+  "name": "@polynomial/sample-project",
   "version": "1.0.0",
   "description": "Sample project implementing Proxy architecture",
   "private": true,
@@ -13,10 +13,10 @@
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.2.3",
-    "@synthetixio/core-contracts": "workspace:*",
-    "@synthetixio/core-modules": "workspace:*",
-    "@synthetixio/core-utils": "workspace:*",
-    "@synthetixio/hardhat-storage": "workspace:*",
+    "@polynomial/core-contracts": "workspace:*",
+    "@polynomial/core-modules": "workspace:*",
+    "@polynomial/core-utils": "workspace:*",
+    "@polynomial/hardhat-storage": "workspace:*",
     "@synthetixio/router": "3.3.7",
     "ethers": "^5.7.2",
     "hardhat": "^2.19.5",

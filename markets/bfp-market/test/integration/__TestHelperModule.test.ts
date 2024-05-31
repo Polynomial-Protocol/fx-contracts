@@ -1,4 +1,4 @@
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
 import { bootstrap } from '../bootstrap';
 import { genBootstrap, genOneOf } from '../generators';
 

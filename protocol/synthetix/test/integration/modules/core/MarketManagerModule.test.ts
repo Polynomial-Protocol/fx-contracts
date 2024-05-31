@@ -1,14 +1,14 @@
 /* eslint-disable no-unexpected-multiline */
 import assert from 'assert/strict';
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
-import assertEvent from '@synthetixio/core-utils/utils/assertions/assert-event';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
+import assertEvent from '@polynomial/core-utils/utils/assertions/assert-event';
 import { BigNumber, ethers } from 'ethers';
 
 import { bootstrapWithMockMarketAndPool } from '../../bootstrap';
 import { MockMarket__factory } from '../../../../typechain-types/index';
 import { verifyUsesFeatureFlag } from '../../verifications';
-import { snapshotCheckpoint } from '@synthetixio/core-utils/utils/mocha/snapshot';
+import { snapshotCheckpoint } from '@polynomial/core-utils/utils/mocha/snapshot';
 import { bn } from '../../../common';
 
 describe('MarketManagerModule', function () {

@@ -1,9 +1,9 @@
 import { ethers } from 'ethers';
 import { bn, bootstrapTraders, bootstrapWithSynth } from './bootstrap';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
 import { SynthRouter } from './generated/typechain';
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
-import { fastForwardTo, getTime } from '@synthetixio/core-utils/utils/hardhat/rpc';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
+import { fastForwardTo, getTime } from '@polynomial/core-utils/utils/hardhat/rpc';
 
 const ASYNC_BUY_TRANSACTION = 3,
   ASYNC_SELL_TRANSACTION = 4;

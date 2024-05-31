@@ -1,11 +1,11 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import "@synthetixio/core-contracts/contracts/token/ERC721Enumerable.sol";
-import "@synthetixio/core-contracts/contracts/utils/AddressUtil.sol";
-import "@synthetixio/core-contracts/contracts/initializable/InitializableMixin.sol";
-import "@synthetixio/core-contracts/contracts/ownership/OwnableStorage.sol";
-import "@synthetixio/core-contracts/contracts/errors/AddressError.sol";
+import "@polynomial/core-contracts/contracts/token/ERC721Enumerable.sol";
+import "@polynomial/core-contracts/contracts/utils/AddressUtil.sol";
+import "@polynomial/core-contracts/contracts/initializable/InitializableMixin.sol";
+import "@polynomial/core-contracts/contracts/ownership/OwnableStorage.sol";
+import "@polynomial/core-contracts/contracts/errors/AddressError.sol";
 
 import "../storage/Initialized.sol";
 

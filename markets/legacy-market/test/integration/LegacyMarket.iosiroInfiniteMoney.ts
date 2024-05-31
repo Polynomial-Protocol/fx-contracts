@@ -4,8 +4,8 @@ import { LegacyMarket__factory } from '../../typechain-types';
 import { LegacyMarket } from '../../typechain-types/contracts/LegacyMarket';
 import { wei } from '@synthetixio/wei';
 import { snapshotCheckpoint } from '../utils';
-import { fastForward } from '@synthetixio/core-utils/utils/hardhat/rpc';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
+import { fastForward } from '@polynomial/core-utils/utils/hardhat/rpc';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
 
 async function getImpersonatedSigner(
   provider: ethers.providers.JsonRpcProvider,

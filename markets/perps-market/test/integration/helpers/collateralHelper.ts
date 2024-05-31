@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
 import { Systems } from '../bootstrap';
-import { SynthMarkets } from '@synthetixio/spot-market/test/common';
+import { SynthMarkets } from '@polynomial/spot-market/test/common';
 
 type CollateralSynthData = {
   synthMarket?: () => SynthMarkets[number];

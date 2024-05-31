@@ -1,5 +1,5 @@
 {
-  "name": "@synthetixio/oracle-manager",
+  "name": "@polynomial/oracle-manager",
   "version": "3.3.18",
   "description": "Core Synthetix Protocol Oracle Manager",
   "publishConfig": {
@@ -23,11 +23,11 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@synthetixio/common-config": "workspace:*",
-    "@synthetixio/core-contracts": "workspace:*",
-    "@synthetixio/core-modules": "workspace:*",
-    "@synthetixio/core-utils": "workspace:*",
-    "@synthetixio/docgen": "workspace:*",
+    "@polynomial/common-config": "workspace:*",
+    "@polynomial/core-contracts": "workspace:*",
+    "@polynomial/core-modules": "workspace:*",
+    "@polynomial/core-utils": "workspace:*",
+    "@polynomial/docgen": "workspace:*",
     "@synthetixio/router": "3.3.7",
     "@synthetixio/wei": "^2.74.4",
     "@types/node": "^20.11.17",

@@ -1,5 +1,5 @@
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
 import { ethers, Contract, Signer } from 'ethers';
 import { addCollateral, verifyCollateral } from './CollateralModule.helper';
 import Permissions from '../../../mixins/AccountRBACMixin.permissions';

@@ -1,8 +1,8 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import "@synthetixio/core-contracts/contracts/utils/DecimalMath.sol";
-import "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
+import "@polynomial/core-contracts/contracts/utils/DecimalMath.sol";
+import "@polynomial/core-contracts/contracts/utils/SafeCast.sol";
 
 /**
  * @title Data structure that wraps a mapping with a scalar multiplier.

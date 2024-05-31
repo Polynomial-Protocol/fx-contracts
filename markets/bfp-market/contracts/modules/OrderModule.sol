@@ -1,14 +1,14 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import {Account} from "@synthetixio/main/contracts/storage/Account.sol";
-import {AccountRBAC} from "@synthetixio/main/contracts/storage/AccountRBAC.sol";
-import {DecimalMath} from "@synthetixio/core-contracts/contracts/utils/DecimalMath.sol";
-import {SafeCastI128, SafeCastI256, SafeCastU128, SafeCastU256} from "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
-import {INodeModule} from "@synthetixio/oracle-manager/contracts/interfaces/INodeModule.sol";
+import {Account} from "@polynomial/main/contracts/storage/Account.sol";
+import {AccountRBAC} from "@polynomial/main/contracts/storage/AccountRBAC.sol";
+import {DecimalMath} from "@polynomial/core-contracts/contracts/utils/DecimalMath.sol";
+import {SafeCastI128, SafeCastI256, SafeCastU128, SafeCastU256} from "@polynomial/core-contracts/contracts/utils/SafeCast.sol";
+import {INodeModule} from "@polynomial/oracle-manager/contracts/interfaces/INodeModule.sol";
 import {ISynthetixSystem} from "../external/ISynthetixSystem.sol";
-import {FeatureFlag} from "@synthetixio/core-modules/contracts/storage/FeatureFlag.sol";
-import {ERC2771Context} from "@synthetixio/core-contracts/contracts/utils/ERC2771Context.sol";
+import {FeatureFlag} from "@polynomial/core-modules/contracts/storage/FeatureFlag.sol";
+import {ERC2771Context} from "@polynomial/core-contracts/contracts/utils/ERC2771Context.sol";
 import {IOrderModule} from "../interfaces/IOrderModule.sol";
 import {ISettlementHook} from "../interfaces/hooks/ISettlementHook.sol";
 import {Margin} from "../storage/Margin.sol";

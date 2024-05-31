@@ -1,8 +1,8 @@
 import { ethers } from 'ethers';
-import { snapshotCheckpoint } from '@synthetixio/core-utils/utils/mocha/snapshot';
+import { snapshotCheckpoint } from '@polynomial/core-utils/utils/mocha/snapshot';
 import { wei } from '@synthetixio/wei';
 import { stake } from './stakers';
-import { createOracleNode } from '@synthetixio/oracle-manager/test/common';
+import { createOracleNode } from '@polynomial/oracle-manager/test/common';
 import { bootstrap } from '../integration/bootstrap';
 
 export const bn = (n: number) => wei(n).toBN();

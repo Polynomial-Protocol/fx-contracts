@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { compileSolidityFolder } from '@synthetixio/core-utils/utils/solidity/compiler';
+import { compileSolidityFolder } from '@polynomial/core-utils/utils/solidity/compiler';
 import { subtask } from 'hardhat/config';
 import { SUBTASK_STORAGE_PARSE_DUMP } from '../task-names';
 

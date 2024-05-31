@@ -1,4 +1,4 @@
-import { addressEqual } from '@synthetixio/core-utils/utils/assertions/assert-address';
+import { addressEqual } from '@polynomial/core-utils/utils/assertions/assert-address';
 import { coreBootstrap } from '@synthetixio/router/utils/tests';
 import {
   AssociatedSystemsModule,

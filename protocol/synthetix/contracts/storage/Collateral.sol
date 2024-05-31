@@ -1,8 +1,8 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import "@synthetixio/core-contracts/contracts/utils/SetUtil.sol";
-import "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
+import "@polynomial/core-contracts/contracts/utils/SetUtil.sol";
+import "@polynomial/core-contracts/contracts/utils/SafeCast.sol";
 
 import "./CollateralLock.sol";
 

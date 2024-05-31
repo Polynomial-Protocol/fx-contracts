@@ -1,7 +1,7 @@
-import commonConfig from '@synthetixio/common-config/hardhat.config';
+import commonConfig from '@polynomial/common-config/hardhat.config';
 
 import 'solidity-docgen';
-import { templates } from '@synthetixio/docgen';
+import { templates } from '@polynomial/docgen';
 
 const config = {
   ...commonConfig,

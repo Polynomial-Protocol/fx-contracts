@@ -1,14 +1,14 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import "@synthetixio/core-contracts/contracts/ownership/OwnableStorage.sol";
-import "@synthetixio/core-contracts/contracts/errors/AccessError.sol";
-import "@synthetixio/core-contracts/contracts/errors/AddressError.sol";
-import "@synthetixio/core-contracts/contracts/errors/ParameterError.sol";
-import "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
-import "@synthetixio/core-contracts/contracts/utils/ERC2771Context.sol";
+import "@polynomial/core-contracts/contracts/ownership/OwnableStorage.sol";
+import "@polynomial/core-contracts/contracts/errors/AccessError.sol";
+import "@polynomial/core-contracts/contracts/errors/AddressError.sol";
+import "@polynomial/core-contracts/contracts/errors/ParameterError.sol";
+import "@polynomial/core-contracts/contracts/utils/SafeCast.sol";
+import "@polynomial/core-contracts/contracts/utils/ERC2771Context.sol";
 
-import "@synthetixio/core-modules/contracts/storage/FeatureFlag.sol";
+import "@polynomial/core-modules/contracts/storage/FeatureFlag.sol";
 
 import "../../interfaces/IPoolModule.sol";
 import "../../storage/Pool.sol";

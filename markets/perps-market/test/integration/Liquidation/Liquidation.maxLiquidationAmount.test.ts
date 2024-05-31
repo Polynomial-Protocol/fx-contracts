@@ -1,7 +1,7 @@
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
 import { PerpsMarket, bn, bootstrapMarkets } from '../bootstrap';
 import { openPosition } from '../helpers';
-import { fastForwardTo, getTxTime } from '@synthetixio/core-utils/utils/hardhat/rpc';
+import { fastForwardTo, getTxTime } from '@polynomial/core-utils/utils/hardhat/rpc';
 import { ethers } from 'ethers';
 
 describe('Liquidation - max liquidatable amount', () => {

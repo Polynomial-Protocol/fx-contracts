@@ -30,7 +30,7 @@ codegen() {
 }
 
 
-# releaseVersion=$(yarn workspace "@synthetixio/main" node -p 'require(`./package.json`).version')
+# releaseVersion=$(yarn workspace "@polynomial/main" node -p 'require(`./package.json`).version')
 
 # Base
 codegen base-sepolia-andromeda 84532 "synthetix-omnibus:latest@andromeda"

@@ -1,13 +1,13 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import {SafeCastU256} from "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
-import "@synthetixio/main/contracts/interfaces/external/IMarket.sol";
+import {SafeCastU256} from "@polynomial/core-contracts/contracts/utils/SafeCast.sol";
+import "@polynomial/main/contracts/interfaces/external/IMarket.sol";
 import "./interfaces/external/ILiquidatorRewards.sol";
 import "./interfaces/external/IIssuer.sol";
 import "./interfaces/external/ISynthetixDebtShare.sol";
 
-import {UUPSImplementation} from "@synthetixio/core-contracts/contracts/proxy/UUPSImplementation.sol";
+import {UUPSImplementation} from "@polynomial/core-contracts/contracts/proxy/UUPSImplementation.sol";
 
 import "./interfaces/ILegacyMarket.sol";
 import "./interfaces/ISNXDistributor.sol";
@@ -15,14 +15,14 @@ import "./interfaces/ISNXDistributor.sol";
 import "./interfaces/external/ISynthetix.sol";
 import "./interfaces/external/IRewardEscrowV2.sol";
 
-import "@synthetixio/core-contracts/contracts/utils/ERC2771Context.sol";
-import "@synthetixio/core-contracts/contracts/ownership/Ownable.sol";
-import "@synthetixio/core-contracts/contracts/interfaces/IERC20.sol";
-import "@synthetixio/core-contracts/contracts/interfaces/IERC721.sol";
-import "@synthetixio/core-contracts/contracts/interfaces/IERC721Receiver.sol";
+import "@polynomial/core-contracts/contracts/utils/ERC2771Context.sol";
+import "@polynomial/core-contracts/contracts/ownership/Ownable.sol";
+import "@polynomial/core-contracts/contracts/interfaces/IERC20.sol";
+import "@polynomial/core-contracts/contracts/interfaces/IERC721.sol";
+import "@polynomial/core-contracts/contracts/interfaces/IERC721Receiver.sol";
 
-import "@synthetixio/core-contracts/contracts/utils/DecimalMath.sol";
-import "@synthetixio/core-contracts/contracts/errors/ParameterError.sol";
+import "@polynomial/core-contracts/contracts/utils/DecimalMath.sol";
+import "@polynomial/core-contracts/contracts/errors/ParameterError.sol";
 
 contract LegacyMarket is ILegacyMarket, Ownable, UUPSImplementation, IMarket, IERC721Receiver {
     using SafeCastU256 for uint256;

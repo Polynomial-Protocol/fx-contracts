@@ -1,11 +1,11 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import {Account} from "@synthetixio/main/contracts/storage/Account.sol";
-import {DecimalMath} from "@synthetixio/core-contracts/contracts/utils/DecimalMath.sol";
-import {SafeCastU256, SafeCastI256, SafeCastU128} from "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
-import {AccountRBAC} from "@synthetixio/main/contracts/storage/AccountRBAC.sol";
-import {FeatureFlag} from "@synthetixio/core-modules/contracts/storage/FeatureFlag.sol";
+import {Account} from "@polynomial/main/contracts/storage/Account.sol";
+import {DecimalMath} from "@polynomial/core-contracts/contracts/utils/DecimalMath.sol";
+import {SafeCastU256, SafeCastI256, SafeCastU128} from "@polynomial/core-contracts/contracts/utils/SafeCast.sol";
+import {AccountRBAC} from "@polynomial/main/contracts/storage/AccountRBAC.sol";
+import {FeatureFlag} from "@polynomial/core-modules/contracts/storage/FeatureFlag.sol";
 import {ISynthetixSystem} from "../external/ISynthetixSystem.sol";
 import {IPerpAccountModule} from "../interfaces/IPerpAccountModule.sol";
 import {MathUtil} from "../utils/MathUtil.sol";

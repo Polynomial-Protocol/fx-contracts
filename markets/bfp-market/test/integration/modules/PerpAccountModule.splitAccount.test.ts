@@ -1,10 +1,10 @@
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
 import { bootstrap } from '../../bootstrap';
 import { bn, genBootstrap, genNumber, genOneOf, genOrder, genTrader } from '../../generators';
 import { commitAndSettle, commitOrder, depositMargin, withExplicitEvmMine } from '../../helpers';
 import { wei } from '@synthetixio/wei';
-import assertEvent from '@synthetixio/core-utils/utils/assertions/assert-event';
+import assertEvent from '@polynomial/core-utils/utils/assertions/assert-event';
 
 describe('PerpAccountModule splitAccount', () => {
   const bs = bootstrap(genBootstrap());

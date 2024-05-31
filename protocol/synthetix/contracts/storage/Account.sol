@@ -7,8 +7,8 @@ import "./Pool.sol";
 
 import "../interfaces/ICollateralModule.sol";
 
-import "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
-import "@synthetixio/core-contracts/contracts/utils/ERC2771Context.sol";
+import "@polynomial/core-contracts/contracts/utils/SafeCast.sol";
+import "@polynomial/core-contracts/contracts/utils/ERC2771Context.sol";
 
 /**
  * @title Object for tracking accounts with access control and collateral tracking.

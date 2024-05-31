@@ -1,16 +1,16 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import {ITokenModule} from "@synthetixio/core-modules/contracts/interfaces/ITokenModule.sol";
-import {INodeModule} from "@synthetixio/oracle-manager/contracts/interfaces/INodeModule.sol";
+import {ITokenModule} from "@polynomial/core-modules/contracts/interfaces/ITokenModule.sol";
+import {INodeModule} from "@polynomial/oracle-manager/contracts/interfaces/INodeModule.sol";
 import {ISynthetixSystem} from "../interfaces/external/ISynthetixSystem.sol";
 import {ISpotMarketSystem} from "../interfaces/external/ISpotMarketSystem.sol";
 import {GlobalPerpsMarket} from "../storage/GlobalPerpsMarket.sol";
 import {PerpsMarket} from "../storage/PerpsMarket.sol";
-import {NodeOutput} from "@synthetixio/oracle-manager/contracts/storage/NodeOutput.sol";
-import {NodeDefinition} from "@synthetixio/oracle-manager/contracts/storage/NodeDefinition.sol";
-import {SafeCastI256, SafeCastU256} from "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
-import {SetUtil} from "@synthetixio/core-contracts/contracts/utils/SetUtil.sol";
+import {NodeOutput} from "@polynomial/oracle-manager/contracts/storage/NodeOutput.sol";
+import {NodeDefinition} from "@polynomial/oracle-manager/contracts/storage/NodeDefinition.sol";
+import {SafeCastI256, SafeCastU256} from "@polynomial/core-contracts/contracts/utils/SafeCast.sol";
+import {SetUtil} from "@polynomial/core-contracts/contracts/utils/SetUtil.sol";
 
 /**
  * @title Main factory library that registers perps markets.  Also houses global configuration for all perps markets.

@@ -1,10 +1,10 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import "@synthetixio/core-contracts/contracts/initializable/InitializableMixin.sol";
-import "@synthetixio/core-contracts/contracts/ownership/OwnableStorage.sol";
-import "@synthetixio/core-contracts/contracts/token/ERC20.sol";
-import "@synthetixio/core-contracts/contracts/errors/AccessError.sol";
+import "@polynomial/core-contracts/contracts/initializable/InitializableMixin.sol";
+import "@polynomial/core-contracts/contracts/ownership/OwnableStorage.sol";
+import "@polynomial/core-contracts/contracts/token/ERC20.sol";
+import "@polynomial/core-contracts/contracts/errors/AccessError.sol";
 
 import "../interfaces/ITokenModule.sol";
 import "../storage/Initialized.sol";

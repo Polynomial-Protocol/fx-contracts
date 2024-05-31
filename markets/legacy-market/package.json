@@ -1,5 +1,5 @@
 {
-  "name": "@synthetixio/legacy-market",
+  "name": "@polynomial/legacy-market",
   "version": "3.3.4",
   "description": "Contract for migration from v2x to v3",
   "private": true,
@@ -17,9 +17,9 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@synthetixio/common-config": "workspace:*",
-    "@synthetixio/core-utils": "workspace:*",
-    "@synthetixio/docgen": "workspace:*",
+    "@polynomial/common-config": "workspace:*",
+    "@polynomial/core-utils": "workspace:*",
+    "@polynomial/docgen": "workspace:*",
     "@synthetixio/wei": "^2.74.4",
     "ethers": "^5.7.2",
     "hardhat": "^2.19.5",

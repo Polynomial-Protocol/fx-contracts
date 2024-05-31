@@ -1,7 +1,7 @@
 import { PerpsMarket, bn, bootstrapMarkets } from '../bootstrap';
 import { OpenPositionData, depositCollateral, openPosition } from '../helpers';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
-import { snapshotCheckpoint } from '@synthetixio/core-utils/utils/mocha/snapshot';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
+import { snapshotCheckpoint } from '@polynomial/core-utils/utils/mocha/snapshot';
 
 describe('Markets - Max positions per account', () => {
   const traderAccountIds = [2];

@@ -1,7 +1,7 @@
-import { fastForwardTo, getTxTime } from '@synthetixio/core-utils/utils/hardhat/rpc';
+import { fastForwardTo, getTxTime } from '@polynomial/core-utils/utils/hardhat/rpc';
 import { PerpsMarket, bn, bootstrapMarkets } from '../bootstrap';
 import { openPosition } from '../helpers';
-import assertBn from '@synthetixio/core-utils/src/utils/assertions/assert-bignumber';
+import assertBn from '@polynomial/core-utils/src/utils/assertions/assert-bignumber';
 import { ethers } from 'ethers';
 
 describe('Liquidation - max liquidatable amount with multiple continuing liquidations', () => {

@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import MerkleTree from '@synthetixio/core-utils/utils/merkle-tree/merkle-tree.js';
+import MerkleTree from '@polynomial/core-utils/utils/merkle-tree/merkle-tree.js';
 import hre from 'hardhat';
 import { MerkleProofMock } from '../../../typechain-types';
 

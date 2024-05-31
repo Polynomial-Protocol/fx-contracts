@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import assert from 'assert/strict';
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
 
 import { ethers } from 'ethers';
 import { bn, bootstrapBuyback } from './bootstrap';
-import { findSingleEvent } from '@synthetixio/core-utils/utils/ethers/events';
+import { findSingleEvent } from '@polynomial/core-utils/utils/ethers/events';
 
 describe('BuybackSnx', function () {
   const { getContract, user, owner } = bootstrapBuyback();

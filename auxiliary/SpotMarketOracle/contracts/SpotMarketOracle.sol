@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import {SafeCastI256, SafeCastU256} from "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
-import {DecimalMath} from "@synthetixio/core-contracts/contracts/utils/DecimalMath.sol";
-import {IExternalNode, NodeOutput, NodeDefinition} from "@synthetixio/oracle-manager/contracts/interfaces/external/IExternalNode.sol";
+import {SafeCastI256, SafeCastU256} from "@polynomial/core-contracts/contracts/utils/SafeCast.sol";
+import {DecimalMath} from "@polynomial/core-contracts/contracts/utils/DecimalMath.sol";
+import {IExternalNode, NodeOutput, NodeDefinition} from "@polynomial/oracle-manager/contracts/interfaces/external/IExternalNode.sol";
 import {ISpotMarketSystem} from "./interfaces/ISpotMarketSystem.sol";
-import {Price} from "@synthetixio/spot-market/contracts/storage/Price.sol";
+import {Price} from "@polynomial/spot-market/contracts/storage/Price.sol";
 
 contract SpotMarketOracle is IExternalNode {
     using DecimalMath for int256;

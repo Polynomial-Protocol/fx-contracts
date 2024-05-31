@@ -1,10 +1,10 @@
 import { ethers as Ethers } from 'ethers';
 import { bn, bootstrapTraders, bootstrapWithSynth } from './bootstrap';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
-import assertBn from '@synthetixio/core-utils/src/utils/assertions/assert-bignumber';
-import { snapshotCheckpoint } from '@synthetixio/core-utils/utils/mocha/snapshot';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
+import assertBn from '@polynomial/core-utils/src/utils/assertions/assert-bignumber';
+import { snapshotCheckpoint } from '@polynomial/core-utils/utils/mocha/snapshot';
 import { SynthRouter } from './generated/typechain';
-import { fastForwardTo, getTime } from '@synthetixio/core-utils/utils/hardhat/rpc';
+import { fastForwardTo, getTime } from '@polynomial/core-utils/utils/hardhat/rpc';
 
 const settlementStrategyWithNoMin = {
   strategyType: 0,

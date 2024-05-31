@@ -2,7 +2,7 @@
 pragma solidity >=0.8.11 <0.9.0;
 
 import {ISynthTokenModule} from "../interfaces/ISynthTokenModule.sol";
-import "@synthetixio/core-modules/contracts/storage/AssociatedSystem.sol";
+import "@polynomial/core-modules/contracts/storage/AssociatedSystem.sol";
 
 /**
  * @title Helper library that creates system ids used in AssociatedSystem.

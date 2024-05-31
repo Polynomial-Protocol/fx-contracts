@@ -1,10 +1,10 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import {ERC2771Context} from "@synthetixio/core-contracts/contracts/utils/ERC2771Context.sol";
-import {FeatureFlag} from "@synthetixio/core-modules/contracts/storage/FeatureFlag.sol";
-import {Account} from "@synthetixio/main/contracts/storage/Account.sol";
-import {AccountRBAC} from "@synthetixio/main/contracts/storage/AccountRBAC.sol";
+import {ERC2771Context} from "@polynomial/core-contracts/contracts/utils/ERC2771Context.sol";
+import {FeatureFlag} from "@polynomial/core-modules/contracts/storage/FeatureFlag.sol";
+import {Account} from "@polynomial/main/contracts/storage/Account.sol";
+import {AccountRBAC} from "@polynomial/main/contracts/storage/AccountRBAC.sol";
 import {IAsyncOrderModule} from "../interfaces/IAsyncOrderModule.sol";
 import {PerpsMarket} from "../storage/PerpsMarket.sol";
 import {PerpsAccount} from "../storage/PerpsAccount.sol";

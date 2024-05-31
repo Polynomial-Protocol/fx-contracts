@@ -2,10 +2,10 @@
 pragma solidity ^0.8.0;
 
 import "../../storage/DebtShare.sol";
-import "@synthetixio/core-contracts/contracts/utils/AddressUtil.sol";
-import "@synthetixio/core-contracts/contracts/errors/ChangeError.sol";
-import "@synthetixio/core-contracts/contracts/errors/AddressError.sol";
-import "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
+import "@polynomial/core-contracts/contracts/utils/AddressUtil.sol";
+import "@polynomial/core-contracts/contracts/errors/ChangeError.sol";
+import "@polynomial/core-contracts/contracts/errors/AddressError.sol";
+import "@polynomial/core-contracts/contracts/utils/SafeCast.sol";
 
 import "./ElectionBase.sol";
 

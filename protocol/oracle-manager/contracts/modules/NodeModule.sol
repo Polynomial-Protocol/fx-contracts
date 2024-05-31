@@ -15,7 +15,7 @@ import "../nodes/ConstantNode.sol";
 import "../storage/NodeOutput.sol";
 import "../storage/NodeDefinition.sol";
 
-import "@synthetixio/core-contracts/contracts/errors/ParameterError.sol";
+import "@polynomial/core-contracts/contracts/errors/ParameterError.sol";
 
 /**
  * @title Module for managing nodes

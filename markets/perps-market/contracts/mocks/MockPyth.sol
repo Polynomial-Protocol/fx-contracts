@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import {MockPyth as BaseMockPyth} from "@synthetixio/oracle-manager/contracts/mocks/pyth/MockPyth.sol";
+import {MockPyth as BaseMockPyth} from "@polynomial/oracle-manager/contracts/mocks/pyth/MockPyth.sol";
 
 /**
  * @title Mocked Pyth.

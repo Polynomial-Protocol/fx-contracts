@@ -523,9 +523,9 @@ jobs:
             export CANNON_PROVIDER_URL="https://mainnet.infura.io/v3/$INFURA_API_KEY"
             yarn subgraphgen
 
-      - run: yarn workspace @synthetixio/core-subgraph test
-      - run: yarn workspace @synthetixio/spot-market-subgraph test
-      - run: yarn workspace @synthetixio/perps-market-subgraph test
+      - run: yarn workspace @polynomial/core-subgraph test
+      - run: yarn workspace @polynomial/spot-market-subgraph test
+      - run: yarn workspace @polynomial/perps-market-subgraph test
 
       - github-pr:
           working_directory: "~/synthetix-v3"
@@ -619,7 +619,7 @@ workflows:
         - equal: ["skip", << pipeline.git.branch >>]
     jobs:
       - build-testable:
-          wat: "--recursive --from '@synthetixio/perps-market'"
+          wat: "--recursive --from '@polynomial/perps-market'"
 
       - single-test:
           name: "test-perps-market"
@@ -698,23 +698,23 @@ workflows:
 
       - test-forge:
           name: "test-rewards-distributor"
-          workspace: "@synthetixio/rewards-distributor"
+          workspace: "@polynomial/rewards-distributor"
 
       - test-subgraph:
           name: "test-subgraph-core"
-          workspace: "@synthetixio/core-subgraph"
+          workspace: "@polynomial/core-subgraph"
 
       - test-subgraph:
           name: "test-subgraph-spot-market"
-          workspace: "@synthetixio/spot-market-subgraph"
+          workspace: "@polynomial/spot-market-subgraph"
 
       - test-subgraph:
           name: "test-subgraph-perps-market"
-          workspace: "@synthetixio/perps-market-subgraph"
+          workspace: "@polynomial/perps-market-subgraph"
 
       - simulate-release:
           name: "synthetix--base-mainnet-andromeda"
-          workspace: "@synthetixio/main"
+          workspace: "@polynomial/main"
           cannonPackage: "synthetix:latest"
           cannonPreset: "andromeda"
           hardhatNetwork: "base-mainnet"
@@ -723,7 +723,7 @@ workflows:
 
       - simulate-release:
           name: "synthetix--base-sepolia-andromeda"
-          workspace: "@synthetixio/main"
+          workspace: "@polynomial/main"
           cannonPackage: "synthetix:latest"
           cannonPreset: "andromeda"
           hardhatNetwork: "base-sepolia"
@@ -732,7 +732,7 @@ workflows:
 
       - simulate-release:
           name: "synthetix--optimism-mainnet"
-          workspace: "@synthetixio/main"
+          workspace: "@polynomial/main"
           cannonPackage: "synthetix:latest"
           cannonPreset: "main"
           hardhatNetwork: "optimistic-mainnet"
@@ -741,7 +741,7 @@ workflows:
 
       - simulate-release:
           name: "synthetix--mainnet"
-          workspace: "@synthetixio/main"
+          workspace: "@polynomial/main"
           cannonPackage: "synthetix:latest"
           cannonPreset: "main"
           hardhatNetwork: "mainnet"
@@ -750,7 +750,7 @@ workflows:
 
       - simulate-release:
           name: "oracle-manager--base-mainnet-andromeda"
-          workspace: "@synthetixio/oracle-manager"
+          workspace: "@polynomial/oracle-manager"
           cannonPackage: "oracle-manager:latest"
           cannonPreset: "with-synthetix"
           hardhatNetwork: "base-mainnet"
@@ -759,7 +759,7 @@ workflows:
 
       - simulate-release:
           name: "oracle-manager--base-sepolia-andromeda"
-          workspace: "@synthetixio/oracle-manager"
+          workspace: "@polynomial/oracle-manager"
           cannonPackage: "oracle-manager:latest"
           cannonPreset: "with-synthetix"
           hardhatNetwork: "base-sepolia"
@@ -768,7 +768,7 @@ workflows:
 
       - simulate-release:
           name: "oracle-manager--optimism-mainnet"
-          workspace: "@synthetixio/oracle-manager"
+          workspace: "@polynomial/oracle-manager"
           cannonPackage: "oracle-manager:latest"
           cannonPreset: "main"
           hardhatNetwork: "optimistic-mainnet"
@@ -777,7 +777,7 @@ workflows:
 
       - simulate-release:
           name: "oracle-manager--mainnet"
-          workspace: "@synthetixio/oracle-manager"
+          workspace: "@polynomial/oracle-manager"
           cannonPackage: "oracle-manager:latest"
           cannonPreset: "main"
           hardhatNetwork: "mainnet"
@@ -787,7 +787,7 @@ workflows:
       # TODO: Uncomment when hardhat-cannon supports --preset
       #- simulate-release:
       #    name: "spot-market--base-mainnet-andromeda"
-      #    workspace: "@synthetixio/spot-market"
+      #    workspace: "@polynomial/spot-market"
       #    cannonPackage: "synthetix-spot-market:latest"
       #    cannonPreset: "andromeda"
       #    hardhatNetwork: "base-mainnet"
@@ -797,7 +797,7 @@ workflows:
       # TODO: Uncomment when hardhat-cannon supports --preset
       #- simulate-release:
       #    name: "spot-market--base-sepolia-andromeda"
-      #    workspace: "@synthetixio/spot-market"
+      #    workspace: "@polynomial/spot-market"
       #    cannonPackage: "synthetix-spot-market:latest"
       #    cannonPreset: "andromeda"
       #    hardhatNetwork: "base-sepolia"
@@ -806,7 +806,7 @@ workflows:
 
       - simulate-release:
           name: "spot-market--optimism-mainnet"
-          workspace: "@synthetixio/spot-market"
+          workspace: "@polynomial/spot-market"
           cannonPackage: "synthetix-spot-market:latest"
           cannonPreset: "main"
           hardhatNetwork: "optimistic-mainnet"
@@ -816,7 +816,7 @@ workflows:
       # TODO: Uncomment when hardhat-cannon supports --preset
       #- simulate-release:
       #    name: "perps-market--base-mainnet-andromeda"
-      #    workspace: "@synthetixio/perps-market"
+      #    workspace: "@polynomial/perps-market"
       #    cannonPackage: "synthetix-perps-market:latest"
       #    cannonPreset: "andromeda"
       #    hardhatNetwork: "base-mainnet"
@@ -826,7 +826,7 @@ workflows:
       # TODO: Uncomment when hardhat-cannon supports --preset
       #- simulate-release:
       #    name: "perps-market--base-sepolia-andromeda"
-      #    workspace: "@synthetixio/perps-market"
+      #    workspace: "@polynomial/perps-market"
       #    cannonPackage: "synthetix-perps-market:latest"
       #    cannonPreset: "andromeda"
       #    hardhatNetwork: "base-sepolia"
@@ -836,7 +836,7 @@ workflows:
       # TODO: Uncomment when deployed
       #- simulate-release:
       #    name: "perps-market--optimism-mainnet"
-      #    workspace: "@synthetixio/perps-market"
+      #    workspace: "@polynomial/perps-market"
       #    cannonPackage: "synthetix-perps-market:latest"
       #    cannonPreset: "main"
       #    hardhatNetwork: "optimistic-mainnet"

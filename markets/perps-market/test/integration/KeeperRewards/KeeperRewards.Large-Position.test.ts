@@ -1,9 +1,9 @@
 import { ethers } from 'ethers';
 import { bn, bootstrapMarkets } from '../bootstrap';
 import { depositCollateral, openPosition } from '../helpers';
-import assertEvent from '@synthetixio/core-utils/utils/assertions/assert-event';
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
-import { fastForwardTo, getTxTime } from '@synthetixio/core-utils/utils/hardhat/rpc';
+import assertEvent from '@polynomial/core-utils/utils/assertions/assert-event';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
+import { fastForwardTo, getTxTime } from '@polynomial/core-utils/utils/hardhat/rpc';
 
 describe('Keeper Rewards - Multiple Liquidation steps', () => {
   const KeeperCosts = {

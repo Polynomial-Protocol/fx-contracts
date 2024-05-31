@@ -1,5 +1,5 @@
 {
-  "name": "synthetix-v3",
+  "name": "polynomial",
   "version": "0.0.0",
   "private": true,
   "description": "Mono Repo with Contracts and JS tooling",
@@ -40,8 +40,8 @@
     "publish:dev": "lerna publish --canary --dist-tag dev --preid dev.$(git rev-parse --short HEAD)",
     "publish-contracts": "yarn workspaces foreach --all --verbose run publish-contracts",
     "prepublishOnly": "node ./prepublishOnly.js",
-    "docgen:contracts": "yarn workspaces foreach --all --verbose run docgen && yarn workspace @synthetixio/docgen run docgen:contracts",
-    "docgen:abis": "yarn workspace @synthetixio/docgen run docgen:abis",
+    "docgen:contracts": "yarn workspaces foreach --all --verbose run docgen && yarn workspace @polynomial/docgen run docgen:contracts",
+    "docgen:abis": "yarn workspace @polynomial/docgen run docgen:abis",
     "subgraphgen": "yarn workspaces foreach --all --verbose run subgraphgen",
     "check-staged": "lint-staged",
     "changed": "lerna changed --long"
@@ -54,7 +54,7 @@
     "@lerna-lite/exec": "^3.3.0",
     "@lerna-lite/publish": "^3.3.0",
     "@nomiclabs/hardhat-ethers": "^2.2.3",
-    "@synthetixio/deps": "workspace:*",
+    "@polynomial/deps": "workspace:*",
     "@types/mocha": "^10.0.6",
     "@types/node": "^20.11.17",
     "@typescript-eslint/eslint-plugin": "^7.0.1",

@@ -1,10 +1,10 @@
 import { BigNumber, ethers } from 'ethers';
 import { bn, bootstrapMarkets } from '../bootstrap';
-import assertBn from '@synthetixio/core-utils/src/utils/assertions/assert-bignumber';
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
+import assertBn from '@polynomial/core-utils/src/utils/assertions/assert-bignumber';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
 import assert from 'assert';
 import { wei } from '@synthetixio/wei';
-import assertEvent from '@synthetixio/core-utils/utils/assertions/assert-event';
+import assertEvent from '@polynomial/core-utils/utils/assertions/assert-event';
 
 describe('GlobalPerpsMarket', () => {
   const { systems, perpsMarkets, synthMarkets, signers, trader1, superMarketId, owner } =

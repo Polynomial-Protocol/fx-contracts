@@ -1,8 +1,8 @@
 import { PerpsMarket, bn, bootstrapMarkets } from '../bootstrap';
 import { calculateInterestRate, openPosition } from '../helpers';
 import Wei, { wei } from '@synthetixio/wei';
-import { fastForwardTo } from '@synthetixio/core-utils/utils/hardhat/rpc';
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
+import { fastForwardTo } from '@polynomial/core-utils/utils/hardhat/rpc';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
 
 const _SECONDS_IN_DAY = 24 * 60 * 60;
 const _SECONDS_IN_YEAR = 31557600;

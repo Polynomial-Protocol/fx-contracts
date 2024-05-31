@@ -1,11 +1,11 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import {DecimalMath} from "@synthetixio/core-contracts/contracts/utils/DecimalMath.sol";
-import {IERC165} from "@synthetixio/core-contracts/contracts/interfaces/IERC165.sol";
-import {SafeCastI256, SafeCastU256, SafeCastU128, SafeCastI128} from "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
-import {OwnableStorage} from "@synthetixio/core-contracts/contracts/ownership/OwnableStorage.sol";
-import {IPyth} from "@synthetixio/oracle-manager/contracts/interfaces/external/IPyth.sol";
+import {DecimalMath} from "@polynomial/core-contracts/contracts/utils/DecimalMath.sol";
+import {IERC165} from "@polynomial/core-contracts/contracts/interfaces/IERC165.sol";
+import {SafeCastI256, SafeCastU256, SafeCastU128, SafeCastI128} from "@polynomial/core-contracts/contracts/utils/SafeCast.sol";
+import {OwnableStorage} from "@polynomial/core-contracts/contracts/ownership/OwnableStorage.sol";
+import {IPyth} from "@polynomial/oracle-manager/contracts/interfaces/external/IPyth.sol";
 import {ISynthetixSystem} from "../external/ISynthetixSystem.sol";
 import {PerpMarket} from "../storage/PerpMarket.sol";
 import {Margin} from "../storage/Margin.sol";

@@ -1,11 +1,11 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import "@synthetixio/core-contracts/contracts/utils/ERC2771Context.sol";
-import {DecimalMath} from "@synthetixio/core-contracts/contracts/utils/DecimalMath.sol";
-import {SafeCastI256, SafeCastU256, SafeCastI64, SafeCastU64} from "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
+import "@polynomial/core-contracts/contracts/utils/ERC2771Context.sol";
+import {DecimalMath} from "@polynomial/core-contracts/contracts/utils/DecimalMath.sol";
+import {SafeCastI256, SafeCastU256, SafeCastI64, SafeCastU64} from "@polynomial/core-contracts/contracts/utils/SafeCast.sol";
 import {IAsyncOrderSettlementModule} from "../interfaces/IAsyncOrderSettlementModule.sol";
-import {ITokenModule} from "@synthetixio/core-modules/contracts/interfaces/ITokenModule.sol";
+import {ITokenModule} from "@polynomial/core-modules/contracts/interfaces/ITokenModule.sol";
 import {IPythERC7412Wrapper} from "../interfaces/external/IPythERC7412Wrapper.sol";
 import {AsyncOrderClaim} from "../storage/AsyncOrderClaim.sol";
 import {Price} from "../storage/Price.sol";

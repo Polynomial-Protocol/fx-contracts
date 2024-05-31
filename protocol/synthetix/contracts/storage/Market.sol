@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import "@synthetixio/core-contracts/contracts/utils/HeapUtil.sol";
+import "@polynomial/core-contracts/contracts/utils/HeapUtil.sol";
 
 import "./Distribution.sol";
 import "./CollateralConfiguration.sol";

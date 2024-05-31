@@ -1,6 +1,6 @@
 const { ethers } = hre;
-const { bnSqrt } = require('@synthetixio/core-utils/utils/ethers/bignumber');
-const { parseBalanceMap } = require('@synthetixio/core-utils/utils/merkle-tree/parse-balance-tree');
+const { bnSqrt } = require('@polynomial/core-utils/utils/ethers/bignumber');
+const { parseBalanceMap } = require('@polynomial/core-utils/utils/merkle-tree/parse-balance-tree');
 
 let _debtShareData = {};
 let _crossChainDebtShareData = {};

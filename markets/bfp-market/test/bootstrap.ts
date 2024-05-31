@@ -1,8 +1,8 @@
 import { BigNumber, utils, Signer, constants } from 'ethers';
 import { coreBootstrap } from '@synthetixio/router/utils/tests';
-import { snapshotCheckpoint } from '@synthetixio/core-utils/utils/mocha/snapshot';
-import { createStakedPool } from '@synthetixio/main/test/common';
-import { createOracleNode } from '@synthetixio/oracle-manager/test/common';
+import { snapshotCheckpoint } from '@polynomial/core-utils/utils/mocha/snapshot';
+import { createStakedPool } from '@polynomial/main/test/common';
+import { createOracleNode } from '@polynomial/oracle-manager/test/common';
 import { BfpMarketProxy, PerpAccountProxy } from './generated/typechain';
 import {
   CollateralMock,

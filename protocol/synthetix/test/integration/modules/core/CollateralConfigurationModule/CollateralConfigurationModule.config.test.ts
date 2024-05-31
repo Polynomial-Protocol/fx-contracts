@@ -1,4 +1,4 @@
-import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
+import assertRevert from '@polynomial/core-utils/utils/assertions/assert-revert';
 import { ethers as Ethers } from 'ethers';
 import { bn, bootstrap } from '../../../bootstrap';
 import {
@@ -6,8 +6,8 @@ import {
   verifyCollateral,
   verifyCollateralListed,
 } from '../CollateralModule/CollateralModule.helper';
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
-import { snapshotCheckpoint } from '@synthetixio/core-utils/utils/mocha/snapshot';
+import assertBn from '@polynomial/core-utils/utils/assertions/assert-bignumber';
+import { snapshotCheckpoint } from '@polynomial/core-utils/utils/mocha/snapshot';
 
 describe('CollateralModule', function () {
   const { signers, systems, provider } = bootstrap();

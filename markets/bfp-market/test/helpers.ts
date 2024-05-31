@@ -2,7 +2,7 @@ import { BigNumber, Contract, ContractReceipt, ethers, utils, providers, Signer 
 import { PerpMarketConfiguration } from './generated/typechain/MarketConfigurationModule';
 import { genNumber, raise } from './generators';
 import Wei, { wei } from '@synthetixio/wei';
-import { fastForwardTo } from '@synthetixio/core-utils/utils/hardhat/rpc';
+import { fastForwardTo } from '@polynomial/core-utils/utils/hardhat/rpc';
 import { uniq } from 'lodash';
 import { Bs, Collateral, CommitableOrder, GeneratedTrader, Trader } from './typed';
 import { PerpCollateral } from './bootstrap';
