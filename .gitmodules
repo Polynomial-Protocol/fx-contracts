@@ -1,0 +1,3 @@
+[submodule "auxiliary/feetier/lib/forge-std"]
+	path = auxiliary/feetier/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
