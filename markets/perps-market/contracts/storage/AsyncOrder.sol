@@ -308,7 +308,7 @@ library AsyncOrder {
                 runtime.sizeDelta,
                 runtime.fillPrice,
                 perpsMarketData.skew,
-                marketConfig.getFxOrderFees(order.request.accountId)
+                marketConfig.getFxOrderFees(runtime.marketId, runtime.accountId )
             ) +
             settlementRewardCost(strategy);
 
@@ -412,7 +412,7 @@ library AsyncOrder {
         int128 sizeDelta,
         uint256 fillPrice,
         int256 marketSkew,
-        OrderFee.Data storage orderFeeData
+        OrderFee.Data memory orderFeeData
     ) internal view returns (uint256) {
         int256 notionalDiff = sizeDelta.mulDecimal(fillPrice.toInt());
 

@@ -116,6 +116,12 @@ interface IMarketConfigurationModule {
     event LockedOiRatioSet(uint128 indexed marketId, uint256 lockedOiRatioD18);
 
     /**
+     * @notice Gets fired when fee tier contract updates
+     * @param feeTier address of the fee tier contract
+     */
+     event FeeTierSet(address feeTier);
+
+    /**
      * @notice Thrown when attempting to set settlement strategy with window duration as 0
      */
     error InvalidSettlementWindowDuration(uint256 duration);
@@ -242,6 +248,22 @@ interface IMarketConfigurationModule {
         uint256 strategyId,
         bool enabled
     ) external;
+
+
+    /**
+     * @notice sets fee tier contract
+     * @param marketId id of the market.
+     * @param feeTier address of the fee tier contract
+     */
+
+    function setFeeTier(uint128 marketId, address feeTier) external;
+
+    /**
+     * @notice Gets the fee tier contract address
+     * @param marketId id of the market.
+     * @return feeTier address of the fee tier contract
+     */
+    function getFeeTier(uint128 marketId) external view returns (address);
 
     /**
      * @notice Gets the settlement strategy details.

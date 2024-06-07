@@ -191,7 +191,7 @@ library PerpsMarket {
      */
     function currentLiquidationCapacity(
         Data storage self,
-        PerpsMarketConfiguration.Data storage marketConfigm
+        PerpsMarketConfiguration.Data storage marketConfig
     )
         internal
         view

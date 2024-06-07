@@ -80,6 +80,10 @@ library PerpsMarketConfiguration {
          * @dev If set to zero then there is no cap with value, just units
          */
         uint256 maxMarketValue;
+        /**
+         * @dev fee tier contract
+         */
+        IFeeTier feeTierContract;
     }
 
     function load(uint128 marketId) internal pure returns (Data storage store) {
@@ -91,10 +95,9 @@ library PerpsMarketConfiguration {
         }
     }
 
-    function getFxOrderFees(Data storage self, uint128 accountId) internal view returns (OrderFee.Data memory) {
+    function getFxOrderFees(Data storage self, uint128 marketId, uint128 accountId) internal view returns (OrderFee.Data memory fees) {
         // fees Contract
-        OrderFee.Data memory fees = IFeeTier(self.feeTierContract).getFees(accountId, self.marketId);
-        return fees;
+        fees = self.feeTierContract.getFees(accountId, marketId);
     }
 
     function maxLiquidationAmountInWindow(Data storage self) internal view returns (uint256) {

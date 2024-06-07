@@ -838,6 +838,7 @@ library PerpsMarketConfiguration {
         uint256 maxLiquidationPd;
         address endorsedLiquidator;
         uint256 maxMarketValue;
+        address feeTierContract;
     }
     function load(uint128 marketId) internal pure returns (Data storage store) {
         bytes32 s = keccak256(abi.encode("io.synthetix.perps-market.PerpsMarketConfiguration", marketId));
