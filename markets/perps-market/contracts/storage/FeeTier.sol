@@ -5,7 +5,6 @@ import {OrderFee} from "./OrderFee.sol";
 import {ParameterError} from "@synthetixio/core-contracts/contracts/errors/ParameterError.sol";
 
 library FeeTier {
-
     struct Data {
         uint256 feeTierId;
         uint256 makerDiscount;
@@ -22,9 +21,13 @@ library FeeTier {
     function setFeeTier(Data storage self, uint256 makerDiscount, uint256 takerDiscount) internal {
         // check discount should not be more than 100%
 
-        if (makerDiscount > 10000) revert ParameterError.InvalidParameter("makerDiscount", "Maker discount should not be more than 100%");
-        if (takerDiscount > 10000) revert ParameterError.InvalidParameter("takerDiscount", "Taker discount should not be more than 100%");
-        
+        if (makerDiscount > 10000) {
+            revert ParameterError.InvalidParameter("makerDiscount", "Maker discount should not be more than 100%");
+        }
+        if (takerDiscount > 10000) {
+            revert ParameterError.InvalidParameter("takerDiscount", "Taker discount should not be more than 100%");
+        }
+
         self.makerDiscount = makerDiscount;
         self.takerDiscount = takerDiscount;
     }
