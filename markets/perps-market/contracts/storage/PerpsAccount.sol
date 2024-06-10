@@ -165,14 +165,7 @@ library PerpsAccount {
             self.openPositionMarketIds.add(positionMarketId);
         }
     }
-
-    function updateFeeTier(
-        Data storage self,
-        uint256 feeTierId
-    ) internal {
-        self.feeTierId = feeTierId;
-    }
-
+    
     function updateCollateralAmount(
         Data storage self,
         uint128 synthMarketId,

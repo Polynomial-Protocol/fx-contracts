@@ -108,7 +108,7 @@ contract PerpsAccountModule is IPerpsAccountModule {
             
         emit FeeTierUpdated(accountId, feeTierId, account.feeTierId);
 
-        account.updateFeeTier(feeTierId);
+        account.feeTierId = feeTierId;
     }
         
 
