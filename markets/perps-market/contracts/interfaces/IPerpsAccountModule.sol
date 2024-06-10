@@ -148,7 +148,9 @@ interface IPerpsAccountModule {
 
     /**
     * @notice updateFee Tier for an account
-    * return feeTierId id of the fee tier.
+    * @param accountId Id of the account.
+    * @param feeTierId Id of the fee tier.
+    * @param signature signature to verify valid update.
     */
     function updateFeeTier(
         uint128 accountId,
