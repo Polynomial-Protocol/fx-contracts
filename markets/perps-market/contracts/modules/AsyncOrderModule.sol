@@ -202,6 +202,7 @@ contract AsyncOrderModule is IAsyncOrderModule {
             sizeDelta,
             orderPrice
         );
+
         orderFees = AsyncOrder.calculateOrderFee(
             sizeDelta,
             fillPrice,

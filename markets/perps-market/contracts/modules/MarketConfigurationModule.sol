@@ -224,7 +224,6 @@ contract MarketConfigurationModule is IMarketConfigurationModule {
         emit LockedOiRatioSet(marketId, lockedOiRatioD18);
     }
 
-
     /**
      * @inheritdoc IMarketConfigurationModule
      */
@@ -340,6 +339,4 @@ contract MarketConfigurationModule is IMarketConfigurationModule {
 
         return config.lockedOiRatioD18;
     }
-
-
 }

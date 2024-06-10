@@ -243,9 +243,6 @@ interface IMarketConfigurationModule {
         bool enabled
     ) external;
 
-
-
-
     /**
      * @notice Gets the settlement strategy details.
      * @param marketId id of the market.
