@@ -12,6 +12,7 @@ import {PerpsAccount} from "./PerpsAccount.sol";
 import {MathUtil} from "../utils/MathUtil.sol";
 import {OrderFee} from "./OrderFee.sol";
 import {KeeperCosts} from "./KeeperCosts.sol";
+import {FeeTier} from "./FeeTier.sol";
 
 /**
  * @title Async order top level data storage
@@ -303,12 +304,14 @@ library AsyncOrder {
             revert AcceptablePriceExceeded(runtime.fillPrice, order.request.acceptablePrice);
         }
 
+        FeeTier.Data storage feeTier = FeeTier.load(account.feeTierId);
+   
         runtime.orderFees =
             calculateOrderFee(
                 runtime.sizeDelta,
                 runtime.fillPrice,
                 perpsMarketData.skew,
-                marketConfig.getFxOrderFees(runtime.marketId, runtime.accountId )
+                FeeTier.getFees(feeTier, marketConfig.orderFees)
             ) +
             settlementRewardCost(strategy);
 

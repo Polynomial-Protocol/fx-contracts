@@ -20,6 +20,13 @@ interface IPerpsAccountModule {
     );
 
     /**
+     * @notice gets fired when a fee tier is updated.
+     */
+    event FeeTierUpdated(
+        uint256 id
+    );
+
+    /**
      * @notice Gets thrown when the amount delta is zero.
      */
     error InvalidAmountDelta(int256 amountDelta);
@@ -135,4 +142,15 @@ interface IPerpsAccountModule {
             uint256 requiredMaintenanceMargin,
             uint256 maxLiquidationReward
         );
+
+
+    /**
+    * @notice updateFee Tier for an account
+    * return feeTierId id of the fee tier.
+    */
+    function updateFeeTier(
+        uint128 accountId,
+        uint256 feeTierId,
+        bytes memory signature
+    ) external;
 }

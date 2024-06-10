@@ -3,7 +3,6 @@ pragma solidity >=0.8.11 <0.9.0;
 
 import {OwnableStorage} from "@synthetixio/core-contracts/contracts/ownership/OwnableStorage.sol";
 import {IMarketConfigurationModule} from "../interfaces/IMarketConfigurationModule.sol";
-import {IFeeTier} from "../interfaces/IFeeTier.sol";
 import {SettlementStrategy} from "../storage/SettlementStrategy.sol";
 import {PerpsMarketConfiguration} from "../storage/PerpsMarketConfiguration.sol";
 import {PerpsPrice} from "../storage/PerpsPrice.sol";
@@ -225,19 +224,6 @@ contract MarketConfigurationModule is IMarketConfigurationModule {
         emit LockedOiRatioSet(marketId, lockedOiRatioD18);
     }
 
-    /**
-     * @inheritdoc IMarketConfigurationModule
-     */
-    function setFeeTier(
-        uint128 marketId,
-        address feeTier
-    ) external override {
-        OwnableStorage.onlyOwner();
-        PerpsMarketConfiguration.Data storage config = PerpsMarketConfiguration.load(marketId);
-
-        config.feeTierContract = IFeeTier(feeTier);
-        emit FeeTierSet(feeTier);
-    }
 
     /**
      * @inheritdoc IMarketConfigurationModule
@@ -355,14 +341,5 @@ contract MarketConfigurationModule is IMarketConfigurationModule {
         return config.lockedOiRatioD18;
     }
 
-    /**
-     * @inheritdoc IMarketConfigurationModule
-     */
-    function getFeeTier(
-        uint128 marketId
-    )  external view override returns(address) {
-        PerpsMarketConfiguration.Data storage config = PerpsMarketConfiguration.load(marketId);
-        
-        return address(config.feeTierContract);
-    }
+
 }

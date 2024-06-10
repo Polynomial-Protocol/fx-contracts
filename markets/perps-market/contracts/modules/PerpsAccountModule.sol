@@ -90,6 +90,28 @@ contract PerpsAccountModule is IPerpsAccountModule {
         return PerpsAccount.load(accountId).getTotalCollateralValue(PerpsPrice.Tolerance.DEFAULT);
     }
 
+
+    /**
+     * @inheritdoc IPerpsAccountModule
+     */
+    function updateFeeTier(
+        uint128 accountId,
+        uint256 feeTierId,
+        bytes memory signature
+    ) external override {
+        FeatureFlag.ensureAccessToFeature(Flags.PERPS_SYSTEM);
+        Account.exists(accountId);
+
+        // FIXME: validate signature
+        
+        PerpsAccount.Data storage account = PerpsAccount.load(accountId);
+        account.updateFeeTier(feeTierId);
+
+        emit FeeTierUpdated(feeTierId);
+
+    }
+        
+
     /**
      * @inheritdoc IPerpsAccountModule
      */

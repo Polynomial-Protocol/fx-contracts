@@ -50,6 +50,8 @@ library PerpsAccount {
         SetUtil.UintSet activeCollateralTypes;
         // @dev set of open position market ids
         SetUtil.UintSet openPositionMarketIds;
+        // @dev fee tier for this account
+        uint256 feeTierId;
     }
 
     error InsufficientCollateralAvailableForWithdraw(
@@ -162,6 +164,13 @@ library PerpsAccount {
         } else if (!self.openPositionMarketIds.contains(positionMarketId)) {
             self.openPositionMarketIds.add(positionMarketId);
         }
+    }
+
+    function updateFeeTier(
+        Data storage self,
+        uint256 feeTierId
+    ) internal {
+        self.feeTierId = feeTierId;
     }
 
     function updateCollateralAmount(

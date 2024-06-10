@@ -6,7 +6,6 @@ import {SafeCastI128} from "@synthetixio/core-contracts/contracts/utils/SafeCast
 import {OrderFee} from "./OrderFee.sol";
 import {SettlementStrategy} from "./SettlementStrategy.sol";
 import {MathUtil} from "../utils/MathUtil.sol";
-import {IFeeTier} from "../interfaces/IFeeTier.sol";
 
 library PerpsMarketConfiguration {
     using DecimalMath for int256;
@@ -80,10 +79,6 @@ library PerpsMarketConfiguration {
          * @dev If set to zero then there is no cap with value, just units
          */
         uint256 maxMarketValue;
-        /**
-         * @dev fee tier contract
-         */
-        IFeeTier feeTierContract;
     }
 
     function load(uint128 marketId) internal pure returns (Data storage store) {
@@ -95,13 +90,8 @@ library PerpsMarketConfiguration {
         }
     }
 
-    function getFxOrderFees(Data storage self, uint128 marketId, uint128 accountId) internal view returns (OrderFee.Data memory fees) {
-        // fees Contract
-        fees = self.feeTierContract.getFees(accountId, marketId);
-    }
-
     function maxLiquidationAmountInWindow(Data storage self) internal view returns (uint256) {
-        OrderFee.Data memory orderFeeData = self.orderFees;
+        OrderFee.Data storage orderFeeData = self.orderFees;
         return
             (orderFeeData.makerFee + orderFeeData.takerFee).mulDecimal(self.skewScale).mulDecimal(
                 self.maxLiquidationLimitAccumulationMultiplier
