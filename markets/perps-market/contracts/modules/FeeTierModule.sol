@@ -11,8 +11,8 @@ contract FeeTierModule is IFeeTierModule {
     function setFeeTier(uint256 id, uint256 makerDiscount, uint256 takerDiscount) external override {
         // FIXME: validate signature
 
-        FeeTier.Data storage config = FeeTier.load(id);
-        FeeTier.setFeeTier(config, makerDiscount, takerDiscount);
+        FeeTier.Data storage feeTier = FeeTier.load(id);
+        FeeTier.setFeeTier(feeTier, makerDiscount, takerDiscount);
 
         emit FeeTierSet(id, makerDiscount, takerDiscount);
     }
@@ -21,7 +21,7 @@ contract FeeTierModule is IFeeTierModule {
      * @inheritdoc IFeeTierModule
      */
     function getFeeTier(uint256 id) external view override returns (uint256, uint256) {
-        FeeTier.Data storage config = FeeTier.load(id);
-        return (config.makerDiscount, config.takerDiscount);
+        FeeTier.Data storage feeTier = FeeTier.load(id);
+        return (feeTier.makerDiscount, feeTier.takerDiscount);
     }
 }
