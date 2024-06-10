@@ -106,7 +106,7 @@ contract PerpsAccountModule is IPerpsAccountModule {
         
         PerpsAccount.Data storage account = PerpsAccount.load(accountId);
             
-        emit FeeTierUpdated(accountId, feeTierId, account.feeTierId);
+        emit FeeTierUpdated(accountId, account.feeTierId, feeTierId);
 
         account.feeTierId = feeTierId;
     }
