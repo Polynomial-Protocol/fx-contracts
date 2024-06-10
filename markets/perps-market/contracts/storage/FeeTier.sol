@@ -5,7 +5,6 @@ import {OrderFee} from "./OrderFee.sol";
 import {ParameterError} from "@synthetixio/core-contracts/contracts/errors/ParameterError.sol";
 
 library FeeTier {
-    error InvalidDiscount();
 
     struct Data {
         uint256 feeTierId;
