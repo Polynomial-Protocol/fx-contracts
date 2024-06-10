@@ -105,10 +105,10 @@ contract PerpsAccountModule is IPerpsAccountModule {
         // FIXME: validate signature
         
         PerpsAccount.Data storage account = PerpsAccount.load(accountId);
+            
+        emit FeeTierUpdated(accountId, feeTierId, account.feeTierId);
+
         account.updateFeeTier(feeTierId);
-
-        emit FeeTierUpdated(feeTierId);
-
     }
         
 

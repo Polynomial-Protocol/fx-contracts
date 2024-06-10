@@ -16,9 +16,8 @@ interface IFeeTierModule {
     * @param id id of the fee tier.
     * @param makerDiscountInBps maker discount in bps.
     * @param takerDiscountInBps taker discount in bps.
-    * @param signature signature used for knowing valid polynomial authority.
     */
-    function setFeeTier(uint256 id, uint256 makerDiscountInBps, uint256 takerDiscountInBps, bytes memory signature) external;
+    function setFeeTier(uint256 id, uint256 makerDiscountInBps, uint256 takerDiscountInBps) external;
 
     /**
     * @notice gets fee discount for a fee tier

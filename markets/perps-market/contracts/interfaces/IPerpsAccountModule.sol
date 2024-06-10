@@ -23,7 +23,9 @@ interface IPerpsAccountModule {
      * @notice gets fired when a fee tier is updated.
      */
     event FeeTierUpdated(
-        uint256 id
+        uint128 indexed accountId,
+        uint256 newFeeTierId,
+        uint256 oldFeeTierId
     );
 
     /**

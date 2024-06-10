@@ -669,12 +669,12 @@ library AsyncOrder {
 // @custom:artifact contracts/storage/FeeTier.sol:FeeTier
 library FeeTier {
     struct Data {
-        uint256 id;
-        uint256 makerDiscountInBps;
-        uint256 takerDiscountInBps;
+        uint256 feeTierId;
+        uint256 makerDiscount;
+        uint256 takerDiscount;
     }
-    function load(uint256 id) internal pure returns (Data storage feeTier) {
-        bytes32 s = keccak256(abi.encode("fi.polynomial.perps-market.FeeTier", id));
+    function load(uint256 feeTierId) internal pure returns (Data storage feeTier) {
+        bytes32 s = keccak256(abi.encode("fi.polynomial.perps-market.FeeTier", feeTierId));
         assembly {
             feeTier.slot := s
         }
