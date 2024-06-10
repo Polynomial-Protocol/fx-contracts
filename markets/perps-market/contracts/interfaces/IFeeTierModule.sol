@@ -6,18 +6,18 @@ interface IFeeTierModule {
     /**
     * @notice emits when discount for a fee tier changes
     * @param id id of the fee tier.
-    * @param makerDiscountInBps maker discount in bps.
-    * @param takerDiscountInBps taker discount in bps.
+    * @param makerDiscount maker discount in bps.
+    * @param takerDiscount taker discount in bps.
      */
-     event FeeTierSet(uint256 id, uint256 makerDiscountInBps, uint256 takerDiscountInBps);
+     event FeeTierSet(uint256 id, uint256 makerDiscount, uint256 takerDiscount);
 
     /**
     * @notice sets discount for a fee tier
     * @param id id of the fee tier.
-    * @param makerDiscountInBps maker discount in bps.
-    * @param takerDiscountInBps taker discount in bps.
+    * @param makerDiscount maker discount in bps.
+    * @param takerDiscount taker discount in bps.
     */
-    function setFeeTier(uint256 id, uint256 makerDiscountInBps, uint256 takerDiscountInBps) external;
+    function setFeeTier(uint256 id, uint256 makerDiscount, uint256 takerDiscount) external;
 
     /**
     * @notice gets fee discount for a fee tier
