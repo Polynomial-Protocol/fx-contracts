@@ -7,7 +7,7 @@ const feeTiers = [
   { id: 0, makerDiscount: 0, takerDiscount: 0 }, // 0% / 0%
   { id: 1, makerDiscount: 1000, takerDiscount: 500 }, // 10% / 5%
   { id: 2, makerDiscount: 2000, takerDiscount: 1200 }, // 20% / 12%
-  { id: 3, makerDiscount: 3000, takerDiscount: 2000 }, // 30% / 20%
+  { id: 3, makerDiscount: 10000, takerDiscount: 10000 }, // 100% / 100%
 ];
 
 describe('FeeTier', () => {
@@ -102,6 +102,17 @@ describe('FeeTier', () => {
         ethPrice
       );
       assertBn.equal(tentativeOrderFees, tentativePerpsMarketFeesPaid);
+    });
+
+    it('should return zero fees for tier 3', async () => {
+      const sizeDelta = bn(1);
+      const [tentativeOrderFees] = await systems().PerpsMarket.computeOrderFeesWithPrice(
+        2, // tier 3 account
+        ethMarketId,
+        sizeDelta,
+        ethPrice
+      );
+      assertBn.equal(tentativeOrderFees, 0);
     });
   });
 });
