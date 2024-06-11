@@ -177,7 +177,12 @@ contract AsyncOrderModule is IAsyncOrderModule {
         (uint256 currentInitialMargin, , ) = account.getAccountRequiredMargins(
             PerpsPrice.Tolerance.DEFAULT
         );
-        (uint256 orderFees, uint256 fillPrice) = _computeOrderFees(accountId, marketId, sizeDelta, orderPrice);
+        (uint256 orderFees, uint256 fillPrice) = _computeOrderFees(
+            accountId,
+            marketId,
+            sizeDelta,
+            orderPrice
+        );
 
         return
             AsyncOrder.getRequiredMarginWithNewPosition(
@@ -211,7 +216,7 @@ contract AsyncOrderModule is IAsyncOrderModule {
             sizeDelta,
             orderPrice
         );
-        
+
         orderFees = AsyncOrder.calculateOrderFee(
             sizeDelta,
             fillPrice,
