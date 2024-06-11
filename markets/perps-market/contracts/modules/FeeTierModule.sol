@@ -1,4 +1,4 @@
-    //SPDX-License-Identifier: MIT
+//SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
 import "../storage/FeeTier.sol";
@@ -8,7 +8,11 @@ contract FeeTierModule is IFeeTierModule {
     /**
      * @inheritdoc IFeeTierModule
      */
-    function setFeeTier(uint256 id, uint256 makerDiscount, uint256 takerDiscount) external override {
+    function setFeeTier(
+        uint256 id,
+        uint256 makerDiscount,
+        uint256 takerDiscount
+    ) external override {
         // FIXME: validate signature
 
         FeeTier.Data storage feeTier = FeeTier.load(id);

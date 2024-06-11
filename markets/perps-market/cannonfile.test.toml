@@ -48,6 +48,9 @@ artifact = "LiquidationModule"
 [contract.MarketConfigurationModule]
 artifact = "MarketConfigurationModule"
 
+[contract.FeeTierModule]
+artifact = "FeeTierModule"
+
 [contract.FeatureFlagModule]
 artifact = "contracts/modules/FeatureFlagModule.sol:FeatureFlagModule"
 
@@ -79,6 +82,7 @@ contracts = [
     "LiquidationModule",
     "MarketConfigurationModule",
     "GlobalPerpsMarketModule",
+    "FeeTierModule",
 ]
 
 [invoke.upgrade_proxy]
