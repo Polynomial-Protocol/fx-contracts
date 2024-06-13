@@ -22,11 +22,7 @@ interface IPerpsAccountModule {
     /**
      * @notice fired when an account's fee tier is updated
      */
-    event FeeTierUpdated(
-        uint128 indexed accountId,
-        uint256 oldFeeTierId,
-        uint256 newFeeTierId
-    );
+    event FeeTierUpdated(uint128 indexed accountId, uint256 oldFeeTierId, uint256 newFeeTierId);
 
     /**
      * @notice Gets thrown when the amount delta is zero.
@@ -145,16 +141,18 @@ interface IPerpsAccountModule {
             uint256 maxLiquidationReward
         );
 
+    /**
+     * @notice updateFee Tier for an account
+     * @param accountId Id of the account.
+     * @param feeTierId Id of the fee tier.
+     * @param signature signature to verify valid update.
+     */
+    function updateFeeTier(uint128 accountId, uint256 feeTierId, bytes memory signature) external;
 
     /**
-    * @notice updateFee Tier for an account
-    * @param accountId Id of the account.
-    * @param feeTierId Id of the fee tier.
-    * @param signature signature to verify valid update.
-    */
-    function updateFeeTier(
-        uint128 accountId,
-        uint256 feeTierId,
-        bytes memory signature
-    ) external;
+     * @notice Gets the fee tier id of an account.
+     * @param accountId Id of the account.
+     * @return feeTierId fee tier id of the account.
+     */
+    function getFeeTierId(uint128 accountId) external view returns (uint256 feeTierId);
 }

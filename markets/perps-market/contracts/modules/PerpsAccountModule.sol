@@ -90,7 +90,6 @@ contract PerpsAccountModule is IPerpsAccountModule {
         return PerpsAccount.load(accountId).getTotalCollateralValue(PerpsPrice.Tolerance.DEFAULT);
     }
 
-
     /**
      * @inheritdoc IPerpsAccountModule
      */
@@ -103,14 +102,17 @@ contract PerpsAccountModule is IPerpsAccountModule {
         Account.exists(accountId);
 
         // FIXME: validate signature
-        
+
         PerpsAccount.Data storage account = PerpsAccount.load(accountId);
-            
+
         emit FeeTierUpdated(accountId, account.feeTierId, feeTierId);
 
         account.feeTierId = feeTierId;
     }
-        
+
+    function getFeeTierId(uint128 accountId) external view override returns (uint256) {
+        return PerpsAccount.load(accountId).feeTierId;
+    }
 
     /**
      * @inheritdoc IPerpsAccountModule
