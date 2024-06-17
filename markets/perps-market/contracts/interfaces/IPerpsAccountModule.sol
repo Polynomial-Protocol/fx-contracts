@@ -145,9 +145,10 @@ interface IPerpsAccountModule {
      * @notice updateFee Tier for an account
      * @param accountId Id of the account.
      * @param feeTierId Id of the fee tier.
+     * @param expiry expiration time of the signature.
      * @param signature signature to verify valid update.
      */
-    function updateFeeTier(uint128 accountId, uint256 feeTierId, bytes memory signature) external;
+    function updateFeeTier(uint128 accountId, uint256 feeTierId, uint256 expiry, bytes memory signature) external;
 
     /**
      * @notice Gets the fee tier id of an account.
