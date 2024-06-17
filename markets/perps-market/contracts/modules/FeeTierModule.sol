@@ -3,6 +3,7 @@ pragma solidity >=0.8.11 <0.9.0;
 
 import "../storage/FeeTier.sol";
 import "../interfaces/IFeeTierModule.sol";
+import "@synthetixio/core-contracts/contracts/ownership/OwnableStorage.sol";
 
 contract FeeTierModule is IFeeTierModule {
     /**
@@ -13,8 +14,8 @@ contract FeeTierModule is IFeeTierModule {
         uint256 makerDiscount,
         uint256 takerDiscount
     ) external override {
-        // FIXME: validate signature
-
+        OwnableStorage.onlyOwner();
+        
         FeeTier.Data storage feeTier = FeeTier.load(id);
         FeeTier.setFeeTier(feeTier, makerDiscount, takerDiscount);
 

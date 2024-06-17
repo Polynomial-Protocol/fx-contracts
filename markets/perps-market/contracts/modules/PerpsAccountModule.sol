@@ -33,6 +33,8 @@ contract PerpsAccountModule is IPerpsAccountModule {
     using GlobalPerpsMarket for GlobalPerpsMarket.Data;
     using PerpsMarketFactory for PerpsMarketFactory.Data;
 
+    error InvalidSignature();
+
     /**
      * @inheritdoc IPerpsAccountModule
      */
@@ -96,18 +98,94 @@ contract PerpsAccountModule is IPerpsAccountModule {
     function updateFeeTier(
         uint128 accountId,
         uint256 feeTierId,
+        uint256 expiry,
         bytes memory signature
     ) external override {
         FeatureFlag.ensureAccessToFeature(Flags.PERPS_SYSTEM);
         Account.exists(accountId);
 
-        // FIXME: validate signature
+        if(expiry < block.timestamp) revert InvalidSignature();
+
+        if (_verify(OwnableStorage.getOwner(), feeTierId, accountId, expiry, signature)) {
+            revert InvalidSignature();
+        }
 
         PerpsAccount.Data storage account = PerpsAccount.load(accountId);
 
         emit FeeTierUpdated(accountId, account.feeTierId, feeTierId);
 
         account.feeTierId = feeTierId;
+    }
+
+    function _getMessageHash(
+        uint256 _feeTierId,   
+        uint128 _accountId,
+        uint256 _expiry
+    ) internal pure returns (bytes32) {
+        return keccak256(abi.encodePacked(_feeTierId, _accountId, _expiry));
+    }
+
+    function _getEthSignedMessageHash(bytes32 _messageHash)
+        internal
+        pure
+        returns (bytes32)
+    {
+        /*
+        Signature is produced by signing a keccak256 hash with the following format:
+        "\x19Ethereum Signed Message\n" + len(msg) + msg
+        */
+        return keccak256(
+            abi.encodePacked("\x19Ethereum Signed Message:\n32", _messageHash)
+        );
+    }
+    function _verify(
+        address _signer,
+        uint256 _feeTierId,   
+        uint128 _accountId,
+        uint256 _expiry,
+        bytes memory signature
+    ) internal pure returns (bool) {
+        bytes32 messageHash = _getMessageHash(_feeTierId, _accountId, _expiry);
+        bytes32 ethSignedMessageHash = _getEthSignedMessageHash(messageHash);
+
+        return _recoverSigner(ethSignedMessageHash, signature) == _signer;
+    }
+
+    function _recoverSigner(
+        bytes32 _ethSignedMessageHash,
+        bytes memory _signature
+    ) internal pure returns (address) {
+        (bytes32 r, bytes32 s, uint8 v) = _splitSignature(_signature);
+
+        return ecrecover(_ethSignedMessageHash, v, r, s);
+    }
+
+    function _splitSignature(bytes memory sig)
+        internal
+        pure
+        returns (bytes32 r, bytes32 s, uint8 v)
+    {
+        require(sig.length == 65, "invalid signature length");
+
+        assembly {
+            /*
+            First 32 bytes stores the length of the signature
+
+            add(sig, 32) = pointer of sig + 32
+            effectively, skips first 32 bytes of signature
+
+            mload(p) loads next 32 bytes starting at the memory address p into memory
+            */
+
+            // first 32 bytes, after the length prefix
+            r := mload(add(sig, 32))
+            // second 32 bytes
+            s := mload(add(sig, 64))
+            // final byte (first byte of the next 32 bytes)
+            v := byte(0, mload(add(sig, 96)))
+        }
+
+        // implicitly return (r, s, v)
     }
 
     function getFeeTierId(uint128 accountId) external view override returns (uint256) {
