@@ -106,7 +106,7 @@ contract PerpsAccountModule is IPerpsAccountModule {
 
         if(expiry < block.timestamp) revert InvalidSignature();
 
-        if (_verify(OwnableStorage.getOwner(), feeTierId, accountId, expiry, signature)) {
+        if (!_verify(OwnableStorage.getOwner(), feeTierId, accountId, expiry, signature)) {
             revert InvalidSignature();
         }
 
