@@ -2,6 +2,7 @@ import { bn, bootstrapMarkets } from '../bootstrap';
 import assertBn from '@synthetixio/core-utils/src/utils/assertions/assert-bignumber';
 import { wei } from '@synthetixio/wei';
 import { computeFees } from '../helpers';
+import { ethers } from 'ethers';
 
 const feeTiers = [
   { id: 0, makerDiscount: 0, takerDiscount: 0 }, // 0% / 0%
@@ -9,6 +10,15 @@ const feeTiers = [
   { id: 2, makerDiscount: 2000, takerDiscount: 1200 }, // 20% / 12%
   { id: 3, makerDiscount: 10000, takerDiscount: 10000 }, // 100% / 100%
 ];
+
+const getMessageHash = (feeTierId: number, expiry: number, accountId: number) => {
+  const encodePackedMessage = ethers.utils.solidityPack(
+    ['uint256', 'uint128', 'uint256'],
+    [feeTierId, accountId, expiry]
+  );
+  const encodedMessageHash = ethers.utils.keccak256(encodePackedMessage);
+  return encodedMessageHash;
+};
 
 describe('FeeTier', () => {
   const orderFees = {
@@ -18,7 +28,7 @@ describe('FeeTier', () => {
   const ethPrice = bn(1000);
   const ethMarketId = 25;
 
-  const { systems, trader1 } = bootstrapMarkets({
+  const { systems, trader1, owner } = bootstrapMarkets({
     synthMarkets: [],
     perpsMarkets: [
       {
@@ -40,14 +50,28 @@ describe('FeeTier', () => {
   before('create tiers', async () => {
     for (const tier of feeTiers) {
       await systems()
-        .PerpsMarket.connect(trader1())
+        .PerpsMarket.connect(owner())
         .setFeeTier(tier.id, tier.makerDiscount, tier.takerDiscount);
     }
   });
 
   before('assign tiers to trading accounts', async () => {
-    await systems().PerpsMarket.connect(trader1()).updateFeeTier(1, 1, '0x');
-    await systems().PerpsMarket.connect(trader1()).updateFeeTier(2, 3, '0x');
+    const ownerSigner = owner();
+    // create signed data for each tier
+    const messageHashForAccount1 = getMessageHash(1, 2034397312, 1);
+    const signatureForAccount1 = await ownerSigner.signMessage(
+      ethers.utils.arrayify(messageHashForAccount1)
+    );
+    const messageHashForAccount2 = getMessageHash(3, 2034397312, 2);
+    const signatureForAccount2 = await ownerSigner.signMessage(
+      ethers.utils.arrayify(messageHashForAccount2)
+    );
+    await systems()
+      .PerpsMarket.connect(trader1())
+      .updateFeeTier(1, 1, 2034397312, signatureForAccount1);
+    await systems()
+      .PerpsMarket.connect(trader1())
+      .updateFeeTier(2, 3, 2034397312, signatureForAccount2);
   });
 
   describe('getFeeTier', () => {

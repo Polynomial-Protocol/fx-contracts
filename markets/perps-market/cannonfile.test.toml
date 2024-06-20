@@ -15,7 +15,7 @@ defaultValue = "polynomial-core:<%= package.version %>-testable"
 depends = []
 
 [setting.spotMarketPackage]
-defaultValue = "synthetix-spot-market:<%= package.version %>-testable"
+defaultValue = "fx-spot-market:<%= package.version %>-testable"
 depends = []
 
 [import.synthetix]
