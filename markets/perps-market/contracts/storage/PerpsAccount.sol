@@ -165,7 +165,7 @@ library PerpsAccount {
             self.openPositionMarketIds.add(positionMarketId);
         }
     }
-    
+
     function updateCollateralAmount(
         Data storage self,
         uint128 synthMarketId,

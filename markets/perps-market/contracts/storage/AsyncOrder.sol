@@ -305,7 +305,7 @@ library AsyncOrder {
         }
 
         FeeTier.Data storage feeTier = FeeTier.load(account.feeTierId);
-   
+
         runtime.orderFees =
             calculateOrderFee(
                 runtime.sizeDelta,

@@ -22,21 +22,26 @@ library FeeTier {
         // check discount should not be more than 100%
 
         if (makerDiscount > 10000) {
-            revert ParameterError.InvalidParameter("makerDiscount", "Maker discount should not be more than 100%");
+            revert ParameterError.InvalidParameter(
+                "makerDiscount",
+                "Maker discount should not be more than 100%"
+            );
         }
         if (takerDiscount > 10000) {
-            revert ParameterError.InvalidParameter("takerDiscount", "Taker discount should not be more than 100%");
+            revert ParameterError.InvalidParameter(
+                "takerDiscount",
+                "Taker discount should not be more than 100%"
+            );
         }
 
         self.makerDiscount = makerDiscount;
         self.takerDiscount = takerDiscount;
     }
 
-    function getFees(Data storage self, OrderFee.Data storage orderFee)
-        internal
-        view
-        returns (OrderFee.Data memory fee)
-    {
+    function getFees(
+        Data storage self,
+        OrderFee.Data storage orderFee
+    ) internal view returns (OrderFee.Data memory fee) {
         uint256 makerFee = orderFee.makerFee;
         uint256 takerFee = orderFee.takerFee;
 
