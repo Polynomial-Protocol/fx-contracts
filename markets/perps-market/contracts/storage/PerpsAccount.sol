@@ -50,6 +50,8 @@ library PerpsAccount {
         SetUtil.UintSet activeCollateralTypes;
         // @dev set of open position market ids
         SetUtil.UintSet openPositionMarketIds;
+        // @dev fee tier for this account
+        uint256 feeTierId;
     }
 
     error InsufficientCollateralAvailableForWithdraw(

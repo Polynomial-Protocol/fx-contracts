@@ -666,6 +666,21 @@ library AsyncOrder {
     }
 }
 
+// @custom:artifact contracts/storage/FeeTier.sol:FeeTier
+library FeeTier {
+    struct Data {
+        uint256 feeTierId;
+        uint256 makerDiscount;
+        uint256 takerDiscount;
+    }
+    function load(uint256 feeTierId) internal pure returns (Data storage feeTier) {
+        bytes32 s = keccak256(abi.encode("fi.polynomial.perps-market.FeeTier", feeTierId));
+        assembly {
+            feeTier.slot := s
+        }
+    }
+}
+
 // @custom:artifact contracts/storage/GlobalPerpsMarket.sol:GlobalPerpsMarket
 library GlobalPerpsMarket {
     bytes32 private constant _SLOT_GLOBAL_PERPS_MARKET = keccak256(abi.encode("io.synthetix.perps-market.GlobalPerpsMarket"));
@@ -778,6 +793,7 @@ library PerpsAccount {
         uint128 id;
         SetUtil.UintSet activeCollateralTypes;
         SetUtil.UintSet openPositionMarketIds;
+        uint256 feeTierId;
     }
     function load(uint128 id) internal pure returns (Data storage account) {
         bytes32 s = keccak256(abi.encode("io.synthetix.perps-market.Account", id));
