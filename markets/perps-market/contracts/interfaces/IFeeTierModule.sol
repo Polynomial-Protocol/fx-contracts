@@ -5,7 +5,7 @@ interface IFeeTierModule {
     /**
      * @notice thrown when fee tier id is 0, as it is base tier it cant be discounted.
      */
-    error FeeTierIdZero();
+    error InvalidFeeTierId();
     /**
      * @notice emits when discount for a fee tier changes
      * @param id id of the fee tier.
