@@ -22,7 +22,7 @@ import {OwnableStorage} from "@synthetixio/core-contracts/contracts/ownership/Ow
 import {GlobalPerpsMarketConfiguration} from "../storage/GlobalPerpsMarketConfiguration.sol";
 
 import { ECDSA } from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
-import {  EIP712} from "@openzeppelin/contracts/utils/cryptography/EIP712.sol";
+import {  EIP712 } from "@synthetixio/core-contracts/contracts/cryptography/EIP712.sol";
 /**
  * @title Module to manage accounts
  * @dev See IPerpsAccountModule.
@@ -39,10 +39,6 @@ contract PerpsAccountModule is IPerpsAccountModule, EIP712 {
 
     bytes32 private constant FEE_TIER_TYPEHASH =
         keccak256("FeeTier(uint256 feeTierId,uint128 accountId,uint256 expiry)");
-    string private constant SIGNING_DOMAIN = "FeeTierDomain";
-    string private constant SIGNATURE_VERSION = "1";
-
-    constructor() EIP712(SIGNING_DOMAIN, SIGNATURE_VERSION) {}
 
     /**
      * @inheritdoc IPerpsAccountModule
