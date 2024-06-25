@@ -284,5 +284,5 @@ interface IGlobalPerpsMarketModule {
      * @notice Update the fee tier EOA only called by the owner
      * @param _feeTierUpdaterEndorsed the address of the fee tier EOA
      */
-    function updatefeeTierUpdaterEndorsed(address _feeTierUpdaterEndorsed) external;
+    function setEndorsedFeeTierUpdater(address endorsedFeeTierUpdater) external;
 }
