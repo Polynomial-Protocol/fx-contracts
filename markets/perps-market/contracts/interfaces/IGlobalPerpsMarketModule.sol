@@ -81,7 +81,7 @@ interface IGlobalPerpsMarketModule {
      * @notice Gets fired when the fee tier EOA is updated.
      * @param feeTierUpdaterEndorsed the address of the fee tier EOA
      */
-    event feeTierUpdaterEndorsedUpdated(address feeTierUpdaterEndorsed);
+    event EndorsedFeeTierUpdaterSet(address endorsedFeeTierUpdater);
 
     /**
      * @notice Thrown when the fee collector does not implement the IFeeCollector interface
