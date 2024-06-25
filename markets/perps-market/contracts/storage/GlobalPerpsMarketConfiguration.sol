@@ -85,9 +85,9 @@ library GlobalPerpsMarketConfiguration {
          */
         uint128 highUtilizationInterestRateGradient;
         /**
-         * @dev eoa account for signing offchain fee tier update
+         * @dev address of the fee tier updater endorsed by the owner
          */
-        address feeTierEOA;
+        address feeTierUpdaterEndorsed;
     }
 
     function load() internal pure returns (Data storage globalMarketConfig) {

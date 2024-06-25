@@ -122,7 +122,7 @@ contract PerpsAccountModule is IPerpsAccountModule, EIP712 {
             verify(
                 FeeTier({feeTierId: feeTierId, accountId: accountId, expiry: expiry}),
                 signature
-            ) != globalPerpsMarketConfiguration.feeTierEOA
+            ) != globalPerpsMarketConfiguration.feeTierUpdaterEndorsed
         ) {
             revert InvalidSignature();
         }

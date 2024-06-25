@@ -79,9 +79,9 @@ interface IGlobalPerpsMarketModule {
 
     /**
      * @notice Gets fired when the fee tier EOA is updated.
-     * @param feeTierEOA the address of the fee tier EOA
+     * @param feeTierUpdaterEndorsed the address of the fee tier EOA
      */
-    event FeeTierEOAUpdated(address feeTierEOA);
+    event feeTierUpdaterEndorsedUpdated(address feeTierUpdaterEndorsed);
 
     /**
      * @notice Thrown when the fee collector does not implement the IFeeCollector interface
@@ -282,7 +282,7 @@ interface IGlobalPerpsMarketModule {
 
     /**
      * @notice Update the fee tier EOA only called by the owner
-     * @param _feeTierEOA the address of the fee tier EOA
+     * @param _feeTierUpdaterEndorsed the address of the fee tier EOA
      */
-    function updateFeeTierEOA(address _feeTierEOA) external;
+    function updatefeeTierUpdaterEndorsed(address _feeTierUpdaterEndorsed) external;
 }
