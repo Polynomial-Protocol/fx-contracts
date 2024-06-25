@@ -16,6 +16,8 @@ contract FeeTierModule is IFeeTierModule {
     ) external override {
         OwnableStorage.onlyOwner();
 
+        if (id == 0) revert FeeTierIdZero();
+
         FeeTier.Data storage feeTier = FeeTier.load(id);
         FeeTier.setFeeTier(feeTier, makerDiscount, takerDiscount);
 

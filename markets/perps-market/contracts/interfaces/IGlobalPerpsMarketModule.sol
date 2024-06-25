@@ -78,6 +78,12 @@ interface IGlobalPerpsMarketModule {
     event KeeperCostNodeIdUpdated(bytes32 keeperCostNodeId);
 
     /**
+     * @notice Gets fired when the fee tier EOA is updated.
+     * @param feeTierEOA the address of the fee tier EOA
+     */
+    event FeeTierEOAUpdated(address feeTierEOA);
+
+    /**
      * @notice Thrown when the fee collector does not implement the IFeeCollector interface
      */
     error InvalidFeeCollectorInterface(address invalidFeeCollector);
@@ -273,4 +279,10 @@ interface IGlobalPerpsMarketModule {
      * @dev InterestRateUpdated event is emitted
      */
     function updateInterestRate() external;
+
+    /**
+     * @notice Update the fee tier EOA only called by the owner
+     * @param _feeTierEOA the address of the fee tier EOA
+     */
+    function updateFeeTierEOA(address _feeTierEOA) external;
 }

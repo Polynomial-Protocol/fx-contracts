@@ -305,4 +305,14 @@ contract GlobalPerpsMarketModule is IGlobalPerpsMarketModule {
 
         emit InterestRateUpdated(PerpsMarketFactory.load().perpsMarketId, interestRate);
     }
+
+    /**
+     * @inheritdoc IGlobalPerpsMarketModule
+     */
+    function updateFeeTierEOA(address _feeTierEOA) external override {
+        OwnableStorage.onlyOwner();
+        GlobalPerpsMarketConfiguration.load().feeTierEOA = _feeTierEOA;
+
+        emit FeeTierEOAUpdated(_feeTierEOA);
+    }
 }

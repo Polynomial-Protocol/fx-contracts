@@ -19,12 +19,16 @@ import {MathUtil} from "../utils/MathUtil.sol";
 import {Flags} from "../utils/Flags.sol";
 import {SafeCastU256, SafeCastI256} from "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
 import {OwnableStorage} from "@synthetixio/core-contracts/contracts/ownership/OwnableStorage.sol";
+import {GlobalPerpsMarketConfiguration} from "../storage/GlobalPerpsMarketConfiguration.sol";
 
+import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
+import "@openzeppelin/contracts/utils/cryptography/EIP712.sol";
 /**
  * @title Module to manage accounts
  * @dev See IPerpsAccountModule.
  */
-contract PerpsAccountModule is IPerpsAccountModule {
+
+contract PerpsAccountModule is IPerpsAccountModule, EIP712 {
     using SetUtil for SetUtil.UintSet;
     using PerpsAccount for PerpsAccount.Data;
     using Position for Position.Data;
@@ -32,6 +36,13 @@ contract PerpsAccountModule is IPerpsAccountModule {
     using SafeCastI256 for int256;
     using GlobalPerpsMarket for GlobalPerpsMarket.Data;
     using PerpsMarketFactory for PerpsMarketFactory.Data;
+
+    bytes32 private constant FEE_TIER_TYPEHASH =
+        keccak256("FeeTier(uint256 feeTierId,uint128 accountId,uint256 expiry)");
+    string private constant SIGNING_DOMAIN = "FeeTierDomain";
+    string private constant SIGNATURE_VERSION = "1";
+
+    constructor() EIP712(SIGNING_DOMAIN, SIGNATURE_VERSION) {}
 
     /**
      * @inheritdoc IPerpsAccountModule
@@ -104,7 +115,15 @@ contract PerpsAccountModule is IPerpsAccountModule {
 
         if (expiry < block.timestamp) revert InvalidSignature();
 
-        if (!_verify(OwnableStorage.getOwner(), feeTierId, accountId, expiry, signature)) {
+        GlobalPerpsMarketConfiguration.Data
+            storage globalPerpsMarketConfiguration = GlobalPerpsMarketConfiguration.load();
+
+        if (
+            verify(
+                FeeTier({feeTierId: feeTierId, accountId: accountId, expiry: expiry}),
+                signature
+            ) != globalPerpsMarketConfiguration.feeTierEOA
+        ) {
             revert InvalidSignature();
         }
 
@@ -115,67 +134,23 @@ contract PerpsAccountModule is IPerpsAccountModule {
         account.feeTierId = feeTierId;
     }
 
-    function _getMessageHash(
-        uint256 _feeTierId,
-        uint128 _accountId,
-        uint256 _expiry
-    ) internal pure returns (bytes32) {
-        return keccak256(abi.encodePacked(_feeTierId, _accountId, _expiry));
+    function getTypedDataHash(FeeTier memory feeTier) public view returns (bytes32) {
+        return
+            _hashTypedDataV4(
+                keccak256(
+                    abi.encode(
+                        FEE_TIER_TYPEHASH,
+                        feeTier.feeTierId,
+                        feeTier.accountId,
+                        feeTier.expiry
+                    )
+                )
+            );
     }
 
-    function _getEthSignedMessageHash(bytes32 _messageHash) internal pure returns (bytes32) {
-        /*
-        Signature is produced by signing a keccak256 hash with the following format:
-        "\x19Ethereum Signed Message\n" + len(msg) + msg
-        */
-        return keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", _messageHash));
-    }
-    function _verify(
-        address _signer,
-        uint256 _feeTierId,
-        uint128 _accountId,
-        uint256 _expiry,
-        bytes memory signature
-    ) internal pure returns (bool) {
-        bytes32 messageHash = _getMessageHash(_feeTierId, _accountId, _expiry);
-        bytes32 ethSignedMessageHash = _getEthSignedMessageHash(messageHash);
-
-        return _recoverSigner(ethSignedMessageHash, signature) == _signer;
-    }
-
-    function _recoverSigner(
-        bytes32 _ethSignedMessageHash,
-        bytes memory _signature
-    ) internal pure returns (address) {
-        (bytes32 r, bytes32 s, uint8 v) = _splitSignature(_signature);
-
-        return ecrecover(_ethSignedMessageHash, v, r, s);
-    }
-
-    function _splitSignature(
-        bytes memory sig
-    ) internal pure returns (bytes32 r, bytes32 s, uint8 v) {
-        require(sig.length == 65, "invalid signature length");
-
-        assembly {
-            /*
-            First 32 bytes stores the length of the signature
-
-            add(sig, 32) = pointer of sig + 32
-            effectively, skips first 32 bytes of signature
-
-            mload(p) loads next 32 bytes starting at the memory address p into memory
-            */
-
-            // first 32 bytes, after the length prefix
-            r := mload(add(sig, 32))
-            // second 32 bytes
-            s := mload(add(sig, 64))
-            // final byte (first byte of the next 32 bytes)
-            v := byte(0, mload(add(sig, 96)))
-        }
-
-        // implicitly return (r, s, v)
+    function verify(FeeTier memory feeTier, bytes memory signature) public view returns (address) {
+        bytes32 digest = getTypedDataHash(feeTier);
+        return ECDSA.recover(digest, signature);
     }
 
     function getFeeTierId(uint128 accountId) external view override returns (uint256) {
