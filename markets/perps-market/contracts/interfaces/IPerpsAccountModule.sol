@@ -6,12 +6,12 @@ pragma solidity >=0.8.11 <0.9.0;
  */
 interface IPerpsAccountModule {
     /**
-     * @notice Struct to represent a fee tier.
+     * @notice Struct to represent a fee tier update request.
      * @param feeTierId Id of the fee tier.
      * @param accountId Id of the account.
      * @param expiry expiration time of the signature.
      */
-    struct FeeTier {
+    struct FeeTierUpdateRequest {
         uint256 feeTierId;
         uint128 accountId;
         uint256 expiry;

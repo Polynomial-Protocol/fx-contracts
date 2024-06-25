@@ -120,7 +120,7 @@ contract PerpsAccountModule is IPerpsAccountModule, EIP712 {
 
         if (
             verify(
-                FeeTier({feeTierId: feeTierId, accountId: accountId, expiry: expiry}),
+                FeeTierUpdateRequest({feeTierId: feeTierId, accountId: accountId, expiry: expiry}),
                 signature
             ) != globalPerpsMarketConfiguration.feeTierUpdaterEndorsed
         ) {
@@ -134,22 +134,25 @@ contract PerpsAccountModule is IPerpsAccountModule, EIP712 {
         account.feeTierId = feeTierId;
     }
 
-    function getTypedDataHash(FeeTier memory feeTier) public view returns (bytes32) {
+    function getTypedDataHash(FeeTierUpdateRequest memory request) public view returns (bytes32) {
         return
             _hashTypedDataV4(
                 keccak256(
                     abi.encode(
                         FEE_TIER_TYPEHASH,
-                        feeTier.feeTierId,
-                        feeTier.accountId,
-                        feeTier.expiry
+                        request.feeTierId,
+                        request.accountId,
+                        request.expiry
                     )
                 )
             );
     }
 
-    function verify(FeeTier memory feeTier, bytes memory signature) public view returns (address) {
-        bytes32 digest = getTypedDataHash(feeTier);
+    function verify(
+        FeeTierUpdateRequest memory request,
+        bytes memory signature
+    ) public view returns (address) {
+        bytes32 digest = getTypedDataHash(request);
         return ECDSA.recover(digest, signature);
     }
 

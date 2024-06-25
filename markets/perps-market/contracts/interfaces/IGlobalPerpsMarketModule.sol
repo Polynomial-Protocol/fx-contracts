@@ -79,7 +79,7 @@ interface IGlobalPerpsMarketModule {
 
     /**
      * @notice Gets fired when the fee tier EOA is updated.
-     * @param feeTierUpdaterEndorsed the address of the fee tier EOA
+     * @param endorsedFeeTierUpdater the address of the fee tier EOA
      */
     event EndorsedFeeTierUpdaterSet(address endorsedFeeTierUpdater);
 
