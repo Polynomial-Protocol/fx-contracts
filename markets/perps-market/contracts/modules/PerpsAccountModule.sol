@@ -21,8 +21,8 @@ import {SafeCastU256, SafeCastI256} from "@synthetixio/core-contracts/contracts/
 import {OwnableStorage} from "@synthetixio/core-contracts/contracts/ownership/OwnableStorage.sol";
 import {GlobalPerpsMarketConfiguration} from "../storage/GlobalPerpsMarketConfiguration.sol";
 
-import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
-import "@openzeppelin/contracts/utils/cryptography/EIP712.sol";
+import { ECDSA } from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
+import {  EIP712} from "@openzeppelin/contracts/utils/cryptography/EIP712.sol";
 /**
  * @title Module to manage accounts
  * @dev See IPerpsAccountModule.
@@ -122,7 +122,7 @@ contract PerpsAccountModule is IPerpsAccountModule, EIP712 {
             verify(
                 FeeTierUpdateRequest({feeTierId: feeTierId, accountId: accountId, expiry: expiry}),
                 signature
-            ) != globalPerpsMarketConfiguration.feeTierUpdaterEndorsed
+            ) != globalPerpsMarketConfiguration.endorsedFeeTierUpdater
         ) {
             revert InvalidSignature();
         }

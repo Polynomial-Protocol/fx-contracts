@@ -309,10 +309,10 @@ contract GlobalPerpsMarketModule is IGlobalPerpsMarketModule {
     /**
      * @inheritdoc IGlobalPerpsMarketModule
      */
-    function updatefeeTierUpdaterEndorsed(address _feeTierUpdaterEndorsed) external override {
+    function setEndorsedFeeTierUpdater(address _endorsedFeeTierUpdater) external override {
         OwnableStorage.onlyOwner();
-        GlobalPerpsMarketConfiguration.load().feeTierUpdaterEndorsed = _feeTierUpdaterEndorsed;
+        GlobalPerpsMarketConfiguration.load().endorsedFeeTierUpdater = _endorsedFeeTierUpdater;
 
-        emit feeTierUpdaterEndorsedUpdated(_feeTierUpdaterEndorsed);
+        emit EndorsedFeeTierUpdaterSet(_endorsedFeeTierUpdater);
     }
 }

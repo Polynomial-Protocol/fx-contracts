@@ -282,7 +282,7 @@ interface IGlobalPerpsMarketModule {
 
     /**
      * @notice Update the fee tier EOA only called by the owner
-     * @param _feeTierUpdaterEndorsed the address of the fee tier EOA
+     * @param endorsedFeeTierUpdater the address of the fee tier EOA
      */
     function setEndorsedFeeTierUpdater(address endorsedFeeTierUpdater) external;
 }
