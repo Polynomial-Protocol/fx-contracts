@@ -21,8 +21,8 @@ import {SafeCastU256, SafeCastI256} from "@synthetixio/core-contracts/contracts/
 import {OwnableStorage} from "@synthetixio/core-contracts/contracts/ownership/OwnableStorage.sol";
 import {GlobalPerpsMarketConfiguration} from "../storage/GlobalPerpsMarketConfiguration.sol";
 
-import { ECDSA } from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import {  EIP712 } from "@synthetixio/core-contracts/contracts/cryptography/EIP712.sol";
+import {  ECDSA } from "@synthetixio/core-contracts/contracts/cryptography/ECDSA.sol";
 /**
  * @title Module to manage accounts
  * @dev See IPerpsAccountModule.
