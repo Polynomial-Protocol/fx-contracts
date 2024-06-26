@@ -1,12 +1,13 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 import "@openzeppelin/contracts/interfaces/IERC5267.sol";
-import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
+import "./ECDSA.sol";
 
 contract EIP712 is IERC5267 {
-
     bytes32 private constant _TYPE_HASH =
-        keccak256("EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)");
+        keccak256(
+            "EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)"
+        );
 
     string private constant _name = "PolynomailFiScope";
     string private constant _version = "1";
@@ -14,16 +15,18 @@ contract EIP712 is IERC5267 {
     bytes32 private constant _hashedName = keccak256(bytes(_name));
     bytes32 private constant _hashedVersion = keccak256(bytes(_version));
 
-
     /**
      * @dev Returns the domain separator for the current chain.
      */
     function _domainSeparatorV4() internal view returns (bytes32) {
-            return _buildDomainSeparator();
+        return _buildDomainSeparator();
     }
 
     function _buildDomainSeparator() private view returns (bytes32) {
-        return keccak256(abi.encode(_TYPE_HASH, _hashedName, _hashedVersion, block.chainid, address(this)));
+        return
+            keccak256(
+                abi.encode(_TYPE_HASH, _hashedName, _hashedVersion, block.chainid, address(this))
+            );
     }
 
     /**
@@ -75,5 +78,4 @@ contract EIP712 is IERC5267 {
             new uint256[](0)
         );
     }
-
 }
