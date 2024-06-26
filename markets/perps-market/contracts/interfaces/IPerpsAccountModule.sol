@@ -6,6 +6,18 @@ pragma solidity >=0.8.11 <0.9.0;
  */
 interface IPerpsAccountModule {
     /**
+     * @notice Struct to represent a fee tier update request.
+     * @param feeTierId Id of the fee tier.
+     * @param accountId Id of the account.
+     * @param expiry expiration time of the signature.
+     */
+    struct FeeTierUpdateRequest {
+        uint256 feeTierId;
+        uint128 accountId;
+        uint256 expiry;
+    }
+
+    /**
      * @notice Gets fired when an account colateral is modified.
      * @param accountId Id of the account.
      * @param synthMarketId Id of the synth market used as collateral. Synth market id, 0 for snxUSD.

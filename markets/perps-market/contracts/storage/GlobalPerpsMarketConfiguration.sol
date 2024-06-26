@@ -84,6 +84,10 @@ library GlobalPerpsMarketConfiguration {
          * @dev interest rate gradient applied to utilization after hitting the gradient breakpoint
          */
         uint128 highUtilizationInterestRateGradient;
+        /**
+         * @dev address of the fee tier updater endorsed by the owner
+         */
+        address endorsedFeeTierUpdater;
     }
 
     function load() internal pure returns (Data storage globalMarketConfig) {

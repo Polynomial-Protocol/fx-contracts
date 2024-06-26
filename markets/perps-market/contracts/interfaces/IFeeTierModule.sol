@@ -3,6 +3,10 @@ pragma solidity >=0.8.11 <0.9.0;
 
 interface IFeeTierModule {
     /**
+     * @notice thrown when fee tier id is 0, as it is base tier it cant be discounted.
+     */
+    error InvalidFeeTierId();
+    /**
      * @notice emits when discount for a fee tier changes
      * @param id id of the fee tier.
      * @param makerDiscount maker discount.
