@@ -1,7 +1,13 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity >=0.8.11<0.9.0;
 
-// @custom:artifact @synthetixio/core-contracts/contracts/cryptography/ECDSA.sol:ECDSA
+// @custom:artifact @openzeppelin/contracts/utils/Strings.sol:Strings
+library Strings {
+    bytes16 private constant _SYMBOLS = "0123456789abcdef";
+    uint8 private constant _ADDRESS_LENGTH = 20;
+}
+
+// @custom:artifact @openzeppelin/contracts/utils/cryptography/ECDSA.sol:ECDSA
 library ECDSA {
     enum RecoverError {
         NoError,
@@ -9,6 +15,15 @@ library ECDSA {
         InvalidSignatureLength,
         InvalidSignatureS,
         InvalidSignatureV
+    }
+}
+
+// @custom:artifact @openzeppelin/contracts/utils/math/Math.sol:Math
+library Math {
+    enum Rounding {
+        Down,
+        Up,
+        Zero
     }
 }
 
@@ -93,21 +108,6 @@ library SetUtil {
     struct Bytes32Set {
         bytes32[] _values;
         mapping(bytes32 => uint256) _positions;
-    }
-}
-
-// @custom:artifact @synthetixio/core-contracts/contracts/utils/Strings.sol:Strings
-library Strings {
-    bytes16 private constant _SYMBOLS = "0123456789abcdef";
-    uint8 private constant _ADDRESS_LENGTH = 20;
-}
-
-// @custom:artifact @synthetixio/core-contracts/contracts/utils/math/Math.sol:Math
-library Math {
-    enum Rounding {
-        Down,
-        Up,
-        Zero
     }
 }
 
