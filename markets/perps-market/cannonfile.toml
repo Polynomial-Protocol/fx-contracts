@@ -27,9 +27,11 @@ defaultValue = "polynomial"
 
 [import.synthetix]
 source = "<%= settings.polynomialCore %>"
+preset = "<%= settings.polynomialCorePreset %>"
 
 [import.spotMarket]
 source = "<%= settings.spotMarketPackage %>"
+preset = "<%= settings.spotMarketPreset %>"
 
 [contract.PerpsMarketFactoryModule]
 artifact = "PerpsMarketFactoryModule"
