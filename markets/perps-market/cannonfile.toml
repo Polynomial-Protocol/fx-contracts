@@ -1,4 +1,4 @@
-name = "fx-perps-market"
+name = "polynomial-perps-market"
 version = "<%= package.version %>"
 description = "Perps market implementation"
 
@@ -10,28 +10,27 @@ defaultValue = "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"
 description = "perps market owner"
 defaultValue = "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"
 
-[setting.synthetixPackage]
+[setting.polynomialCore]
 defaultValue = "polynomial-core:latest"
 
-[setting.synthetixPreset]
+[setting.polynomialCorePreset]
 defaultValue = "main"
 
 [setting.spotMarketPreset]
 defaultValue = "main"
 
 [setting.spotMarketPackage]
-defaultValue = "fx-spot-market:latest"
+defaultValue = "polynomial-spot-market:1.0.0"
 
 [setting.salt]
-defaultValue = "snax"
+defaultValue = "polynomial"
 
 [import.synthetix]
-source = "<%= settings.synthetixPackage %>"
-preset = "<%= settings.synthetixPreset %>"
+source = "<%= settings.polynomialCore %>"
+
 
 [import.spotMarket]
 source = "<%= settings.spotMarketPackage %>"
-preset = "<%= settings.spotMarketPreset %>"
 
 [contract.PerpsMarketFactoryModule]
 artifact = "PerpsMarketFactoryModule"
@@ -107,7 +106,7 @@ func = "initOrUpgradeNft"
 args = [
     "<%= formatBytes32String('accountNft') %>",
     "Perpetual Futures Account",
-    "snxPerpsAcct",
+    "fxPerpsAcct",
     "",
     "<%= imports.synthetix.contracts.AccountRouter.address %>",
 ]

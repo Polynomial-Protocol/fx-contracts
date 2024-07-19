@@ -1,6 +1,6 @@
-name = "fx-oracle-manager"
+name = "polynomial-oracle-manager"
 version = "<%= package.version %>"
-description = "Core synthetix oracle manager"
+description = "Core polynomial oracle manager"
 
 # `salt` here only affects proxy contract
 [setting.salt]
