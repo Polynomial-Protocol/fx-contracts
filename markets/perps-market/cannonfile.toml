@@ -4,11 +4,11 @@ description = "Perps market implementation"
 
 [setting.coreProxyOwner]
 description = "owner of v3 core proxy"
-defaultValue = "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"
+defaultValue = "0x9f76043B23125024Ce5f0Fb4AE707482107dd2a8"
 
 [setting.owner]
 description = "perps market owner"
-defaultValue = "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"
+defaultValue = "0x9f76043B23125024Ce5f0Fb4AE707482107dd2a8"
 
 [setting.polynomialCore]
 defaultValue = "polynomial-core:latest"
@@ -20,14 +20,13 @@ defaultValue = "main"
 defaultValue = "main"
 
 [setting.spotMarketPackage]
-defaultValue = "polynomial-spot-market:1.0.0"
+defaultValue = "polynomial-spot-market:latest"
 
 [setting.salt]
 defaultValue = "polynomial"
 
 [import.synthetix]
 source = "<%= settings.polynomialCore %>"
-
 
 [import.spotMarket]
 source = "<%= settings.spotMarketPackage %>"
