@@ -16,7 +16,7 @@ description = "Admin user for the system"
 defaultValue = "0x9f76043B23125024Ce5f0Fb4AE707482107dd2a8"
 
 [setting.oracle_manager_source]
-defaultValue = "polynomial-oracle-manager"
+defaultValue = "fx-oracle-manager"
 
 [provision.oracle_manager]
 source = "<%= settings.oracle_manager_source %>"

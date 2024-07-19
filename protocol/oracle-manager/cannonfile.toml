@@ -1,4 +1,4 @@
-name = "polynomial-oracle-manager"
+name = "fx-oracle-manager"
 version = "<%= package.version %>"
 description = "Core polynomial oracle manager"
 

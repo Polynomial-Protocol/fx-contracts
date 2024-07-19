@@ -1,4 +1,4 @@
-name = "polynomial-perps-market"
+name = "fx-perps-market"
 version = "<%= package.version %>"
 description = "Perps market implementation"
 
@@ -20,7 +20,7 @@ defaultValue = "main"
 defaultValue = "main"
 
 [setting.spotMarketPackage]
-defaultValue = "polynomial-spot-market:latest"
+defaultValue = "fx-spot-market:latest"
 
 [setting.salt]
 defaultValue = "polynomial"

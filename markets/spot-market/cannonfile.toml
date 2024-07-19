@@ -1,4 +1,4 @@
-name = "polynomial-spot-market"
+name = "fx-spot-market"
 version = "<%= package.version %>"
 description = "Spot market implementation"
 
