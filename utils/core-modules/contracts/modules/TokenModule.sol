@@ -60,6 +60,10 @@ contract TokenModule is ITokenModule, ERC20, InitializableMixin {
         ERC20Storage.load().allowance[from][spender] = amount;
     }
 
+    function tokenName() external view returns (string memory) {
+        return ERC20Storage.load().name;
+    }
+
     function _isInitialized() internal view override returns (bool) {
         return Initialized.load(_INITIALIZED_NAME).initialized;
     }

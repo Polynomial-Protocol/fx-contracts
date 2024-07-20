@@ -83,6 +83,10 @@ contract NftModule is INftModule, ERC721Enumerable, InitializableMixin {
         ERC721Storage.load().tokenApprovals[tokenId] = spender;
     }
 
+    function tokenName() external view returns (string memory) {
+        return ERC721Storage.load().name;
+    }
+
     function _isInitialized() internal view override returns (bool) {
         return Initialized.load(_INITIALIZED_NAME).initialized;
     }
