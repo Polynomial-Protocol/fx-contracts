@@ -309,13 +309,13 @@ contract ERC721 is IERC721, IERC721Metadata {
         string memory baseTokenURI
     ) internal virtual {
         ERC721Storage.Data storage store = ERC721Storage.load();
-        if (
-            bytes(store.name).length > 0 ||
-            bytes(store.symbol).length > 0 ||
-            bytes(store.baseTokenURI).length > 0
-        ) {
-            revert InitError.AlreadyInitialized();
-        }
+        // if (
+        //     bytes(store.name).length > 0 ||
+        //     bytes(store.symbol).length > 0 ||
+        //     bytes(store.baseTokenURI).length > 0
+        // ) {
+        //     revert InitError.AlreadyInitialized();
+        // }
 
         if (bytes(tokenName).length == 0 || bytes(tokenSymbol).length == 0) {
             revert ParameterError.InvalidParameter("name/symbol", "must not be empty");

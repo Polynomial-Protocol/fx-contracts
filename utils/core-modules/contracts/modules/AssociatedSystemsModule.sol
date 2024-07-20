@@ -152,6 +152,7 @@ contract AssociatedSystemsModule is IAssociatedSystemsModule {
 
         if (store.proxy != address(0)) {
             _upgradeNft(id, impl);
+            INftModule(store.proxy).initialize(name, symbol, uri);
         } else {
             // create a new proxy and own it
             address proxy = address(new UUPSProxyWithOwner(impl, address(this)));
