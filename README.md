@@ -1,4 +1,4 @@
-# Synthetix v3
+# Polynomial Contracts (fork of synthetix)
 
 [![codecov](https://codecov.io/gh/Synthetixio/synthetix-v3/branch/main/graph/badge.svg?token=B9BK0U5KAT)](https://codecov.io/gh/Synthetixio/synthetix-v3)
 

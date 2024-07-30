@@ -1,4 +1,4 @@
-# Synthetix v3 Subgraph
+# Polynomial Contracts Subgraph
 
 **NOTE**: Subgraph code is generated from the CoreProxy ABI on optimism-goerli. We rely on all deployments for all networks to be at least compatible. As soon as we start diverging and different networks will have different behaviour (relevant to the subgraph) we would need to separate subgraph processing for the divergent network.
 
