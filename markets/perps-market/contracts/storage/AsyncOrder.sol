@@ -300,10 +300,6 @@ library AsyncOrder {
             orderPrice
         );
 
-        if (acceptablePriceExceeded(order, runtime.fillPrice)) {
-            revert AcceptablePriceExceeded(runtime.fillPrice, order.request.acceptablePrice);
-        }
-
         FeeTier.Data storage feeTier = FeeTier.load(account.feeTierId);
 
         runtime.orderFees =
@@ -587,6 +583,12 @@ library AsyncOrder {
 
         // this is the required margin for the new position (minus any order fees)
         return runtime.requiredMarginForNewPosition + runtime.requiredRewardMargin;
+    }
+
+    function validateAcceptablePrice(Data storage order, uint256 fillPrice) internal view {
+        if (acceptablePriceExceeded(order, fillPrice)) {
+            revert AcceptablePriceExceeded(fillPrice, order.request.acceptablePrice);
+        }
     }
 
     /**
