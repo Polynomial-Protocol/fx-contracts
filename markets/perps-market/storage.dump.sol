@@ -1,6 +1,41 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity >=0.8.11<0.9.0;
 
+// @custom:artifact @openzeppelin/contracts/utils/Strings.sol:Strings
+library Strings {
+    bytes16 private constant _SYMBOLS = "0123456789abcdef";
+    uint8 private constant _ADDRESS_LENGTH = 20;
+}
+
+// @custom:artifact @openzeppelin/contracts/utils/cryptography/ECDSA.sol:ECDSA
+library ECDSA {
+    enum RecoverError {
+        NoError,
+        InvalidSignature,
+        InvalidSignatureLength,
+        InvalidSignatureS,
+        InvalidSignatureV
+    }
+}
+
+// @custom:artifact @openzeppelin/contracts/utils/math/Math.sol:Math
+library Math {
+    enum Rounding {
+        Down,
+        Up,
+        Zero
+    }
+}
+
+// @custom:artifact @synthetixio/core-contracts/contracts/cryptography/EIP712.sol:EIP712
+contract EIP712 {
+    bytes32 private constant _TYPE_HASH = keccak256("EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)");
+    string private constant _name = "PolynomailFiScope";
+    string private constant _version = "1";
+    bytes32 private constant _hashedName = keccak256(bytes(_name));
+    bytes32 private constant _hashedVersion = keccak256(bytes(_version));
+}
+
 // @custom:artifact @synthetixio/core-contracts/contracts/ownership/OwnableStorage.sol:OwnableStorage
 library OwnableStorage {
     bytes32 private constant _SLOT_OWNABLE_STORAGE = keccak256(abi.encode("io.synthetix.core-contracts.Ownable"));
@@ -583,6 +618,15 @@ interface IAsyncOrderSettlementPythModule {
     }
 }
 
+// @custom:artifact contracts/interfaces/IPerpsAccountModule.sol:IPerpsAccountModule
+interface IPerpsAccountModule {
+    struct FeeTierUpdateRequest {
+        uint256 feeTierId;
+        uint128 accountId;
+        uint256 expiry;
+    }
+}
+
 // @custom:artifact contracts/interfaces/IPerpsMarketModule.sol:IPerpsMarketModule
 interface IPerpsMarketModule {
     struct MarketSummary {
@@ -607,6 +651,11 @@ contract LiquidationModule {
         uint128 positionMarketId;
         uint256 loopIterator;
     }
+}
+
+// @custom:artifact contracts/modules/PerpsAccountModule.sol:PerpsAccountModule
+contract PerpsAccountModule {
+    bytes32 private constant FEE_TIER_TYPEHASH = keccak256("FeeTier(uint256 feeTierId,uint128 accountId,uint256 expiry)");
 }
 
 // @custom:artifact contracts/modules/PerpsMarketFactoryModule.sol:PerpsMarketFactoryModule
@@ -716,6 +765,7 @@ library GlobalPerpsMarketConfiguration {
         uint128 lowUtilizationInterestRateGradient;
         uint128 interestRateGradientBreakpoint;
         uint128 highUtilizationInterestRateGradient;
+        address endorsedFeeTierUpdater;
     }
     function load() internal pure returns (Data storage globalMarketConfig) {
         bytes32 s = _SLOT_GLOBAL_PERPS_MARKET_CONFIGURATION;
