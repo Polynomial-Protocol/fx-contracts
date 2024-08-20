@@ -24,6 +24,8 @@ library AccountRBAC {
     bytes32 internal constant _PERPS_COMMIT_ASYNC_ORDER_PERMISSION = "PERPS_COMMIT_ASYNC_ORDER";
     bytes32 internal constant _PERPS_COMMIT_LIMIT_ORDER_PERMISSION = "PERPS_COMMIT_LIMIT_ORDER";
     bytes32 internal constant _BURN_PERMISSION = "BURN";
+    bytes32 internal constant _BFP_PERPS_PAY_DEBT_PERMISSION = "BFP_PERPS_PAY_DEBT";
+    bytes32 internal constant _BFP_PERPS_SPLIT_ACCOUNT_PERMISSION = "BFP_PERPS_SPLIT_ACCOUNT";
 
     /**
      * @dev Thrown when a permission specified by a user does not exist or is invalid.
@@ -50,15 +52,14 @@ library AccountRBAC {
      */
     function isPermissionValid(bytes32 permission) internal pure {
         if (
-            permission != AccountRBAC._WITHDRAW_PERMISSION &&
-            permission != AccountRBAC._DELEGATE_PERMISSION &&
-            permission != AccountRBAC._MINT_PERMISSION &&
-            permission != AccountRBAC._ADMIN_PERMISSION &&
-            permission != AccountRBAC._REWARDS_PERMISSION &&
-            permission != AccountRBAC._PERPS_MODIFY_COLLATERAL_PERMISSION &&
-            permission != AccountRBAC._PERPS_COMMIT_ASYNC_ORDER_PERMISSION &&
-            permission != AccountRBAC._PERPS_COMMIT_LIMIT_ORDER_PERMISSION &&
-            permission != AccountRBAC._BURN_PERMISSION
+            permission != AccountRBAC._WITHDRAW_PERMISSION && permission != AccountRBAC._DELEGATE_PERMISSION
+                && permission != AccountRBAC._MINT_PERMISSION && permission != AccountRBAC._ADMIN_PERMISSION
+                && permission != AccountRBAC._REWARDS_PERMISSION
+                && permission != AccountRBAC._PERPS_MODIFY_COLLATERAL_PERMISSION
+                && permission != AccountRBAC._PERPS_COMMIT_ASYNC_ORDER_PERMISSION
+                && permission != AccountRBAC._PERPS_COMMIT_LIMIT_ORDER_PERMISSION
+                && permission != AccountRBAC._BURN_PERMISSION && permission != AccountRBAC._BFP_PERPS_PAY_DEBT_PERMISSION
+                && permission != AccountRBAC._BFP_PERPS_SPLIT_ACCOUNT_PERMISSION
         ) {
             revert InvalidPermission(permission);
         }
@@ -122,24 +123,17 @@ library AccountRBAC {
     /**
      * @dev Returns wether the specified address has the given permission.
      */
-    function hasPermission(
-        Data storage self,
-        bytes32 permission,
-        address target
-    ) internal view returns (bool) {
+    function hasPermission(Data storage self, bytes32 permission, address target) internal view returns (bool) {
         return target != address(0) && self.permissions[target].contains(permission);
     }
 
     /**
      * @dev Returns wether the specified target address has the given permission, or has the high level admin permission.
      */
-    function authorized(
-        Data storage self,
-        bytes32 permission,
-        address target
-    ) internal view returns (bool) {
-        return ((target == self.owner) ||
-            hasPermission(self, _ADMIN_PERMISSION, target) ||
-            hasPermission(self, permission, target));
+    function authorized(Data storage self, bytes32 permission, address target) internal view returns (bool) {
+        return (
+            (target == self.owner) || hasPermission(self, _ADMIN_PERMISSION, target)
+                || hasPermission(self, permission, target)
+        );
     }
 }
