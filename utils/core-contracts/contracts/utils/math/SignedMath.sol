@@ -28,6 +28,7 @@ library SignedMath {
     function average(int256 a, int256 b) internal pure returns (int256) {
         // Formula from the book "Hacker's Delight"
         int256 x = (a & b) + ((a ^ b) >> 1);
+        // solhint-disable-next-line numcast/safe-cast
         return x + (int256(uint256(x) >> 255) & (a ^ b));
     }
 
@@ -37,6 +38,7 @@ library SignedMath {
     function abs(int256 n) internal pure returns (uint256) {
         unchecked {
             // must be unchecked in order to support `n = type(int256).min`
+            // solhint-disable-next-line numcast/safe-cast
             return uint256(n >= 0 ? n : -n);
         }
     }

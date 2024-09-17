@@ -73,6 +73,7 @@ library Strings {
      * @dev Converts an `address` with fixed length of 20 bytes to its not checksummed ASCII `string` hexadecimal representation.
      */
     function toHexString(address addr) internal pure returns (string memory) {
+        // solhint-disable-next-line numcast/safe-cast
         return toHexString(uint256(uint160(addr)), _ADDRESS_LENGTH);
     }
 

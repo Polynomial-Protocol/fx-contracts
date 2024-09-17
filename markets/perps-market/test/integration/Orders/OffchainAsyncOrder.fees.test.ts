@@ -70,6 +70,7 @@ describe('Offchain Async Order test - fees', () => {
           },
         ],
       },
+      availableUsdAmount: bn(10_000), // using this to track snxUSDAmount
     },
     {
       name: 'only snxBTC',
@@ -84,6 +85,7 @@ describe('Offchain Async Order test - fees', () => {
           },
         ],
       },
+      availableUsdAmount: bn(0), // only snxBTC so in this case, fees/pnl added to debt
     },
     {
       name: 'snxUSD and snxBTC',
@@ -101,6 +103,7 @@ describe('Offchain Async Order test - fees', () => {
           },
         ],
       },
+      availableUsdAmount: bn(2),
     },
   ];
 
@@ -239,12 +242,15 @@ describe('Offchain Async Order test - fees', () => {
           });
 
           it('validate fees paid on settle', async () => {
-            const { traderBalance, keeperBalance } = await getBalances();
+            const { traderBalance, keeperBalance, traderDebt } = await getBalances();
 
-            assertBn.equal(
-              traderBalance,
-              balancesBeforeLong.traderBalance.sub(feesPaidOnSettle.totalFees)
+            const { traderBalanceUsed, debt } = calculateDebtAndLeftover(
+              testCase.availableUsdAmount,
+              feesPaidOnSettle.totalFees
             );
+
+            assertBn.equal(traderBalance, balancesBeforeLong.traderBalance.sub(traderBalanceUsed));
+            assertBn.equal(traderDebt, debt);
 
             assertBn.equal(
               keeperBalance,
@@ -310,10 +316,15 @@ describe('Offchain Async Order test - fees', () => {
         });
 
         it('validate fees paid on long position', async () => {
-          assertBn.equal(
-            balancesAfterLong.traderBalance,
-            balancesBeforeLong.traderBalance.sub(feesPaidOnLong.totalFees)
+          const { traderBalanceUsed, debt } = calculateDebtAndLeftover(
+            testCase.availableUsdAmount,
+            feesPaidOnLong.totalFees
           );
+
+          const availableTraderBalance = balancesBeforeLong.traderBalance.sub(traderBalanceUsed);
+
+          assertBn.equal(balancesAfterLong.traderBalance, availableTraderBalance);
+          assertBn.equal(balancesAfterLong.traderDebt, debt);
           assertBn.equal(
             balancesAfterLong.keeperBalance,
             balancesBeforeLong.keeperBalance.add(feesPaidOnLong.keeperFee)
@@ -346,12 +357,11 @@ describe('Offchain Async Order test - fees', () => {
           it('validate fees paid on short position', async () => {
             const { traderBalance, keeperBalance } = await getBalances();
 
-            assertBn.equal(
-              traderBalance,
-              balancesAfterLong.traderBalance
-                .sub(feesPaidOnShort.totalFees)
-                .add(balancesAfterLong.accountPnl)
-            );
+            const expectedTraderBalance = testCase.availableUsdAmount.gt(bn(2))
+              ? balancesAfterLong.traderBalance.sub(feesPaidOnShort.totalFees)
+              : balancesAfterLong.traderBalance;
+
+            assertBn.equal(traderBalance, expectedTraderBalance);
             assertBn.equal(
               keeperBalance,
               balancesAfterLong.keeperBalance.add(feesPaidOnShort.keeperFee)
@@ -383,10 +393,11 @@ describe('Offchain Async Order test - fees', () => {
           it('validate fees paid', async () => {
             const { traderBalance, keeperBalance } = await getBalances();
 
-            assertBn.equal(
-              traderBalance,
-              balancesAfterLong.traderBalance.sub(feesPaidOnShort.totalFees)
-            );
+            const expectedTraderBalance = testCase.availableUsdAmount.gt(bn(2))
+              ? balancesAfterLong.traderBalance.sub(feesPaidOnShort.totalFees)
+              : balancesAfterLong.traderBalance;
+
+            assertBn.equal(traderBalance, expectedTraderBalance);
             assertBn.equal(
               keeperBalance,
               balancesAfterLong.keeperBalance.add(feesPaidOnShort.keeperFee)
@@ -399,12 +410,29 @@ describe('Offchain Async Order test - fees', () => {
 
   const getBalances = async () => {
     const traderBalance = await systems().PerpsMarket.totalCollateralValue(2);
+    const traderDebt = await systems().PerpsMarket.debt(2);
     const keeperBalance = await systems().USD.balanceOf(await keeper().getAddress());
     const accountPnl = (await systems().PerpsMarket.getOpenPosition(2, ethMarketId))[0];
     return {
       traderBalance,
       keeperBalance,
       accountPnl,
+      traderDebt,
     };
   };
 });
+
+const calculateDebtAndLeftover = (
+  availableUsdAmount: ethers.BigNumber,
+  totalFees: ethers.BigNumber
+) => {
+  const leftoverUsd = availableUsdAmount.sub(totalFees);
+  const traderBalanceUsed = leftoverUsd.gt(0) ? totalFees : availableUsdAmount;
+
+  const hasSnxUsdToCoverFees = availableUsdAmount.gt(totalFees);
+
+  return {
+    traderBalanceUsed,
+    debt: hasSnxUsdToCoverFees ? bn(0) : leftoverUsd.mul(-1),
+  };
+};

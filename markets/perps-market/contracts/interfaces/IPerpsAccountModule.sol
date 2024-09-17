@@ -20,16 +20,18 @@ interface IPerpsAccountModule {
     /**
      * @notice Gets fired when an account colateral is modified.
      * @param accountId Id of the account.
-     * @param synthMarketId Id of the synth market used as collateral. Synth market id, 0 for snxUSD.
+     * @param collateralId Id of the synth market used as collateral. Synth market id, 0 for snxUSD.
      * @param amountDelta requested change in amount of collateral delegated to the account.
      * @param sender address of the sender of the size modification. Authorized by account owner.
      */
     event CollateralModified(
         uint128 indexed accountId,
-        uint128 indexed synthMarketId,
+        uint128 indexed collateralId,
         int256 amountDelta,
         address indexed sender
     );
+
+    event DebtPaid(uint128 indexed accountId, uint256 amount, address indexed sender);
 
     /**
      * @notice fired when an account's fee tier is updated
@@ -52,24 +54,20 @@ interface IPerpsAccountModule {
     /**
      * @notice Modify the collateral delegated to the account.
      * @param accountId Id of the account.
-     * @param synthMarketId Id of the synth market used as collateral. Synth market id, 0 for snxUSD.
+     * @param collateralId Id of the synth market used as collateral. Synth market id, 0 for snxUSD.
      * @param amountDelta requested change in amount of collateral delegated to the account.
      */
-    function modifyCollateral(
-        uint128 accountId,
-        uint128 synthMarketId,
-        int256 amountDelta
-    ) external;
+    function modifyCollateral(uint128 accountId, uint128 collateralId, int256 amountDelta) external;
 
     /**
      * @notice Gets the account's collateral value for a specific collateral.
      * @param accountId Id of the account.
-     * @param synthMarketId Id of the synth market used as collateral. Synth market id, 0 for snxUSD.
+     * @param collateralId Id of the synth market used as collateral. Synth market id, 0 for snxUSD.
      * @return collateralValue collateral value of the account.
      */
     function getCollateralAmount(
         uint128 accountId,
-        uint128 synthMarketId
+        uint128 collateralId
     ) external view returns (uint256);
 
     /**
@@ -85,9 +83,9 @@ interface IPerpsAccountModule {
     function getAccountOpenPositions(uint128 accountId) external view returns (uint256[] memory);
 
     /**
-     * @notice Gets the account's total collateral value.
+     * @notice Gets the account's total collateral value without the discount applied.
      * @param accountId Id of the account.
-     * @return collateralValue total collateral value of the account. USD denominated.
+     * @return collateralValue total collateral value of the account without discount. USD denominated.
      */
     function totalCollateralValue(uint128 accountId) external view returns (uint256);
 
@@ -181,4 +179,18 @@ interface IPerpsAccountModule {
      * @return feeTierId fee tier id of the account.
      */
     function getFeeTierId(uint128 accountId) external view returns (uint256 feeTierId);
+
+    /**
+     * @notice Allows anyone to pay an account's debt
+     * @param accountId Id of the account.
+     * @param amount debt amount to pay off
+     */
+    function payDebt(uint128 accountId, uint256 amount) external;
+
+    /**
+     * @notice Returns account's debt
+     * @param accountId Id of the account.
+     * @return accountDebt specified account id's debt
+     */
+    function debt(uint128 accountId) external view returns (uint256 accountDebt);
 }
