@@ -99,6 +99,10 @@
       "yarn prettier --check",
       "yarn eslint --max-warnings=0"
     ],
+    "*.sol": [
+      "yarn prettier --check",
+      "yarn solhint"
+    ],
     "*.toml": "yarn prettier --check",
     "*.yml": "yarn prettier --check",
     "*.yaml": "yarn prettier --check",
