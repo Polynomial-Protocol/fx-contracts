@@ -51,11 +51,11 @@ library PerpsAccount {
         SetUtil.UintSet activeCollateralTypes;
         // @dev set of open position market ids
         SetUtil.UintSet openPositionMarketIds;
-        // @dev fee tier for this account
-        uint256 feeTierId;
         // @dev account's debt accrued from previous positions
         // @dev please use updateAccountDebt() to update this value which will update global debt also
         uint256 debt;
+        // @dev fee tier for this account
+        uint256 feeTierId;
     }
 
     error InsufficientCollateralAvailableForWithdraw(
