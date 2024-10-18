@@ -96,6 +96,10 @@ library GlobalPerpsMarketConfiguration {
          */
         address rewardDistributorImplementation;
         /**
+         * @dev address of the fee tier updater endorsed by the owner
+         */
+        address endorsedFeeTierUpdater;
+        /**
          * @dev Percentage share of fees for each limit order relayer address
          */
         mapping(address => uint256) relayerShare;
@@ -117,31 +121,20 @@ library GlobalPerpsMarketConfiguration {
         );
     }
 
-    function minimumKeeperRewardCap(
-        Data storage self,
-        uint256 costOfExecutionInUsd
-    ) internal view returns (uint256) {
-        return
-            MathUtil.max(
-                costOfExecutionInUsd + self.minKeeperRewardUsd,
-                costOfExecutionInUsd.mulDecimal(self.minKeeperProfitRatioD18 + DecimalMath.UNIT)
-            );
+    function minimumKeeperRewardCap(Data storage self, uint256 costOfExecutionInUsd) internal view returns (uint256) {
+        return MathUtil.max(
+            costOfExecutionInUsd + self.minKeeperRewardUsd,
+            costOfExecutionInUsd.mulDecimal(self.minKeeperProfitRatioD18 + DecimalMath.UNIT)
+        );
     }
 
-    function maximumKeeperRewardCap(
-        Data storage self,
-        uint256 availableMarginInUsd
-    ) internal view returns (uint256) {
+    function maximumKeeperRewardCap(Data storage self, uint256 availableMarginInUsd) internal view returns (uint256) {
         // Note: if availableMarginInUsd is zero, it means the account was flagged, so the maximumKeeperRewardCap will just be maxKeeperRewardUsd
         if (availableMarginInUsd == 0) {
             return self.maxKeeperRewardUsd;
         }
 
-        return
-            MathUtil.min(
-                availableMarginInUsd.mulDecimal(self.maxKeeperScalingRatioD18),
-                self.maxKeeperRewardUsd
-            );
+        return MathUtil.min(availableMarginInUsd.mulDecimal(self.maxKeeperScalingRatioD18), self.maxKeeperRewardUsd);
     }
 
     /**
@@ -171,11 +164,8 @@ library GlobalPerpsMarketConfiguration {
             return (referralFees, 0);
         }
 
-        feeCollectorFees = self.feeCollector.quoteFees(
-            factory.perpsMarketId,
-            remainingFees,
-            ERC2771Context._msgSender()
-        );
+        feeCollectorFees =
+            self.feeCollector.quoteFees(factory.perpsMarketId, remainingFees, ERC2771Context._msgSender());
 
         if (feeCollectorFees == 0) {
             return (referralFees, 0);
@@ -190,18 +180,17 @@ library GlobalPerpsMarketConfiguration {
         return (referralFees, feeCollectorFees);
     }
 
-    function calculateCollateralLiquidateReward(
-        Data storage self,
-        uint256 notionalValue
-    ) internal view returns (uint256) {
+    function calculateCollateralLiquidateReward(Data storage self, uint256 notionalValue)
+        internal
+        view
+        returns (uint256)
+    {
         return notionalValue.mulDecimal(self.collateralLiquidateRewardRatioD18);
     }
 
-    function updateSupportedCollaterals(
-        Data storage self,
-        uint128 collateralId,
-        uint256 maxCollateralAmount
-    ) internal {
+    function updateSupportedCollaterals(Data storage self, uint128 collateralId, uint256 maxCollateralAmount)
+        internal
+    {
         bool isSupportedCollateral = self.supportedCollateralTypes.contains(collateralId);
         if (maxCollateralAmount > 0 && !isSupportedCollateral) {
             self.supportedCollateralTypes.add(collateralId.to256());

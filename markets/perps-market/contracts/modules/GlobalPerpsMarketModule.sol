@@ -299,4 +299,14 @@ contract GlobalPerpsMarketModule is IGlobalPerpsMarketModule {
     ) external view override returns (uint256 shareRatioD18) {
         return GlobalPerpsMarketConfiguration.load().relayerShare[relayer];
     }
+
+    /**
+     * @inheritdoc IGlobalPerpsMarketModule
+     */
+    function setEndorsedFeeTierUpdater(address _endorsedFeeTierUpdater) external override {
+        OwnableStorage.onlyOwner();
+        GlobalPerpsMarketConfiguration.load().endorsedFeeTierUpdater = _endorsedFeeTierUpdater;
+
+        emit EndorsedFeeTierUpdaterSet(_endorsedFeeTierUpdater);
+    }
 }
