@@ -98,11 +98,9 @@ contracts = [
     "MarketConfigurationModule",
     "CollateralConfigurationModule",
     "GlobalPerpsMarketModule",
-<<<<<<< HEAD
     "LimitOrderModule",
-=======
     "FeeTierModule",
->>>>>>> f8b91ce9 (VIP Program (#2))
+    "FeeTierModule",
 ]
 
 [invoke.upgrade_proxy]
