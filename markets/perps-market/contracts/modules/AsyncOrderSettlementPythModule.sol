@@ -160,15 +160,20 @@ contract AsyncOrderSettlementPythModule is
         AsyncOrder.Data storage asyncOrder,
         PerpsMarketFactory.Data storage factory
     ) internal {
+        GlobalPerpsMarketConfiguration.Data storage s = GlobalPerpsMarketConfiguration.load();
+
         // if settlement reward is non-zero, pay keeper
         if (runtime.settlementReward > 0) {
-            factory.withdrawMarketUsd(ERC2771Context._msgSender(), runtime.settlementReward);
+            uint256 keeperCost = KeeperCosts.load().getSettlementKeeperCosts();
+            uint256 settlerReward = runtime.settlementReward - (keeperCost / 2);
+            uint256 comitterReward = keeperCost / 2;
+
+            factory.withdrawMarketUsd(ERC2771Context._msgSender(), settlerReward);
+            factory.withdrawMarketUsd(s.commitFeeReciever, comitterReward);
         }
 
         // order fees are total fees minus settlement reward
         uint256 orderFees = runtime.totalFees - runtime.settlementReward;
-        GlobalPerpsMarketConfiguration.Data storage s = GlobalPerpsMarketConfiguration.load();
-
         (runtime.referralFees, runtime.feeCollectorFees) = s.collectFees(
             orderFees,
             asyncOrder.request.referrer,
