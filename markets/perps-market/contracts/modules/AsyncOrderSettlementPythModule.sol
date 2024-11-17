@@ -162,14 +162,17 @@ contract AsyncOrderSettlementPythModule is
     ) internal {
         GlobalPerpsMarketConfiguration.Data storage s = GlobalPerpsMarketConfiguration.load();
 
+        uint256 committerReward = KeeperCosts.load().getSettlementKeeperCosts() / 2;
+        if (s.commitFeeReciever == address(0)) {
+            committerReward = 0;
+        }
+
         // if settlement reward is non-zero, pay keeper
         if (runtime.settlementReward > 0) {
-            uint256 keeperCost = KeeperCosts.load().getSettlementKeeperCosts();
-            uint256 settlerReward = runtime.settlementReward - (keeperCost / 2);
-            uint256 comitterReward = keeperCost / 2;
+            uint256 settlerReward = runtime.settlementReward - committerReward;
 
             factory.withdrawMarketUsd(ERC2771Context._msgSender(), settlerReward);
-            factory.withdrawMarketUsd(s.commitFeeReciever, comitterReward);
+            factory.withdrawMarketUsd(s.commitFeeReciever, committerReward);
         }
 
         // order fees are total fees minus settlement reward
