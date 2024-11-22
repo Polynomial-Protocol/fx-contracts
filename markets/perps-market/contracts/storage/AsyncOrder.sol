@@ -238,7 +238,6 @@ library AsyncOrder {
         uint256 availableMargin;
         uint256 currentLiquidationMargin;
         uint256 accumulatedLiquidationRewards;
-        uint256 currentLiquidationReward;
         int128 newPositionSize;
         uint256 newNotionalValue;
         int256 currentAvailableMargin;
@@ -283,7 +282,7 @@ library AsyncOrder {
             runtime.currentAvailableMargin,
             runtime.requiredInitialMargin,
             ,
-            runtime.currentLiquidationReward
+
         ) = account.isEligibleForLiquidation(PerpsPrice.Tolerance.DEFAULT);
 
         if (runtime.isEligible) {
@@ -416,8 +415,25 @@ library AsyncOrder {
             orderPrice
         );
 
-        // check if fill price exceeded acceptable price
-        if (!acceptablePriceExceeded(order, fillPrice)) {
+        Position.Data storage oldPosition = PerpsMarket.accountPosition(
+            order.request.marketId,
+            order.request.accountId
+        );
+        int128 newPositionSize = oldPosition.size + order.request.sizeDelta;
+        int256 lockedCreditDelta = perpsMarketData.requiredCreditForSize(
+            MathUtil.abs(newPositionSize).toInt() - MathUtil.abs(oldPosition.size).toInt(),
+            PerpsPrice.Tolerance.DEFAULT
+        );
+        (bool isMarketSolvent, , ) = GlobalPerpsMarket.load().isMarketSolventForCreditDelta(
+            lockedCreditDelta
+        );
+
+        // Allow to cancel if the cancellation is due to market insolvency while not reducing the order
+        // If not, check if fill price exceeded acceptable price
+        if (
+            (isMarketSolvent || MathUtil.isSameSideReducing(oldPosition.size, newPositionSize)) &&
+            !acceptablePriceExceeded(order, fillPrice)
+        ) {
             revert AcceptablePriceNotExceeded(fillPrice, order.request.acceptablePrice);
         }
     }
@@ -574,7 +590,7 @@ library AsyncOrder {
         // get initial margin requirement for the new position
         (, , runtime.newRequiredMargin, ) = marketConfig.calculateRequiredMargins(
             newPositionSize,
-            fillPrice
+            PerpsPrice.getCurrentPrice(marketId, PerpsPrice.Tolerance.DEFAULT)
         );
 
         // get initial margin of old position
@@ -591,10 +607,13 @@ library AsyncOrder {
             runtime.oldRequiredMargin;
 
         (runtime.accumulatedLiquidationRewards, runtime.maxNumberOfWindows) = account
-            .getKeeperRewardsAndCosts(marketId);
-        runtime.accumulatedLiquidationRewards += marketConfig.calculateFlagReward(
-            MathUtil.abs(newPositionSize).mulDecimal(fillPrice)
-        );
+            .getKeeperRewardsAndCosts(
+                marketId,
+                PerpsPrice.Tolerance.DEFAULT,
+                marketConfig.calculateFlagReward(
+                    MathUtil.abs(newPositionSize).mulDecimal(fillPrice)
+                )
+            );
         runtime.numberOfWindows = marketConfig.numberOfLiquidationWindows(
             MathUtil.abs(newPositionSize)
         );

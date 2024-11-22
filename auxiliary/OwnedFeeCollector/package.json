@@ -1,15 +1,22 @@
 {
   "name": "@synthetixio/owned-fee-collector",
-  "version": "3.6.1",
+  "version": "3.8.1",
   "description": "Colelcts fees on behalf of an owner",
   "publishConfig": {
     "access": "public"
   },
+  "files": [
+    "contracts",
+    "!contracts/generated",
+    "hardhat.config.ts",
+    "storage.dump.json",
+    "*.toml"
+  ],
   "scripts": {
     "test": "CANNON_REGISTRY_PRIORITY=local hardhat test",
     "coverage": "hardhat coverage --network hardhat",
     "clean": "hardhat clean",
-    "build": "yarn build:contracts",
+    "build": "echo 'No build step for owned fee collector'",
     "build:contracts": "hardhat compile --force && CANNON_REGISTRY_PRIORITY=local hardhat cannon:build",
     "build-testable": "CANNON_REGISTRY_PRIORITY=local hardhat cannon:build cannonfile.test.toml",
     "compile-contracts": "hardhat compile",

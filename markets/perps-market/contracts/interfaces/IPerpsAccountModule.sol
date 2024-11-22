@@ -6,6 +6,11 @@ pragma solidity >=0.8.11 <0.9.0;
  */
 interface IPerpsAccountModule {
     /**
+     * @notice Thrown when attempting to access a not registered id
+     */
+    error InvalidDistributor(uint128 collateralId);
+
+    /**
      * @notice Struct to represent a fee tier update request.
      * @param feeTierId Id of the fee tier.
      * @param accountId Id of the account.

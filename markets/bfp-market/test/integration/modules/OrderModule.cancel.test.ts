@@ -27,11 +27,12 @@ import {
   isSusdCollateral,
   setBaseFeePerGas,
   setMarketConfiguration,
+  setMarketConfigurationById,
   withExplicitEvmMine,
 } from '../../helpers';
 import { calcKeeperCancellationFee } from '../../calculations';
 
-describe('OrderModule Cancelations', () => {
+describe('OrderModule Cancellations', () => {
   const bs = bootstrap(genBootstrap());
   const { systems, restore, provider, keeper, traders, collateralsWithoutSusd } = bs;
 
@@ -520,6 +521,73 @@ describe('OrderModule Cancelations', () => {
       await assertEvents(
         receipt,
         [`OrderCanceled(${trader.accountId}, ${marketId}, 0, ${orderDigestBefore.commitmentTime})`],
+        BfpMarketProxy
+      );
+    });
+  });
+
+  describe('cancel order due to market insolvency', () => {
+    it('reverts if trying to cancel an order when market is solvent', async () => {
+      const { BfpMarketProxy } = systems();
+
+      const { trader, marketId, market, collateral, collateralDepositAmount } = await depositMargin(
+        bs,
+        genTrader(bs)
+      );
+
+      const order = await genOrder(bs, market, collateral, collateralDepositAmount);
+      await commitOrder(bs, marketId, trader, order);
+
+      // fast forward to settlement
+      const { publishTime, settlementTime } = await getFastForwardTimestamp(bs, marketId, trader);
+      await fastForwardTo(settlementTime, provider());
+
+      const { updateData } = await getPythPriceDataByMarketId(bs, marketId, publishTime);
+
+      await assertRevert(
+        BfpMarketProxy.connect(keeper()).cancelOrder(trader.accountId, marketId, updateData),
+        `PriceToleranceNotExceeded("${order.sizeDelta}", "${order.fillPrice}", "${order.limitPrice}")`
+      );
+    });
+
+    it('allows to cancel an order if the market is insolvent', async () => {
+      const { BfpMarketProxy } = systems();
+      const { trader, marketId, market, collateral, collateralDepositAmount } = await depositMargin(
+        bs,
+        genTrader(bs)
+      );
+
+      const order = await genOrder(bs, market, collateral, collateralDepositAmount, {
+        desiredSize: bn(1),
+      });
+      await commitOrder(bs, marketId, trader, order);
+
+      // fast forward to settlement
+      const { publishTime, settlementTime } = await getFastForwardTimestamp(bs, marketId, trader);
+      await fastForwardTo(settlementTime, provider());
+
+      const orderDigestBefore = await BfpMarketProxy.getOrderDigest(trader.accountId, marketId);
+      assertBn.equal(orderDigestBefore.sizeDelta, order.sizeDelta);
+
+      // Forces market insolvency
+      await setMarketConfigurationById(bs, marketId, {
+        minCreditPercent: bn(9999000),
+      });
+
+      const { updateData } = await getPythPriceDataByMarketId(bs, marketId, publishTime);
+
+      const { receipt } = await withExplicitEvmMine(
+        () =>
+          BfpMarketProxy.connect(trader.signer).cancelOrder(trader.accountId, marketId, updateData),
+        provider()
+      );
+
+      const canceledEvent = findEventSafe(receipt, 'OrderCanceled', BfpMarketProxy);
+      const keeperFee = canceledEvent!.args.keeperFee;
+
+      await assertEvent(
+        receipt,
+        `OrderCanceled(${trader.accountId}, ${marketId}, ${keeperFee}, ${orderDigestBefore.commitmentTime})`,
         BfpMarketProxy
       );
     });

@@ -1,13 +1,20 @@
 {
   "name": "@synthetixio/arbitrum-gas-price-oracle",
-  "version": "3.6.1",
+  "version": "3.8.1",
   "description": "Arbitrum Gas Price Oracle Node",
   "publishConfig": {
     "access": "public"
   },
+  "files": [
+    "contracts",
+    "!contracts/generated",
+    "hardhat.config.ts",
+    "storage.dump.json",
+    "*.toml"
+  ],
   "scripts": {
     "clean": "hardhat clean",
-    "build": "yarn build:contracts",
+    "build": "echo 'No build step for arb gas price oracle'",
     "build-testable": "CANNON_REGISTRY_PRIORITY=local hardhat cannon:build cannonfile.test.toml",
     "build:contracts": "hardhat compile --force && yarn storage:dump && CANNON_REGISTRY_PRIORITY=local hardhat cannon:build",
     "storage:dump": "hardhat storage:dump --output storage.new.dump.json",

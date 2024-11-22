@@ -53,7 +53,10 @@ contract PerpsAccountModule is IPerpsAccountModule, EIP712 {
     ) external override {
         FeatureFlag.ensureAccessToFeature(Flags.PERPS_SYSTEM);
 
-        PerpsCollateralConfiguration.validDistributorExists(collateralId);
+        bool distributorExists = PerpsCollateralConfiguration.validDistributorExists(collateralId);
+        if (!distributorExists) {
+            revert InvalidDistributor(collateralId);
+        }
 
         Account.exists(accountId);
         Account.loadAccountAndValidatePermission(
