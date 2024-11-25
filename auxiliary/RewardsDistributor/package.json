@@ -15,7 +15,7 @@
   "license": "MIT",
   "scripts": {
     "cov": "forge coverage --report lcov && genhtml ./lcov.info --output-directory coverage",
-    "build": "CANNON_REGISTRY_PRIORITY=local cannon build",
+    "build": "echo 'No build step for rewards distributor'",
     "publish-contracts": "cannon publish synthetix-rewards-distributor:$(node -p 'require(`./package.json`).version') --chain-id 13370 --quiet --tags $(node -p '/^\\d+\\.\\d+\\.\\d+$/.test(require(`./package.json`).version) ? `latest` : `dev`')",
     "forge-test": "forge test -vvvvv",
     "forge-coverage": "forge coverage --report lcov"
