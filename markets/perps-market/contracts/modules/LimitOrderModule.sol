@@ -188,7 +188,7 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
         );
     }
 
-    function validateLimitOrder(LimitOrder.SignedOrderRequest calldata order) internal view {
+    function validateLimitOrder(LimitOrder.SignedOrderRequest calldata order) public view {
         // TODO still need this?
         AsyncOrder.checkPendingOrder(order.accountId);
         PerpsAccount.validateMaxPositions(order.accountId, order.marketId);
@@ -199,7 +199,7 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
     function validateLimitOrderPair(
         LimitOrder.SignedOrderRequest calldata shortOrder,
         LimitOrder.SignedOrderRequest calldata longOrder
-    ) internal view {
+    ) public view {
         if (shortOrder.limitOrderMaker == longOrder.limitOrderMaker) {
             revert MismatchingMakerTakerLimitOrder(
                 shortOrder.limitOrderMaker,
