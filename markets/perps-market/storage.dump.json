@@ -1130,28 +1130,6 @@
       ]
     }
   },
-  "contracts/storage/LimitOrderFee.sol:LimitOrderFee": {
-    "name": "LimitOrderFee",
-    "kind": "library",
-    "structs": {
-      "Data": [
-        {
-          "type": "uint256",
-          "name": "makerFee",
-          "size": 32,
-          "slot": "0",
-          "offset": 0
-        },
-        {
-          "type": "uint256",
-          "name": "takerFee",
-          "size": 32,
-          "slot": "1",
-          "offset": 0
-        }
-      ]
-    }
-  },
   "contracts/storage/Liquidation.sol:Liquidation": {
     "name": "Liquidation",
     "kind": "library",
@@ -1261,6 +1239,22 @@
     "kind": "library",
     "structs": {
       "Data": [
+        {
+          "type": "uint256",
+          "name": "makerFee",
+          "size": 32,
+          "slot": "0",
+          "offset": 0
+        },
+        {
+          "type": "uint256",
+          "name": "takerFee",
+          "size": 32,
+          "slot": "1",
+          "offset": 0
+        }
+      ],
+      "DataLimitOrder": [
         {
           "type": "uint256",
           "name": "makerFee",
