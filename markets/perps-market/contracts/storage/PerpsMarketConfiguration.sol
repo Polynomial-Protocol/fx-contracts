@@ -79,6 +79,10 @@ library PerpsMarketConfiguration {
          * @dev If set to zero then there is no cap with value, just units
          */
         uint256 maxMarketValue;
+        /**
+         * @dev Limit order fees
+         */
+        LimitOrderFee.Data limitOrderFees;
     }
 
     function load(uint128 marketId) internal pure returns (Data storage store) {
