@@ -385,8 +385,8 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
         PerpsMarketConfiguration.Data storage marketConfig
     ) internal view returns (uint256) {
         uint256 fees = isMaker
-            ? marketConfig.orderFees.limitOrderMakerFee
-            : marketConfig.orderFees.limitOrderTakerFee;
+            ? marketConfig.limitOrderFees.makerFee
+            : marketConfig.limitOrderFees.takerFee;
 
         return MathUtil.abs(amount).mulDecimal(price).mulDecimal(fees);
     }

@@ -104,8 +104,8 @@ contract MarketConfigurationModule is IMarketConfigurationModule {
     ) external override {
         OwnableStorage.onlyOwner();
         PerpsMarketConfiguration.Data storage config = PerpsMarketConfiguration.load(marketId);
-        config.orderFees.limitOrderMakerFee = limitOrderMakerFeeRatio;
-        config.orderFees.limitOrderTakerFee = limitOrderTakerFeeRatio;
+        config.limitOrderFees.makerFee = limitOrderMakerFeeRatio;
+        config.limitOrderFees.takerFee = limitOrderTakerFeeRatio;
         emit LimitOrderFeesSet(marketId, limitOrderMakerFeeRatio, limitOrderTakerFeeRatio);
     }
 
@@ -354,8 +354,8 @@ contract MarketConfigurationModule is IMarketConfigurationModule {
     ) external view override returns (uint256 limitOrderMakerFee, uint256 limitOrderTakerFee) {
         PerpsMarketConfiguration.Data storage config = PerpsMarketConfiguration.load(marketId);
 
-        limitOrderMakerFee = config.orderFees.limitOrderMakerFee;
-        limitOrderTakerFee = config.orderFees.limitOrderTakerFee;
+        limitOrderMakerFee = config.limitOrderFees.makerFee;
+        limitOrderTakerFee = config.limitOrderFees.takerFee;
     }
 
     /**

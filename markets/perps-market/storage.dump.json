@@ -1252,19 +1252,21 @@
           "size": 32,
           "slot": "1",
           "offset": 0
-        },
+        }
+      ],
+      "DataLimitOrder": [
         {
           "type": "uint256",
-          "name": "limitOrderMakerFee",
+          "name": "makerFee",
           "size": 32,
-          "slot": "2",
+          "slot": "0",
           "offset": 0
         },
         {
           "type": "uint256",
-          "name": "limitOrderTakerFee",
+          "name": "takerFee",
           "size": 32,
-          "slot": "3",
+          "slot": "1",
           "offset": 0
         }
       ]
@@ -1683,17 +1685,9 @@
             {
               "type": "uint256",
               "name": "takerFee"
-            },
-            {
-              "type": "uint256",
-              "name": "limitOrderMakerFee"
-            },
-            {
-              "type": "uint256",
-              "name": "limitOrderTakerFee"
             }
           ],
-          "size": 128,
+          "size": 64,
           "slot": "0",
           "offset": 0
         },
@@ -1742,105 +1736,122 @@
             ]
           },
           "size": 32,
-          "slot": "4",
+          "slot": "2",
           "offset": 0
         },
         {
           "type": "uint256",
           "name": "maxMarketSize",
           "size": 32,
-          "slot": "5",
+          "slot": "3",
           "offset": 0
         },
         {
           "type": "uint256",
           "name": "maxFundingVelocity",
           "size": 32,
-          "slot": "6",
+          "slot": "4",
           "offset": 0
         },
         {
           "type": "uint256",
           "name": "skewScale",
           "size": 32,
-          "slot": "7",
+          "slot": "5",
           "offset": 0
         },
         {
           "type": "uint256",
           "name": "initialMarginRatioD18",
           "size": 32,
-          "slot": "8",
+          "slot": "6",
           "offset": 0
         },
         {
           "type": "uint256",
           "name": "maintenanceMarginScalarD18",
           "size": 32,
-          "slot": "9",
+          "slot": "7",
           "offset": 0
         },
         {
           "type": "uint256",
           "name": "lockedOiRatioD18",
           "size": 32,
-          "slot": "10",
+          "slot": "8",
           "offset": 0
         },
         {
           "type": "uint256",
           "name": "maxLiquidationLimitAccumulationMultiplier",
           "size": 32,
-          "slot": "11",
+          "slot": "9",
           "offset": 0
         },
         {
           "type": "uint256",
           "name": "maxSecondsInLiquidationWindow",
           "size": 32,
-          "slot": "12",
+          "slot": "10",
           "offset": 0
         },
         {
           "type": "uint256",
           "name": "flagRewardRatioD18",
           "size": 32,
-          "slot": "13",
+          "slot": "11",
           "offset": 0
         },
         {
           "type": "uint256",
           "name": "minimumPositionMargin",
           "size": 32,
-          "slot": "14",
+          "slot": "12",
           "offset": 0
         },
         {
           "type": "uint256",
           "name": "minimumInitialMarginRatioD18",
           "size": 32,
-          "slot": "15",
+          "slot": "13",
           "offset": 0
         },
         {
           "type": "uint256",
           "name": "maxLiquidationPd",
           "size": 32,
-          "slot": "16",
+          "slot": "14",
           "offset": 0
         },
         {
           "type": "address",
           "name": "endorsedLiquidator",
           "size": 20,
-          "slot": "17",
+          "slot": "15",
           "offset": 0
         },
         {
           "type": "uint256",
           "name": "maxMarketValue",
           "size": 32,
-          "slot": "18",
+          "slot": "16",
+          "offset": 0
+        },
+        {
+          "type": "struct",
+          "name": "limitOrderFees",
+          "members": [
+            {
+              "type": "uint256",
+              "name": "makerFee"
+            },
+            {
+              "type": "uint256",
+              "name": "takerFee"
+            }
+          ],
+          "size": 64,
+          "slot": "17",
           "offset": 0
         }
       ]

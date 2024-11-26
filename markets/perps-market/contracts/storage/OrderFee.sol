@@ -14,13 +14,15 @@ library OrderFee {
          * @dev Taker fee. Applied when order (or partial order) is increasing skew.
          */
         uint256 takerFee;
+    }
+    struct DataLimitOrder {
         /**
          * @dev Limit order maker fee. Applied when limit order is fully matched.
          */
-        uint256 limitOrderMakerFee;
+        uint256 makerFee;
         /**
          * @dev Limit order taker fee. Applied when limit order is fully matched.
          */
-        uint256 limitOrderTakerFee;
+        uint256 takerFee;
     }
 }
