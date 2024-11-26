@@ -4,6 +4,7 @@ pragma solidity >=0.8.11 <0.9.0;
 import {DecimalMath} from "@synthetixio/core-contracts/contracts/utils/DecimalMath.sol";
 import {SafeCastI128} from "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
 import {OrderFee} from "./OrderFee.sol";
+import {LimitOrderFee} from "./LimitOrderFee.sol";
 import {SettlementStrategy} from "./SettlementStrategy.sol";
 import {MathUtil} from "../utils/MathUtil.sol";
 

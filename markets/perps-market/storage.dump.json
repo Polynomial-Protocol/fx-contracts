@@ -683,6 +683,19 @@
           "size": 20,
           "slot": "16",
           "offset": 0
+        },
+        {
+          "type": "mapping",
+          "name": "relayerShare",
+          "key": {
+            "type": "address"
+          },
+          "value": {
+            "type": "uint256"
+          },
+          "size": 32,
+          "slot": "17",
+          "offset": 0
         }
       ]
     }
@@ -726,6 +739,414 @@
           "name": "keeperCostNodeId",
           "size": 32,
           "slot": "0",
+          "offset": 0
+        }
+      ]
+    }
+  },
+  "contracts/storage/LimitOrder.sol:LimitOrder": {
+    "name": "LimitOrder",
+    "kind": "library",
+    "structs": {
+      "Data": [
+        {
+          "type": "mapping",
+          "name": "limitOrderNonceBitmaps",
+          "key": {
+            "type": "uint128"
+          },
+          "value": {
+            "type": "mapping",
+            "key": {
+              "type": "uint256"
+            },
+            "value": {
+              "type": "uint256"
+            }
+          },
+          "size": 32,
+          "slot": "0",
+          "offset": 0
+        }
+      ],
+      "SignedOrderRequest": [
+        {
+          "type": "uint128",
+          "name": "accountId",
+          "size": 16,
+          "slot": "0",
+          "offset": 0
+        },
+        {
+          "type": "uint128",
+          "name": "marketId",
+          "size": 16,
+          "slot": "0",
+          "offset": 16
+        },
+        {
+          "type": "address",
+          "name": "relayer",
+          "size": 20,
+          "slot": "1",
+          "offset": 0
+        },
+        {
+          "type": "int128",
+          "name": "amount",
+          "size": 16,
+          "slot": "2",
+          "offset": 0
+        },
+        {
+          "type": "uint256",
+          "name": "price",
+          "size": 32,
+          "slot": "3",
+          "offset": 0
+        },
+        {
+          "type": "bool",
+          "name": "limitOrderMaker",
+          "size": 1,
+          "slot": "4",
+          "offset": 0
+        },
+        {
+          "type": "uint256",
+          "name": "expiration",
+          "size": 32,
+          "slot": "5",
+          "offset": 0
+        },
+        {
+          "type": "uint256",
+          "name": "nonce",
+          "size": 32,
+          "slot": "6",
+          "offset": 0
+        },
+        {
+          "type": "bytes32",
+          "name": "trackingCode",
+          "size": 32,
+          "slot": "7",
+          "offset": 0
+        }
+      ],
+      "Signature": [
+        {
+          "type": "uint8",
+          "name": "v",
+          "size": 1,
+          "slot": "0",
+          "offset": 0
+        },
+        {
+          "type": "bytes32",
+          "name": "r",
+          "size": 32,
+          "slot": "1",
+          "offset": 0
+        },
+        {
+          "type": "bytes32",
+          "name": "s",
+          "size": 32,
+          "slot": "2",
+          "offset": 0
+        }
+      ],
+      "ValidateRequestRuntime": [
+        {
+          "type": "bool",
+          "name": "isEligible",
+          "size": 1,
+          "slot": "0",
+          "offset": 0
+        },
+        {
+          "type": "int128",
+          "name": "amount",
+          "size": 16,
+          "slot": "0",
+          "offset": 1
+        },
+        {
+          "type": "uint128",
+          "name": "accountId",
+          "size": 16,
+          "slot": "1",
+          "offset": 0
+        },
+        {
+          "type": "uint128",
+          "name": "marketId",
+          "size": 16,
+          "slot": "1",
+          "offset": 16
+        },
+        {
+          "type": "uint256",
+          "name": "price",
+          "size": 32,
+          "slot": "2",
+          "offset": 0
+        },
+        {
+          "type": "uint256",
+          "name": "limitOrderFees",
+          "size": 32,
+          "slot": "3",
+          "offset": 0
+        },
+        {
+          "type": "int128",
+          "name": "newPositionSize",
+          "size": 16,
+          "slot": "4",
+          "offset": 0
+        },
+        {
+          "type": "int256",
+          "name": "currentAvailableMargin",
+          "size": 32,
+          "slot": "5",
+          "offset": 0
+        },
+        {
+          "type": "uint256",
+          "name": "requiredInitialMargin",
+          "size": 32,
+          "slot": "6",
+          "offset": 0
+        },
+        {
+          "type": "uint256",
+          "name": "totalRequiredMargin",
+          "size": 32,
+          "slot": "7",
+          "offset": 0
+        },
+        {
+          "type": "struct",
+          "name": "newPosition",
+          "members": [
+            {
+              "type": "uint128",
+              "name": "marketId"
+            },
+            {
+              "type": "int128",
+              "name": "size"
+            },
+            {
+              "type": "uint128",
+              "name": "latestInteractionPrice"
+            },
+            {
+              "type": "int128",
+              "name": "latestInteractionFunding"
+            },
+            {
+              "type": "uint256",
+              "name": "latestInterestAccrued"
+            }
+          ],
+          "size": 96,
+          "slot": "8",
+          "offset": 0
+        }
+      ],
+      "SettleRequestRuntime": [
+        {
+          "type": "uint128",
+          "name": "marketId",
+          "size": 16,
+          "slot": "0",
+          "offset": 0
+        },
+        {
+          "type": "uint128",
+          "name": "accountId",
+          "size": 16,
+          "slot": "0",
+          "offset": 16
+        },
+        {
+          "type": "int128",
+          "name": "amount",
+          "size": 16,
+          "slot": "1",
+          "offset": 0
+        },
+        {
+          "type": "int256",
+          "name": "pnl",
+          "size": 32,
+          "slot": "2",
+          "offset": 0
+        },
+        {
+          "type": "struct",
+          "name": "updateData",
+          "members": [
+            {
+              "type": "uint128",
+              "name": "marketId"
+            },
+            {
+              "type": "uint128",
+              "name": "interestRate"
+            },
+            {
+              "type": "int256",
+              "name": "skew"
+            },
+            {
+              "type": "uint256",
+              "name": "size"
+            },
+            {
+              "type": "int256",
+              "name": "currentFundingRate"
+            },
+            {
+              "type": "int256",
+              "name": "currentFundingVelocity"
+            }
+          ],
+          "size": 160,
+          "slot": "3",
+          "offset": 0
+        },
+        {
+          "type": "uint256",
+          "name": "chargedInterest",
+          "size": 32,
+          "slot": "8",
+          "offset": 0
+        },
+        {
+          "type": "struct",
+          "name": "newPosition",
+          "members": [
+            {
+              "type": "uint128",
+              "name": "marketId"
+            },
+            {
+              "type": "int128",
+              "name": "size"
+            },
+            {
+              "type": "uint128",
+              "name": "latestInteractionPrice"
+            },
+            {
+              "type": "int128",
+              "name": "latestInteractionFunding"
+            },
+            {
+              "type": "uint256",
+              "name": "latestInterestAccrued"
+            }
+          ],
+          "size": 96,
+          "slot": "9",
+          "offset": 0
+        },
+        {
+          "type": "struct",
+          "name": "oldPosition",
+          "members": [
+            {
+              "type": "uint128",
+              "name": "marketId"
+            },
+            {
+              "type": "int128",
+              "name": "size"
+            },
+            {
+              "type": "uint128",
+              "name": "latestInteractionPrice"
+            },
+            {
+              "type": "int128",
+              "name": "latestInteractionFunding"
+            },
+            {
+              "type": "uint256",
+              "name": "latestInterestAccrued"
+            }
+          ],
+          "size": 96,
+          "slot": "12",
+          "offset": 0
+        },
+        {
+          "type": "uint256",
+          "name": "relayerFees",
+          "size": 32,
+          "slot": "15",
+          "offset": 0
+        },
+        {
+          "type": "uint256",
+          "name": "feeCollectorFees",
+          "size": 32,
+          "slot": "16",
+          "offset": 0
+        },
+        {
+          "type": "int256",
+          "name": "accruedFunding",
+          "size": 32,
+          "slot": "17",
+          "offset": 0
+        },
+        {
+          "type": "uint256",
+          "name": "limitOrderFees",
+          "size": 32,
+          "slot": "18",
+          "offset": 0
+        },
+        {
+          "type": "uint256",
+          "name": "price",
+          "size": 32,
+          "slot": "19",
+          "offset": 0
+        },
+        {
+          "type": "int256",
+          "name": "chargedAmount",
+          "size": 32,
+          "slot": "20",
+          "offset": 0
+        }
+      ]
+    }
+  },
+  "contracts/storage/LimitOrderFee.sol:LimitOrderFee": {
+    "name": "LimitOrderFee",
+    "kind": "library",
+    "structs": {
+      "Data": [
+        {
+          "type": "uint256",
+          "name": "makerFee",
+          "size": 32,
+          "slot": "0",
+          "offset": 0
+        },
+        {
+          "type": "uint256",
+          "name": "takerFee",
+          "size": 32,
+          "slot": "1",
           "offset": 0
         }
       ]
@@ -1420,6 +1841,23 @@
           "name": "maxMarketValue",
           "size": 32,
           "slot": "16",
+          "offset": 0
+        },
+        {
+          "type": "struct",
+          "name": "limitOrderFees",
+          "members": [
+            {
+              "type": "uint256",
+              "name": "makerFee"
+            },
+            {
+              "type": "uint256",
+              "name": "takerFee"
+            }
+          ],
+          "size": 64,
+          "slot": "17",
           "offset": 0
         }
       ]
