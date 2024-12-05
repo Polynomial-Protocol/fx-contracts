@@ -1,6 +1,6 @@
-name = "synthetix-rewards-distributor"
+name = "fx-rewards-distributor"
 version = "<%= package.version %>"
-description = "Rewards distributor for Core Synthetix v3"
+description = "Rewards distributor for Polynomial"
 
 [setting.salt]
 defaultValue = "rewards"
@@ -29,7 +29,7 @@ defaultValue = "Rewards Distributor V3"
 description = "Rewards distributor name"
 
 [contract.RewardsDistributor]
-artifact = "RewardsDistributor"
+artifact = "src/RewardsDistributor.sol:RewardsDistributor"
 args = [
     "<%= settings.rewardManager %>",
     "<%= settings.poolId %>",
