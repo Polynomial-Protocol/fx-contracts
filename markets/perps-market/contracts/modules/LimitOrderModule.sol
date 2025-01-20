@@ -326,6 +326,7 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
         runtime.limitOrderFees = limitOrderFees;
         runtime.amount = order.amount;
         runtime.price = order.price;
+        runtime.newPosition = newPosition;
 
         PerpsAccount.Data storage perpsAccount = PerpsAccount.load(runtime.accountId);
         (runtime.pnl, , runtime.chargedInterest, runtime.accruedFunding, , ) = oldPosition.getPnl(
