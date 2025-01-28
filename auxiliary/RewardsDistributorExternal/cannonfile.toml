@@ -34,7 +34,7 @@ defaultValue = "Rewards Distributor (External) V3"
 description = "Rewards distributor (External) name"
 
 [contract.RewardsDistributorExternal]
-artifact = "RewardsDistributorExternal"
+artifact = "src/RewardsDistributorExternal.sol:RewardsDistributorExternal"
 args = [
     "<%= settings.rewardManager %>",
     "<%= settings.poolId %>",
