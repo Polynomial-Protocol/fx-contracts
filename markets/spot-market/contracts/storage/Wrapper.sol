@@ -70,9 +70,9 @@ library Wrapper {
             .getMarketCollateralAmount(marketId, configuredCollateralType);
         // you are only allowed to update the collateral type if the collateral amount deposited
         // into the market manager is 0.
-        // if (wrapCollateralType != configuredCollateralType && currentMarketCollateralAmount != 0) {
-        //     revert InvalidCollateralType(configuredCollateralType);
-        // }
+        if (wrapCollateralType != configuredCollateralType && currentMarketCollateralAmount != 0) {
+            revert InvalidCollateralType(configuredCollateralType);
+        }
 
         self.wrapCollateralType = wrapCollateralType;
         self.maxWrappableAmount = maxWrappableAmount;
