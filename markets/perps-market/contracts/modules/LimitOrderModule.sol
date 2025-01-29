@@ -213,6 +213,12 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
         LimitOrder.SignedOrderRequest calldata shortOrder,
         LimitOrder.SignedOrderRequest calldata longOrder
     ) public view {
+        if (shortOrder.limitOrderMaker == longOrder.limitOrderMaker) {
+            revert MismatchingMakerTakerLimitOrder(
+                shortOrder.limitOrderMaker,
+                longOrder.limitOrderMaker
+            );
+        }
         if (shortOrder.relayer != longOrder.relayer) {
             revert LimitOrderDifferentRelayer(shortOrder.relayer, longOrder.relayer);
         }
