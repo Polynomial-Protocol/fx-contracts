@@ -99,12 +99,13 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
         LimitOrder.SignedOrderRequest calldata shortOrder,
         LimitOrder.Signature calldata shortSignature,
         LimitOrder.SignedOrderRequest calldata longOrder,
-        LimitOrder.Signature calldata longSignature,
-        bool isShortMaker
+        LimitOrder.Signature calldata longSignature
     ) external {
         FeatureFlag.ensureAccessToFeature(Flags.PERPS_SYSTEM);
         FeatureFlag.ensureAccessToFeature(Flags.LIMIT_ORDER);
         PerpsMarket.loadValid(shortOrder.marketId);
+
+        bool isShortMaker = shortOrder.limitOrderMaker;
 
         checkSigPermission(shortOrder, shortSignature);
         checkSigPermission(longOrder, longSignature);
