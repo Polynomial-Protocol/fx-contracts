@@ -42,9 +42,9 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
     using PerpsAccount for PerpsAccount.Data;
     using PerpsMarketConfiguration for PerpsMarketConfiguration.Data;
 
-    // keccak256("SignedOrderRequest(uint128 accountId,uint128 marketId,address relayer,int128 amount,uint256 price,bool limitOrderMaker,uint256 expiration,uint256 nonce,bytes32 trackingCode)");
+    // keccak256("SignedOrderRequest(uint128 accountId,uint128 marketId,address relayer,int128 amount,uint256 price,uint256 expiration,uint256 nonce,bytes32 trackingCode)");
     bytes32 private constant _ORDER_TYPEHASH =
-        0x304c4351979a237557727c692a666c7a2e7a63da2238f70e314bd38e7172513e;
+        0xd8492035486b8ae45e16ccc562d479c7e8050f944a3e7d3889c1d621ac4ef308;
 
     /**
      * @notice Thrown when there's not enough margin to cover the order and settlement costs associated.
@@ -184,7 +184,6 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
                         order.relayer,
                         order.amount,
                         order.price,
-                        order.limitOrderMaker,
                         order.expiration,
                         order.nonce,
                         order.trackingCode
