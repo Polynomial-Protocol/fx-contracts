@@ -99,7 +99,8 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
         LimitOrder.SignedOrderRequest calldata shortOrder,
         LimitOrder.Signature calldata shortSignature,
         LimitOrder.SignedOrderRequest calldata longOrder,
-        LimitOrder.Signature calldata longSignature
+        LimitOrder.Signature calldata longSignature,
+        bool isShortMaker
     ) external {
         FeatureFlag.ensureAccessToFeature(Flags.PERPS_SYSTEM);
         FeatureFlag.ensureAccessToFeature(Flags.LIMIT_ORDER);
@@ -143,12 +144,24 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
             uint256 shortLimitOrderFees,
             Position.Data storage shortOldPosition,
             Position.Data memory shortNewPosition
-        ) = validateRequest(shortOrder, lastPriceCheck, marketConfig, perpsMarketData);
+        ) = validateRequest(
+                shortOrder,
+                lastPriceCheck,
+                marketConfig,
+                perpsMarketData,
+                isShortMaker
+            );
         (
             uint256 longLimitOrderFees,
             Position.Data storage longOldPosition,
             Position.Data memory longNewPosition
-        ) = validateRequest(longOrder, lastPriceCheck, marketConfig, perpsMarketData);
+        ) = validateRequest(
+                longOrder,
+                lastPriceCheck,
+                marketConfig,
+                perpsMarketData,
+                !isShortMaker
+            );
 
         settleRequest(shortOrder, shortLimitOrderFees, shortOldPosition, shortNewPosition);
         settleRequest(longOrder, longLimitOrderFees, longOldPosition, longNewPosition);
@@ -200,12 +213,6 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
         LimitOrder.SignedOrderRequest calldata shortOrder,
         LimitOrder.SignedOrderRequest calldata longOrder
     ) public view {
-        if (shortOrder.limitOrderMaker == longOrder.limitOrderMaker) {
-            revert MismatchingMakerTakerLimitOrder(
-                shortOrder.limitOrderMaker,
-                longOrder.limitOrderMaker
-            );
-        }
         if (shortOrder.relayer != longOrder.relayer) {
             revert LimitOrderDifferentRelayer(shortOrder.relayer, longOrder.relayer);
         }
@@ -241,7 +248,8 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
         LimitOrder.SignedOrderRequest calldata order,
         uint256 lastPriceCheck,
         PerpsMarketConfiguration.Data storage marketConfig,
-        PerpsMarket.Data storage perpsMarketData
+        PerpsMarket.Data storage perpsMarketData,
+        bool isMaker
     ) internal view returns (uint256, Position.Data storage oldPosition, Position.Data memory) {
         LimitOrder.ValidateRequestRuntime memory runtime;
         runtime.amount = order.amount;
@@ -265,7 +273,7 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
         runtime.limitOrderFees = getLimitOrderFeesHelper(
             order.amount,
             order.price,
-            order.limitOrderMaker,
+            isMaker,
             marketConfig
         );
 

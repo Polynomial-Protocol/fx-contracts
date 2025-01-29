@@ -140,6 +140,7 @@ interface ILimitOrderModule {
         LimitOrder.SignedOrderRequest calldata shortOrder,
         LimitOrder.Signature calldata shortSignature,
         LimitOrder.SignedOrderRequest calldata longOrder,
-        LimitOrder.Signature calldata longSignature
+        LimitOrder.Signature calldata longSignature,
+        bool isShortMaker
     ) external;
 }
