@@ -140,8 +140,6 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
             revert LimitOrderRelayerInvalid(longOrder.relayer);
         }
 
-        uint256 settlementPrice = isShortMaker ? longOrder.price : shortOrder.price;
-
         (
             uint256 shortLimitOrderFees,
             Position.Data storage shortOldPosition,
@@ -151,8 +149,7 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
                 lastPriceCheck,
                 marketConfig,
                 perpsMarketData,
-                isShortMaker,
-                settlementPrice
+                isShortMaker
             );
         (
             uint256 longLimitOrderFees,
@@ -163,24 +160,11 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
                 lastPriceCheck,
                 marketConfig,
                 perpsMarketData,
-                !isShortMaker,
-                settlementPrice
+                !isShortMaker
             );
 
-        settleRequest(
-            shortOrder,
-            shortLimitOrderFees,
-            shortOldPosition,
-            shortNewPosition,
-            settlementPrice
-        );
-        settleRequest(
-            longOrder,
-            longLimitOrderFees,
-            longOldPosition,
-            longNewPosition,
-            settlementPrice
-        );
+        settleRequest(shortOrder, shortLimitOrderFees, shortOldPosition, shortNewPosition);
+        settleRequest(longOrder, longLimitOrderFees, longOldPosition, longNewPosition);
     }
 
     function checkSigPermission(
@@ -264,14 +248,13 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
         uint256 lastPriceCheck,
         PerpsMarketConfiguration.Data storage marketConfig,
         PerpsMarket.Data storage perpsMarketData,
-        bool isMaker,
-        uint256 settlementPrice
+        bool isMaker
     ) internal view returns (uint256, Position.Data storage oldPosition, Position.Data memory) {
         LimitOrder.ValidateRequestRuntime memory runtime;
         runtime.amount = order.amount;
         runtime.accountId = order.accountId;
         runtime.marketId = order.marketId;
-        runtime.price = settlementPrice;
+        runtime.price = order.price;
 
         PerpsAccount.Data storage account = PerpsAccount.load(runtime.accountId);
         (
@@ -288,7 +271,7 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
 
         runtime.limitOrderFees = getLimitOrderFeesHelper(
             order.amount,
-            runtime.price,
+            order.price,
             isMaker,
             marketConfig
         );
@@ -329,7 +312,7 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
 
         runtime.newPosition = Position.Data({
             marketId: runtime.marketId,
-            latestInteractionPrice: runtime.price.to128(),
+            latestInteractionPrice: order.price.to128(),
             latestInteractionFunding: perpsMarketData.lastFundingValue.to128(),
             latestInterestAccrued: 0,
             size: runtime.newPositionSize
@@ -342,20 +325,19 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
         LimitOrder.SignedOrderRequest calldata order,
         uint256 limitOrderFees,
         Position.Data storage oldPosition,
-        Position.Data memory newPosition,
-        uint256 settlementPrice
+        Position.Data memory newPosition
     ) internal {
         LimitOrder.SettleRequestRuntime memory runtime;
         runtime.accountId = order.accountId;
         runtime.marketId = order.marketId;
         runtime.limitOrderFees = limitOrderFees;
         runtime.amount = order.amount;
-        runtime.price = settlementPrice;
+        runtime.price = order.price;
         runtime.newPosition = newPosition;
 
         PerpsAccount.Data storage perpsAccount = PerpsAccount.load(runtime.accountId);
         (runtime.pnl, , runtime.chargedInterest, runtime.accruedFunding, , ) = oldPosition.getPnl(
-            runtime.price
+            order.price
         );
 
         runtime.chargedAmount = runtime.pnl - runtime.limitOrderFees.toInt();
