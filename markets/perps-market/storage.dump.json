@@ -767,6 +767,25 @@
           "size": 32,
           "slot": "0",
           "offset": 0
+        },
+        {
+          "type": "mapping",
+          "name": "limitOrderPartialAmountSettled",
+          "key": {
+            "type": "uint128"
+          },
+          "value": {
+            "type": "mapping",
+            "key": {
+              "type": "uint256"
+            },
+            "value": {
+              "type": "int128"
+            }
+          },
+          "size": 32,
+          "slot": "1",
+          "offset": 0
         }
       ],
       "SignedOrderRequest": [
@@ -827,10 +846,17 @@
           "offset": 0
         },
         {
+          "type": "bool",
+          "name": "allowPartialMatching",
+          "size": 1,
+          "slot": "7",
+          "offset": 0
+        },
+        {
           "type": "bytes32",
           "name": "trackingCode",
           "size": 32,
-          "slot": "7",
+          "slot": "8",
           "offset": 0
         }
       ],
@@ -1126,6 +1152,29 @@
           "size": 32,
           "slot": "20",
           "offset": 0
+        }
+      ],
+      "SettleLimitOrderRuntime": [
+        {
+          "type": "bool",
+          "name": "shortOrderPartialFill",
+          "size": 1,
+          "slot": "0",
+          "offset": 0
+        },
+        {
+          "type": "bool",
+          "name": "longOrderPartialFill",
+          "size": 1,
+          "slot": "0",
+          "offset": 1
+        },
+        {
+          "type": "bool",
+          "name": "isShortMaker",
+          "size": 1,
+          "slot": "0",
+          "offset": 2
         }
       ]
     }

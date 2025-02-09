@@ -18,6 +18,10 @@ library LimitOrder {
          * @dev a mapping of account ids to their current order nonces which increment one at a time.
          */
         mapping(uint128 => mapping(uint256 => uint256)) limitOrderNonceBitmaps;
+        /**
+         * @dev a mapping of accountId and nonce to the limit order amount that has been settled
+         */
+        mapping(uint128 => mapping(uint256 => int128)) limitOrderAmountSettled;
     }
 
     /**
@@ -56,6 +60,10 @@ library LimitOrder {
          * @dev Limit order nonce.
          */
         uint256 nonce;
+        /**
+         * @dev Whether to allow partial matching or not
+         */
+        bool allowPartialMatching;
         /**
          * @dev An optional code provided by frontends to assist with tracking the source of volume and fees.
          */
@@ -108,6 +116,14 @@ library LimitOrder {
         int256 chargedAmount;
     }
 
+    /**
+     * @dev Struct used internally in settleLimitOrder() to prevent stack too deep error.
+     */
+    struct LimitOrderPartialFillData {
+        bool shortOrderPartialFill;
+        bool longOrderPartialFill;
+    }
+
     function load() internal pure returns (Data storage limitOrderNonces) {
         bytes32 s = _SLOT_LIMIT_ORDER;
         assembly {
@@ -142,5 +158,39 @@ library LimitOrder {
         uint256 slot = nonce / 256;
         uint256 bit = nonce % 256;
         self.limitOrderNonceBitmaps[accountId][slot] |= 1 << bit;
+        delete self.limitOrderAmountSettled[accountId][nonce];
+    }
+
+    /**
+     * @dev Gets the remaining amount of a limit order that can be settled.
+     * @param self The Data storage struct.
+     * @param accountId The account ID to mark the nonce for.
+     * @param nonce The nonce to mark as used.
+     * @param amount Total amount of the limit order.
+     * @return remainingAmount The remaining amount of the limit order that is left to settle
+     */
+    function getRemainingLimitOrderAmount(
+        Data storage self,
+        uint128 accountId,
+        uint256 nonce,
+        int128 amount
+    ) internal view returns (int128 remainingAmount) {
+        return amount - self.limitOrderAmountSettled[accountId][nonce];
+    }
+
+    /**
+     * @dev Updates a limit order's settled amount for a given account.
+     * @param self The Data storage struct.
+     * @param accountId The account ID to mark the nonce for.
+     * @param nonce The nonce to mark as used.
+     * @param amount The amount settled
+     */
+    function updateLimitOrderAmountSettled(
+        Data storage self,
+        uint128 accountId,
+        uint256 nonce,
+        int128 amount
+    ) internal {
+        self.limitOrderAmountSettled[accountId][nonce] += amount;
     }
 }
