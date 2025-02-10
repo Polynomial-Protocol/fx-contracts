@@ -42,9 +42,9 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
     using PerpsAccount for PerpsAccount.Data;
     using PerpsMarketConfiguration for PerpsMarketConfiguration.Data;
 
-    // keccak256("SignedOrderRequest(uint128 accountId,uint128 marketId,address relayer,int128 amount,uint256 price,uint256 expiration,uint256 nonce,bytes32 trackingCode)");
+    // keccak256("SignedOrderRequest(uint128 accountId,uint128 marketId,address relayer,int128 amount,uint256 price,uint256 expiration,uint256 nonce,bool allowPartialMatching,bytes32 trackingCode)");
     bytes32 private constant _ORDER_TYPEHASH =
-        0xd8492035486b8ae45e16ccc562d479c7e8050f944a3e7d3889c1d621ac4ef308;
+        0x0a59bec24732cf429e6e5afd894a20463018e96060d88b6600a9459e863599a3;
 
     /**
      * @notice Thrown when there's not enough margin to cover the order and settlement costs associated.
@@ -106,8 +106,8 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
         PerpsMarket.loadValid(shortOrder.marketId);
         LimitOrder.LimitOrderPartialFillData memory partialFillData;
 
-        checkSigPermission(shortOrder, shortSignature);
         checkSigPermission(longOrder, longSignature);
+        checkSigPermission(shortOrder, shortSignature);
 
         uint256 lastPriceCheck = PerpsPrice.getCurrentPrice(
             shortOrder.marketId,
