@@ -105,6 +105,11 @@ interface ILimitOrderModule {
     error LimitOrderAmountError(int256 shortAmount, int256 longAmount);
 
     /**
+     * @notice Thrown when there's not enough margin to cover the order and settlement costs associated.
+     */
+    error InsufficientMargin(int256 availableMargin, uint256 minMargin);
+
+    /**
      * @notice cancels a limit order with a nonce from being called for an account
      * @param order the order to cancel
      * @param sig the order signature

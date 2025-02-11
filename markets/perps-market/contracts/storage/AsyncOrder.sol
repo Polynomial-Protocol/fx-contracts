@@ -14,7 +14,7 @@ import {MathUtil} from "../utils/MathUtil.sol";
 import {OrderFee} from "./OrderFee.sol";
 import {KeeperCosts} from "./KeeperCosts.sol";
 import {FeeTier} from "./FeeTier.sol";
-
+import {OffchainOrder} from "./OffchainOrder.sol";
 /**
  * @title Async order top level data storage
  */
@@ -163,6 +163,23 @@ library AsyncOrder {
         self.request = newRequest;
     }
 
+    function updateValid(Data storage self, OffchainOrder.Data memory newRequest) internal {
+        checkPendingOrder(newRequest.accountId);
+
+        PerpsAccount.validateMaxPositions(newRequest.accountId, newRequest.marketId);
+
+        // Replace previous (or empty) order with the commitment request
+        self.commitmentTime = newRequest.timestamp;
+        self.request = OrderCommitmentRequest({
+            marketId: newRequest.marketId,
+            accountId: newRequest.accountId,
+            sizeDelta: newRequest.sizeDelta,
+            settlementStrategyId: newRequest.settlementStrategyId,
+            acceptablePrice: newRequest.acceptablePrice,
+            trackingCode: newRequest.trackingCode,
+            referrer: newRequest.referrerOrRelayer
+        });
+    }
     /**
      * @dev Reverts if there is a pending order.
      * @dev A pending order is one that has a sizeDelta and isn't expired yet.

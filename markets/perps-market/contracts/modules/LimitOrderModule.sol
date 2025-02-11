@@ -46,11 +46,6 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
     bytes32 private constant _ORDER_TYPEHASH =
         0xd8492035486b8ae45e16ccc562d479c7e8050f944a3e7d3889c1d621ac4ef308;
 
-    /**
-     * @notice Thrown when there's not enough margin to cover the order and settlement costs associated.
-     */
-    error InsufficientMargin(int256 availableMargin, uint256 minMargin);
-
     // TODO add max limit order view function here and to the ILimitOrderModule
     /**
      * @inheritdoc ILimitOrderModule
@@ -122,8 +117,8 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
         );
 
         (
-            partialFillData.longOrderPartialFill,
-            partialFillData.shortOrderPartialFill
+            partialFillData.firstOrderPartialFill,
+            partialFillData.secondOrderPartialFill
         ) = updateLimitOrderAmounts(shortOrder, longOrder);
 
         perpsMarketData.validateLimitOrderSize(
@@ -160,14 +155,14 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
             shortLimitOrderFees,
             shortOldPosition,
             shortNewPosition,
-            partialFillData.shortOrderPartialFill
+            partialFillData.firstOrderPartialFill
         );
         settleRequest(
             longOrder,
             longLimitOrderFees,
             longOldPosition,
             longNewPosition,
-            partialFillData.longOrderPartialFill
+            partialFillData.secondOrderPartialFill
         );
     }
 
@@ -457,7 +452,7 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
                     keccak256(
                         "EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)"
                     ),
-                    keccak256(bytes("SyntheticPerpetualFutures")),
+                    keccak256(bytes("PolynomialPerpetualFutures")),
                     keccak256(bytes("1")),
                     block.chainid,
                     address(this)
