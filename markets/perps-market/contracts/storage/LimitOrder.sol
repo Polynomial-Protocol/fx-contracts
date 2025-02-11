@@ -61,13 +61,13 @@ library LimitOrder {
          */
         uint256 nonce;
         /**
-         * @dev Whether to allow partial matching or not
-         */
-        bool allowPartialMatching;
-        /**
          * @dev An optional code provided by frontends to assist with tracking the source of volume and fees.
          */
         bytes32 trackingCode;
+        /**
+         * @dev Whether to allow partial matching or not
+         */
+        bool allowPartialMatching;
     }
 
     /**
