@@ -97,7 +97,7 @@ export function createMatchingLimitOrders(orderArgs: OrderCreationArgs): {
 
 const ORDER_TYPEHASH = ethers.utils.keccak256(
   ethers.utils.toUtf8Bytes(
-    'SignedOrderRequest(uint128 accountId,uint128 marketId,address relayer,int128 amount,uint256 price,uint256 expiration,uint256 nonce,bool allowPartialMatching,bytes32 trackingCode)'
+    'SignedOrderRequest(uint128 accountId,uint128 marketId,address relayer,int128 amount,uint256 price,uint256 expiration,uint256 nonce,bytes32 trackingCode,bool allowPartialMatching)'
   )
 );
 
@@ -137,8 +137,8 @@ export async function signOrder(
               'uint256',
               'uint256',
               'uint256',
-              'bool',
               'bytes32',
+              'bool',
             ],
             [
               ORDER_TYPEHASH,
@@ -149,8 +149,8 @@ export async function signOrder(
               price,
               expiration,
               nonce,
-              allowPartialMatching,
               trackingCode,
+              allowPartialMatching,
             ]
           )
         ),
