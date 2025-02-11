@@ -65,13 +65,7 @@ function createLimitOrder(orderArgs: OrderCreationArgs): Order {
     accountId,
     marketId,
     relayer,
-    amount: isShort
-      ? amount.lt(0)
-        ? amount
-        : amount.mul(-1)
-      : amount.gt(0)
-        ? amount
-        : amount.mul(-1),
+    amount: isShort ? amount.abs().mul(-1) : amount.abs(),
     price,
     limitOrderMaker: isMaker,
     expiration,

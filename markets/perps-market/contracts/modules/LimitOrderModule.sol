@@ -174,7 +174,7 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
     function updateLimitOrderAmounts(
         LimitOrder.SignedOrderRequest memory shortOrder,
         LimitOrder.SignedOrderRequest memory longOrder
-    ) internal returns (bool shortOrderPartialFill, bool longOrderPartialFill) {
+    ) internal returns (bool longOrderPartialFill, bool shortOrderPartialFill) {
         LimitOrder.Data storage limitOrderData = LimitOrder.load();
 
         if (shortOrder.allowPartialMatching) {
