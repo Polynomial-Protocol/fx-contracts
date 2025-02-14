@@ -141,11 +141,6 @@ contract OffchainOrderModule is IOffchainOrderModule, IMarketEvents, IAccountEve
                 partialFillData.secondOrderPartialFill
             );
         } else if (firstOrder.sizeDelta != 0) {
-            Account.loadAccountAndValidatePermission(
-                firstOrder.accountId,
-                AccountRBAC._PERPS_COMMIT_ASYNC_ORDER_PERMISSION
-            );
-
             GlobalPerpsMarket.load().checkLiquidation(firstOrder.accountId);
 
             uint256 shareRatioD18 = GlobalPerpsMarketConfiguration.load().relayerShare[
