@@ -71,6 +71,20 @@ library LimitOrder {
     }
 
     /**
+     * @notice Struct to be signed for cancelling a limit order
+     */
+    struct CancelOrderRequest {
+        /**
+         * @dev Limit order account id.
+         */
+        uint128 accountId;
+        /**
+         * @dev Limit order nonce.
+         */
+        uint256 nonce;
+    }
+
+    /**
      * @notice Limit Order signature struct.
      */
     struct Signature {
