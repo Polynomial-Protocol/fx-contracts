@@ -9,6 +9,7 @@ import {
   createMatchingLimitOrders,
   signOrder,
   Order,
+  signCancelOrderRequest,
 } from '../helpers';
 import { wei } from '@synthetixio/wei';
 // import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
@@ -72,6 +73,10 @@ describe('Settle Offchain Limit Order tests', () => {
 
   const PERPS_COMMIT_LIMIT_ORDER_PERMISSION_NAME = ethers.utils.formatBytes32String(
     'PERPS_COMMIT_LIMIT_ORDER'
+  );
+
+  const PERPS_CANCEL_LIMIT_ORDER_PERMISSION_NAME = ethers.utils.formatBytes32String(
+    'PERPS_CANCEL_LIMIT_ORDER'
   );
 
   const restoreToCommit = snapshotCheckpoint(provider);
@@ -270,38 +275,72 @@ describe('Settle Offchain Limit Order tests', () => {
   });
 
   it('fails to cancel an already completed limit order', async () => {
-    const signedShortOrder = await signOrder(
+    const cancelOrderStruct = { accountId: shortOrder.accountId, nonce: shortOrder.nonce };
+    const signedShortOrder = await signCancelOrderRequest(
       shortOrder,
       trader1() as ethers.Wallet,
       systems().PerpsMarket.address
     );
     await assertRevert(
-      systems().PerpsMarket.connect(owner()).cancelLimitOrder(shortOrder, signedShortOrder),
-      `LimitOrderAlreadyUsed(${shortOrder.accountId}, ${shortOrder.nonce}, ${shortOrder.price}, ${shortOrder.amount})`
+      systems()
+        .PerpsMarket.connect(owner())
+        .functions[
+          'cancelLimitOrder((uint128,uint256),(uint8,bytes32,bytes32))'
+        ](cancelOrderStruct, signedShortOrder),
+      `LimitOrderAlreadyUsed(${shortOrder.accountId}, ${shortOrder.nonce})`
     );
   });
 
   it('successfully cancels a new limit order', async () => {
-    const newNonceShortOrder = { ...shortOrder, nonce: 197889234 };
-    const signedNewNonceShortOrder = await signOrder(
+    const newNonceShortOrder = { accountId: shortOrder.accountId, nonce: shortOrder.nonce + 1 };
+    const signedNewNonceShortOrder = await signCancelOrderRequest(
       newNonceShortOrder,
       trader1() as ethers.Wallet,
       systems().PerpsMarket.address
     );
     const successTx = await systems()
       .PerpsMarket.connect(owner())
-      .cancelLimitOrder(newNonceShortOrder, signedNewNonceShortOrder);
+      .functions[
+        'cancelLimitOrder((uint128,uint256),(uint8,bytes32,bytes32))'
+      ](newNonceShortOrder, signedNewNonceShortOrder);
 
     await assertEvent(
       successTx,
-      `LimitOrderCancelled(${newNonceShortOrder.accountId}, ${newNonceShortOrder.nonce}, ${newNonceShortOrder.price}, ${newNonceShortOrder.amount})`,
+      `LimitOrderCancelled(${newNonceShortOrder.accountId}, ${newNonceShortOrder.nonce})`,
       systems().PerpsMarket
     );
   });
 
+  it('successfully cancels a new limit order by the account owner', async () => {
+    const newNonceShortOrder = { accountId: shortOrder.accountId, nonce: shortOrder.nonce + 2 };
+    const successTx = await systems()
+      .PerpsMarket.connect(trader1())
+      .functions[
+        'cancelLimitOrder(uint128,uint256)'
+      ](newNonceShortOrder.accountId, newNonceShortOrder.nonce);
+
+    await assertEvent(
+      successTx,
+      `LimitOrderCancelled(${newNonceShortOrder.accountId}, ${newNonceShortOrder.nonce})`,
+      systems().PerpsMarket
+    );
+  });
+
+  it('fails to cancel a new limit order by someone other than account owner without signature', async () => {
+    const newNonceShortOrder = { accountId: shortOrder.accountId, nonce: shortOrder.nonce + 3 };
+    await assertRevert(
+      systems()
+        .PerpsMarket.connect(trader2())
+        .functions[
+          'cancelLimitOrder(uint128,uint256)'
+        ](newNonceShortOrder.accountId, newNonceShortOrder.nonce),
+      `PermissionDenied(${newNonceShortOrder.accountId}, "${PERPS_CANCEL_LIMIT_ORDER_PERMISSION_NAME}", "${await trader2().getAddress()}")`
+    );
+  });
+
   it('fails to cancel a new limit order that is already settled', async () => {
-    const newNonceShortOrder = { ...shortOrder, nonce: 197889234 };
-    const signedNewNonceShortOrder = await signOrder(
+    const newNonceShortOrder = { accountId: shortOrder.accountId, nonce: shortOrder.nonce };
+    const signedNewNonceShortOrder = await signCancelOrderRequest(
       newNonceShortOrder,
       trader1() as ethers.Wallet,
       systems().PerpsMarket.address
@@ -309,8 +348,10 @@ describe('Settle Offchain Limit Order tests', () => {
     await assertRevert(
       systems()
         .PerpsMarket.connect(owner())
-        .cancelLimitOrder(newNonceShortOrder, signedNewNonceShortOrder),
-      `LimitOrderAlreadyUsed(${newNonceShortOrder.accountId}, ${newNonceShortOrder.nonce}, ${newNonceShortOrder.price}, ${newNonceShortOrder.amount})`
+        .functions[
+          'cancelLimitOrder((uint128,uint256),(uint8,bytes32,bytes32))'
+        ](newNonceShortOrder, signedNewNonceShortOrder),
+      `LimitOrderAlreadyUsed(${newNonceShortOrder.accountId}, ${newNonceShortOrder.nonce})`
     );
   });
 
