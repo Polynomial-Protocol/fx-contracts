@@ -47,9 +47,9 @@ contract OffchainOrderModule is IOffchainOrderModule, IMarketEvents, IAccountEve
     using PerpsMarketFactory for PerpsMarketFactory.Data;
     using KeeperCosts for KeeperCosts.Data;
 
-    // keccak256("OffchainOrder(uint128 marketId,uint128 accountId,int128 sizeDelta,uint128 settlementStrategyId,address referrerOrRelayer,bool allowAggregation,bool allowPartialMatching,uint72 timestamp,uint256 acceptablePrice,bytes32 trackingCode,uint256 expiration,uint256 nonce)");
+    // keccak256("OffchainOrder(uint128 marketId,uint128 accountId,int128 sizeDelta,uint128 settlementStrategyId,address referrerOrRelayer,bool allowAggregation,bool allowPartialMatching,uint256 acceptablePrice,bytes32 trackingCode,uint256 expiration,uint256 nonce)");
     bytes32 private constant _ORDER_TYPEHASH =
-        0x388ab0b0d6a7d2714debebf73bb50b776b0ed8ffb0dd75e7000ae60e978eb956;
+        0xa116e0c85e44ab4eeb1d489620b69f76222f65de5606f5b5d381b7f1ecab0179;
 
     function settleOffchainOrder(
         OffchainOrder.Data memory firstOrder,
@@ -620,7 +620,6 @@ contract OffchainOrderModule is IOffchainOrderModule, IMarketEvents, IAccountEve
                         order.referrerOrRelayer,
                         order.allowAggregation,
                         order.allowPartialMatching,
-                        order.timestamp,
                         order.acceptablePrice,
                         order.trackingCode,
                         order.expiration,
