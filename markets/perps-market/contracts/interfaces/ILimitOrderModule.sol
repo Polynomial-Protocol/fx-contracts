@@ -33,7 +33,6 @@ interface ILimitOrderModule {
      * @param limitOrderFees Amount of fees collected by the protocol and relayer combined.
      * @param relayerFees Amount of fees collected by the relayer.
      * @param collectedFees Amount of fees collected by fee collector.
-     * @param trackingCode Optional code for integrator tracking purposes.
      * @param interest interest charges
      */
     event LimitOrderSettled(
@@ -48,7 +47,7 @@ interface ILimitOrderModule {
         uint256 limitOrderFees,
         uint256 relayerFees,
         uint256 collectedFees,
-        bytes32 indexed trackingCode,
+        // bytes32 indexed trackingCode,
         uint256 interest
     );
 

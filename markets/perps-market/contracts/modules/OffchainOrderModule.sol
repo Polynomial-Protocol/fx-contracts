@@ -416,20 +416,21 @@ contract OffchainOrderModule is IOffchainOrderModule, IMarketEvents, IAccountEve
             limitOrderData.markLimitOrderNonceUsed(runtime.accountId, order.nonce);
         }
         // emit event
-        emit ILimitOrderModule.LimitOrderSettled(
-            runtime.marketId,
-            runtime.accountId,
-            runtime.price,
-            runtime.pnl,
-            runtime.accruedFunding,
-            runtime.amount,
-            runtime.newPosition.size,
-            runtime.limitOrderFees,
-            runtime.relayerFees,
-            runtime.feeCollectorFees,
-            order.trackingCode,
-            runtime.chargedInterest
-        );
+        // emit ILimitOrderModule.LimitOrderSettled(
+        //     runtime.marketId,
+        //     runtime.accountId,
+        //     order.nonce,
+        //     runtime.price,
+        //     runtime.pnl,
+        //     runtime.accruedFunding,
+        //     runtime.amount,
+        //     runtime.newPosition.size,
+        //     runtime.limitOrderFees,
+        //     runtime.relayerFees,
+        //     runtime.feeCollectorFees,
+        //     order.trackingCode,
+        //     runtime.chargedInterest
+        // );
     }
 
     function getLimitOrderFeesHelper(
