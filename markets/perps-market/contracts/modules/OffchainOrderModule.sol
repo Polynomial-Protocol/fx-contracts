@@ -182,6 +182,7 @@ contract OffchainOrderModule is IOffchainOrderModule, IMarketEvents, IAccountEve
                     (order.commitmentTime + strategy.commitmentPriceDelay).to64()
                 );
 
+            settleAsyncOrder(offchainPrice.toUint(), order, strategy);
             // TODO: Implement Async Order
         } else {
             revert("Invalid order");
@@ -416,21 +417,20 @@ contract OffchainOrderModule is IOffchainOrderModule, IMarketEvents, IAccountEve
             limitOrderData.markLimitOrderNonceUsed(runtime.accountId, order.nonce);
         }
         // emit event
-        // emit ILimitOrderModule.LimitOrderSettled(
-        //     runtime.marketId,
-        //     runtime.accountId,
-        //     order.nonce,
-        //     runtime.price,
-        //     runtime.pnl,
-        //     runtime.accruedFunding,
-        //     runtime.amount,
-        //     runtime.newPosition.size,
-        //     runtime.limitOrderFees,
-        //     runtime.relayerFees,
-        //     runtime.feeCollectorFees,
-        //     order.trackingCode,
-        //     runtime.chargedInterest
-        // );
+        emit ILimitOrderModule.LimitOrderSettled(
+            runtime.marketId,
+            runtime.accountId,
+            order.nonce,
+            runtime.price,
+            runtime.pnl,
+            runtime.accruedFunding,
+            runtime.amount,
+            runtime.newPosition.size,
+            runtime.limitOrderFees,
+            runtime.relayerFees,
+            runtime.feeCollectorFees,
+            runtime.chargedInterest
+        );
     }
 
     function getLimitOrderFeesHelper(
