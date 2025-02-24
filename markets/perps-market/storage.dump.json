@@ -770,7 +770,7 @@
         },
         {
           "type": "mapping",
-          "name": "limitOrderPartialAmountSettled",
+          "name": "limitOrderAmountSettled",
           "key": {
             "type": "uint128"
           },
@@ -846,17 +846,33 @@
           "offset": 0
         },
         {
-          "type": "bool",
-          "name": "allowPartialMatching",
-          "size": 1,
+          "type": "bytes32",
+          "name": "trackingCode",
+          "size": 32,
           "slot": "7",
           "offset": 0
         },
         {
-          "type": "bytes32",
-          "name": "trackingCode",
-          "size": 32,
+          "type": "bool",
+          "name": "allowPartialMatching",
+          "size": 1,
           "slot": "8",
+          "offset": 0
+        }
+      ],
+      "CancelOrderRequest": [
+        {
+          "type": "uint128",
+          "name": "accountId",
+          "size": 16,
+          "slot": "0",
+          "offset": 0
+        },
+        {
+          "type": "uint256",
+          "name": "nonce",
+          "size": 32,
+          "slot": "1",
           "offset": 0
         }
       ],
@@ -1154,7 +1170,7 @@
           "offset": 0
         }
       ],
-      "SettleLimitOrderRuntime": [
+      "LimitOrderPartialFillData": [
         {
           "type": "bool",
           "name": "shortOrderPartialFill",
@@ -1168,13 +1184,6 @@
           "size": 1,
           "slot": "0",
           "offset": 1
-        },
-        {
-          "type": "bool",
-          "name": "isShortMaker",
-          "size": 1,
-          "slot": "0",
-          "offset": 2
         }
       ]
     }

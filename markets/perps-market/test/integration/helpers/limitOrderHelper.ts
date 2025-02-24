@@ -14,6 +14,11 @@ export interface Order {
   trackingCode: string;
 }
 
+interface CancelOrderRequest {
+  accountId: number;
+  nonce: number;
+}
+
 interface OrderCreationArgs {
   accountId: number;
   isShort: boolean;
@@ -101,6 +106,10 @@ const ORDER_TYPEHASH = ethers.utils.keccak256(
   )
 );
 
+const CANCEL_ORDER_TYPEHASH = ethers.utils.keccak256(
+  ethers.utils.toUtf8Bytes('CancelOrderRequest(uint128 accountId,uint256 nonce)')
+);
+
 export async function signOrder(
   order: Order,
   signer: ethers.Wallet,
@@ -152,6 +161,36 @@ export async function signOrder(
               trackingCode,
               allowPartialMatching,
             ]
+          )
+        ),
+      ]
+    )
+  );
+
+  return ecsign(
+    Buffer.from(digest.slice(2), 'hex'),
+    Buffer.from(signer.privateKey.slice(2), 'hex')
+  );
+}
+
+export async function signCancelOrderRequest(
+  order: CancelOrderRequest,
+  signer: ethers.Wallet,
+  contractAddress: string
+): Promise<{ v: number; r: Buffer; s: Buffer }> {
+  const domainSeparator = await getDomain(signer, contractAddress);
+
+  const digest = ethers.utils.keccak256(
+    ethers.utils.solidityPack(
+      ['bytes1', 'bytes1', 'bytes32', 'bytes32'],
+      [
+        '0x19',
+        '0x01',
+        domainSeparator,
+        ethers.utils.keccak256(
+          ethers.utils.defaultAbiCoder.encode(
+            ['bytes32', 'uint128', 'uint256'],
+            [CANCEL_ORDER_TYPEHASH, order.accountId, order.nonce]
           )
         ),
       ]
