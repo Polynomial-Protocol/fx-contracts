@@ -42,9 +42,9 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
     using PerpsAccount for PerpsAccount.Data;
     using PerpsMarketConfiguration for PerpsMarketConfiguration.Data;
 
-    // keccak256("SignedOrderRequest(uint128 accountId,uint128 marketId,address relayer,int128 amount,uint256 price,uint256 expiration,uint256 nonce,bytes32 trackingCode)");
+    // keccak256("SignedOrderRequest(uint128 accountId,uint128 marketId,address relayer,int128 amount,uint256 price,uint256 expiration,uint256 nonce,bytes32 trackingCode,bool allowPartialMatching)");
     bytes32 private constant _ORDER_TYPEHASH =
-        0xd8492035486b8ae45e16ccc562d479c7e8050f944a3e7d3889c1d621ac4ef308;
+        0x14d89c976d5ca6863cade7dd713ea139fd8872bc86c0032e1411a450dd6feac5;
 
     /**
      * @notice Thrown when there's not enough margin to cover the order and settlement costs associated.
@@ -96,19 +96,18 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
      * @inheritdoc ILimitOrderModule
      */
     function settleLimitOrder(
-        LimitOrder.SignedOrderRequest calldata shortOrder,
+        LimitOrder.SignedOrderRequest memory shortOrder,
         LimitOrder.Signature calldata shortSignature,
-        LimitOrder.SignedOrderRequest calldata longOrder,
+        LimitOrder.SignedOrderRequest memory longOrder,
         LimitOrder.Signature calldata longSignature
     ) external {
         FeatureFlag.ensureAccessToFeature(Flags.PERPS_SYSTEM);
         FeatureFlag.ensureAccessToFeature(Flags.LIMIT_ORDER);
         PerpsMarket.loadValid(shortOrder.marketId);
+        LimitOrder.LimitOrderPartialFillData memory partialFillData;
 
-        bool isShortMaker = shortOrder.limitOrderMaker;
-
-        checkSigPermission(shortOrder, shortSignature);
         checkSigPermission(longOrder, longSignature);
+        checkSigPermission(shortOrder, shortSignature);
 
         uint256 lastPriceCheck = PerpsPrice.getCurrentPrice(
             shortOrder.marketId,
@@ -121,8 +120,12 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
         PerpsMarketConfiguration.Data storage marketConfig = PerpsMarketConfiguration.load(
             shortOrder.marketId
         );
-        // console.log("maxMarketSize", marketConfig.maxMarketSize);
-        // console.log("maxMarketValue", marketConfig.maxMarketValue);
+
+        (
+            partialFillData.longOrderPartialFill,
+            partialFillData.shortOrderPartialFill
+        ) = updateLimitOrderAmounts(shortOrder, longOrder);
+
         perpsMarketData.validateLimitOrderSize(
             marketConfig.maxMarketSize,
             marketConfig.maxMarketValue,
@@ -145,31 +148,62 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
             uint256 shortLimitOrderFees,
             Position.Data storage shortOldPosition,
             Position.Data memory shortNewPosition
-        ) = validateRequest(
-                shortOrder,
-                lastPriceCheck,
-                marketConfig,
-                perpsMarketData,
-                isShortMaker
-            );
+        ) = validateRequest(shortOrder, lastPriceCheck, marketConfig, perpsMarketData);
         (
             uint256 longLimitOrderFees,
             Position.Data storage longOldPosition,
             Position.Data memory longNewPosition
-        ) = validateRequest(
-                longOrder,
-                lastPriceCheck,
-                marketConfig,
-                perpsMarketData,
-                !isShortMaker
-            );
+        ) = validateRequest(longOrder, lastPriceCheck, marketConfig, perpsMarketData);
 
-        settleRequest(shortOrder, shortLimitOrderFees, shortOldPosition, shortNewPosition);
-        settleRequest(longOrder, longLimitOrderFees, longOldPosition, longNewPosition);
+        settleRequest(
+            shortOrder,
+            shortLimitOrderFees,
+            shortOldPosition,
+            shortNewPosition,
+            partialFillData.shortOrderPartialFill
+        );
+        settleRequest(
+            longOrder,
+            longLimitOrderFees,
+            longOldPosition,
+            longNewPosition,
+            partialFillData.longOrderPartialFill
+        );
+    }
+
+    function updateLimitOrderAmounts(
+        LimitOrder.SignedOrderRequest memory shortOrder,
+        LimitOrder.SignedOrderRequest memory longOrder
+    ) internal returns (bool longOrderPartialFill, bool shortOrderPartialFill) {
+        LimitOrder.Data storage limitOrderData = LimitOrder.load();
+
+        if (shortOrder.allowPartialMatching) {
+            shortOrder.amount = limitOrderData.getRemainingLimitOrderAmount(
+                shortOrder.accountId,
+                shortOrder.nonce,
+                shortOrder.amount
+            );
+        }
+
+        if (longOrder.allowPartialMatching) {
+            longOrder.amount = limitOrderData.getRemainingLimitOrderAmount(
+                longOrder.accountId,
+                longOrder.nonce,
+                longOrder.amount
+            );
+        }
+
+        if (longOrder.amount > -shortOrder.amount && longOrder.allowPartialMatching) {
+            longOrderPartialFill = true;
+            longOrder.amount = -shortOrder.amount;
+        } else if (longOrder.amount < -shortOrder.amount && shortOrder.allowPartialMatching) {
+            shortOrderPartialFill = true;
+            shortOrder.amount = -longOrder.amount;
+        }
     }
 
     function checkSigPermission(
-        LimitOrder.SignedOrderRequest calldata order,
+        LimitOrder.SignedOrderRequest memory order,
         LimitOrder.Signature calldata sig
     ) internal {
         Account.exists(order.accountId);
@@ -187,7 +221,8 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
                         order.price,
                         order.expiration,
                         order.nonce,
-                        order.trackingCode
+                        order.trackingCode,
+                        order.allowPartialMatching
                     )
                 )
             )
@@ -201,7 +236,7 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
         );
     }
 
-    function validateLimitOrder(LimitOrder.SignedOrderRequest calldata order) public view {
+    function validateLimitOrder(LimitOrder.SignedOrderRequest memory order) public view {
         // TODO still need this?
         AsyncOrder.checkPendingOrder(order.accountId);
         PerpsAccount.validateMaxPositions(order.accountId, order.marketId);
@@ -210,8 +245,8 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
     }
 
     function validateLimitOrderPair(
-        LimitOrder.SignedOrderRequest calldata shortOrder,
-        LimitOrder.SignedOrderRequest calldata longOrder
+        LimitOrder.SignedOrderRequest memory shortOrder,
+        LimitOrder.SignedOrderRequest memory longOrder
     ) public view {
         if (shortOrder.limitOrderMaker == longOrder.limitOrderMaker) {
             revert MismatchingMakerTakerLimitOrder(
@@ -251,11 +286,10 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
      * if the order can be executed, it returns (runtime., oldPosition, newPosition)
      */
     function validateRequest(
-        LimitOrder.SignedOrderRequest calldata order,
+        LimitOrder.SignedOrderRequest memory order,
         uint256 lastPriceCheck,
         PerpsMarketConfiguration.Data storage marketConfig,
-        PerpsMarket.Data storage perpsMarketData,
-        bool isMaker
+        PerpsMarket.Data storage perpsMarketData
     ) internal view returns (uint256, Position.Data storage oldPosition, Position.Data memory) {
         LimitOrder.ValidateRequestRuntime memory runtime;
         runtime.amount = order.amount;
@@ -279,7 +313,7 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
         runtime.limitOrderFees = getLimitOrderFeesHelper(
             order.amount,
             order.price,
-            isMaker,
+            order.limitOrderMaker,
             marketConfig
         );
 
@@ -329,10 +363,11 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
     }
 
     function settleRequest(
-        LimitOrder.SignedOrderRequest calldata order,
+        LimitOrder.SignedOrderRequest memory order,
         uint256 limitOrderFees,
         Position.Data storage oldPosition,
-        Position.Data memory newPosition
+        Position.Data memory newPosition,
+        bool partialFill
     ) internal {
         LimitOrder.SettleRequestRuntime memory runtime;
         runtime.accountId = order.accountId;
@@ -374,7 +409,16 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
             .load()
             .collectFees(limitOrderFees, order.relayer, factory);
 
-        LimitOrder.load().markLimitOrderNonceUsed(runtime.accountId, order.nonce);
+        LimitOrder.Data storage limitOrderData = LimitOrder.load();
+        if (partialFill) {
+            limitOrderData.updateLimitOrderAmountSettled(
+                runtime.accountId,
+                order.nonce,
+                runtime.amount
+            );
+        } else {
+            limitOrderData.markLimitOrderNonceUsed(runtime.accountId, order.nonce);
+        }
         // emit event
         emit LimitOrderSettled(
             runtime.marketId,

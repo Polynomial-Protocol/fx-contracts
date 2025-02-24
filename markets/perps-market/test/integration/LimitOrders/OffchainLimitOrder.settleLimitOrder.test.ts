@@ -161,8 +161,8 @@ describe('Settle Offchain Limit Order tests', () => {
       pnlLong = 0;
     const accruedFundingShort = 0,
       accruedFundingLong = 0;
-    const newPositionSizeShort = 0,
-      newPositionSizeLong = 0;
+    const newPositionSizeShort = shortOrder.amount,
+      newPositionSizeLong = longOrder.amount;
     const limitOrderFeesShort = amount
         .mul(price)
         .div(bn(1))

@@ -10,6 +10,7 @@ export interface Order {
   limitOrderMaker: boolean;
   expiration: number;
   nonce: number;
+  allowPartialMatching: boolean;
   trackingCode: string;
 }
 
@@ -64,17 +65,12 @@ function createLimitOrder(orderArgs: OrderCreationArgs): Order {
     accountId,
     marketId,
     relayer,
-    amount: isShort
-      ? amount.lt(0)
-        ? amount
-        : amount.mul(-1)
-      : amount.gt(0)
-        ? amount
-        : amount.mul(-1),
+    amount: isShort ? amount.abs().mul(-1) : amount.abs(),
     price,
     limitOrderMaker: isMaker,
     expiration,
     nonce,
+    allowPartialMatching: false,
     trackingCode,
   };
 }
@@ -101,7 +97,7 @@ export function createMatchingLimitOrders(orderArgs: OrderCreationArgs): {
 
 const ORDER_TYPEHASH = ethers.utils.keccak256(
   ethers.utils.toUtf8Bytes(
-    'SignedOrderRequest(uint128 accountId,uint128 marketId,address relayer,int128 amount,uint256 price,limitOrderMaker bool,expiration uint256,nonce uint256,trackingCode bytes32)'
+    'SignedOrderRequest(uint128 accountId,uint128 marketId,address relayer,int128 amount,uint256 price,uint256 expiration,uint256 nonce,bytes32 trackingCode,bool allowPartialMatching)'
   )
 );
 
@@ -116,9 +112,9 @@ export async function signOrder(
     relayer,
     amount,
     price,
-    limitOrderMaker,
     expiration,
     nonce,
+    allowPartialMatching,
     trackingCode,
   } = order;
   const domainSeparator = await getDomain(signer, contractAddress);
@@ -139,10 +135,10 @@ export async function signOrder(
               'address',
               'int128',
               'uint256',
-              'bool',
               'uint256',
               'uint256',
               'bytes32',
+              'bool',
             ],
             [
               ORDER_TYPEHASH,
@@ -151,10 +147,10 @@ export async function signOrder(
               relayer,
               amount,
               price,
-              limitOrderMaker,
               expiration,
               nonce,
               trackingCode,
+              allowPartialMatching,
             ]
           )
         ),
