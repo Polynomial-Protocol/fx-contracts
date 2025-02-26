@@ -46,6 +46,10 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
     bytes32 private constant _ORDER_TYPEHASH =
         0x14d89c976d5ca6863cade7dd713ea139fd8872bc86c0032e1411a450dd6feac5;
 
+    // keccak256("CancelOrderRequest(uint128 accountId,uint256 nonce)");
+    bytes32 private constant _CANCEL_ORDER_TYPEHASH =
+        0x19ed75f4cc40098870adbe5a13fc22a2033f4ed7d8e529e56631c022faf948d5;
+
     /**
      * @notice Thrown when there's not enough margin to cover the order and settlement costs associated.
      */
@@ -76,19 +80,38 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
      * @inheritdoc ILimitOrderModule
      */
     function cancelLimitOrder(
-        LimitOrder.SignedOrderRequest calldata order,
+        LimitOrder.CancelOrderRequest calldata order,
         LimitOrder.Signature calldata sig
     ) external {
         FeatureFlag.ensureAccessToFeature(Flags.PERPS_SYSTEM);
         FeatureFlag.ensureAccessToFeature(Flags.LIMIT_ORDER);
-        checkSigPermission(order, sig);
+        checkCancelOrderSigPermission(order, sig);
         LimitOrder.Data storage limitOrderData = LimitOrder.load();
 
         if (limitOrderData.isLimitOrderNonceUsed(order.accountId, order.nonce)) {
-            revert LimitOrderAlreadyUsed(order.accountId, order.nonce, order.price, order.amount);
+            revert LimitOrderAlreadyUsed(order.accountId, order.nonce);
         } else {
             limitOrderData.markLimitOrderNonceUsed(order.accountId, order.nonce);
-            emit LimitOrderCancelled(order.accountId, order.nonce, order.price, order.amount);
+            emit LimitOrderCancelled(order.accountId, order.nonce);
+        }
+    }
+
+    /**
+     * @inheritdoc ILimitOrderModule
+     */
+    function cancelLimitOrder(uint128 accountId, uint256 nonce) external {
+        FeatureFlag.ensureAccessToFeature(Flags.PERPS_SYSTEM);
+        FeatureFlag.ensureAccessToFeature(Flags.LIMIT_ORDER);
+
+        Account.loadAccountAndValidatePermission(accountId, AccountRBAC._PERPS_CANCEL_LIMIT_ORDER);
+
+        LimitOrder.Data storage limitOrderData = LimitOrder.load();
+
+        if (limitOrderData.isLimitOrderNonceUsed(accountId, nonce)) {
+            revert LimitOrderAlreadyUsed(accountId, nonce);
+        } else {
+            limitOrderData.markLimitOrderNonceUsed(accountId, nonce);
+            emit LimitOrderCancelled(accountId, nonce);
         }
     }
 
@@ -232,6 +255,27 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
         Account.loadAccountAndValidateSignerPermission(
             order.accountId,
             AccountRBAC._PERPS_COMMIT_LIMIT_ORDER_PERMISSION,
+            signingAddress
+        );
+    }
+
+    function checkCancelOrderSigPermission(
+        LimitOrder.CancelOrderRequest memory order,
+        LimitOrder.Signature calldata sig
+    ) internal {
+        Account.exists(order.accountId);
+        bytes32 digest = keccak256(
+            abi.encodePacked(
+                "\x19\x01",
+                domainSeparator(),
+                keccak256(abi.encode(_CANCEL_ORDER_TYPEHASH, order.accountId, order.nonce))
+            )
+        );
+        address signingAddress = ecrecover(digest, sig.v, sig.r, sig.s);
+
+        Account.loadAccountAndValidateSignerPermission(
+            order.accountId,
+            AccountRBAC._PERPS_CANCEL_LIMIT_ORDER,
             signingAddress
         );
     }
