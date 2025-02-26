@@ -11,15 +11,8 @@ interface ILimitOrderModule {
      * @notice cancels a limit order nonce for an account and prevents it from being called
      * @param accountId id of the account used for the limit order
      * @param limitOrderNonce limit order nonce to cancel
-     * @param price limit order nonce to cancel
-     * @param amount limit order nonce to cancel
      */
-    event LimitOrderCancelled(
-        uint128 indexed accountId,
-        uint256 limitOrderNonce,
-        uint256 price,
-        int256 amount
-    );
+    event LimitOrderCancelled(uint128 indexed accountId, uint256 limitOrderNonce);
 
     /**
      * @notice Gets fired when a new limit order is settled.
@@ -47,7 +40,6 @@ interface ILimitOrderModule {
         uint256 limitOrderFees,
         uint256 relayerFees,
         uint256 collectedFees,
-        // bytes32 indexed trackingCode,
         uint256 interest
     );
 
@@ -55,15 +47,8 @@ interface ILimitOrderModule {
      * @notice thrown when a limit order that is attempted to be cancelled has already been used
      * @param accountId id of the account used for the limit order
      * @param limitOrderNonce limit order nonce to cancel
-     * @param price limit order nonce to cancel
-     * @param amount limit order nonce to cancel
      */
-    error LimitOrderAlreadyUsed(
-        uint128 accountId,
-        uint256 limitOrderNonce,
-        uint256 price,
-        int256 amount
-    );
+    error LimitOrderAlreadyUsed(uint128 accountId, uint256 limitOrderNonce);
 
     /**
      * @notice Thrown when attempting to use two makers or two takers
@@ -115,9 +100,16 @@ interface ILimitOrderModule {
      * @param sig the order signature
      */
     function cancelLimitOrder(
-        LimitOrder.SignedOrderRequest calldata order,
+        LimitOrder.CancelOrderRequest calldata order,
         LimitOrder.Signature calldata sig
     ) external;
+
+    /**
+     * @notice cancels a limit order, can only be called by an account with the permission to cancel
+     * @param accountId limit order account id
+     * @param nonce limit order nonce
+     */
+    function cancelLimitOrder(uint128 accountId, uint256 nonce) external;
 
     /**
      * @notice gets the fees for a limit order

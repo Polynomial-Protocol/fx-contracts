@@ -228,12 +228,7 @@ contract OffchainOrderModule is IOffchainOrderModule, IMarketEvents, IAccountEve
         GlobalPerpsMarket.load().checkLiquidation(order.accountId);
 
         if (LimitOrder.load().isLimitOrderNonceUsed(order.accountId, order.nonce)) {
-            revert ILimitOrderModule.LimitOrderAlreadyUsed(
-                order.accountId,
-                order.nonce,
-                order.acceptablePrice,
-                order.sizeDelta
-            );
+            revert ILimitOrderModule.LimitOrderAlreadyUsed(order.accountId, order.nonce);
         }
     }
 
