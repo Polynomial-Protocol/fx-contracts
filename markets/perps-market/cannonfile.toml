@@ -66,6 +66,9 @@ artifact = "LimitOrderModule"
 [contract.OffchainAsyncOrderModule]
 artifact = "OffchainAsyncOrderModule"
 
+[contract.OffchainLimitOrderModule]
+artifact = "OffchainLimitOrderModule"
+
 [contract.FeeTierModule]
 artifact = "FeeTierModule"
 
@@ -104,6 +107,7 @@ contracts = [
     "FeeTierModule",
     "LimitOrderModule",
     "OffchainAsyncOrderModule",
+    "OffchainLimitOrderModule",
 ]
 
 [invoke.upgrade_proxy]
