@@ -476,7 +476,6 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
             runtime.limitOrderFees,
             runtime.relayerFees,
             runtime.feeCollectorFees,
-            order.trackingCode,
             runtime.chargedInterest
         );
     }
