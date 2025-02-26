@@ -50,11 +50,6 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
     bytes32 private constant _CANCEL_ORDER_TYPEHASH =
         0x19ed75f4cc40098870adbe5a13fc22a2033f4ed7d8e529e56631c022faf948d5;
 
-    /**
-     * @notice Thrown when there's not enough margin to cover the order and settlement costs associated.
-     */
-    error InsufficientMargin(int256 availableMargin, uint256 minMargin);
-
     // TODO add max limit order view function here and to the ILimitOrderModule
     /**
      * @inheritdoc ILimitOrderModule
@@ -145,8 +140,8 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
         );
 
         (
-            partialFillData.longOrderPartialFill,
-            partialFillData.shortOrderPartialFill
+            partialFillData.firstOrderPartialFill,
+            partialFillData.secondOrderPartialFill
         ) = updateLimitOrderAmounts(shortOrder, longOrder);
 
         perpsMarketData.validateLimitOrderSize(
@@ -183,14 +178,14 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
             shortLimitOrderFees,
             shortOldPosition,
             shortNewPosition,
-            partialFillData.shortOrderPartialFill
+            partialFillData.firstOrderPartialFill
         );
         settleRequest(
             longOrder,
             longLimitOrderFees,
             longOldPosition,
             longNewPosition,
-            partialFillData.longOrderPartialFill
+            partialFillData.secondOrderPartialFill
         );
     }
 
@@ -501,7 +496,7 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
                     keccak256(
                         "EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)"
                     ),
-                    keccak256(bytes("SyntheticPerpetualFutures")),
+                    keccak256(bytes("PolynomialPerpetualFutures")),
                     keccak256(bytes("1")),
                     block.chainid,
                     address(this)

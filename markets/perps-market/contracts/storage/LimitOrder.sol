@@ -134,8 +134,8 @@ library LimitOrder {
      * @dev Struct used internally in settleLimitOrder() to prevent stack too deep error.
      */
     struct LimitOrderPartialFillData {
-        bool shortOrderPartialFill;
-        bool longOrderPartialFill;
+        bool firstOrderPartialFill;
+        bool secondOrderPartialFill;
     }
 
     function load() internal pure returns (Data storage limitOrderNonces) {
