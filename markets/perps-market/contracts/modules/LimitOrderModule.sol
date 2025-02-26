@@ -423,6 +423,7 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
         emit LimitOrderSettled(
             runtime.marketId,
             runtime.accountId,
+            order.nonce,
             runtime.price,
             runtime.pnl,
             runtime.accruedFunding,

@@ -39,6 +39,7 @@ interface ILimitOrderModule {
     event LimitOrderSettled(
         uint128 indexed marketId,
         uint128 indexed accountId,
+        uint256 nonce,
         uint256 price,
         int256 pnl,
         int256 accruedFunding,
