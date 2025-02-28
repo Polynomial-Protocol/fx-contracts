@@ -1,0 +1,335 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: "20.17.0"
+  FOUNDRY_CACHE_VERSION: "1"
+  FOUNDRY_COMMIT: "latest"
+  IPFS_CACHE_VERSION: "1"
+  YARN_CACHE_VERSION: "1"
+  CANNON_CACHE_VERSION: "1"
+  SOLC_VERSION: "latest"
+
+jobs:
+  compile-foundry:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: ${{ env.FOUNDRY_COMMIT }}
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "yarn"
+      - name: Install dependencies
+        run: yarn install --immutable
+      - name: Check for duplicated dependencies
+        run: yarn dedupe --check
+      - name: Check dependencies
+        run: yarn deps
+      - name: Check mismatched dependencies
+        run: yarn deps:mismatched
+      - name: Check circular dependencies
+        run: yarn deps:circular
+      - name: Lint
+        run: yarn lint
+      - name: Audit
+        run: yarn audit || true
+
+  size-contracts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "yarn"
+      - name: Install dependencies
+        run: yarn install --immutable
+      - name: Build TypeScript
+        run: yarn build:ts
+      - name: Size contracts
+        run: yarn size-contracts
+
+  verify-storage:
+    runs-on: ubuntu-latest
+    needs: [compile-foundry]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "yarn"
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: ${{ env.FOUNDRY_COMMIT }}
+      - name: Install dependencies
+        run: yarn install --immutable
+      - name: Build TypeScript
+        run: yarn build:ts
+      - name: Dump storage
+        run: yarn storage:dump
+      - name: Check storage
+        run: yarn check:storage
+      - name: Get storage dumps from main
+        run: |
+          for f in $(find . -name 'storage.dump.json'); do 
+            git checkout $(git merge-base HEAD origin/main) -- $f || true
+          done
+      - name: Verify storage
+        run: yarn storage:verify
+
+  build-testable:
+    runs-on: ubuntu-latest
+    needs: [compile-foundry]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "yarn"
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: ${{ env.FOUNDRY_COMMIT }}
+      - name: Install dependencies
+        run: yarn install --immutable
+      - name: Build TypeScript
+        run: yarn build:ts
+
+      - name: Cache Hardhat
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/hardhat-nodejs
+          key: hardhat-${{ env.SOLC_VERSION }}
+
+      - name: Cache Testable Hardhat
+        uses: actions/cache@v3
+        with:
+          path: |
+            protocol/synthetix/artifacts
+            protocol/synthetix/cache
+            protocol/synthetix/typechain-types
+            protocol/oracle-manager/artifacts
+            protocol/oracle-manager/cache
+            protocol/oracle-manager/typechain-types
+            markets/perps-market/artifacts
+            markets/perps-market/cache
+            markets/perps-market/typechain-types
+            markets/spot-market/artifacts
+            markets/spot-market/cache
+            markets/spot-market/typechain-types
+            markets/legacy-market/artifacts
+            markets/legacy-market/cache
+            markets/legacy-market/typechain-types
+            markets/bfp-market/artifacts
+            markets/bfp-market/cache
+            markets/bfp-market/typechain-types
+            auxiliary/*/artifacts
+            auxiliary/*/cache
+            auxiliary/*/typechain-types
+            utils/core-contracts/artifacts
+            utils/core-contracts/cache
+            utils/core-contracts/typechain-types
+            utils/core-modules/artifacts
+            utils/core-modules/cache
+            utils/core-modules/typechain-types
+          key: testable-hardhat-cache-${{ github.sha }}
+          restore-keys: |
+            testable-hardhat-cache-
+
+      - name: Cache Generated Testable
+        uses: actions/cache@v3
+        with:
+          path: |
+            auxiliary/PythERC7412Wrapper/contracts/generated
+            protocol/governance/contracts/generated
+            protocol/oracle-manager/contracts/generated
+            protocol/synthetix/contracts/generated
+            utils/core-modules/contracts/generated
+          key: generated-testable-${{ github.sha }}
+          restore-keys: |
+            generated-testable-
+
+      - name: Cache Cannon
+        uses: actions/cache@v3
+        with:
+          path: ~/.local/share/cannon
+          key: cannon-${{ env.CANNON_CACHE_VERSION }}-${{ github.sha }}
+          restore-keys: |
+            cannon-${{ env.CANNON_CACHE_VERSION }}-
+
+      - name: Generate testable contracts sources
+        run: yarn generate-testable
+
+      - name: Build testable contracts
+        env:
+          CANNON_REGISTRY_PRIORITY: "local"
+        run: yarn build-testable
+
+  test-contracts:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: test-main
+            dir: ./protocol/synthetix
+            batch-size: 8
+            parallelism: 2
+          - name: test-oracle-manager
+            dir: ./protocol/oracle-manager
+            batch-size: 5
+            parallelism: 1
+          - name: test-spot-market
+            dir: ./markets/spot-market
+            batch-size: 3
+            parallelism: 2
+          - name: test-perps-market
+            dir: ./markets/perps-market
+            batch-size: 1
+            parallelism: 8
+          - name: test-bfp-market
+            dir: ./markets/bfp-market
+            batch-size: 1
+            parallelism: 6
+          - name: test-core-modules
+            dir: ./utils/core-modules
+            batch-size: 5
+            parallelism: 1
+          - name: test-core-contracts
+            dir: ./utils/core-contracts
+            batch-size: 5
+            parallelism: 2
+          - name: test-core-utils
+            dir: ./utils/core-utils
+            batch-size: 5
+            parallelism: 2
+
+    runs-on: ubuntu-latest
+    needs: [build-testable]
+    name: ${{ matrix.name }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "yarn"
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: ${{ env.FOUNDRY_COMMIT }}
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Build TypeScript
+        run: yarn build:ts
+
+      - name: Cache Hardhat
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/hardhat-nodejs
+          key: hardhat-${{ env.SOLC_VERSION }}
+
+      - name: Cache Testable Hardhat
+        uses: actions/cache@v3
+        with:
+          path: |
+            protocol/synthetix/artifacts
+            protocol/synthetix/cache
+            protocol/synthetix/typechain-types
+            protocol/oracle-manager/artifacts
+            protocol/oracle-manager/cache
+            protocol/oracle-manager/typechain-types
+            markets/perps-market/artifacts
+            markets/perps-market/cache
+            markets/perps-market/typechain-types
+            markets/spot-market/artifacts
+            markets/spot-market/cache
+            markets/spot-market/typechain-types
+            markets/legacy-market/artifacts
+            markets/legacy-market/cache
+            markets/legacy-market/typechain-types
+            markets/bfp-market/artifacts
+            markets/bfp-market/cache
+            markets/bfp-market/typechain-types
+            auxiliary/*/artifacts
+            auxiliary/*/cache
+            auxiliary/*/typechain-types
+            utils/core-contracts/artifacts
+            utils/core-contracts/cache
+            utils/core-contracts/typechain-types
+            utils/core-modules/artifacts
+            utils/core-modules/cache
+            utils/core-modules/typechain-types
+          key: testable-hardhat-cache-${{ github.sha }}
+
+      - name: Cache Generated Testable
+        uses: actions/cache@v3
+        with:
+          path: |
+            auxiliary/PythERC7412Wrapper/contracts/generated
+            protocol/governance/contracts/generated
+            protocol/oracle-manager/contracts/generated
+            protocol/synthetix/contracts/generated
+            utils/core-modules/contracts/generated
+          key: generated-testable-${{ github.sha }}
+
+      - name: Cache Cannon
+        uses: actions/cache@v3
+        with:
+          path: ~/.local/share/cannon
+          key: cannon-${{ env.CANNON_CACHE_VERSION }}-${{ github.sha }}
+
+      - name: Split tests
+        working-directory: ${{ matrix.dir }}
+        run: |
+          mkdir -p /tmp/junit
+          find test -name "*.test.ts" > /tmp/tests.txt
+          if [ ! -s "/tmp/tests.txt" ]; then
+            echo "No tests found"
+            exit 0
+          fi
+          cat /tmp/tests.txt
+
+      - name: Run tests
+        working-directory: ${{ matrix.dir }}
+        env:
+          REPORT_GAS: true
+          CANNON_REGISTRY_PRIORITY: local
+          MOCHA_RETRIES: 2
+          BATCH_RETRIES: 5
+          BATCH_SIZE: ${{ matrix.batch-size }}
+          TS_NODE_TRANSPILE_ONLY: true
+          TS_NODE_TYPE_CHECK: false
+          TEST_FILES: ${{ steps.splits.outputs.files }}
+          RUNNER: ${{ github.workspace }}/.circleci/test-batch.js
+        run: |
+          export PATH=$PATH:${{ github.workspace }}/node_modules/.bin
+          export TEST_FILES=$(cat /tmp/tests.txt)
+          node $RUNNER
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: junit-${{ matrix.name }}
+          path: /tmp/junit

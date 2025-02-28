@@ -20,6 +20,7 @@ describe('Keeper Rewards - Multiple Collaterals', () => {
     keeperCostOracleNode,
     keeper,
     owner,
+    restoreSnapshot,
   } = bootstrapMarkets({
     synthMarkets: [
       {
@@ -172,5 +173,9 @@ describe('Keeper Rewards - Multiple Collaterals', () => {
     const keeperBalance = await systems().USD.balanceOf(await keeper().getAddress());
     const expected = bn(5).add(KeeperCosts.flagCost * 3 + KeeperCosts.liquidateCost);
     assertBn.equal(keeperBalance, initialKeeperBalance.add(expected));
+  });
+
+  after(async () => {
+    await restoreSnapshot();
   });
 });

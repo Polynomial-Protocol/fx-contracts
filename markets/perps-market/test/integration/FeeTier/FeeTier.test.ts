@@ -49,9 +49,11 @@ describe('FeeTier', () => {
 
   before('create tiers', async () => {
     for (const tier of feeTiers) {
-      await systems()
-        .PerpsMarket.connect(owner())
-        .setFeeTier(tier.id, tier.makerDiscount, tier.takerDiscount);
+      if (tier.id !== 0) {
+        await systems()
+          .PerpsMarket.connect(owner())
+          .setFeeTier(tier.id, tier.makerDiscount, tier.takerDiscount);
+      }
     }
   });
 
