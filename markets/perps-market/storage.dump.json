@@ -767,6 +767,25 @@
           "size": 32,
           "slot": "0",
           "offset": 0
+        },
+        {
+          "type": "mapping",
+          "name": "limitOrderAmountSettled",
+          "key": {
+            "type": "uint128"
+          },
+          "value": {
+            "type": "mapping",
+            "key": {
+              "type": "uint256"
+            },
+            "value": {
+              "type": "int128"
+            }
+          },
+          "size": 32,
+          "slot": "1",
+          "offset": 0
         }
       ],
       "SignedOrderRequest": [
@@ -831,6 +850,29 @@
           "name": "trackingCode",
           "size": 32,
           "slot": "7",
+          "offset": 0
+        },
+        {
+          "type": "bool",
+          "name": "allowPartialMatching",
+          "size": 1,
+          "slot": "8",
+          "offset": 0
+        }
+      ],
+      "CancelOrderRequest": [
+        {
+          "type": "uint128",
+          "name": "accountId",
+          "size": 16,
+          "slot": "0",
+          "offset": 0
+        },
+        {
+          "type": "uint256",
+          "name": "nonce",
+          "size": 32,
+          "slot": "1",
           "offset": 0
         }
       ],
@@ -1127,6 +1169,22 @@
           "slot": "20",
           "offset": 0
         }
+      ],
+      "LimitOrderPartialFillData": [
+        {
+          "type": "bool",
+          "name": "firstOrderPartialFill",
+          "size": 1,
+          "slot": "0",
+          "offset": 0
+        },
+        {
+          "type": "bool",
+          "name": "secondOrderPartialFill",
+          "size": 1,
+          "slot": "0",
+          "offset": 1
+        }
       ]
     }
   },
@@ -1229,6 +1287,128 @@
           "name": "currentFundingVelocity",
           "size": 32,
           "slot": "4",
+          "offset": 0
+        }
+      ]
+    }
+  },
+  "contracts/storage/OffchainOrder.sol:OffchainOrder": {
+    "name": "OffchainOrder",
+    "kind": "library",
+    "structs": {
+      "Data": [
+        {
+          "type": "uint128",
+          "name": "marketId",
+          "size": 16,
+          "slot": "0",
+          "offset": 0
+        },
+        {
+          "type": "uint128",
+          "name": "accountId",
+          "size": 16,
+          "slot": "0",
+          "offset": 16
+        },
+        {
+          "type": "int128",
+          "name": "sizeDelta",
+          "size": 16,
+          "slot": "1",
+          "offset": 0
+        },
+        {
+          "type": "uint128",
+          "name": "settlementStrategyId",
+          "size": 16,
+          "slot": "1",
+          "offset": 16
+        },
+        {
+          "type": "address",
+          "name": "referrerOrRelayer",
+          "size": 20,
+          "slot": "2",
+          "offset": 0
+        },
+        {
+          "type": "bool",
+          "name": "limitOrderMaker",
+          "size": 1,
+          "slot": "2",
+          "offset": 20
+        },
+        {
+          "type": "bool",
+          "name": "allowAggregation",
+          "size": 1,
+          "slot": "2",
+          "offset": 21
+        },
+        {
+          "type": "bool",
+          "name": "allowPartialMatching",
+          "size": 1,
+          "slot": "2",
+          "offset": 22
+        },
+        {
+          "type": "uint72",
+          "name": "timestamp",
+          "size": 9,
+          "slot": "2",
+          "offset": 23
+        },
+        {
+          "type": "uint256",
+          "name": "acceptablePrice",
+          "size": 32,
+          "slot": "3",
+          "offset": 0
+        },
+        {
+          "type": "bytes32",
+          "name": "trackingCode",
+          "size": 32,
+          "slot": "4",
+          "offset": 0
+        },
+        {
+          "type": "uint256",
+          "name": "expiration",
+          "size": 32,
+          "slot": "5",
+          "offset": 0
+        },
+        {
+          "type": "uint256",
+          "name": "nonce",
+          "size": 32,
+          "slot": "6",
+          "offset": 0
+        }
+      ],
+      "Signature": [
+        {
+          "type": "uint8",
+          "name": "v",
+          "size": 1,
+          "slot": "0",
+          "offset": 0
+        },
+        {
+          "type": "bytes32",
+          "name": "r",
+          "size": 32,
+          "slot": "1",
+          "offset": 0
+        },
+        {
+          "type": "bytes32",
+          "name": "s",
+          "size": 32,
+          "slot": "2",
           "offset": 0
         }
       ]
