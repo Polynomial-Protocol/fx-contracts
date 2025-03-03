@@ -66,6 +66,12 @@ artifact = "contracts/modules/FeatureFlagModule.sol:FeatureFlagModule"
 [contract.CoreModule]
 artifact = "contracts/modules/CoreModule.sol:CoreModule"
 
+[contract.OffchainAsyncOrderModule]
+artifact = "OffchainAsyncOrderModule"
+
+[contract.OffchainLimitOrderModule]
+artifact = "OffchainLimitOrderModule"
+
 [contract.InitialProxy]
 artifact = "contracts/Proxy.sol:Proxy"
 args = ["<%= contracts.CoreModule.address %>", "<%= settings.owner %>"]
@@ -94,6 +100,8 @@ contracts = [
     "GlobalPerpsMarketModule",
     "LimitOrderModule",
     "FeeTierModule",
+    "OffchainAsyncOrderModule",
+    "OffchainLimitOrderModule"
 ]
 
 [invoke.upgrade_proxy]
