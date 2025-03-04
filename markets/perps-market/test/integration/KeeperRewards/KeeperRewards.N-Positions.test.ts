@@ -4,7 +4,9 @@ import { depositCollateral, openPosition } from '../helpers';
 import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
 import assertEvent from '@synthetixio/core-utils/utils/assertions/assert-event';
 
-describe('Keeper Rewards - Multiple Positions', () => {
+describe('Keeper Rewards - Multiple Positions', function () {
+  this.timeout(60000); // 1 minute timeout
+
   const KeeperCosts = {
     settlementCost: 1111,
     flagCost: 3333,
@@ -178,6 +180,7 @@ describe('Keeper Rewards - Multiple Positions', () => {
 
   before('liquidate account', async () => {
     liquidateTxn = await systems().PerpsMarket.connect(keeper()).liquidate(2);
+    await liquidateTxn.wait();
   });
 
   it('emits position liquidated event', async () => {

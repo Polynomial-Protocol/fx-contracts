@@ -10,6 +10,10 @@ defaultValue = "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"
 description = "spot market owner"
 defaultValue = "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"
 
+[setting.ghostOwner]
+description = "Ghost owner"
+defaultValue = "0x9f76043B23125024Ce5f0Fb4AE707482107dd2a8"
+
 [setting.synthetixPackage]
 defaultValue = "polynomial-core:<%= package.version %>-testable"
 depends = []
@@ -99,7 +103,7 @@ args = ["<%= contracts.SynthRouter.address %>"]
 [invoke.addSpotMarketToFeatureFlag]
 target = ["synthetix.CoreProxy"]
 func = "addToFeatureFlagAllowlist"
-from = "<%= settings.coreProxyOwner %>"
+from = "<%= settings.owner %>"
 args = [
     "0x72656769737465724d61726b6574000000000000000000000000000000000000",
     "<%= contracts.SpotMarketProxy.address %>",
