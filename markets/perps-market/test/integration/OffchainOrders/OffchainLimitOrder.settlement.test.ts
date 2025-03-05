@@ -1,10 +1,9 @@
 import { BigNumber, ethers } from 'ethers';
-import { DEFAULT_SETTLEMENT_STRATEGY, bn, bootstrapMarkets } from '../bootstrap';
-import { advanceBlock, fastForwardTo, getTime } from '@synthetixio/core-utils/utils/hardhat/rpc';
+import { bn, bootstrapMarkets } from '../bootstrap';
+import { advanceBlock } from '@synthetixio/core-utils/utils/hardhat/rpc';
 import { snapshotCheckpoint } from '@synthetixio/core-utils/utils/mocha/snapshot';
 import { SynthMarkets } from '@synthetixio/spot-market/test/common';
 import { DepositCollateralData, depositCollateral, signCancelOrderRequest } from '../helpers';
-import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
 import assertEvent from '@synthetixio/core-utils/utils/assertions/assert-event';
 import assertRevert from '@synthetixio/core-utils/utils/assertions/assert-revert';
 import { wei } from '@synthetixio/wei';
@@ -240,7 +239,6 @@ describe('Settlement Offchain Async Order test', () => {
 
     describe(`Settlement of offchain limit order`, () => {
       let tx: ethers.ContractTransaction;
-      let relayerAddress: string;
 
       before(restoreToCommit);
 
@@ -272,8 +270,6 @@ describe('Settlement Offchain Async Order test', () => {
           `LimitOrderRelayerInvalid("${await trader3().getAddress()}")`
         );
       });
-
-      const restoreToSnapshot = snapshotCheckpoint(provider);
 
       it('settles the orders and emits the proper events', async () => {
         order1.referrerOrRelayer = await relayer.getAddress();
@@ -408,6 +404,97 @@ describe('Settlement Offchain Async Order test', () => {
             .PerpsMarket.connect(owner())
             .settleOffchainLimitOrder(order2, signedOrder2, order1, signedOrder1),
           `LimitOrderDifferentRelayer(${order2.referrerOrRelayer}, ${order1.referrerOrRelayer})`
+        );
+      });
+
+      it('fails when the markets are different for each order', async () => {
+        order1.marketId = ethers.BigNumber.from(69);
+        order1.referrerOrRelayer = await relayer.getAddress();
+        order2.referrerOrRelayer = await relayer.getAddress();
+
+        const signedOrder1 = await signOrder(
+          order1,
+          trader1() as ethers.Wallet,
+          systems().PerpsMarket.address
+        );
+
+        const signedOrder2 = await signOrder(
+          order2,
+          trader2() as ethers.Wallet,
+          systems().PerpsMarket.address
+        );
+
+        await assertRevert(
+          systems()
+            .PerpsMarket.connect(owner())
+            .settleOffchainLimitOrder(order2, signedOrder2, order1, signedOrder1),
+          `LimitOrderMarketMismatch(${order2.marketId}, ${order1.marketId})`
+        );
+      });
+
+      it('fails when the orders are both makers', async () => {
+        order1.marketId = ethMarketId;
+        order1.limitOrderMaker = true;
+        order2.limitOrderMaker = true;
+
+        const signedOrder1 = await signOrder(
+          order1,
+          trader1() as ethers.Wallet,
+          systems().PerpsMarket.address
+        );
+
+        const signedOrder2 = await signOrder(
+          order2,
+          trader2() as ethers.Wallet,
+          systems().PerpsMarket.address
+        );
+
+        await assertRevert(
+          systems()
+            .PerpsMarket.connect(owner())
+            .settleOffchainLimitOrder(order2, signedOrder2, order1, signedOrder1),
+          `MismatchingMakerTakerLimitOrder(${order2.limitOrderMaker}, ${order1.limitOrderMaker})`
+        );
+      });
+
+      it('settles partial limit orders', async () => {
+        order1.sizeDelta = bn(10);
+        order2.sizeDelta = bn(15);
+        order1.limitOrderMaker = false;
+        order2.limitOrderMaker = true;
+        order1.nonce = order1.nonce + 5;
+        order2.nonce = order2.nonce + 5;
+
+        const signedOrder1 = await signOrder(
+          order1,
+          trader1() as ethers.Wallet,
+          systems().PerpsMarket.address
+        );
+
+        const signedOrder2 = await signOrder(
+          order2,
+          trader2() as ethers.Wallet,
+          systems().PerpsMarket.address
+        );
+
+        const orderSettledEventsArgs = {
+          trader1: [`${ethMarketId}`, `${order1.accountId}`, `${order1.nonce}`].join(', '),
+          trader2: [`${ethMarketId}`, `${order2.accountId}`, `${order2.nonce}`].join(', '),
+        };
+
+        tx = await systems()
+          .PerpsMarket.connect(relayer)
+          .settleOffchainLimitOrder(order2, signedOrder2, order1, signedOrder1);
+
+        await assertEvent(
+          tx,
+          `LimitOrderSettled(${orderSettledEventsArgs.trader1}`,
+          systems().PerpsMarket
+        );
+        await assertEvent(
+          tx,
+          `LimitOrderSettled(${orderSettledEventsArgs.trader2}`,
+          systems().PerpsMarket
         );
       });
     });
