@@ -101,8 +101,8 @@ export function coreBootstrap<Contracts>(params: Params = { cannonfile: 'cannonf
           try {
             await tx.wait();
           } catch (e) {
-            console.log('Leftover transaction', tx);
-            console.error(e);
+            // console.log('Leftover transaction', tx);
+            // console.error(e);
             // I really don't care if you fail or not
           }
         }

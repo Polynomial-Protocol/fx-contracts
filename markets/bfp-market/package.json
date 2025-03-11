@@ -18,7 +18,7 @@
     "storage:dump": "hardhat storage:dump --output storage.new.dump.json",
     "storage:verify": " hardhat storage:verify",
     "SKIP.generate-testable": "rm -rf contracts/generated && hardhat generate-testable",
-    "build-testable": "CANNON_REGISTRY_PRIORITY=local hardhat cannon:build cannonfile.test.toml",
+    "build-testable": "echo 'No build-testable step for bfp market'",
     "check:storage": "diff -uw storage.dump.json storage.new.dump.json",
     "start": "yarn build && yarn cannon-build",
     "clean": "hardhat clean && rm -rf contracts/generated",
