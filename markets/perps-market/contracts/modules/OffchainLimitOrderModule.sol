@@ -88,77 +88,77 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
     }
 
     function settleOffchainLimitOrder(
-        OffchainOrder.Data memory firstOrder,
-        OffchainOrder.Signature memory firstSignature,
-        OffchainOrder.Data memory secondOrder,
-        OffchainOrder.Signature memory secondSignature
+        OffchainOrder.Data memory shortOrder,
+        OffchainOrder.Signature memory shortSignature,
+        OffchainOrder.Data memory longOrder,
+        OffchainOrder.Signature memory longSignature
     ) external {
         FeatureFlag.ensureAccessToFeature(Flags.PERPS_SYSTEM);
         FeatureFlag.ensureAccessToFeature(Flags.LIMIT_ORDER);
-        PerpsMarket.loadValid(firstOrder.marketId);
-        Account.exists(firstOrder.accountId);
-        Account.exists(secondOrder.accountId);
+        PerpsMarket.loadValid(shortOrder.marketId);
+        Account.exists(shortOrder.accountId);
+        Account.exists(longOrder.accountId);
 
-        checkSigPermission(firstOrder, firstSignature);
-        checkSigPermission(secondOrder, secondSignature);
+        checkSigPermission(shortOrder, shortSignature);
+        checkSigPermission(longOrder, longSignature);
 
         LimitOrder.LimitOrderPartialFillData memory partialFillData;
 
         uint256 lastPriceCheck = PerpsPrice.getCurrentPrice(
-            firstOrder.marketId,
+            shortOrder.marketId,
             PerpsPrice.Tolerance.DEFAULT
         );
 
-        PerpsMarket.Data storage perpsMarketData = PerpsMarket.load(firstOrder.marketId);
+        PerpsMarket.Data storage perpsMarketData = PerpsMarket.load(shortOrder.marketId);
         perpsMarketData.recomputeFunding(lastPriceCheck);
 
         PerpsMarketConfiguration.Data storage marketConfig = PerpsMarketConfiguration.load(
-            firstOrder.marketId
+            shortOrder.marketId
         );
 
         (
             partialFillData.firstOrderPartialFill,
             partialFillData.secondOrderPartialFill
-        ) = updateLimitOrderAmounts(firstOrder, secondOrder);
+        ) = updateLimitOrderAmounts(shortOrder, longOrder);
 
         perpsMarketData.validateLimitOrderSize(
             marketConfig.maxMarketSize,
             marketConfig.maxMarketValue,
-            firstOrder.acceptablePrice,
-            firstOrder.sizeDelta
+            shortOrder.acceptablePrice,
+            shortOrder.sizeDelta
         );
 
-        validateLimitOrder(firstOrder);
-        validateLimitOrder(secondOrder);
-        validateLimitOrderPair(firstOrder, secondOrder);
+        validateLimitOrder(shortOrder);
+        validateLimitOrder(longOrder);
+        validateLimitOrderPair(shortOrder, longOrder);
 
         uint256 shareRatioD18 = GlobalPerpsMarketConfiguration.load().relayerShare[
-            firstOrder.referrerOrRelayer
+            shortOrder.referrerOrRelayer
         ];
-        if (shareRatioD18 == 0) {
-            revert ILimitOrderModule.LimitOrderRelayerInvalid(firstOrder.referrerOrRelayer);
+        if (shareRatioD18 == 0 || ERC2771Context._msgSender() != shortOrder.referrerOrRelayer) {
+            revert ILimitOrderModule.LimitOrderRelayerInvalid(shortOrder.referrerOrRelayer);
         }
 
         (
             uint256 firstLimitOrderFees,
             Position.Data storage firstOldPosition,
             Position.Data memory firstNewPosition
-        ) = validateLimitOrderRequest(firstOrder, lastPriceCheck, marketConfig, perpsMarketData);
+        ) = validateLimitOrderRequest(shortOrder, lastPriceCheck, marketConfig, perpsMarketData);
         (
             uint256 secondLimitOrderFees,
             Position.Data storage secondOldPosition,
             Position.Data memory secondNewPosition
-        ) = validateLimitOrderRequest(secondOrder, lastPriceCheck, marketConfig, perpsMarketData);
+        ) = validateLimitOrderRequest(longOrder, lastPriceCheck, marketConfig, perpsMarketData);
 
         settleLimitOrder(
-            firstOrder,
+            shortOrder,
             firstLimitOrderFees,
             firstOldPosition,
             firstNewPosition,
             partialFillData.firstOrderPartialFill
         );
         settleLimitOrder(
-            secondOrder,
+            longOrder,
             secondLimitOrderFees,
             secondOldPosition,
             secondNewPosition,
@@ -167,35 +167,33 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
     }
 
     function updateLimitOrderAmounts(
-        OffchainOrder.Data memory firstOrder,
-        OffchainOrder.Data memory secondOrder
+        OffchainOrder.Data memory shortOrder,
+        OffchainOrder.Data memory longOrder
     ) internal returns (bool firstOrderPartialFill, bool secondOrderPartialFill) {
         LimitOrder.Data storage limitOrderData = LimitOrder.load();
 
-        if (firstOrder.allowPartialMatching) {
-            firstOrder.sizeDelta = limitOrderData.getRemainingLimitOrderAmount(
-                firstOrder.accountId,
-                firstOrder.nonce,
-                firstOrder.sizeDelta
+        if (shortOrder.allowPartialMatching) {
+            shortOrder.sizeDelta = limitOrderData.getRemainingLimitOrderAmount(
+                shortOrder.accountId,
+                shortOrder.nonce,
+                shortOrder.sizeDelta
             );
         }
 
-        if (secondOrder.allowPartialMatching) {
-            secondOrder.sizeDelta = limitOrderData.getRemainingLimitOrderAmount(
-                secondOrder.accountId,
-                secondOrder.nonce,
-                secondOrder.sizeDelta
+        if (longOrder.allowPartialMatching) {
+            longOrder.sizeDelta = limitOrderData.getRemainingLimitOrderAmount(
+                longOrder.accountId,
+                longOrder.nonce,
+                longOrder.sizeDelta
             );
         }
 
-        if (firstOrder.sizeDelta > -secondOrder.sizeDelta && firstOrder.allowPartialMatching) {
+        if (shortOrder.sizeDelta > -longOrder.sizeDelta && shortOrder.allowPartialMatching) {
             firstOrderPartialFill = true;
-            firstOrder.sizeDelta = -secondOrder.sizeDelta;
-        } else if (
-            firstOrder.sizeDelta < -secondOrder.sizeDelta && secondOrder.allowPartialMatching
-        ) {
+            shortOrder.sizeDelta = -longOrder.sizeDelta;
+        } else if (shortOrder.sizeDelta < -longOrder.sizeDelta && longOrder.allowPartialMatching) {
             secondOrderPartialFill = true;
-            secondOrder.sizeDelta = -firstOrder.sizeDelta;
+            longOrder.sizeDelta = -shortOrder.sizeDelta;
         }
     }
 
@@ -210,40 +208,46 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
     }
 
     function validateLimitOrderPair(
-        OffchainOrder.Data memory firstOrder,
-        OffchainOrder.Data memory secondOrder
+        OffchainOrder.Data memory shortOrder,
+        OffchainOrder.Data memory longOrder
     ) public view {
-        if (firstOrder.limitOrderMaker == secondOrder.limitOrderMaker) {
+        if (shortOrder.limitOrderMaker == longOrder.limitOrderMaker) {
             revert ILimitOrderModule.MismatchingMakerTakerLimitOrder(
-                firstOrder.limitOrderMaker,
-                secondOrder.limitOrderMaker
+                shortOrder.limitOrderMaker,
+                longOrder.limitOrderMaker
             );
         }
-        if (firstOrder.referrerOrRelayer != secondOrder.referrerOrRelayer) {
+        if (shortOrder.referrerOrRelayer != longOrder.referrerOrRelayer) {
             revert ILimitOrderModule.LimitOrderDifferentRelayer(
-                firstOrder.referrerOrRelayer,
-                secondOrder.referrerOrRelayer
+                shortOrder.referrerOrRelayer,
+                longOrder.referrerOrRelayer
             );
         }
-        if (firstOrder.marketId != secondOrder.marketId) {
+        if (shortOrder.marketId != longOrder.marketId) {
             revert ILimitOrderModule.LimitOrderMarketMismatch(
-                firstOrder.marketId,
-                secondOrder.marketId
+                shortOrder.marketId,
+                longOrder.marketId
             );
         }
-        if (firstOrder.expiration <= block.timestamp || secondOrder.expiration <= block.timestamp) {
+        if (shortOrder.acceptablePrice > longOrder.acceptablePrice) {
+            revert ILimitOrderModule.LimitOrderPriceMismatch(
+                shortOrder.acceptablePrice,
+                longOrder.acceptablePrice
+            );
+        }
+        if (shortOrder.expiration <= block.timestamp || longOrder.expiration <= block.timestamp) {
             revert ILimitOrderModule.LimitOrderExpired(
-                firstOrder.accountId,
-                firstOrder.expiration,
-                secondOrder.accountId,
-                secondOrder.expiration,
+                shortOrder.accountId,
+                shortOrder.expiration,
+                longOrder.accountId,
+                longOrder.expiration,
                 block.timestamp
             );
         }
-        if (firstOrder.sizeDelta >= 0 || (firstOrder.sizeDelta != -secondOrder.sizeDelta)) {
+        if (shortOrder.sizeDelta >= 0 || (shortOrder.sizeDelta != -longOrder.sizeDelta)) {
             revert ILimitOrderModule.LimitOrderAmountError(
-                firstOrder.sizeDelta,
-                secondOrder.sizeDelta
+                shortOrder.sizeDelta,
+                longOrder.sizeDelta
             );
         }
     }
@@ -430,7 +434,21 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
                 keccak256(abi.encode(_CANCEL_ORDER_TYPEHASH, order.accountId, order.nonce))
             )
         );
-        address signingAddress = ecrecover(digest, sig.v, sig.r, sig.s);
+        address signingAddress = address(0x0);
+
+        // EIP-2 still allows signature malleability for ecrecover(). Remove this possibility and make the signature
+        // unique. Appendix F in the Ethereum Yellow paper (https://ethereum.github.io/yellowpaper/paper.pdf), defines
+        // the valid range for s in (301): 0 < s < secp256k1n ÷ 2 + 1, and for v in (302): v ∈ {27, 28}. Most
+        // signatures from current libraries generate a unique signature with an s-value in the lower half order.
+        //
+        // If your library generates malleable signatures, such as s-values in the upper range, calculate a new s-value
+        // with 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141 - s1 and flip v from 27 to 28 or
+        // vice versa. If your library also generates signatures with 0/1 for v instead 27/28, add 27 to v to accept
+        // these malleable signatures as well.
+        // solhint-disable-next-line numcast/safe-cast
+        if (uint256(sig.s) <= 0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF5D576E7357A4501DDFE92F46681B20A0) {
+            signingAddress = ecrecover(digest, sig.v, sig.r, sig.s);
+        }
 
         Account.loadAccountAndValidateSignerPermission(
             order.accountId,
