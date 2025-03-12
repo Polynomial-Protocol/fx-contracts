@@ -95,6 +95,11 @@ interface ILimitOrderModule {
     error InsufficientMargin(int256 availableMargin, uint256 minMargin);
 
     /**
+     * @notice Thrown when the price of the long order is lower than the short order
+     */
+    error LimitOrderPriceMismatch(uint256 shortPrice, uint256 longPrice);
+
+    /**
      * @notice cancels a limit order with a nonce from being called for an account
      * @param order the order to cancel
      * @param sig the order signature
