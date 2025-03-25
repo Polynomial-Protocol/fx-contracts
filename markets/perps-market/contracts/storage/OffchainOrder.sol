@@ -57,6 +57,20 @@ library OffchainOrder {
         uint256 nonce;
     }
 
+    struct NonceData {
+        /**
+         * @dev nonceBitmaps is a mapping of account ids to their current order nonces
+         */
+        mapping(uint128 => mapping(uint256 => uint256)) nonceBitmaps;
+    }
+
+    function load() internal pure returns (NonceData storage offchainOrderNonces) {
+        bytes32 s = keccak256(abi.encode("io.synthetix.perps-market.OffchainOrder"));
+        assembly {
+            offchainOrderNonces.slot := s
+        }
+    }
+
     /**
      * @notice Offchain Order signature struct.
      */
@@ -64,5 +78,38 @@ library OffchainOrder {
         uint8 v;
         bytes32 r;
         bytes32 s;
+    }
+
+    /**
+     * @dev Checks if a order nonce has been used by a given account.
+     * @param self The Data storage struct.
+     * @param accountId The account ID to check.
+     * @param nonce The order nonce to check.
+     * @return bool true if the nonce has been used, false otherwise.
+     */
+    function isOffchainOrderNonceUsed(
+        NonceData storage self,
+        uint128 accountId,
+        uint256 nonce
+    ) internal view returns (bool) {
+        uint256 slot = nonce / 256; // Determine the bitmap slot
+        uint256 bit = nonce % 256; // Determine the bit position within the slot
+        return (self.nonceBitmaps[accountId][slot] & (1 << bit)) != 0;
+    }
+
+    /**
+     * @dev Marks a order nonce as used for a given account.
+     * @param self The Data storage struct.
+     * @param accountId The account ID to mark the nonce for.
+     * @param nonce The nonce to mark as used.
+     */
+    function markOffchainOrderNonceUsed(
+        NonceData storage self,
+        uint128 accountId,
+        uint256 nonce
+    ) internal {
+        uint256 slot = nonce / 256;
+        uint256 bit = nonce % 256;
+        self.nonceBitmaps[accountId][slot] |= 1 << bit;
     }
 }

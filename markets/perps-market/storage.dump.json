@@ -1389,6 +1389,27 @@
           "offset": 0
         }
       ],
+      "NonceData": [
+        {
+          "type": "mapping",
+          "name": "nonceBitmaps",
+          "key": {
+            "type": "uint128"
+          },
+          "value": {
+            "type": "mapping",
+            "key": {
+              "type": "uint256"
+            },
+            "value": {
+              "type": "uint256"
+            }
+          },
+          "size": 32,
+          "slot": "0",
+          "offset": 0
+        }
+      ],
       "Signature": [
         {
           "type": "uint8",

@@ -45,6 +45,7 @@ contract OffchainAsyncOrderModule is IOffchainAsyncOrderModule, IMarketEvents, I
     using Position for Position.Data;
     using PerpsMarketFactory for PerpsMarketFactory.Data;
     using KeeperCosts for KeeperCosts.Data;
+    using OffchainOrder for OffchainOrder.NonceData;
 
     // keccak256("OffchainOrder(uint128 marketId,uint128 accountId,int128 sizeDelta,uint128 settlementStrategyId,address referrerOrRelayer,bool allowAggregation,bool allowPartialMatching,uint256 acceptablePrice,bytes32 trackingCode,uint256 expiration,uint256 nonce)");
     bytes32 private constant _ORDER_TYPEHASH =
@@ -68,6 +69,25 @@ contract OffchainAsyncOrderModule is IOffchainAsyncOrderModule, IMarketEvents, I
         if (shareRatioD18 == 0) {
             revert IOffchainOrderModule.UnauthorizedRelayer(ERC2771Context._msgSender());
         }
+
+        OffchainOrder.NonceData storage offchainOrderNonces = OffchainOrder.load();
+
+        if (
+            offchainOrderNonces.isOffchainOrderNonceUsed(
+                offchainOrder.accountId,
+                offchainOrder.nonce
+            )
+        ) {
+            revert IOffchainOrderModule.OffchainOrderAlreadyUsed(
+                offchainOrder.accountId,
+                offchainOrder.nonce
+            );
+        }
+
+        offchainOrderNonces.markOffchainOrderNonceUsed(
+            offchainOrder.accountId,
+            offchainOrder.nonce
+        );
 
         SettlementStrategy.Data storage strategy = PerpsMarketConfiguration
             .loadValidSettlementStrategy(
