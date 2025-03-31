@@ -132,11 +132,13 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
         validateLimitOrder(longOrder);
         validateLimitOrderPair(shortOrder, longOrder);
 
-        uint256 shareRatioD18 = GlobalPerpsMarketConfiguration.load().relayerShare[
-            shortOrder.referrerOrRelayer
-        ];
-        if (shareRatioD18 == 0 || ERC2771Context._msgSender() != shortOrder.referrerOrRelayer) {
-            revert ILimitOrderModule.LimitOrderRelayerInvalid(shortOrder.referrerOrRelayer);
+        {
+            uint256 shareRatioD18 = GlobalPerpsMarketConfiguration.load().relayerShare[
+                shortOrder.referrerOrRelayer
+            ];
+            if (shareRatioD18 == 0 || ERC2771Context._msgSender() != shortOrder.referrerOrRelayer) {
+                revert ILimitOrderModule.LimitOrderRelayerInvalid(shortOrder.referrerOrRelayer);
+            }
         }
 
         (
@@ -153,6 +155,7 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
         settleLimitOrder(
             shortOrder,
             firstLimitOrderFees,
+            lastPriceCheck,
             firstOldPosition,
             firstNewPosition,
             partialFillData.firstOrderPartialFill
@@ -160,6 +163,7 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
         settleLimitOrder(
             longOrder,
             secondLimitOrderFees,
+            lastPriceCheck,
             secondOldPosition,
             secondNewPosition,
             partialFillData.secondOrderPartialFill
@@ -366,6 +370,7 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
     function settleLimitOrder(
         OffchainOrder.Data memory order,
         uint256 limitOrderFees,
+        uint256 lastPriceCheck,
         Position.Data storage oldPosition,
         Position.Data memory newPosition,
         bool partialFill
@@ -380,7 +385,7 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
 
         PerpsAccount.Data storage perpsAccount = PerpsAccount.load(runtime.accountId);
         (runtime.pnl, , runtime.chargedInterest, runtime.accruedFunding, , ) = oldPosition.getPnl(
-            order.acceptablePrice
+            lastPriceCheck
         );
 
         runtime.chargedAmount = runtime.pnl - runtime.limitOrderFees.toInt();
@@ -396,7 +401,7 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
 
         emit MarketUpdated(
             runtime.updateData.marketId,
-            runtime.price,
+            lastPriceCheck,
             runtime.updateData.skew,
             runtime.updateData.size,
             runtime.amount,
