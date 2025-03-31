@@ -1354,11 +1354,18 @@
           "offset": 22
         },
         {
-          "type": "uint72",
-          "name": "timestamp",
-          "size": 9,
+          "type": "bool",
+          "name": "reduceOnly",
+          "size": 1,
           "slot": "2",
           "offset": 23
+        },
+        {
+          "type": "uint64",
+          "name": "timestamp",
+          "size": 8,
+          "slot": "2",
+          "offset": 24
         },
         {
           "type": "uint256",

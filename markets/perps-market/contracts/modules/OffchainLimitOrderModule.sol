@@ -46,9 +46,9 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
     using Position for Position.Data;
     using PerpsMarketFactory for PerpsMarketFactory.Data;
 
-    // keccak256("OffchainOrder(uint128 marketId,uint128 accountId,int128 sizeDelta,uint128 settlementStrategyId,address referrerOrRelayer,bool allowAggregation,bool allowPartialMatching,uint256 acceptablePrice,bytes32 trackingCode,uint256 expiration,uint256 nonce)");
+    // keccak256("OffchainOrder(uint128 marketId,uint128 accountId,int128 sizeDelta,uint128 settlementStrategyId,address referrerOrRelayer,bool allowAggregation,bool allowPartialMatching,bool reduceOnly,uint256 acceptablePrice,bytes32 trackingCode,uint256 expiration,uint256 nonce)");
     bytes32 private constant _ORDER_TYPEHASH =
-        0xa116e0c85e44ab4eeb1d489620b69f76222f65de5606f5b5d381b7f1ecab0179;
+        0xfa2db4cbdb01b350b8ce55fb85ef8bd1b19e1e933b085005ee10f6d931c67519;
 
     // keccak256("CancelOrderRequest(uint128 accountId,uint256 nonce)");
     bytes32 private constant _CANCEL_ORDER_TYPEHASH =
@@ -171,6 +171,34 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
         OffchainOrder.Data memory longOrder
     ) internal returns (bool firstOrderPartialFill, bool secondOrderPartialFill) {
         LimitOrder.Data storage limitOrderData = LimitOrder.load();
+
+        if (shortOrder.reduceOnly) {
+            int128 currentSize = PerpsMarket
+                .accountPosition(shortOrder.marketId, shortOrder.accountId)
+                .size;
+
+            if (MathUtil.sameSide(currentSize, shortOrder.sizeDelta)) {
+                revert OffchainOrder.ReduceOnlyOrder(currentSize, shortOrder.sizeDelta);
+            }
+
+            if (MathUtil.abs(currentSize) <= MathUtil.abs(shortOrder.sizeDelta)) {
+                shortOrder.sizeDelta = -currentSize;
+            }
+        }
+
+        if (longOrder.reduceOnly) {
+            int128 currentSize = PerpsMarket
+                .accountPosition(longOrder.marketId, longOrder.accountId)
+                .size;
+
+            if (MathUtil.sameSide(currentSize, longOrder.sizeDelta)) {
+                revert OffchainOrder.ReduceOnlyOrder(currentSize, longOrder.sizeDelta);
+            }
+
+            if (MathUtil.abs(currentSize) <= MathUtil.abs(longOrder.sizeDelta)) {
+                longOrder.sizeDelta = -currentSize;
+            }
+        }
 
         if (shortOrder.allowPartialMatching) {
             shortOrder.sizeDelta = limitOrderData.getRemainingLimitOrderAmount(
@@ -491,6 +519,7 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
                         order.referrerOrRelayer,
                         order.allowAggregation,
                         order.allowPartialMatching,
+                        order.reduceOnly,
                         order.acceptablePrice,
                         order.trackingCode,
                         order.expiration,
