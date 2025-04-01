@@ -104,10 +104,18 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
 
         LimitOrder.LimitOrderPartialFillData memory partialFillData;
 
-        uint256 lastPriceCheck = PerpsPrice.getCurrentPrice(
-            shortOrder.marketId,
-            PerpsPrice.Tolerance.DEFAULT
-        );
+        uint256 lastPriceCheck;
+        {
+            SettlementStrategy.Data storage strategy = PerpsMarketConfiguration
+                .loadValidSettlementStrategy(shortOrder.marketId, shortOrder.settlementStrategyId);
+
+            lastPriceCheck = IPythERC7412Wrapper(strategy.priceVerificationContract)
+                .getLatestPrice(
+                    strategy.feedId,
+                    5 // 5 seconds
+                )
+                .toUint();
+        }
 
         PerpsMarket.Data storage perpsMarketData = PerpsMarket.load(shortOrder.marketId);
         perpsMarketData.recomputeFunding(lastPriceCheck);
