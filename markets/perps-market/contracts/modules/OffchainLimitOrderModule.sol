@@ -357,12 +357,12 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
                 runtime.totalRequiredMargin
             );
         }
-        // TODO add check if this logic below is needed or should be changed
-        // int256 lockedCreditDelta = perpsMarketData.requiredCreditForSize(
-        //     MathUtil.abs(runtime.newPositionSize).toInt() - MathUtil.abs(oldPosition.size).toInt(),
-        //     PerpsPrice.Tolerance.DEFAULT
-        // );
-        // GlobalPerpsMarket.load().validateMarketCapacity(lockedCreditDelta);
+
+        int256 lockedCreditDelta = perpsMarketData.requiredCreditForSize(
+            MathUtil.abs(runtime.newPositionSize).toInt() - MathUtil.abs(oldPosition.size).toInt(),
+            PerpsPrice.Tolerance.DEFAULT
+        );
+        GlobalPerpsMarket.load().validateMarketCapacity(lockedCreditDelta);
 
         runtime.newPosition = Position.Data({
             marketId: runtime.marketId,
