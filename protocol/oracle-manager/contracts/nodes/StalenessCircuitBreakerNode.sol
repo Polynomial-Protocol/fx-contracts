@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
+
 import {SafeCastBytes32} from "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
 import {NodeDefinition} from "../storage/NodeDefinition.sol";
 import {NodeOutput} from "../storage/NodeOutput.sol";
