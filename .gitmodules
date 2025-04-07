@@ -1,0 +1,12 @@
+[submodule "protocol/oracle-manager/lib/forge-std"]
+	path = protocol/oracle-manager/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "protocol/oracle-manager/lib/openzeppelin-contracts"]
+	path = protocol/oracle-manager/lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+[submodule "protocol/oracle-manager/standalone/lib/forge-std"]
+	path = protocol/oracle-manager/standalone/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "protocol/oracle-manager/standalone/lib/openzeppelin-contracts"]
+	path = protocol/oracle-manager/standalone/lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts

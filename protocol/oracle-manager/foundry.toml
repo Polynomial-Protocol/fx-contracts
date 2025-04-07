@@ -1,0 +1,22 @@
+[profile.default]
+src = 'contracts'
+out = 'out'
+libs = ['lib']
+solc = '0.8.20'
+optimizer = true
+optimizer_runs = 10000
+gas_reports = ["*"]
+verbosity = 3
+
+[rpc_endpoints]
+polynomial_sepolia = "${RPC_URL}"
+
+[etherscan]
+polynomial_sepolia = { key = "${ETHERSCAN_API_KEY}" }
+
+[fmt]
+line_length = 120
+tab_width = 4
+bracket_spacing = true
+
+# See more config options https://github.com/foundry-rs/foundry/tree/master/config 
