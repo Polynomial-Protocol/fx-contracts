@@ -2,6 +2,10 @@
 version = "<%= package.version %>-testable"
 include = ["cannonfile.toml"]
 
+[setting.owner]
+description = "Admin user for the system"
+defaultValue = "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"
+
 # use the testable oracle manager
 [setting.oracle_manager_source]
 defaultValue = "fx-oracle-manager:<%= package.version %>-testable"

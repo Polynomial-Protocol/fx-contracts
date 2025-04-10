@@ -234,21 +234,4 @@ library GlobalPerpsMarketConfiguration {
             factory.withdrawMarketUsd(referrer, referralFeesSent);
         }
     }
-
-    function _collectRelayerFees(
-        Data storage self,
-        uint256 fees,
-        address relayer,
-        PerpsMarketFactory.Data storage factory
-    ) private returns (uint256 relayerFeesSent) {
-        if (fees == 0 || relayer == address(0)) {
-            return 0;
-        }
-
-        uint256 relayerShareRatio = self.relayerShare[relayer];
-        if (relayerShareRatio > 0) {
-            relayerFeesSent = fees.mulDecimal(relayerShareRatio);
-            factory.withdrawMarketUsd(relayer, relayerFeesSent);
-        }
-    }
 }

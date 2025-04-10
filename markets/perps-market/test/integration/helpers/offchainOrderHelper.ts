@@ -1,17 +1,21 @@
 import { ethers, BigNumber } from 'ethers';
 import { ecsign } from 'ethereumjs-util';
+import { DEFAULT_SETTLEMENT_STRATEGY } from '../bootstrap';
 
 export interface Order {
-  accountId: number;
   marketId: BigNumber;
-  relayer: string;
-  amount: BigNumber;
-  price: BigNumber;
+  accountId: BigNumber;
+  sizeDelta: BigNumber;
+  settlementStrategyId: number;
+  referrerOrRelayer: string;
   limitOrderMaker: boolean;
+  allowAggregation: boolean;
+  allowPartialMatching: boolean;
+  timestamp: number;
+  acceptablePrice: BigNumber;
+  trackingCode: string;
   expiration: number;
   nonce: number;
-  allowPartialMatching: boolean;
-  trackingCode: string;
 }
 
 interface CancelOrderRequest {
@@ -53,7 +57,7 @@ async function getDomain(signer: ethers.Wallet, contractAddress: string): Promis
   );
 }
 
-function createLimitOrder(orderArgs: OrderCreationArgs): Order {
+export function createOrder(orderArgs: OrderCreationArgs): Order {
   const {
     accountId,
     marketId,
@@ -67,42 +71,25 @@ function createLimitOrder(orderArgs: OrderCreationArgs): Order {
     trackingCode,
   } = orderArgs;
   return {
-    accountId,
     marketId,
-    relayer,
-    amount: isShort ? amount.abs().mul(-1) : amount.abs(),
-    price,
+    accountId: BigNumber.from(accountId),
+    sizeDelta: isShort ? amount.abs().mul(-1) : amount.abs(),
+    settlementStrategyId: DEFAULT_SETTLEMENT_STRATEGY.strategyType,
+    referrerOrRelayer: relayer,
     limitOrderMaker: isMaker,
+    allowAggregation: false,
+    allowPartialMatching: true,
+    timestamp: Math.floor(Date.now() / 1000),
+    acceptablePrice: price,
+    trackingCode,
     expiration,
     nonce,
-    allowPartialMatching: false,
-    trackingCode,
-  };
-}
-
-export function createMatchingLimitOrders(orderArgs: OrderCreationArgs): {
-  shortOrder: Order;
-  longOrder: Order;
-} {
-  if (orderArgs.amount.lt(0) || orderArgs.isShort) {
-    throw new Error('arguments must be for the long position for this method to work');
-  }
-  const order = createLimitOrder(orderArgs);
-  const oppositeOrder = createLimitOrder({
-    ...orderArgs,
-    isShort: true,
-    accountId: orderArgs.accountId - 1,
-    isMaker: !orderArgs.isMaker,
-  });
-  return {
-    shortOrder: oppositeOrder,
-    longOrder: order,
   };
 }
 
 const ORDER_TYPEHASH = ethers.utils.keccak256(
   ethers.utils.toUtf8Bytes(
-    'SignedOrderRequest(uint128 accountId,uint128 marketId,address relayer,int128 amount,uint256 price,uint256 expiration,uint256 nonce,bytes32 trackingCode,bool allowPartialMatching)'
+    'OffchainOrder(uint128 marketId,uint128 accountId,int128 sizeDelta,uint128 settlementStrategyId,address referrerOrRelayer,bool allowAggregation,bool allowPartialMatching,uint256 acceptablePrice,bytes32 trackingCode,uint256 expiration,uint256 nonce)'
   )
 );
 
@@ -115,17 +102,6 @@ export async function signOrder(
   signer: ethers.Wallet,
   contractAddress: string
 ): Promise<{ v: number; r: Buffer; s: Buffer }> {
-  const {
-    accountId,
-    marketId,
-    relayer,
-    amount,
-    price,
-    expiration,
-    nonce,
-    allowPartialMatching,
-    trackingCode,
-  } = order;
   const domainSeparator = await getDomain(signer, contractAddress);
 
   const digest = ethers.utils.keccak256(
@@ -141,25 +117,29 @@ export async function signOrder(
               'bytes32',
               'uint128',
               'uint128',
-              'address',
               'int128',
-              'uint256',
-              'uint256',
+              'uint128',
+              'address',
+              'bool',
+              'bool',
               'uint256',
               'bytes32',
-              'bool',
+              'uint256',
+              'uint256',
             ],
             [
               ORDER_TYPEHASH,
-              accountId,
-              marketId,
-              relayer,
-              amount,
-              price,
-              expiration,
-              nonce,
-              trackingCode,
-              allowPartialMatching,
+              order.marketId,
+              order.accountId,
+              order.sizeDelta,
+              order.settlementStrategyId,
+              order.referrerOrRelayer,
+              order.allowAggregation,
+              order.allowPartialMatching,
+              order.acceptablePrice,
+              order.trackingCode,
+              order.expiration,
+              order.nonce,
             ]
           )
         ),
@@ -174,7 +154,7 @@ export async function signOrder(
 }
 
 export async function signCancelOrderRequest(
-  order: CancelOrderRequest,
+  cancelOrderRequest: CancelOrderRequest,
   signer: ethers.Wallet,
   contractAddress: string
 ): Promise<{ v: number; r: Buffer; s: Buffer }> {
@@ -187,11 +167,10 @@ export async function signCancelOrderRequest(
         '0x19',
         '0x01',
         domainSeparator,
-        ethers.utils.keccak256(
-          ethers.utils.defaultAbiCoder.encode(
-            ['bytes32', 'uint128', 'uint256'],
-            [CANCEL_ORDER_TYPEHASH, order.accountId, order.nonce]
-          )
+        CANCEL_ORDER_TYPEHASH,
+        ethers.utils.solidityPack(
+          ['uint128', 'uint256'],
+          [cancelOrderRequest.accountId, cancelOrderRequest.nonce]
         ),
       ]
     )
