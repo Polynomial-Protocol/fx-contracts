@@ -119,8 +119,6 @@ contract OffchainAsyncOrderModule is IOffchainAsyncOrderModule, IMarketEvents, I
         runtime.marketId = asyncOrder.request.marketId;
         runtime.sizeDelta = asyncOrder.request.sizeDelta;
 
-        GlobalPerpsMarket.load().checkLiquidation(runtime.accountId);
-
         Position.Data storage oldPosition;
 
         // Load the market before settlement to capture the original market size

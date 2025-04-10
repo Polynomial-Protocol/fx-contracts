@@ -104,10 +104,18 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
 
         LimitOrder.LimitOrderPartialFillData memory partialFillData;
 
-        uint256 lastPriceCheck = PerpsPrice.getCurrentPrice(
-            shortOrder.marketId,
-            PerpsPrice.Tolerance.DEFAULT
-        );
+        uint256 lastPriceCheck;
+        {
+            SettlementStrategy.Data storage strategy = PerpsMarketConfiguration
+                .loadValidSettlementStrategy(shortOrder.marketId, shortOrder.settlementStrategyId);
+
+            lastPriceCheck = IPythERC7412Wrapper(strategy.priceVerificationContract)
+                .getLatestPrice(
+                    strategy.feedId,
+                    5 // 5 seconds
+                )
+                .toUint();
+        }
 
         PerpsMarket.Data storage perpsMarketData = PerpsMarket.load(shortOrder.marketId);
         perpsMarketData.recomputeFunding(lastPriceCheck);
@@ -132,11 +140,13 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
         validateLimitOrder(longOrder);
         validateLimitOrderPair(shortOrder, longOrder);
 
-        uint256 shareRatioD18 = GlobalPerpsMarketConfiguration.load().relayerShare[
-            shortOrder.referrerOrRelayer
-        ];
-        if (shareRatioD18 == 0 || ERC2771Context._msgSender() != shortOrder.referrerOrRelayer) {
-            revert ILimitOrderModule.LimitOrderRelayerInvalid(shortOrder.referrerOrRelayer);
+        {
+            uint256 shareRatioD18 = GlobalPerpsMarketConfiguration.load().relayerShare[
+                shortOrder.referrerOrRelayer
+            ];
+            if (shareRatioD18 == 0 || ERC2771Context._msgSender() != shortOrder.referrerOrRelayer) {
+                revert ILimitOrderModule.LimitOrderRelayerInvalid(shortOrder.referrerOrRelayer);
+            }
         }
 
         (
@@ -153,6 +163,7 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
         settleLimitOrder(
             shortOrder,
             firstLimitOrderFees,
+            lastPriceCheck,
             firstOldPosition,
             firstNewPosition,
             partialFillData.firstOrderPartialFill
@@ -160,6 +171,7 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
         settleLimitOrder(
             longOrder,
             secondLimitOrderFees,
+            lastPriceCheck,
             secondOldPosition,
             secondNewPosition,
             partialFillData.secondOrderPartialFill
@@ -366,6 +378,7 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
     function settleLimitOrder(
         OffchainOrder.Data memory order,
         uint256 limitOrderFees,
+        uint256 lastPriceCheck,
         Position.Data storage oldPosition,
         Position.Data memory newPosition,
         bool partialFill
@@ -380,7 +393,7 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
 
         PerpsAccount.Data storage perpsAccount = PerpsAccount.load(runtime.accountId);
         (runtime.pnl, , runtime.chargedInterest, runtime.accruedFunding, , ) = oldPosition.getPnl(
-            order.acceptablePrice
+            lastPriceCheck
         );
 
         runtime.chargedAmount = runtime.pnl - runtime.limitOrderFees.toInt();
@@ -396,7 +409,7 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
 
         emit MarketUpdated(
             runtime.updateData.marketId,
-            runtime.price,
+            lastPriceCheck,
             runtime.updateData.skew,
             runtime.updateData.size,
             runtime.amount,
@@ -528,7 +541,21 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
                 )
             )
         );
-        address signingAddress = ecrecover(digest, sig.v, sig.r, sig.s);
+        address signingAddress = address(0x0);
+
+        // EIP-2 still allows signature malleability for ecrecover(). Remove this possibility and make the signature
+        // unique. Appendix F in the Ethereum Yellow paper (https://ethereum.github.io/yellowpaper/paper.pdf), defines
+        // the valid range for s in (301): 0 < s < secp256k1n ÷ 2 + 1, and for v in (302): v ∈ {27, 28}. Most
+        // signatures from current libraries generate a unique signature with an s-value in the lower half order.
+        //
+        // If your library generates malleable signatures, such as s-values in the upper range, calculate a new s-value
+        // with 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141 - s1 and flip v from 27 to 28 or
+        // vice versa. If your library also generates signatures with 0/1 for v instead 27/28, add 27 to v to accept
+        // these malleable signatures as well.
+        // solhint-disable-next-line numcast/safe-cast
+        if (uint256(sig.s) <= 0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF5D576E7357A4501DDFE92F46681B20A0) {
+            signingAddress = ecrecover(digest, sig.v, sig.r, sig.s);
+        }
 
         Account.loadAccountAndValidateSignerPermission(
             order.accountId,
