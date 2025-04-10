@@ -60,9 +60,6 @@ artifact = "CollateralConfigurationModule"
 [contract.MarketConfigurationModule]
 artifact = "MarketConfigurationModule"
 
-[contract.LimitOrderModule]
-artifact = "LimitOrderModule"
-
 [contract.OffchainAsyncOrderModule]
 artifact = "OffchainAsyncOrderModule"
 
@@ -105,7 +102,6 @@ contracts = [
     "CollateralConfigurationModule",
     "GlobalPerpsMarketModule",
     "FeeTierModule",
-    "LimitOrderModule",
     "OffchainAsyncOrderModule",
     "OffchainLimitOrderModule",
 ]
