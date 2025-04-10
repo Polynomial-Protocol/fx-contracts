@@ -12,4 +12,5 @@ interface IOffchainOrderModule {
     ) external;
 
     error UnauthorizedRelayer(address relayer);
+    error OffchainOrderAlreadyUsed(uint128 accountId, uint256 nonce);
 }
