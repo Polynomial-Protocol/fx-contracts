@@ -275,6 +275,34 @@ contract GlobalPerpsMarketModule is IGlobalPerpsMarketModule {
     /**
      * @inheritdoc IGlobalPerpsMarketModule
      */
+    function updateRelayerShare(address relayer, uint256 shareRatioD18) external override {
+        OwnableStorage.onlyOwner();
+
+        if (shareRatioD18 > DecimalMath.UNIT) {
+            revert InvalidRelayerShareRatio(shareRatioD18);
+        }
+
+        if (relayer == address(0)) {
+            revert AddressError.ZeroAddress();
+        }
+
+        GlobalPerpsMarketConfiguration.load().relayerShare[relayer] = shareRatioD18;
+
+        emit RelayerShareUpdated(relayer, shareRatioD18);
+    }
+
+    /**
+     * @inheritdoc IGlobalPerpsMarketModule
+     */
+    function getRelayerShare(
+        address relayer
+    ) external view override returns (uint256 shareRatioD18) {
+        return GlobalPerpsMarketConfiguration.load().relayerShare[relayer];
+    }
+
+    /**
+     * @inheritdoc IGlobalPerpsMarketModule
+     */
     function setEndorsedFeeTierUpdater(address _endorsedFeeTierUpdater) external override {
         OwnableStorage.onlyOwner();
         GlobalPerpsMarketConfiguration.load().endorsedFeeTierUpdater = _endorsedFeeTierUpdater;

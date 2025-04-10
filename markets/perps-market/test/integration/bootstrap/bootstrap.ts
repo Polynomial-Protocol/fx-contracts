@@ -291,6 +291,7 @@ export function bootstrapMarkets(data: BootstrapArgs) {
     superMarketId,
     synthMarketOwner: marketOwner,
     poolId,
+    restoreSnapshot,
   };
 }
 

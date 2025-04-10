@@ -8,4 +8,9 @@ interface IPythERC7412Wrapper {
         bytes32 priceId,
         uint64 requestedTime
     ) external view returns (int256);
+
+    function getLatestPrice(
+        bytes32 priceId,
+        uint256 stalenessTolerance
+    ) external view returns (int256);
 }

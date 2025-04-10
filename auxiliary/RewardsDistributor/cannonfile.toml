@@ -1,6 +1,6 @@
-name = "synthetix-rewards-distributor"
+name = "fx-rewards-distributor"
 version = "<%= package.version %>"
-description = "Rewards distributor for Core Synthetix v3"
+description = "Rewards distributor for Polynomial"
 
 [setting.salt]
 defaultValue = "rewards"

@@ -60,6 +60,12 @@ artifact = "CollateralConfigurationModule"
 [contract.MarketConfigurationModule]
 artifact = "MarketConfigurationModule"
 
+[contract.OffchainAsyncOrderModule]
+artifact = "OffchainAsyncOrderModule"
+
+[contract.OffchainLimitOrderModule]
+artifact = "OffchainLimitOrderModule"
+
 [contract.FeeTierModule]
 artifact = "FeeTierModule"
 
@@ -96,6 +102,8 @@ contracts = [
     "CollateralConfigurationModule",
     "GlobalPerpsMarketModule",
     "FeeTierModule",
+    "OffchainAsyncOrderModule",
+    "OffchainLimitOrderModule",
 ]
 
 [invoke.upgrade_proxy]

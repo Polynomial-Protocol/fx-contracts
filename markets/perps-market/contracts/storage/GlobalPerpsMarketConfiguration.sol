@@ -103,6 +103,10 @@ library GlobalPerpsMarketConfiguration {
          * @dev Address that collects fees from order committers.
          */
         address commitFeeReciever;
+        /**
+         * @dev Percentage share of fees for each limit order relayer address
+         */
+        mapping(address => uint256) relayerShare;
     }
 
     function load() internal pure returns (Data storage globalMarketConfig) {
@@ -175,23 +179,23 @@ library GlobalPerpsMarketConfiguration {
             return (referralFees, 0);
         }
 
-        uint256 feeCollectorQuote = self.feeCollector.quoteFees(
+        feeCollectorFees = self.feeCollector.quoteFees(
             factory.perpsMarketId,
             remainingFees,
             ERC2771Context._msgSender()
         );
 
-        if (feeCollectorQuote == 0) {
+        if (feeCollectorFees == 0) {
             return (referralFees, 0);
         }
 
-        if (feeCollectorQuote > remainingFees) {
-            feeCollectorQuote = remainingFees;
+        if (feeCollectorFees > remainingFees) {
+            feeCollectorFees = remainingFees;
         }
 
-        factory.withdrawMarketUsd(address(self.feeCollector), feeCollectorQuote);
+        factory.withdrawMarketUsd(address(self.feeCollector), feeCollectorFees);
 
-        return (referralFees, feeCollectorQuote);
+        return (referralFees, feeCollectorFees);
     }
 
     function calculateCollateralLiquidateReward(

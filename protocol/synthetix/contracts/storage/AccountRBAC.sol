@@ -22,6 +22,10 @@ library AccountRBAC {
     bytes32 internal constant _REWARDS_PERMISSION = "REWARDS";
     bytes32 internal constant _PERPS_MODIFY_COLLATERAL_PERMISSION = "PERPS_MODIFY_COLLATERAL";
     bytes32 internal constant _PERPS_COMMIT_ASYNC_ORDER_PERMISSION = "PERPS_COMMIT_ASYNC_ORDER";
+    bytes32 internal constant _PERPS_COMMIT_LIMIT_ORDER_PERMISSION = "PERPS_COMMIT_LIMIT_ORDER";
+    bytes32 internal constant _PERPS_COMMIT_OFFCHAIN_ORDER_PERMISSION =
+        "PERPS_COMMIT_OFFCHAIN_ORDER";
+    bytes32 internal constant _PERPS_CANCEL_LIMIT_ORDER = "PERPS_CANCEL_LIMIT_ORDER";
     bytes32 internal constant _BURN_PERMISSION = "BURN";
     bytes32 internal constant _BFP_PERPS_PAY_DEBT_PERMISSION = "BFP_PERPS_PAY_DEBT";
     bytes32 internal constant _BFP_PERPS_SPLIT_ACCOUNT_PERMISSION = "BFP_PERPS_SPLIT_ACCOUNT";
@@ -58,6 +62,7 @@ library AccountRBAC {
             permission != AccountRBAC._REWARDS_PERMISSION &&
             permission != AccountRBAC._PERPS_MODIFY_COLLATERAL_PERMISSION &&
             permission != AccountRBAC._PERPS_COMMIT_ASYNC_ORDER_PERMISSION &&
+            permission != AccountRBAC._PERPS_COMMIT_LIMIT_ORDER_PERMISSION &&
             permission != AccountRBAC._BURN_PERMISSION &&
             permission != AccountRBAC._BFP_PERPS_PAY_DEBT_PERMISSION &&
             permission != AccountRBAC._BFP_PERPS_SPLIT_ACCOUNT_PERMISSION
