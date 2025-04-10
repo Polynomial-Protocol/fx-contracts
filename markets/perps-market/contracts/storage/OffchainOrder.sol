@@ -2,6 +2,15 @@
 pragma solidity >=0.8.11 <0.9.0;
 
 library OffchainOrder {
+    error ReduceOnlyOrder(int128 currentSize, int128 sizeDelta);
+
+    struct TpSlSettings {
+        uint256 tpPriceA;
+        uint256 tpPriceB;
+        uint256 slPriceA;
+        uint256 slPriceB;
+    }
+
     struct Data {
         /**
          * @dev marketId
@@ -36,9 +45,13 @@ library OffchainOrder {
          */
         bool allowPartialMatching;
         /**
+         * @dev Is the order reduce only?
+         */
+        bool reduceOnly;
+        /**
          * @dev timestamp of signing
          */
-        uint72 timestamp;
+        uint64 timestamp;
         /**
          * @dev acceptablePrice for AsyncOrder, price for LimitOrder
          */

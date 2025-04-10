@@ -168,6 +168,20 @@ library AsyncOrder {
 
         PerpsAccount.validateMaxPositions(newRequest.accountId, newRequest.marketId);
 
+        if (newRequest.reduceOnly) {
+            int128 currentSize = PerpsMarket
+                .accountPosition(newRequest.marketId, newRequest.accountId)
+                .size;
+
+            if (MathUtil.sameSide(currentSize, newRequest.sizeDelta)) {
+                revert OffchainOrder.ReduceOnlyOrder(currentSize, newRequest.sizeDelta);
+            }
+
+            if (MathUtil.abs(currentSize) <= MathUtil.abs(newRequest.sizeDelta)) {
+                newRequest.sizeDelta = -currentSize;
+            }
+        }
+
         // Replace previous (or empty) order with the commitment request
         self.commitmentTime = newRequest.timestamp;
         self.request = OrderCommitmentRequest({

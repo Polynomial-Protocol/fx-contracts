@@ -46,9 +46,9 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
     using Position for Position.Data;
     using PerpsMarketFactory for PerpsMarketFactory.Data;
 
-    // keccak256("OffchainOrder(uint128 marketId,uint128 accountId,int128 sizeDelta,uint128 settlementStrategyId,address referrerOrRelayer,bool allowAggregation,bool allowPartialMatching,uint256 acceptablePrice,bytes32 trackingCode,uint256 expiration,uint256 nonce)");
+    // keccak256("OffchainOrder(uint128 marketId,uint128 accountId,int128 sizeDelta,uint128 settlementStrategyId,address referrerOrRelayer,bool allowAggregation,bool allowPartialMatching,bool reduceOnly,uint256 acceptablePrice,bytes32 trackingCode,uint256 expiration,uint256 nonce)");
     bytes32 private constant _ORDER_TYPEHASH =
-        0xa116e0c85e44ab4eeb1d489620b69f76222f65de5606f5b5d381b7f1ecab0179;
+        0xfa2db4cbdb01b350b8ce55fb85ef8bd1b19e1e933b085005ee10f6d931c67519;
 
     // keccak256("CancelOrderRequest(uint128 accountId,uint256 nonce)");
     bytes32 private constant _CANCEL_ORDER_TYPEHASH =
@@ -104,10 +104,18 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
 
         LimitOrder.LimitOrderPartialFillData memory partialFillData;
 
-        uint256 lastPriceCheck = PerpsPrice.getCurrentPrice(
-            shortOrder.marketId,
-            PerpsPrice.Tolerance.DEFAULT
-        );
+        uint256 lastPriceCheck;
+        {
+            SettlementStrategy.Data storage strategy = PerpsMarketConfiguration
+                .loadValidSettlementStrategy(shortOrder.marketId, shortOrder.settlementStrategyId);
+
+            lastPriceCheck = IPythERC7412Wrapper(strategy.priceVerificationContract)
+                .getLatestPrice(
+                    strategy.feedId,
+                    5 // 5 seconds
+                )
+                .toUint();
+        }
 
         PerpsMarket.Data storage perpsMarketData = PerpsMarket.load(shortOrder.marketId);
         perpsMarketData.recomputeFunding(lastPriceCheck);
@@ -132,11 +140,13 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
         validateLimitOrder(longOrder);
         validateLimitOrderPair(shortOrder, longOrder);
 
-        uint256 shareRatioD18 = GlobalPerpsMarketConfiguration.load().relayerShare[
-            shortOrder.referrerOrRelayer
-        ];
-        if (shareRatioD18 == 0 || ERC2771Context._msgSender() != shortOrder.referrerOrRelayer) {
-            revert ILimitOrderModule.LimitOrderRelayerInvalid(shortOrder.referrerOrRelayer);
+        {
+            uint256 shareRatioD18 = GlobalPerpsMarketConfiguration.load().relayerShare[
+                shortOrder.referrerOrRelayer
+            ];
+            if (shareRatioD18 == 0 || ERC2771Context._msgSender() != shortOrder.referrerOrRelayer) {
+                revert ILimitOrderModule.LimitOrderRelayerInvalid(shortOrder.referrerOrRelayer);
+            }
         }
 
         (
@@ -153,6 +163,7 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
         settleLimitOrder(
             shortOrder,
             firstLimitOrderFees,
+            lastPriceCheck,
             firstOldPosition,
             firstNewPosition,
             partialFillData.firstOrderPartialFill
@@ -160,6 +171,7 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
         settleLimitOrder(
             longOrder,
             secondLimitOrderFees,
+            lastPriceCheck,
             secondOldPosition,
             secondNewPosition,
             partialFillData.secondOrderPartialFill
@@ -171,6 +183,34 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
         OffchainOrder.Data memory longOrder
     ) internal returns (bool firstOrderPartialFill, bool secondOrderPartialFill) {
         LimitOrder.Data storage limitOrderData = LimitOrder.load();
+
+        if (shortOrder.reduceOnly) {
+            int128 currentSize = PerpsMarket
+                .accountPosition(shortOrder.marketId, shortOrder.accountId)
+                .size;
+
+            if (MathUtil.sameSide(currentSize, shortOrder.sizeDelta)) {
+                revert OffchainOrder.ReduceOnlyOrder(currentSize, shortOrder.sizeDelta);
+            }
+
+            if (MathUtil.abs(currentSize) <= MathUtil.abs(shortOrder.sizeDelta)) {
+                shortOrder.sizeDelta = -currentSize;
+            }
+        }
+
+        if (longOrder.reduceOnly) {
+            int128 currentSize = PerpsMarket
+                .accountPosition(longOrder.marketId, longOrder.accountId)
+                .size;
+
+            if (MathUtil.sameSide(currentSize, longOrder.sizeDelta)) {
+                revert OffchainOrder.ReduceOnlyOrder(currentSize, longOrder.sizeDelta);
+            }
+
+            if (MathUtil.abs(currentSize) <= MathUtil.abs(longOrder.sizeDelta)) {
+                longOrder.sizeDelta = -currentSize;
+            }
+        }
 
         if (shortOrder.allowPartialMatching) {
             shortOrder.sizeDelta = limitOrderData.getRemainingLimitOrderAmount(
@@ -338,6 +378,7 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
     function settleLimitOrder(
         OffchainOrder.Data memory order,
         uint256 limitOrderFees,
+        uint256 lastPriceCheck,
         Position.Data storage oldPosition,
         Position.Data memory newPosition,
         bool partialFill
@@ -352,7 +393,7 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
 
         PerpsAccount.Data storage perpsAccount = PerpsAccount.load(runtime.accountId);
         (runtime.pnl, , runtime.chargedInterest, runtime.accruedFunding, , ) = oldPosition.getPnl(
-            order.acceptablePrice
+            lastPriceCheck
         );
 
         runtime.chargedAmount = runtime.pnl - runtime.limitOrderFees.toInt();
@@ -368,7 +409,7 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
 
         emit MarketUpdated(
             runtime.updateData.marketId,
-            runtime.price,
+            lastPriceCheck,
             runtime.updateData.skew,
             runtime.updateData.size,
             runtime.amount,
@@ -491,6 +532,7 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
                         order.referrerOrRelayer,
                         order.allowAggregation,
                         order.allowPartialMatching,
+                        order.reduceOnly,
                         order.acceptablePrice,
                         order.trackingCode,
                         order.expiration,
@@ -499,7 +541,21 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
                 )
             )
         );
-        address signingAddress = ecrecover(digest, sig.v, sig.r, sig.s);
+        address signingAddress = address(0x0);
+
+        // EIP-2 still allows signature malleability for ecrecover(). Remove this possibility and make the signature
+        // unique. Appendix F in the Ethereum Yellow paper (https://ethereum.github.io/yellowpaper/paper.pdf), defines
+        // the valid range for s in (301): 0 < s < secp256k1n ÷ 2 + 1, and for v in (302): v ∈ {27, 28}. Most
+        // signatures from current libraries generate a unique signature with an s-value in the lower half order.
+        //
+        // If your library generates malleable signatures, such as s-values in the upper range, calculate a new s-value
+        // with 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141 - s1 and flip v from 27 to 28 or
+        // vice versa. If your library also generates signatures with 0/1 for v instead 27/28, add 27 to v to accept
+        // these malleable signatures as well.
+        // solhint-disable-next-line numcast/safe-cast
+        if (uint256(sig.s) <= 0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF5D576E7357A4501DDFE92F46681B20A0) {
+            signingAddress = ecrecover(digest, sig.v, sig.r, sig.s);
+        }
 
         Account.loadAccountAndValidateSignerPermission(
             order.accountId,
