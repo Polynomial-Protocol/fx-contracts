@@ -141,7 +141,7 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
         validateLimitOrderPair(shortOrder, longOrder);
 
         {
-            uint256 shareRatioD18 = GlobalPerpsMarketConfiguration.load().relayerShare[
+            uint256 shareRatioD18 = GlobalPerpsMarketConfiguration.load().referrerShare[
                 shortOrder.referrerOrRelayer
             ];
             if (shareRatioD18 == 0 || ERC2771Context._msgSender() != shortOrder.referrerOrRelayer) {
