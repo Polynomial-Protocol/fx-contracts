@@ -88,7 +88,7 @@
     "typescript": "^5.5.4"
   },
   "resolutions": {
-    "hardhat-gas-reporter/eth-gas-reporter": "git://github.com/dbeal-eth/eth-gas-reporter.git#fix-catch-errors"
+    "hardhat-gas-reporter/eth-gas-reporter": "npm:eth-gas-reporter@^0.2.27"
   },
   "pre-commit": [
     "check-staged",
