@@ -14,11 +14,11 @@ defaultValue = "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"
 defaultValue = ""
 
 [setting.synthetixPackage]
-defaultValue = "polynomial-core:3.8.3-testable"
+defaultValue = "polynomial-core:3.9.7-testable"
 depends = []
 
 [setting.spotMarketPackage]
-defaultValue = "fx-spot-market:3.8.3-testable"
+defaultValue = "fx-spot-market:3.9.7-testable"
 depends = []
 
 [import.synthetix]
