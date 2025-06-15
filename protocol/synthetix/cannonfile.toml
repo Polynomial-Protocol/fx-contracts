@@ -59,6 +59,9 @@ artifact = "contracts/modules/core/CcipReceiverModule.sol:CcipReceiverModule"
 [contract.CollateralModule]
 artifact = "contracts/modules/core/CollateralModule.sol:CollateralModule"
 
+[contract.TimeLockCollateralModule]
+artifact = "contracts/modules/core/TimeLockCollateralModule.sol:TimeLockCollateralModule"
+
 [contract.CollateralConfigurationModule]
 artifact = "contracts/modules/core/CollateralConfigurationModule.sol:CollateralConfigurationModule"
 
@@ -108,6 +111,7 @@ contracts = [
     "AssociatedSystemsModule",
     "CcipReceiverModule",
     "CollateralModule",
+    "TimeLockCollateralModule",
     "CollateralConfigurationModule",
     "CrossChainUSDModule",
     "IssueUSDModule",
@@ -268,6 +272,18 @@ target = ["CoreProxy"]
 fromCall.func = "owner"
 func = "setFeatureFlagAllowAll"
 args = ["<%= formatBytes32String('delegateCollateral') %>", true]
+
+[invoke.enable_feature_lockCollateral]
+target = ["CoreProxy"]
+fromCall.func = "owner"
+func = "setFeatureFlagAllowAll"
+args = ["<%= formatBytes32String('lockCollateral') %>", true]
+
+[invoke.enable_feature_unlockCollateral]
+target = ["CoreProxy"]
+fromCall.func = "owner"
+func = "setFeatureFlagAllowAll"
+args = ["<%= formatBytes32String('unlockCollateral') %>", true]
 
 [invoke.register_const_one_oracle]
 target = ["oracle_manager.Proxy"]

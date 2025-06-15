@@ -76,6 +76,7 @@ contracts = [
     "AssociatedSystemsModule",
     "CcipReceiverModule",
     "CollateralModule",
+    "TimeLockCollateralModule",
     "CollateralConfigurationModule",
     "CrossChainUSDModule",
     "IssueUSDModule",

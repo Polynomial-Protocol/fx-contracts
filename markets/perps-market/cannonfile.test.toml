@@ -101,7 +101,7 @@ contracts = [
     "LimitOrderModule",
     "FeeTierModule",
     "OffchainAsyncOrderModule",
-    "OffchainLimitOrderModule"
+    "OffchainLimitOrderModule",
 ]
 
 [invoke.upgrade_proxy]
