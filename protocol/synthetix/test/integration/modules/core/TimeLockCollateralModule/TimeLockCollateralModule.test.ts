@@ -112,7 +112,6 @@ describe('TimeLockCollateralModule', function () {
 
   const restore = snapshotCheckpoint(provider);
 
-  // REQUIREMENT 1: A user successfully locking collateral
   describe('1. User Successfully Locking Collateral', function () {
     const lockAmount = ethers.utils.parseUnits('200', 6);
     const lockAmountD18 = ethers.utils.parseEther('200');
@@ -230,7 +229,6 @@ describe('TimeLockCollateralModule', function () {
     });
   });
 
-  // REQUIREMENT 2: The user's borrowing power (ability to mint fxUSD) increasing as a result of the collateral boost
   describe('2. Borrowing Power Increase Due to Collateral Boost', function () {
     const lockAmount = ethers.utils.parseUnits('200', 6);
     const lockAmountD18 = ethers.utils.parseEther('200');
@@ -261,7 +259,6 @@ describe('TimeLockCollateralModule', function () {
     });
 
     it('should demonstrate increased minting capacity due to boost', async () => {
-      // STEP 1: Get baseline effective collateral value BEFORE locking
       const positionCollateral = await systems().Core.getPositionCollateral(
         accountId1,
         poolId,
@@ -269,33 +266,24 @@ describe('TimeLockCollateralModule', function () {
       );
       assertBn.gt(positionCollateral, 0);
 
-      // Check initial boost value (should be 0)
       let boostedValue = await systems().Core.getBoostedCollateralValue(
         accountId1,
         Collateral.address
       );
       assertBn.equal(boostedValue, 0);
 
-      // STEP 2: Lock collateral to get boost
       await systems()
         .Core.connect(user1)
         .lockCollateral(accountId1, Collateral.address, lockAmount, LOCK_DURATION_365_DAYS);
 
-      // STEP 3: Verify boost is active and has correct value
       boostedValue = await systems().Core.getBoostedCollateralValue(accountId1, Collateral.address);
       const expectedBoostedValue = lockAmountD18.mul(BOOST_MULTIPLIER_365_DAYS).div(10000);
       assertBn.equal(boostedValue, expectedBoostedValue); // Should be 220 (200 * 110%)
 
-      // STEP 4: Key proof - boost value increases effective collateral
       assertBn.gt(boostedValue, 0);
 
-      // The boost adds 20 tokens worth of additional effective collateral (220 - 200)
       const additionalEffectiveCollateral = boostedValue.sub(lockAmountD18);
       assertBn.equal(additionalEffectiveCollateral, ethers.utils.parseEther('20')); // 10% boost on 200 tokens
-
-      // This proves that the borrowing power (ability to mint fxUSD) has increased
-      // due to the collateral boost. The system now treats the user as having
-      // more collateral than they actually locked, enabling increased minting capacity.
     });
 
     it('should show boost reflected in collateral summary', async () => {
@@ -352,7 +340,6 @@ describe('TimeLockCollateralModule', function () {
     });
   });
 
-  // REQUIREMENT 3: A user being unable to unlock collateral before the lock period expires
   describe('3. User Unable to Unlock Before Lock Expiry', function () {
     let lockId: Ethers.BigNumber;
     const lockAmount = ethers.utils.parseUnits('100', 6);
@@ -412,7 +399,6 @@ describe('TimeLockCollateralModule', function () {
     });
   });
 
-  // REQUIREMENT 4: A user successfully unlocking their collateral after the period has passed
   describe('4. User Successfully Unlocking After Lock Expiry', function () {
     let lockId: Ethers.BigNumber;
     const lockAmount = ethers.utils.parseUnits('100', 6);
