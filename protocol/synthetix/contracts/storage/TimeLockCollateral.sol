@@ -100,10 +100,8 @@ library TimeLockCollateral {
         newLock.boostMultiplier = boostMultiplier;
         newLock.unlocked = false;
 
-        // Add to account's locks
         self.accountLocks[accountId].push(lockId);
 
-        // Update boosted value
         uint256 boostedAmount = (amountD18 * boostMultiplier) / 10000;
         self.accountBoostedValue[accountId][collateralType] += boostedAmount;
     }
@@ -125,7 +123,6 @@ library TimeLockCollateral {
         lock.unlocked = true;
         amountD18 = lock.amountD18;
 
-        // Update boosted value
         uint256 boostedAmount = (amountD18 * lock.boostMultiplier) / 10000;
         self.accountBoostedValue[lock.accountId][lock.collateralType] -= boostedAmount;
     }
@@ -175,14 +172,12 @@ library TimeLockCollateral {
         uint256[] storage allLocks = self.accountLocks[accountId];
         uint256 activeCount = 0;
 
-        // Count active locks
         for (uint256 i = 0; i < allLocks.length; i++) {
             if (!self.locks[allLocks[i]].unlocked) {
                 activeCount++;
             }
         }
 
-        // Create array of active lock IDs
         activeLockIds = new uint256[](activeCount);
         uint256 index = 0;
         for (uint256 i = 0; i < allLocks.length; i++) {

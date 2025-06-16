@@ -4,32 +4,42 @@ pragma solidity >=0.8.11 <0.9.0;
 import "../storage/TimeLockCollateral.sol";
 
 /**
- * @title Module for time-locking collateral in exchange for boost to collateralization ratio.
+ * @title Module for time-locking collateral in exchange for boost.
  * @notice Allows users to lock their collateral for fixed durations and receive enhanced collateral value.
  */
 interface ITimeLockCollateralModule {
     /**
      * @notice Thrown when an account does not have sufficient available collateral for locking
+     * @param accountId The account ID that does not have sufficient available collateral
+     * @param collateralType The address of the collateral token
+     * @param amount The amount of collateral that is not sufficient for locking
      */
     error InsufficientCollateralForLock(uint128 accountId, address collateralType, uint256 amount);
 
     /**
-     * @notice Thrown when trying to unlock a lock that doesn't exist or has already been unlocked
+     * @notice Thrown when LockId is inValid
+     * @param lockId The unique identifier for the lock
      */
     error InvalidLockId(uint256 lockId);
 
     /**
      * @notice Thrown when trying to unlock before the lock period has expired
+     * @param lockId The unique identifier for the lock
+     * @param currentTime The current timestamp
+     * @param unlockTime The timestamp when the lock will be unlocked
      */
     error LockNotExpired(uint256 lockId, uint256 currentTime, uint256 unlockTime);
 
     /**
-     * @notice Thrown when providing an invalid lock duration
+     * @notice Thrown when providing an invalid lock duration (not equal to 90, 180, or 365 days)
+     * @param duration The duration that is not valid
      */
     error InvalidLockDuration(uint64 duration);
 
     /**
-     * @notice Thrown when caller doesn't have permission to operate on the lock
+     * @notice Thrown when caller doesn't have permission to operate on a particular lockId
+     * @param lockId The unique identifier for the lock
+     * @param caller The address that attempted to operate on the lock
      */
     error UnauthorizedLockOperation(uint256 lockId, address caller);
 
@@ -66,20 +76,13 @@ interface ITimeLockCollateralModule {
     );
 
     /**
-     * @notice Locks collateral for a specified duration in exchange for a boost to its value
+     * @notice Locks collateral for a specified duration(90, 180, or 365 days) in exchange for a boost to its value
      * @dev The collateral will be locked from the account's available balance and cannot be withdrawn until the lock expires
      * @param accountId The account ID to lock collateral from
      * @param collateralType The address of the collateral token to lock
      * @param amount The amount of collateral to lock (in token's native decimals)
      * @param duration The duration to lock the collateral for (must be 90, 180, or 365 days)
      * @return lockId The unique identifier for the created lock
-     *
-     * Requirements:
-     * - Caller must have ADMIN permission on the account
-     * - Account must have sufficient available collateral
-     * - Duration must be a valid option (90, 180, or 365 days)
-     *
-     * Emits a {CollateralTimeLocked} event.
      */
     function lockCollateral(
         uint128 accountId,
@@ -93,13 +96,6 @@ interface ITimeLockCollateralModule {
      * @dev The unlocked collateral will be returned to the account's available balance
      * @param lockId The unique identifier of the lock to unlock
      * @return amount The amount of collateral unlocked (in token's native decimals)
-     *
-     * Requirements:
-     * - Lock must exist and not already be unlocked
-     * - Lock period must have expired
-     * - Caller must have ADMIN permission on the account that owns the lock
-     *
-     * Emits a {CollateralTimeUnlocked} event.
      */
     function unlockCollateral(uint256 lockId) external returns (uint256 amount);
 

@@ -13,7 +13,7 @@ import "../../storage/TimeLockCollateral.sol";
 import "../../storage/CollateralConfiguration.sol";
 
 /**
- * @title Module for time-locking collateral in exchange for boost to collateralization ratio.
+ * @title Module for time-locking collateral in exchange for boost.
  * @dev See ITimeLockCollateralModule.
  */
 contract TimeLockCollateralModule is ITimeLockCollateralModule {
@@ -35,16 +35,13 @@ contract TimeLockCollateralModule is ITimeLockCollateralModule {
         uint256 amount,
         uint64 duration
     ) external override returns (uint256 lockId) {
-        // Validate account exists and caller has permission
         Account.Data storage account = Account.loadAccountAndValidatePermission(
             accountId,
             AccountRBAC._ADMIN_PERMISSION
         );
 
-        // Validate collateral type is enabled
         CollateralConfiguration.collateralEnabled(collateralType);
 
-        // Validate duration
         if (duration != 90 days && duration != 180 days && duration != 365 days) {
             revert InvalidLockDuration(duration);
         }
@@ -53,12 +50,10 @@ contract TimeLockCollateralModule is ITimeLockCollateralModule {
             revert ParameterError.InvalidParameter("amount", "must be nonzero");
         }
 
-        // Convert token amount to system amount (18 decimals)
         uint256 amountD18 = CollateralConfiguration.load(collateralType).convertTokenToSystemAmount(
             amount
         );
 
-        // Check if account has sufficient available collateral
         uint256 availableCollateral = account
             .collaterals[collateralType]
             .amountAvailableForDelegationD18;
@@ -67,14 +62,11 @@ contract TimeLockCollateralModule is ITimeLockCollateralModule {
             revert InsufficientCollateralForLock(accountId, collateralType, amountD18);
         }
 
-        // Reduce available collateral
         account.collaterals[collateralType].decreaseAvailableCollateral(amountD18);
 
-        // Create the time lock
         TimeLockCollateral.Data storage timeLockStorage = TimeLockCollateral.load();
         lockId = timeLockStorage.createLock(accountId, collateralType, amountD18, duration);
 
-        // Get lock info for event
         TimeLockCollateral.TimeLock memory lock = timeLockStorage.getLock(lockId);
 
         emit CollateralTimeLocked(
@@ -94,38 +86,30 @@ contract TimeLockCollateralModule is ITimeLockCollateralModule {
         TimeLockCollateral.Data storage timeLockStorage = TimeLockCollateral.load();
         TimeLockCollateral.TimeLock memory lock = timeLockStorage.getLock(lockId);
 
-        // Validate lock exists
         if (lock.accountId == 0) {
             revert InvalidLockId(lockId);
         }
 
-        // Validate lock is not already unlocked
         if (lock.unlocked) {
             revert InvalidLockId(lockId);
         }
 
-        // Validate caller has permission
         Account.loadAccountAndValidatePermission(lock.accountId, AccountRBAC._ADMIN_PERMISSION);
 
-        // Check if lock period has expired
         uint256 unlockTime = lock.lockTimestamp + lock.lockDuration;
         if (block.timestamp < unlockTime) {
             revert LockNotExpired(lockId, block.timestamp, unlockTime);
         }
 
-        // Unlock the collateral (this also updates boosted value)
         uint256 amountD18 = timeLockStorage.unlockCollateral(lockId);
 
-        // Return collateral to account's available balance
         Account.Data storage account = Account.load(lock.accountId);
         account.collaterals[lock.collateralType].increaseAvailableCollateral(amountD18);
 
-        // Convert back to token amount - reverse of convertTokenToSystemAmount
         CollateralConfiguration.Data storage config = CollateralConfiguration.load(
             lock.collateralType
         );
 
-        // this extra condition is to prevent potentially malicious untrusted code from being executed on the next statement
         if (config.tokenAddress == address(0)) {
             revert InvalidLockId(lockId);
         }
@@ -242,17 +226,13 @@ contract TimeLockCollateralModule is ITimeLockCollateralModule {
         Account.Data storage account = Account.load(accountId);
         TimeLockCollateral.Data storage timeLockStorage = TimeLockCollateral.load();
 
-        // Get regular collateral totals
         (uint256 regularDeposited, , ) = account.getCollateralTotals(collateralType);
         totalAvailable = account.collaterals[collateralType].amountAvailableForDelegationD18;
 
-        // Get time-locked amounts using optimized helper
         totalTimeLocked = timeLockStorage.getTotalTimeLocked(accountId, collateralType);
 
-        // Total deposited includes regular + time-locked
         totalDeposited = regularDeposited + totalTimeLocked;
 
-        // Get boosted value
         totalBoostedValue = timeLockStorage.getBoostedCollateralValue(accountId, collateralType);
     }
 }
