@@ -1,7 +1,6 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.11 <0.9.0;
 
-import {ERC2771Context} from "@synthetixio/core-contracts/contracts/utils/ERC2771Context.sol";
 import {FeatureFlag} from "@synthetixio/core-modules/contracts/storage/FeatureFlag.sol";
 import {Account} from "@synthetixio/main/contracts/storage/Account.sol";
 import {AccountRBAC} from "@synthetixio/main/contracts/storage/AccountRBAC.sol";
@@ -144,7 +143,7 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
             uint256 shareRatioD18 = GlobalPerpsMarketConfiguration.load().relayerShare[
                 shortOrder.referrerOrRelayer
             ];
-            if (shareRatioD18 == 0 || ERC2771Context._msgSender() != shortOrder.referrerOrRelayer) {
+            if (shareRatioD18 == 0) {
                 revert ILimitOrderModule.LimitOrderRelayerInvalid(shortOrder.referrerOrRelayer);
             }
         }
