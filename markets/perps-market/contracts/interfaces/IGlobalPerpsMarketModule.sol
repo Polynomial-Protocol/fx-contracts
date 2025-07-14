@@ -111,11 +111,6 @@ interface IGlobalPerpsMarketModule {
     error InvalidRelayerShareRatio(uint256 shareRatioD18);
 
     /**
-     * @notice Thrown when an offchain limit order settler is not whitelisted
-     */
-    error OffchainLimitOrderSettlerNotWhitelisted(address settler);
-
-    /**
      * @notice Thrown when gradient breakpoint is lower than low gradient or higher than high gradient
      */
     error InvalidInterestRateParameters(
