@@ -63,7 +63,7 @@ contract OffchainAsyncOrderModule is IOffchainAsyncOrderModule, IMarketEvents, I
 
         GlobalPerpsMarket.load().checkLiquidation(offchainOrder.accountId);
 
-        uint256 shareRatioD18 = GlobalPerpsMarketConfiguration.load().relayerShare[
+        uint256 shareRatioD18 = GlobalPerpsMarketConfiguration.load().referrerShare[
             ERC2771Context._msgSender()
         ];
         if (shareRatioD18 == 0) {

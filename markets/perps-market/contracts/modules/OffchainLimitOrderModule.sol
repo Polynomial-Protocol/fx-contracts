@@ -242,7 +242,7 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
 
     function validateRelayerAndSettler(address referrerOrRelayer) internal view {
         GlobalPerpsMarketConfiguration.Data storage store = GlobalPerpsMarketConfiguration.load();
-        uint256 shareRatioD18 = store.relayerShare[referrerOrRelayer];
+        uint256 shareRatioD18 = store.referrerShare[referrerOrRelayer];
         if (shareRatioD18 == 0) {
             revert ILimitOrderModule.LimitOrderRelayerInvalid(referrerOrRelayer);
         }
