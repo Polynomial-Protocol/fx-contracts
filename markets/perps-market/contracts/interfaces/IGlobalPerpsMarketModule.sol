@@ -40,6 +40,18 @@ interface IGlobalPerpsMarketModule {
     event ReferrerShareUpdated(address referrer, uint256 shareRatioD18);
 
     /**
+     * @notice Emitted when an offchain limit order settler is added to the whitelist for settling offchain limit orders.
+     * @param settler The address of the whitelisted offchain limit order settler
+     */
+    event OffchainLimitOrderSettlerWhitelisted(address settler);
+
+    /**
+     * @notice Emitted when an offchain limit order settler is removed from the whitelist for settling offchain limit orders.
+     * @param settler The address of the removed offchain limit order settler
+     */
+    event OffchainLimitOrderSettlerRemovedFromWhitelist(address settler);
+
+    /**
      * @notice Emitted when interest rate parameters are set
      * @param lowUtilizationInterestRateGradient interest rate gradient applied to utilization prior to hitting the gradient breakpoint
      * @param interestRateGradientBreakpoint breakpoint at which the interest rate gradient changes from low to high
@@ -266,4 +278,25 @@ interface IGlobalPerpsMarketModule {
      * @return commitFeeReciever the address of the fee collector
      */
     function getcommitFeeReciever() external view returns (address);
+
+    /**
+     * @notice Add an offchain limit order settler to the whitelist for settling offchain limit orders
+     * @param settler The address to add to the whitelist
+     */
+    function whitelistOffchainLimitOrderSettler(address settler) external;
+
+    /**
+     * @notice Remove an offchain limit order settler from the whitelist for settling offchain limit orders
+     * @param settler The address to remove from the whitelist
+     */
+    function removeWhitelistedOffchainLimitOrderSettler(address settler) external;
+
+    /**
+     * @notice Check if an offchain limit order settler is whitelisted for settling offchain limit orders
+     * @param settler The address to check
+     * @return isWhitelisted True if the offchain limit order settler is whitelisted
+     */
+    function isWhitelistedOffchainLimitOrderSettler(
+        address settler
+    ) external view returns (bool isWhitelisted);
 }
