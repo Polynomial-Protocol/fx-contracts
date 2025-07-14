@@ -319,4 +319,43 @@ contract GlobalPerpsMarketModule is IGlobalPerpsMarketModule {
     function getcommitFeeReciever() external view override returns (address commitFeeReciever) {
         return GlobalPerpsMarketConfiguration.load().commitFeeReciever;
     }
+
+    /**
+     * @inheritdoc IGlobalPerpsMarketModule
+     */
+    function whitelistOffchainLimitOrderSettler(address settler) external override {
+        OwnableStorage.onlyOwner();
+
+        if (settler == address(0)) {
+            revert AddressError.ZeroAddress();
+        }
+
+        GlobalPerpsMarketConfiguration.load().whitelistedOffchainLimitOrderSettlers[settler] = true;
+
+        emit OffchainLimitOrderSettlerWhitelisted(settler);
+    }
+
+    /**
+     * @inheritdoc IGlobalPerpsMarketModule
+     */
+    function removeWhitelistedOffchainLimitOrderSettler(address settler) external override {
+        OwnableStorage.onlyOwner();
+
+        if (settler == address(0)) {
+            revert AddressError.ZeroAddress();
+        }
+
+        delete GlobalPerpsMarketConfiguration.load().whitelistedOffchainLimitOrderSettlers[settler];
+
+        emit OffchainLimitOrderSettlerRemovedFromWhitelist(settler);
+    }
+
+    /**
+     * @inheritdoc IGlobalPerpsMarketModule
+     */
+    function isWhitelistedOffchainLimitOrderSettler(
+        address settler
+    ) external view override returns (bool isWhitelisted) {
+        return GlobalPerpsMarketConfiguration.load().whitelistedOffchainLimitOrderSettlers[settler];
+    }
 }

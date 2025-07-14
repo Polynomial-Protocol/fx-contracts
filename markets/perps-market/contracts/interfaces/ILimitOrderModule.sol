@@ -64,6 +64,12 @@ interface ILimitOrderModule {
     error LimitOrderRelayerInvalid(address relayer);
 
     /**
+     * @notice Thrown when an offchain limit order settler is not whitelisted
+     * @param settler address of the settler that is not whitelisted
+     */
+    error OffchainLimitOrderSettlerNotWhitelisted(address settler);
+
+    /**
      * @notice Thrown when attempting to use two different relayers
      */
     error LimitOrderDifferentRelayer(address shortRelayer, address longRelayer);

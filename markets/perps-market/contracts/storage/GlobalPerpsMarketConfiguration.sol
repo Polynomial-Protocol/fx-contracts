@@ -107,6 +107,10 @@ library GlobalPerpsMarketConfiguration {
          * @dev Percentage share of fees for each limit order relayer address
          */
         mapping(address => uint256) relayerShare;
+        /**
+         * @dev Whitelist of addresses that can settle offchain limit orders
+         */
+        mapping(address => bool) whitelistedOffchainLimitOrderSettlers;
     }
 
     function load() internal pure returns (Data storage globalMarketConfig) {

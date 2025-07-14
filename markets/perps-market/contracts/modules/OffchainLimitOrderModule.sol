@@ -140,14 +140,7 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
         validateLimitOrder(longOrder);
         validateLimitOrderPair(shortOrder, longOrder);
 
-        {
-            uint256 shareRatioD18 = GlobalPerpsMarketConfiguration.load().relayerShare[
-                shortOrder.referrerOrRelayer
-            ];
-            if (shareRatioD18 == 0 || ERC2771Context._msgSender() != shortOrder.referrerOrRelayer) {
-                revert ILimitOrderModule.LimitOrderRelayerInvalid(shortOrder.referrerOrRelayer);
-            }
-        }
+        validateRelayerAndSettler(shortOrder.referrerOrRelayer);
 
         (
             uint256 firstLimitOrderFees,
@@ -244,6 +237,20 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
 
         if (LimitOrder.load().isLimitOrderNonceUsed(order.accountId, order.nonce)) {
             revert ILimitOrderModule.LimitOrderAlreadyUsed(order.accountId, order.nonce);
+        }
+    }
+
+    function validateRelayerAndSettler(address referrerOrRelayer) internal view {
+        GlobalPerpsMarketConfiguration.Data storage store = GlobalPerpsMarketConfiguration.load();
+        uint256 shareRatioD18 = store.relayerShare[referrerOrRelayer];
+        if (shareRatioD18 == 0) {
+            revert ILimitOrderModule.LimitOrderRelayerInvalid(referrerOrRelayer);
+        }
+
+        address msgSender = ERC2771Context._msgSender();
+        bool isWhitelisted = store.whitelistedOffchainLimitOrderSettlers[msgSender];
+        if (!isWhitelisted) {
+            revert ILimitOrderModule.OffchainLimitOrderSettlerNotWhitelisted(msgSender);
         }
     }
 
