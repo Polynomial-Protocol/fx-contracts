@@ -112,7 +112,7 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
             lastPriceCheck = IPythERC7412Wrapper(strategy.priceVerificationContract)
                 .getLatestPrice(
                     strategy.feedId,
-                    5 // 5 seconds
+                    30 // 30 seconds
                 )
                 .toUint();
         }
