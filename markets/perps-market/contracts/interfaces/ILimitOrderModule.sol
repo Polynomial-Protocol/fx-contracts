@@ -98,7 +98,7 @@ interface ILimitOrderModule {
     /**
      * @notice Thrown when there's not enough margin to cover the order and settlement costs associated.
      */
-    error InsufficientMargin(uint128 accountId, int256 availableMargin, uint256 minMargin);
+    error InsufficientAccountMargin(uint128 accountId, int256 availableMargin, uint256 minMargin);
 
     /**
      * @notice Thrown when the price of the long order is lower than the short order

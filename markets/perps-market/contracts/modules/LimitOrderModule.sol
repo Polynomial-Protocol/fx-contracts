@@ -365,7 +365,7 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
             0
         );
         if (runtime.currentAvailableMargin < runtime.limitOrderFees.toInt()) {
-            revert InsufficientMargin(
+            revert InsufficientAccountMargin(
                 runtime.accountId,
                 runtime.currentAvailableMargin,
                 runtime.limitOrderFees
@@ -385,7 +385,7 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
             runtime.limitOrderFees;
 
         if (runtime.currentAvailableMargin < runtime.totalRequiredMargin.toInt()) {
-            revert InsufficientMargin(
+            revert InsufficientAccountMargin(
                 runtime.accountId,
                 runtime.currentAvailableMargin,
                 runtime.totalRequiredMargin
