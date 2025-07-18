@@ -340,7 +340,8 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
             0
         );
         if (runtime.currentAvailableMargin < runtime.limitOrderFees.toInt()) {
-            revert ILimitOrderModule.InsufficientMargin(
+            revert ILimitOrderModule.InsufficientAccountMargin(
+                runtime.accountId,
                 runtime.currentAvailableMargin,
                 runtime.limitOrderFees
             );
@@ -359,7 +360,8 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
             runtime.limitOrderFees;
 
         if (runtime.currentAvailableMargin < runtime.totalRequiredMargin.toInt()) {
-            revert ILimitOrderModule.InsufficientMargin(
+            revert ILimitOrderModule.InsufficientAccountMargin(
+                runtime.accountId,
                 runtime.currentAvailableMargin,
                 runtime.totalRequiredMargin
             );
