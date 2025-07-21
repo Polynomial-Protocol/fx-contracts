@@ -36,18 +36,31 @@ contract PythLazerERC7412Wrapper is IERC7412, AbstractProxy {
         return bytes32("PYTH_LAZER");
     }
 
-    function getLatestPrice(bytes32 priceId, uint256 stalenessTolerance) external view returns (int256) {
-        PythStructs.Price memory priceData = Price.load(priceId);
+    function getLatestPrice(
+        uint32 feedId,
+        uint256 stalenessTolerance
+    ) external view returns (int256) {
+        PythStructs.Price memory priceData = Price.load(feedId);
 
         if (priceData.price > 0) {
             return _getScaledPrice(priceData.price, priceData.expo);
         }
 
-        revert OracleDataRequired(address(this), abi.encode(uint8(1), uint64(stalenessTolerance), [priceId]));
+        revert OracleDataRequired(
+            // solhint-disable-next-line numcast/safe-cast
+            address(this),
+            abi.encode(
+                // solhint-disable-next-line numcast/safe-cast
+                uint8(1),
+                // solhint-disable-next-line numcast/safe-cast
+                uint64(stalenessTolerance),
+                [feedId]
+            )
+        );
     }
 
-    function getBenchmarkPrice(bytes32 priceId, uint64 requestedTime) external view returns (int256) {
-        PythStructs.Price memory priceData = Price.load(priceId).benchmarkPrices[requestedTime];
+    function getBenchmarkPrice(uint32 feedId, uint64 requestedTime) external view returns (int256) {
+        PythStructs.Price memory priceData = Price.load(feedId).benchmarkPrices[requestedTime];
 
         if (priceData.price > 0) {
             return _getScaledPrice(priceData.price, priceData.expo);
@@ -61,7 +74,7 @@ contract PythLazerERC7412Wrapper is IERC7412, AbstractProxy {
                 uint8(2), // PythQuery::Benchmark tag
                 // solhint-disable-next-line numcast/safe-cast
                 uint64(requestedTime),
-                [priceId]
+                [feedId]
             )
         );
     }
@@ -78,12 +91,17 @@ contract PythLazerERC7412Wrapper is IERC7412, AbstractProxy {
         uint8 updateType = abi.decode(signedOffchainData, (uint8));
 
         if (updateType == 1 || updateType == 2) {
-            (uint8 _updateType, uint64 stalenessTolerance, uint32[] memory priceIds, bytes memory updateData) =
-                abi.decode(signedOffchainData, (uint8, uint64, uint32[], bytes));
+            (
+                uint8 _updateType,
+                uint64 stalenessTolerance,
+                uint32[] memory priceIds,
+                bytes memory updateData
+            ) = abi.decode(signedOffchainData, (uint8, uint64, uint32[], bytes));
 
-            (bytes memory payload,) = pythLazer.verifyUpdate{value: msg.value}(updateData);
+            (bytes memory payload, ) = pythLazer.verifyUpdate{value: msg.value}(updateData);
 
-            (uint64 timestamp, PythLazerLib.Channel channel, uint8 feedsLen, uint16 pos) = payload.parsePayloadHeader();
+            (uint64 timestamp, PythLazerLib.Channel channel, uint8 feedsLen, uint16 pos) = payload
+                .parsePayloadHeader();
 
             if (feedsLen != priceIds.length) {
                 revert FeedMismatch(feedsLen, priceIds.length);
@@ -103,7 +121,8 @@ contract PythLazerERC7412Wrapper is IERC7412, AbstractProxy {
                 int16 exponent;
 
                 for (uint8 j = 0; j < numProperties; j++) {
-                    (PythLazerLib.PriceFeedProperty property, uint16 pos) = payload.parseFeedProperty(pos);
+                    (PythLazerLib.PriceFeedProperty property, uint16 pos) = payload
+                        .parseFeedProperty(pos);
 
                     if (property == PythLazerLib.PriceFeedProperty.Price) {
                         (price, pos) = payload.parseFeedValueUint64(pos);
@@ -117,7 +136,10 @@ contract PythLazerERC7412Wrapper is IERC7412, AbstractProxy {
                 if (updateType == 1) {
                     Price.load(feedId).setPrice(price, timestamp, exponent);
                 } else {
-                    Price.load(feedId).benchmarkPrices[timestamp] = _getScaledPrice(price, exponent);
+                    Price.load(feedId).benchmarkPrices[timestamp] = _getScaledPrice(
+                        price,
+                        exponent
+                    );
                 }
             }
         } else {

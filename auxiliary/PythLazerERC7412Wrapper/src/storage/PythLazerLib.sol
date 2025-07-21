@@ -17,76 +17,87 @@ library PythLazerLib {
         FixedRate200
     }
 
-    function parsePayloadHeader(bytes calldata update)
-        public
-        pure
-        returns (uint64 timestamp, Channel channel, uint8 feedsLen, uint16 pos)
-    {
+    function parsePayloadHeader(
+        bytes calldata update
+    ) public pure returns (uint64 timestamp, Channel channel, uint8 feedsLen, uint16 pos) {
         uint32 FORMAT_MAGIC = 2479346549;
 
         pos = 0;
+        // solhint-disable-next-line numcast/safe-cast
         uint32 magic = uint32(bytes4(update[pos:pos + 4]));
         pos += 4;
         if (magic != FORMAT_MAGIC) {
             revert("invalid magic");
         }
+        // solhint-disable-next-line numcast/safe-cast
         timestamp = uint64(bytes8(update[pos:pos + 8]));
         pos += 8;
+        // solhint-disable-next-line numcast/safe-cast
         channel = Channel(uint8(update[pos]));
         pos += 1;
+        // solhint-disable-next-line numcast/safe-cast
         feedsLen = uint8(update[pos]);
         pos += 1;
     }
 
-    function parseFeedHeader(bytes calldata update, uint16 pos)
-        public
-        pure
-        returns (uint32 feed_id, uint8 num_properties, uint16 new_pos)
-    {
+    function parseFeedHeader(
+        bytes calldata update,
+        uint16 pos
+    ) public pure returns (uint32 feed_id, uint8 num_properties, uint16 new_pos) {
+        // solhint-disable-next-line numcast/safe-cast
         feed_id = uint32(bytes4(update[pos:pos + 4]));
         pos += 4;
+        // solhint-disable-next-line numcast/safe-cast
         num_properties = uint8(update[pos]);
         pos += 1;
         new_pos = pos;
     }
 
-    function parseFeedProperty(bytes calldata update, uint16 pos)
-        public
-        pure
-        returns (PriceFeedProperty property, uint16 new_pos)
-    {
+    function parseFeedProperty(
+        bytes calldata update,
+        uint16 pos
+    ) public pure returns (PriceFeedProperty property, uint16 new_pos) {
+        // solhint-disable-next-line numcast/safe-cast
         property = PriceFeedProperty(uint8(update[pos]));
         pos += 1;
         new_pos = pos;
     }
 
-    function parseFeedValueUint64(bytes calldata update, uint16 pos)
-        public
-        pure
-        returns (uint64 value, uint16 new_pos)
-    {
+    function parseFeedValueUint64(
+        bytes calldata update,
+        uint16 pos
+    ) public pure returns (uint64 value, uint16 new_pos) {
+        // solhint-disable-next-line numcast/safe-cast
         value = uint64(bytes8(update[pos:pos + 8]));
         pos += 8;
         new_pos = pos;
     }
 
-    function parseFeedValueUint16(bytes calldata update, uint16 pos)
-        public
-        pure
-        returns (uint16 value, uint16 new_pos)
-    {
+    function parseFeedValueUint16(
+        bytes calldata update,
+        uint16 pos
+    ) public pure returns (uint16 value, uint16 new_pos) {
+        // solhint-disable-next-line numcast/safe-cast
         value = uint16(bytes2(update[pos:pos + 2]));
         pos += 2;
         new_pos = pos;
     }
 
-    function parseFeedValueInt16(bytes calldata update, uint16 pos) public pure returns (int16 value, uint16 new_pos) {
+    function parseFeedValueInt16(
+        bytes calldata update,
+        uint16 pos
+    ) public pure returns (int16 value, uint16 new_pos) {
+        // solhint-disable-next-line numcast/safe-cast
         value = int16(uint16(bytes2(update[pos:pos + 2])));
         pos += 2;
         new_pos = pos;
     }
 
-    function parseFeedValueUint8(bytes calldata update, uint16 pos) public pure returns (uint8 value, uint16 new_pos) {
+    function parseFeedValueUint8(
+        bytes calldata update,
+        uint16 pos
+    ) public pure returns (uint8 value, uint16 new_pos) {
+        // solhint-disable-next-line numcast/safe-cast
         value = uint8(update[pos]);
         pos += 1;
         new_pos = pos;
