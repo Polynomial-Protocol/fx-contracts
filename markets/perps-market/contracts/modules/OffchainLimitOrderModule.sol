@@ -142,6 +142,12 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
 
         validateRelayerAndSettler(shortOrder.referrerOrRelayer);
 
+        if (shortOrder.limitOrderMaker) {
+            longOrder.acceptablePrice = shortOrder.acceptablePrice;
+        } else {
+            shortOrder.acceptablePrice = longOrder.acceptablePrice;
+        }
+
         (
             uint256 firstLimitOrderFees,
             Position.Data storage firstOldPosition,
