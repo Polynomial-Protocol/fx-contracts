@@ -408,7 +408,7 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
 
         PerpsAccount.Data storage perpsAccount = PerpsAccount.load(runtime.accountId);
         (runtime.pnl, , runtime.chargedInterest, runtime.accruedFunding, , ) = oldPosition.getPnl(
-            lastPriceCheck
+            runtime.price
         );
 
         runtime.chargedAmount = runtime.pnl - runtime.limitOrderFees.toInt();
