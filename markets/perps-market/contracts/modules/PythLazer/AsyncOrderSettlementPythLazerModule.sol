@@ -3,6 +3,7 @@ pragma solidity >=0.8.11 <0.9.0;
 
 import {ERC2771Context} from "@synthetixio/core-contracts/contracts/utils/ERC2771Context.sol";
 import {FeatureFlag} from "@synthetixio/core-modules/contracts/storage/FeatureFlag.sol";
+import {SafeCastU256, SafeCastI256, SafeCastBytes32} from "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
 import {IAsyncOrderSettlementPythLazerModule} from "../../interfaces/PythLazer/IAsyncOrderSettlementPythLazerModule.sol";
 import {IAsyncOrderSettlementPythModule} from "../../interfaces/IAsyncOrderSettlementPythModule.sol";
 import {PerpsAccount, SNX_USD_MARKET_ID} from "../../storage/PerpsAccount.sol";
@@ -20,7 +21,6 @@ import {IMarketEvents} from "../../interfaces/IMarketEvents.sol";
 import {IAccountEvents} from "../../interfaces/IAccountEvents.sol";
 import {KeeperCosts} from "../../storage/KeeperCosts.sol";
 import {IPythLazerERC7412Wrapper} from "../../interfaces/external/IPythLazerERC7412Wrapper.sol";
-import {SafeCastU256, SafeCastI256} from "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
 
 /**
  * @title Module for settling async orders using pyth as price feed.
@@ -33,6 +33,7 @@ contract AsyncOrderSettlementPythLazerModule is
 {
     using SafeCastI256 for int256;
     using SafeCastU256 for uint256;
+    using SafeCastBytes32 for bytes32;
     using PerpsAccount for PerpsAccount.Data;
     using PerpsMarket for PerpsMarket.Data;
     using AsyncOrder for AsyncOrder.Data;

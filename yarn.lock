@@ -3468,6 +3468,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@synthetixio/pyth-lazer-erc7412-wrapper@workspace:auxiliary/PythLazerERC7412Wrapper":
+  version: 0.0.0-use.local
+  resolution: "@synthetixio/pyth-lazer-erc7412-wrapper@workspace:auxiliary/PythLazerERC7412Wrapper"
+  dependencies:
+    "@usecannon/cli": "npm:2.18.2"
+    forge-std: "github:foundry-rs/forge-std#master"
+  languageName: unknown
+  linkType: soft
+
 "@synthetixio/rewards-dist-ext@workspace:auxiliary/RewardsDistributorExternal":
   version: 0.0.0-use.local
   resolution: "@synthetixio/rewards-dist-ext@workspace:auxiliary/RewardsDistributorExternal"

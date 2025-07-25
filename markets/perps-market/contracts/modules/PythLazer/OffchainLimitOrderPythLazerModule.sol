@@ -5,7 +5,7 @@ import {ERC2771Context} from "@synthetixio/core-contracts/contracts/utils/ERC277
 import {FeatureFlag} from "@synthetixio/core-modules/contracts/storage/FeatureFlag.sol";
 import {Account} from "@synthetixio/main/contracts/storage/Account.sol";
 import {AccountRBAC} from "@synthetixio/main/contracts/storage/AccountRBAC.sol";
-import {SafeCastU256, SafeCastI256} from "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
+import {SafeCastU256, SafeCastI256, SafeCastBytes32} from "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
 import {DecimalMath} from "@synthetixio/core-contracts/contracts/utils/DecimalMath.sol";
 import {OffchainOrder} from "../../storage/OffchainOrder.sol";
 import {GlobalPerpsMarket} from "../../storage/GlobalPerpsMarket.sol";
@@ -37,6 +37,7 @@ contract OffchainLimitOrderPythLazerModule is
 {
     using SafeCastI256 for int256;
     using SafeCastU256 for uint256;
+    using SafeCastBytes32 for bytes32;
     using DecimalMath for int128;
     using DecimalMath for uint256;
     using GlobalPerpsMarket for GlobalPerpsMarket.Data;
@@ -99,9 +100,9 @@ contract OffchainLimitOrderPythLazerModule is
             shortOrder.sizeDelta
         );
 
-        validateLimitOrder(shortOrder);
-        validateLimitOrder(longOrder);
-        validateLimitOrderPair(shortOrder, longOrder);
+        validateLimitOrderLazer(shortOrder);
+        validateLimitOrderLazer(longOrder);
+        validateLimitOrderPairLazer(shortOrder, longOrder);
 
         validateRelayerAndSettler(shortOrder.referrerOrRelayer);
 
@@ -193,7 +194,7 @@ contract OffchainLimitOrderPythLazerModule is
         }
     }
 
-    function validateLimitOrder(OffchainOrder.Data memory order) public view {
+    function validateLimitOrderLazer(OffchainOrder.Data memory order) public view {
         AsyncOrder.checkPendingOrder(order.accountId);
         PerpsAccount.validateMaxPositions(order.accountId, order.marketId);
         GlobalPerpsMarket.load().checkLiquidation(order.accountId);
@@ -217,7 +218,7 @@ contract OffchainLimitOrderPythLazerModule is
         }
     }
 
-    function validateLimitOrderPair(
+    function validateLimitOrderPairLazer(
         OffchainOrder.Data memory shortOrder,
         OffchainOrder.Data memory longOrder
     ) public view {
@@ -431,41 +432,6 @@ contract OffchainLimitOrderPythLazerModule is
             : marketConfig.limitOrderFees.takerFee;
 
         return MathUtil.abs(amount).mulDecimal(price).mulDecimal(fees);
-    }
-
-    function checkCancelOrderSigPermission(
-        LimitOrder.CancelOrderRequest memory order,
-        LimitOrder.Signature calldata sig
-    ) internal {
-        Account.exists(order.accountId);
-        bytes32 digest = keccak256(
-            abi.encodePacked(
-                "\x19\x01",
-                domainSeparator(),
-                keccak256(abi.encode(_CANCEL_ORDER_TYPEHASH, order.accountId, order.nonce))
-            )
-        );
-        address signingAddress = address(0x0);
-
-        // EIP-2 still allows signature malleability for ecrecover(). Remove this possibility and make the signature
-        // unique. Appendix F in the Ethereum Yellow paper (https://ethereum.github.io/yellowpaper/paper.pdf), defines
-        // the valid range for s in (301): 0 < s < secp256k1n ÷ 2 + 1, and for v in (302): v ∈ {27, 28}. Most
-        // signatures from current libraries generate a unique signature with an s-value in the lower half order.
-        //
-        // If your library generates malleable signatures, such as s-values in the upper range, calculate a new s-value
-        // with 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141 - s1 and flip v from 27 to 28 or
-        // vice versa. If your library also generates signatures with 0/1 for v instead 27/28, add 27 to v to accept
-        // these malleable signatures as well.
-        // solhint-disable-next-line numcast/safe-cast
-        if (uint256(sig.s) <= 0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF5D576E7357A4501DDFE92F46681B20A0) {
-            signingAddress = ecrecover(digest, sig.v, sig.r, sig.s);
-        }
-
-        Account.loadAccountAndValidateSignerPermission(
-            order.accountId,
-            AccountRBAC._PERPS_CANCEL_LIMIT_ORDER,
-            signingAddress
-        );
     }
 
     function domainSeparator() internal view returns (bytes32) {

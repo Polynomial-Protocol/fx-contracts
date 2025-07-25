@@ -40,10 +40,11 @@ contract PythLazerERC7412Wrapper is IERC7412, AbstractProxy {
         uint32 feedId,
         uint256 stalenessTolerance
     ) external view returns (int256) {
-        PythStructs.Price memory priceData = Price.load(feedId);
+        Price.Data storage priceData = Price.load(feedId);
 
         if (priceData.price > 0) {
-            return _getScaledPrice(priceData.price, priceData.expo);
+            // solhint-disable-next-line numcast/safe-cast
+            return _getScaledPrice(int64(priceData.price), priceData.exponent);
         }
 
         revert OracleDataRequired(
@@ -60,10 +61,11 @@ contract PythLazerERC7412Wrapper is IERC7412, AbstractProxy {
     }
 
     function getBenchmarkPrice(uint32 feedId, uint64 requestedTime) external view returns (int256) {
-        PythStructs.Price memory priceData = Price.load(feedId).benchmarkPrices[requestedTime];
+        uint256 benchmarkPrice = Price.load(feedId).benchmarkPrices[requestedTime];
 
-        if (priceData.price > 0) {
-            return _getScaledPrice(priceData.price, priceData.expo);
+        if (benchmarkPrice > 0) {
+            // solhint-disable-next-line numcast/safe-cast
+            return int256(benchmarkPrice);
         }
 
         revert OracleDataRequired(
@@ -80,9 +82,9 @@ contract PythLazerERC7412Wrapper is IERC7412, AbstractProxy {
     }
 
     function fulfillOracleQuery(bytes memory signedOffchainData) external payable {
-        IPythLazer pythLazer = IPythLazer(pythLazer);
+        IPythLazer PythLazer = IPythLazer(pythLazer);
 
-        uint256 verificationFee = pythLazer.verification_fee();
+        uint256 verificationFee = PythLazer.verification_fee();
 
         if (msg.value < verificationFee) {
             revert FeeRequired(verificationFee);
@@ -91,20 +93,16 @@ contract PythLazerERC7412Wrapper is IERC7412, AbstractProxy {
         uint8 updateType = abi.decode(signedOffchainData, (uint8));
 
         if (updateType == 1 || updateType == 2) {
-            (
-                uint8 _updateType,
-                uint64 stalenessTolerance,
-                uint32[] memory priceIds,
-                bytes memory updateData
-            ) = abi.decode(signedOffchainData, (uint8, uint64, uint32[], bytes));
+            (, uint64 stalenessTolerance, uint32[] memory priceIds, bytes memory updateData) = abi
+                .decode(signedOffchainData, (uint8, uint64, uint32[], bytes));
 
-            (bytes memory payload, ) = pythLazer.verifyUpdate{value: msg.value}(updateData);
+            (bytes memory payload, ) = PythLazer.verifyUpdate{value: msg.value}(updateData);
 
-            (uint64 timestamp, PythLazerLib.Channel channel, uint8 feedsLen, uint16 pos) = payload
-                .parsePayloadHeader();
+            (uint64 timestamp, , uint8 feedsLen, uint16 pos) = payload.parsePayloadHeader();
 
             if (feedsLen != priceIds.length) {
-                revert FeedMismatch(feedsLen, priceIds.length);
+                // solhint-disable-next-line numcast/safe-cast
+                revert FeedMismatch(feedsLen, uint8(priceIds.length));
             }
 
             // solhint-disable-next-line numcast/safe-cast
@@ -136,9 +134,10 @@ contract PythLazerERC7412Wrapper is IERC7412, AbstractProxy {
                 if (updateType == 1) {
                     Price.load(feedId).setPrice(price, timestamp, exponent);
                 } else {
-                    Price.load(feedId).benchmarkPrices[timestamp] = _getScaledPrice(
-                        price,
-                        exponent
+                    // solhint-disable-next-line numcast/safe-cast
+                    Price.load(feedId).benchmarkPrices[timestamp] = uint256(
+                        // solhint-disable-next-line numcast/safe-cast
+                        _getScaledPrice(int64(price), exponent)
                     );
                 }
             }

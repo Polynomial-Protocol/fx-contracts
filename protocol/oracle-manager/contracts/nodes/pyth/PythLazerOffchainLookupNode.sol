@@ -55,7 +55,7 @@ library PythLazerOffchainLookupNode {
         // This contract only implements the PythQuery::NoOlderThan
         possibleError = abi.encodeWithSelector(
             OracleDataRequired.selector,
-            pythAddress,
+            pythLazerWrapperAddress,
             abi.encode(
                 // solhint-disable-next-line numcast/safe-cast
                 uint8(1), // PythQuery::NoOlderThan tag
@@ -64,5 +64,21 @@ library PythLazerOffchainLookupNode {
                 feedIds
             )
         );
+    }
+
+    function isValid(NodeDefinition.Data memory nodeDefinition) internal pure returns (bool valid) {
+        // Must have no parents
+        if (nodeDefinition.parents.length > 0) {
+            return false;
+        }
+
+        // Must have correct length of parameters data
+        if (nodeDefinition.parameters.length != 32 * 3) {
+            return false;
+        }
+
+        abi.decode(nodeDefinition.parameters, (address, uint32, uint256));
+
+        return true;
     }
 }
