@@ -1674,6 +1674,161 @@
       ]
     }
   },
+  "contracts/storage/TimeLockCollateral.sol:TimeLockCollateral": {
+    "name": "TimeLockCollateral",
+    "kind": "library",
+    "structs": {
+      "TimeLock": [
+        {
+          "type": "uint256",
+          "name": "lockId",
+          "size": 32,
+          "slot": "0",
+          "offset": 0
+        },
+        {
+          "type": "uint128",
+          "name": "accountId",
+          "size": 16,
+          "slot": "1",
+          "offset": 0
+        },
+        {
+          "type": "address",
+          "name": "collateralType",
+          "size": 20,
+          "slot": "2",
+          "offset": 0
+        },
+        {
+          "type": "uint256",
+          "name": "amountD18",
+          "size": 32,
+          "slot": "3",
+          "offset": 0
+        },
+        {
+          "type": "uint64",
+          "name": "lockTimestamp",
+          "size": 8,
+          "slot": "4",
+          "offset": 0
+        },
+        {
+          "type": "uint64",
+          "name": "lockDuration",
+          "size": 8,
+          "slot": "4",
+          "offset": 8
+        },
+        {
+          "type": "uint256",
+          "name": "boostMultiplier",
+          "size": 32,
+          "slot": "5",
+          "offset": 0
+        },
+        {
+          "type": "bool",
+          "name": "unlocked",
+          "size": 1,
+          "slot": "6",
+          "offset": 0
+        }
+      ],
+      "Data": [
+        {
+          "type": "uint256",
+          "name": "nextLockId",
+          "size": 32,
+          "slot": "0",
+          "offset": 0
+        },
+        {
+          "type": "mapping",
+          "name": "locks",
+          "key": {
+            "type": "uint256"
+          },
+          "value": {
+            "type": "struct",
+            "members": [
+              {
+                "type": "uint256",
+                "name": "lockId"
+              },
+              {
+                "type": "uint128",
+                "name": "accountId"
+              },
+              {
+                "type": "address",
+                "name": "collateralType"
+              },
+              {
+                "type": "uint256",
+                "name": "amountD18"
+              },
+              {
+                "type": "uint64",
+                "name": "lockTimestamp"
+              },
+              {
+                "type": "uint64",
+                "name": "lockDuration"
+              },
+              {
+                "type": "uint256",
+                "name": "boostMultiplier"
+              },
+              {
+                "type": "bool",
+                "name": "unlocked"
+              }
+            ]
+          },
+          "size": 32,
+          "slot": "1",
+          "offset": 0
+        },
+        {
+          "type": "mapping",
+          "name": "accountLocks",
+          "key": {
+            "type": "uint128"
+          },
+          "value": {
+            "type": "array",
+            "value": {
+              "type": "uint256"
+            }
+          },
+          "size": 32,
+          "slot": "2",
+          "offset": 0
+        },
+        {
+          "type": "mapping",
+          "name": "accountBoostedValue",
+          "key": {
+            "type": "uint128"
+          },
+          "value": {
+            "type": "mapping",
+            "key": {
+              "type": "address"
+            },
+            "value": {
+              "type": "uint256"
+            }
+          },
+          "size": 32,
+          "slot": "3",
+          "offset": 0
+        }
+      ]
+    }
+  },
   "contracts/storage/Vault.sol:Vault": {
     "name": "Vault",
     "kind": "library",
