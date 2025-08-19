@@ -75,7 +75,7 @@ library PerpsAccount {
 
     error AccountMarginLiquidatable(uint128 accountId);
 
-    error MaxPositionsPerAccountReached(uint128 maxPositionsPerAccount);
+    error MaxPositionsPerAccountReached(uint128 accountId, uint128 maxPositionsPerAccount);
 
     error MaxCollateralsPerAccountReached(uint128 maxCollateralsPerAccount);
 
@@ -105,7 +105,7 @@ library PerpsAccount {
                 .load()
                 .maxPositionsPerAccount;
             if (maxPositionsPerAccount <= load(accountId).openPositionMarketIds.length()) {
-                revert MaxPositionsPerAccountReached(maxPositionsPerAccount);
+                revert MaxPositionsPerAccountReached(accountId, maxPositionsPerAccount);
             }
         }
     }

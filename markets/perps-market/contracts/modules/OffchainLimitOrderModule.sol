@@ -142,6 +142,12 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
 
         validateRelayerAndSettler(shortOrder.referrerOrRelayer);
 
+        if (shortOrder.limitOrderMaker) {
+            longOrder.acceptablePrice = shortOrder.acceptablePrice;
+        } else {
+            shortOrder.acceptablePrice = longOrder.acceptablePrice;
+        }
+
         (
             uint256 firstLimitOrderFees,
             Position.Data storage firstOldPosition,
@@ -231,7 +237,6 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
     }
 
     function validateLimitOrder(OffchainOrder.Data memory order) public view {
-        AsyncOrder.checkPendingOrder(order.accountId);
         PerpsAccount.validateMaxPositions(order.accountId, order.marketId);
         GlobalPerpsMarket.load().checkLiquidation(order.accountId);
 
@@ -340,7 +345,8 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
             0
         );
         if (runtime.currentAvailableMargin < runtime.limitOrderFees.toInt()) {
-            revert ILimitOrderModule.InsufficientMargin(
+            revert ILimitOrderModule.InsufficientAccountMargin(
+                runtime.accountId,
                 runtime.currentAvailableMargin,
                 runtime.limitOrderFees
             );
@@ -359,7 +365,8 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
             runtime.limitOrderFees;
 
         if (runtime.currentAvailableMargin < runtime.totalRequiredMargin.toInt()) {
-            revert ILimitOrderModule.InsufficientMargin(
+            revert ILimitOrderModule.InsufficientAccountMargin(
+                runtime.accountId,
                 runtime.currentAvailableMargin,
                 runtime.totalRequiredMargin
             );
@@ -400,7 +407,7 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
 
         PerpsAccount.Data storage perpsAccount = PerpsAccount.load(runtime.accountId);
         (runtime.pnl, , runtime.chargedInterest, runtime.accruedFunding, , ) = oldPosition.getPnl(
-            lastPriceCheck
+            runtime.price
         );
 
         runtime.chargedAmount = runtime.pnl - runtime.limitOrderFees.toInt();

@@ -365,7 +365,11 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
             0
         );
         if (runtime.currentAvailableMargin < runtime.limitOrderFees.toInt()) {
-            revert InsufficientMargin(runtime.currentAvailableMargin, runtime.limitOrderFees);
+            revert InsufficientAccountMargin(
+                runtime.accountId,
+                runtime.currentAvailableMargin,
+                runtime.limitOrderFees
+            );
         }
 
         runtime.totalRequiredMargin =
@@ -381,7 +385,11 @@ contract LimitOrderModule is ILimitOrderModule, IMarketEvents, IAccountEvents {
             runtime.limitOrderFees;
 
         if (runtime.currentAvailableMargin < runtime.totalRequiredMargin.toInt()) {
-            revert InsufficientMargin(runtime.currentAvailableMargin, runtime.totalRequiredMargin);
+            revert InsufficientAccountMargin(
+                runtime.accountId,
+                runtime.currentAvailableMargin,
+                runtime.totalRequiredMargin
+            );
         }
         // TODO add check if this logic below is needed or should be changed
         // int256 lockedCreditDelta = perpsMarketData.requiredCreditForSize(
