@@ -237,7 +237,6 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
     }
 
     function validateLimitOrder(OffchainOrder.Data memory order) public view {
-        AsyncOrder.checkPendingOrder(order.accountId);
         PerpsAccount.validateMaxPositions(order.accountId, order.marketId);
         GlobalPerpsMarket.load().checkLiquidation(order.accountId);
 
