@@ -66,6 +66,15 @@ artifact = "OffchainAsyncOrderModule"
 [contract.OffchainLimitOrderModule]
 artifact = "OffchainLimitOrderModule"
 
+[contract.OffchainAsyncOrderPythLazerModule]
+artifact = "OffchainAsyncOrderPythLazerModule"
+
+[contract.OffchainLimitOrderPythLazerModule]
+artifact = "OffchainLimitOrderPythLazerModule"
+
+[contract.AsyncOrderSettlementPythLazerModule]
+artifact = "AsyncOrderSettlementPythLazerModule"
+
 [contract.FeeTierModule]
 artifact = "FeeTierModule"
 
@@ -104,6 +113,9 @@ contracts = [
     "FeeTierModule",
     "OffchainAsyncOrderModule",
     "OffchainLimitOrderModule",
+    "OffchainAsyncOrderPythLazerModule",
+    "OffchainLimitOrderPythLazerModule",
+    "AsyncOrderSettlementPythLazerModule",
 ]
 
 [invoke.upgrade_proxy]

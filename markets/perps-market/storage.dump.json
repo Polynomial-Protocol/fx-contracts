@@ -1760,7 +1760,8 @@
                 "type": "enum",
                 "name": "strategyType",
                 "members": [
-                  "PYTH"
+                  "PYTH",
+                  "PYTH_LAZER"
                 ]
               },
               {
@@ -2046,7 +2047,8 @@
           "type": "enum",
           "name": "strategyType",
           "members": [
-            "PYTH"
+            "PYTH",
+            "PYTH_LAZER"
           ],
           "size": 1,
           "slot": "0",

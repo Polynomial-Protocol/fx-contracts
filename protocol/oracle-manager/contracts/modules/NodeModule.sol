@@ -6,6 +6,8 @@ import "../nodes/ReducerNode.sol";
 import "../nodes/ExternalNode.sol";
 import "../nodes/pyth/PythNode.sol";
 import "../nodes/pyth/PythOffchainLookupNode.sol";
+import "../nodes/pyth/PythLazerNode.sol";
+import "../nodes/pyth/PythLazerOffchainLookupNode.sol";
 import "../nodes/ChainlinkNode.sol";
 import "../nodes/PriceDeviationCircuitBreakerNode.sol";
 import "../nodes/StalenessCircuitBreakerNode.sol";
@@ -120,6 +122,7 @@ contract NodeModule is INodeModule {
             revert Errors(copiedErrors);
         }
     }
+
     function processManyWithManyRuntime(
         bytes32[] memory nodeIds,
         bytes32[][] memory runtimeKeys,
@@ -241,6 +244,10 @@ contract NodeModule is INodeModule {
             return PythNode.isValid(nodeDefinition);
         } else if (nodeDefinition.nodeType == NodeDefinition.NodeType.PYTH_OFFCHAIN_LOOKUP) {
             return PythOffchainLookupNode.isValid(nodeDefinition);
+        } else if (nodeDefinition.nodeType == NodeDefinition.NodeType.PYTH_LAZER) {
+            return PythLazerNode.isValid(nodeDefinition);
+        } else if (nodeDefinition.nodeType == NodeDefinition.NodeType.PYTH_LAZER_OFFCHAIN_LOOKUP) {
+            return PythLazerOffchainLookupNode.isValid(nodeDefinition);
         } else if (
             nodeDefinition.nodeType == NodeDefinition.NodeType.PRICE_DEVIATION_CIRCUIT_BREAKER
         ) {

@@ -13,6 +13,8 @@ import "../nodes/PriceDeviationCircuitBreakerNode.sol";
 import "../nodes/StalenessCircuitBreakerNode.sol";
 import "../nodes/UniswapNode.sol";
 import "../nodes/ConstantNode.sol";
+import "../nodes/pyth/PythLazerNode.sol";
+import "../nodes/pyth/PythLazerOffchainLookupNode.sol";
 
 library NodeDefinition {
     /**
@@ -35,7 +37,9 @@ library NodeDefinition {
         PRICE_DEVIATION_CIRCUIT_BREAKER,
         STALENESS_CIRCUIT_BREAKER,
         CONSTANT,
-        PYTH_OFFCHAIN_LOOKUP // works in conjunction with PYTH node
+        PYTH_OFFCHAIN_LOOKUP, // works in conjunction with PYTH node
+        PYTH_LAZER,
+        PYTH_LAZER_OFFCHAIN_LOOKUP
     }
 
     struct Data {
@@ -152,6 +156,14 @@ library NodeDefinition {
             (price, possibleError) = PythNode.process(nodeDefinition.parameters);
         } else if (nodeType == NodeType.PYTH_OFFCHAIN_LOOKUP) {
             (price, possibleError) = PythOffchainLookupNode.process(
+                nodeDefinition.parameters,
+                runtimeKeys,
+                runtimeValues
+            );
+        } else if (nodeType == NodeType.PYTH_LAZER) {
+            (price, possibleError) = PythLazerNode.process(nodeDefinition.parameters);
+        } else if (nodeType == NodeType.PYTH_LAZER_OFFCHAIN_LOOKUP) {
+            (price, possibleError) = PythLazerOffchainLookupNode.process(
                 nodeDefinition.parameters,
                 runtimeKeys,
                 runtimeValues

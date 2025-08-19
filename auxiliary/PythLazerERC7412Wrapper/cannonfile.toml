@@ -1,0 +1,12 @@
+name = "fx-pyth-lazer-erc7412-wrapper"
+version = "<%= package.version %>"
+description = "Pyth Lazer ERC7412 Wrapper"
+
+[setting.pythLazer]
+defaultValue = "0xacea761c27a909d4d3895128ebe6370fde2df481"
+description = "Pyth Lazer address"
+
+[contract.PythLazerERC7412Wrapper]
+artifact = "src/PythLazerERC7412Wrapper.sol:PythLazerERC7412Wrapper"
+args = ["<%= settings.pythLazer %>"]
+create2 = true
