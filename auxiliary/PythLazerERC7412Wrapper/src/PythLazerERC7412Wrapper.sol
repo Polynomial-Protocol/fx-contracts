@@ -100,6 +100,8 @@ contract PythLazerERC7412Wrapper is IERC7412, AbstractProxy {
 
             (uint64 timestamp, , uint8 feedsLen, uint16 pos) = payload.parsePayloadHeader();
 
+            timestamp = timestamp / 1e6; // convert to seconds
+
             if (feedsLen != priceIds.length) {
                 // solhint-disable-next-line numcast/safe-cast
                 revert FeedMismatch(feedsLen, uint8(priceIds.length));
@@ -113,14 +115,16 @@ contract PythLazerERC7412Wrapper is IERC7412, AbstractProxy {
             }
 
             for (uint8 i = 0; i < feedsLen; i++) {
-                (uint32 feedId, uint8 numProperties, uint16 pos) = payload.parseFeedHeader(pos);
+                uint32 feedId;
+                uint8 numProperties;
+                (feedId, numProperties, pos) = payload.parseFeedHeader(pos);
 
                 uint64 price;
                 int16 exponent;
 
                 for (uint8 j = 0; j < numProperties; j++) {
-                    (PythLazerLib.PriceFeedProperty property, uint16 pos) = payload
-                        .parseFeedProperty(pos);
+                    PythLazerLib.PriceFeedProperty property;
+                    (property, pos) = payload.parseFeedProperty(pos);
 
                     if (property == PythLazerLib.PriceFeedProperty.Price) {
                         (price, pos) = payload.parseFeedValueUint64(pos);

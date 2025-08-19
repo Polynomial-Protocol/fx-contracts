@@ -18,19 +18,29 @@ library PythLazerLib {
     }
 
     function parsePayloadHeader(
-        bytes calldata update
-    ) public pure returns (uint64 timestamp, Channel channel, uint8 feedsLen, uint16 pos) {
+        bytes memory update
+    ) internal pure returns (uint64 timestamp, Channel channel, uint8 feedsLen, uint16 pos) {
         uint32 FORMAT_MAGIC = 2479346549;
 
         pos = 0;
-        // solhint-disable-next-line numcast/safe-cast
-        uint32 magic = uint32(bytes4(update[pos:pos + 4]));
+        uint32 magic;
+        assembly {
+            // Pointer = update + 32 (skip the length word) + pos
+            let ptr := add(add(update, 0x20), pos)
+            // mload(ptr) reads 32 bytes; shr(224, ...) keeps only the first 4 bytes
+            magic := shr(224, mload(ptr))
+        }
         pos += 4;
         if (magic != FORMAT_MAGIC) {
             revert("invalid magic");
         }
         // solhint-disable-next-line numcast/safe-cast
-        timestamp = uint64(bytes8(update[pos:pos + 8]));
+        uint64 temp;
+        assembly {
+            let ptr := add(add(update, 0x20), pos)
+            temp := shr(192, mload(ptr))
+        }
+        timestamp = temp;
         pos += 8;
         // solhint-disable-next-line numcast/safe-cast
         channel = Channel(uint8(update[pos]));
@@ -41,11 +51,14 @@ library PythLazerLib {
     }
 
     function parseFeedHeader(
-        bytes calldata update,
+        bytes memory update,
         uint16 pos
-    ) public pure returns (uint32 feed_id, uint8 num_properties, uint16 new_pos) {
+    ) internal pure returns (uint32 feed_id, uint8 num_properties, uint16 new_pos) {
         // solhint-disable-next-line numcast/safe-cast
-        feed_id = uint32(bytes4(update[pos:pos + 4]));
+        assembly {
+            let ptr := add(add(update, 0x20), pos)
+            feed_id := shr(224, mload(ptr))
+        }
         pos += 4;
         // solhint-disable-next-line numcast/safe-cast
         num_properties = uint8(update[pos]);
@@ -54,9 +67,9 @@ library PythLazerLib {
     }
 
     function parseFeedProperty(
-        bytes calldata update,
+        bytes memory update,
         uint16 pos
-    ) public pure returns (PriceFeedProperty property, uint16 new_pos) {
+    ) internal pure returns (PriceFeedProperty property, uint16 new_pos) {
         // solhint-disable-next-line numcast/safe-cast
         property = PriceFeedProperty(uint8(update[pos]));
         pos += 1;
@@ -64,39 +77,48 @@ library PythLazerLib {
     }
 
     function parseFeedValueUint64(
-        bytes calldata update,
+        bytes memory update,
         uint16 pos
-    ) public pure returns (uint64 value, uint16 new_pos) {
+    ) internal pure returns (uint64 value, uint16 new_pos) {
         // solhint-disable-next-line numcast/safe-cast
-        value = uint64(bytes8(update[pos:pos + 8]));
+        assembly {
+            let ptr := add(add(update, 0x20), pos)
+            value := shr(192, mload(ptr))
+        }
         pos += 8;
         new_pos = pos;
     }
 
     function parseFeedValueUint16(
-        bytes calldata update,
+        bytes memory update,
         uint16 pos
-    ) public pure returns (uint16 value, uint16 new_pos) {
+    ) internal pure returns (uint16 value, uint16 new_pos) {
         // solhint-disable-next-line numcast/safe-cast
-        value = uint16(bytes2(update[pos:pos + 2]));
+        assembly {
+            let ptr := add(add(update, 0x20), pos)
+            value := shr(240, mload(ptr))
+        }
         pos += 2;
         new_pos = pos;
     }
 
     function parseFeedValueInt16(
-        bytes calldata update,
+        bytes memory update,
         uint16 pos
-    ) public pure returns (int16 value, uint16 new_pos) {
+    ) internal pure returns (int16 value, uint16 new_pos) {
         // solhint-disable-next-line numcast/safe-cast
-        value = int16(uint16(bytes2(update[pos:pos + 2])));
+        assembly {
+            let ptr := add(add(update, 0x20), pos)
+            value := shr(240, mload(ptr))
+        }
         pos += 2;
         new_pos = pos;
     }
 
     function parseFeedValueUint8(
-        bytes calldata update,
+        bytes memory update,
         uint16 pos
-    ) public pure returns (uint8 value, uint16 new_pos) {
+    ) internal pure returns (uint8 value, uint16 new_pos) {
         // solhint-disable-next-line numcast/safe-cast
         value = uint8(update[pos]);
         pos += 1;

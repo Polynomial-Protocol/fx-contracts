@@ -1,6 +1,6 @@
 {
   "name": "@synthetixio/pyth-lazer-erc7412-wrapper",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Benchmark prices oracle",
   "publishConfig": {
     "access": "public"
