@@ -63,6 +63,8 @@ library AccountRBAC {
             permission != AccountRBAC._PERPS_MODIFY_COLLATERAL_PERMISSION &&
             permission != AccountRBAC._PERPS_COMMIT_ASYNC_ORDER_PERMISSION &&
             permission != AccountRBAC._PERPS_COMMIT_LIMIT_ORDER_PERMISSION &&
+            permission != AccountRBAC._PERPS_COMMIT_OFFCHAIN_ORDER_PERMISSION &&
+            permission != AccountRBAC._PERPS_CANCEL_LIMIT_ORDER &&
             permission != AccountRBAC._BURN_PERMISSION &&
             permission != AccountRBAC._BFP_PERPS_PAY_DEBT_PERMISSION &&
             permission != AccountRBAC._BFP_PERPS_SPLIT_ACCOUNT_PERMISSION
