@@ -185,10 +185,10 @@ contract OffchainLimitOrderPythLazerModule is
             );
         }
 
-        if (shortOrder.sizeDelta > -longOrder.sizeDelta && shortOrder.allowPartialMatching) {
+        if (-shortOrder.sizeDelta > longOrder.sizeDelta && shortOrder.allowPartialMatching) {
             firstOrderPartialFill = true;
             shortOrder.sizeDelta = -longOrder.sizeDelta;
-        } else if (shortOrder.sizeDelta < -longOrder.sizeDelta && longOrder.allowPartialMatching) {
+        } else if (longOrder.sizeDelta > -shortOrder.sizeDelta && longOrder.allowPartialMatching) {
             secondOrderPartialFill = true;
             longOrder.sizeDelta = -shortOrder.sizeDelta;
         }
