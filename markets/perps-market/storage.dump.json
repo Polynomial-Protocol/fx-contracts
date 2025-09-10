@@ -293,9 +293,13 @@
             {
               "type": "uint256",
               "name": "latestInterestAccrued"
+            },
+            {
+              "type": "uint256",
+              "name": "latestRolloverAccruedAt"
             }
           ],
-          "size": 96,
+          "size": 128,
           "slot": "13",
           "offset": 0
         },
@@ -303,7 +307,7 @@
           "type": "bytes32",
           "name": "trackingCode",
           "size": 32,
-          "slot": "16",
+          "slot": "17",
           "offset": 0
         }
       ],
@@ -1006,9 +1010,13 @@
             {
               "type": "uint256",
               "name": "latestInterestAccrued"
+            },
+            {
+              "type": "uint256",
+              "name": "latestRolloverAccruedAt"
             }
           ],
-          "size": 96,
+          "size": 128,
           "slot": "8",
           "offset": 0
         }
@@ -1105,9 +1113,13 @@
             {
               "type": "uint256",
               "name": "latestInterestAccrued"
+            },
+            {
+              "type": "uint256",
+              "name": "latestRolloverAccruedAt"
             }
           ],
-          "size": 96,
+          "size": 128,
           "slot": "9",
           "offset": 0
         },
@@ -1134,52 +1146,56 @@
             {
               "type": "uint256",
               "name": "latestInterestAccrued"
+            },
+            {
+              "type": "uint256",
+              "name": "latestRolloverAccruedAt"
             }
           ],
-          "size": 96,
-          "slot": "12",
+          "size": 128,
+          "slot": "13",
           "offset": 0
         },
         {
           "type": "uint256",
           "name": "relayerFees",
           "size": 32,
-          "slot": "15",
+          "slot": "17",
           "offset": 0
         },
         {
           "type": "uint256",
           "name": "feeCollectorFees",
           "size": 32,
-          "slot": "16",
+          "slot": "18",
           "offset": 0
         },
         {
           "type": "int256",
           "name": "accruedFunding",
           "size": 32,
-          "slot": "17",
+          "slot": "19",
           "offset": 0
         },
         {
           "type": "uint256",
           "name": "limitOrderFees",
           "size": 32,
-          "slot": "18",
+          "slot": "20",
           "offset": 0
         },
         {
           "type": "uint256",
           "name": "price",
           "size": 32,
-          "slot": "19",
+          "slot": "21",
           "offset": 0
         },
         {
           "type": "int256",
           "name": "chargedAmount",
           "size": 32,
-          "slot": "20",
+          "slot": "22",
           "offset": 0
         }
       ],
@@ -1269,28 +1285,28 @@
         },
         {
           "type": "uint256",
-          "name": "closeTime",
+          "name": "openTime",
           "size": 32,
           "slot": "1",
           "offset": 0
         },
         {
           "type": "uint256",
-          "name": "closePrice",
+          "name": "closeTime",
           "size": 32,
           "slot": "2",
           "offset": 0
         },
         {
           "type": "uint256",
-          "name": "rolloverFee",
+          "name": "closePrice",
           "size": 32,
           "slot": "3",
           "offset": 0
         },
         {
           "type": "uint256",
-          "name": "lastSkewScale",
+          "name": "rolloverFee",
           "size": 32,
           "slot": "4",
           "offset": 0
@@ -1902,6 +1918,10 @@
               {
                 "type": "uint256",
                 "name": "latestInterestAccrued"
+              },
+              {
+                "type": "uint256",
+                "name": "latestRolloverAccruedAt"
               }
             ]
           },
@@ -2269,6 +2289,13 @@
           "name": "latestInterestAccrued",
           "size": 32,
           "slot": "2",
+          "offset": 0
+        },
+        {
+          "type": "uint256",
+          "name": "latestRolloverAccruedAt",
+          "size": 32,
+          "slot": "3",
           "offset": 0
         }
       ]
