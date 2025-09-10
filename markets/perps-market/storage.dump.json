@@ -1255,6 +1255,49 @@
       ]
     }
   },
+  "contracts/storage/MarketClose.sol:MarketClose": {
+    "name": "MarketClose",
+    "kind": "library",
+    "structs": {
+      "Data": [
+        {
+          "type": "bool",
+          "name": "isClosed",
+          "size": 1,
+          "slot": "0",
+          "offset": 0
+        },
+        {
+          "type": "uint256",
+          "name": "closeTime",
+          "size": 32,
+          "slot": "1",
+          "offset": 0
+        },
+        {
+          "type": "uint256",
+          "name": "closePrice",
+          "size": 32,
+          "slot": "2",
+          "offset": 0
+        },
+        {
+          "type": "uint256",
+          "name": "rolloverFee",
+          "size": 32,
+          "slot": "3",
+          "offset": 0
+        },
+        {
+          "type": "uint256",
+          "name": "lastSkewScale",
+          "size": 32,
+          "slot": "4",
+          "offset": 0
+        }
+      ]
+    }
+  },
   "contracts/storage/MarketUpdate.sol:MarketUpdate": {
     "name": "MarketUpdate",
     "kind": "library",

@@ -6,6 +6,7 @@ import {NodeOutput} from "@synthetixio/oracle-manager/contracts/storage/NodeOutp
 import {SafeCastI256, SafeCastU256} from "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
 import {ParameterError} from "@synthetixio/core-contracts/contracts/errors/ParameterError.sol";
 import {PerpsMarketFactory} from "./PerpsMarketFactory.sol";
+import {MarketClose} from "./MarketClose.sol";
 
 /**
  * @title Price storage for a specific synth market.
@@ -78,6 +79,54 @@ library PerpsPrice {
         prices = new uint256[](marketIds.length);
         for (uint256 i = 0; i < marketIds.length; i++) {
             prices[i] = outputs[i].price.toUint();
+        }
+    }
+
+    function getCurrentPricesWithClosedMarkets(
+        uint256[] memory marketIds
+    ) internal view returns (uint256[] memory prices) {
+        INodeModule oracleManager = INodeModule(PerpsMarketFactory.load().oracle);
+        prices = new uint256[](marketIds.length);
+
+        // First pass: determine which markets are open and count them
+        uint256 openCount;
+        for (uint256 i = 0; i < marketIds.length; i++) {
+            uint128 marketId128 = marketIds[i].to128();
+            MarketClose.Data storage mc = MarketClose.load(marketId128);
+            if (mc.isClosed) {
+                // Use the stored close price for closed markets
+                prices[i] = mc.closePrice;
+            } else {
+                openCount++;
+            }
+        }
+
+        // If there are open markets, query their feeds in a compact batch
+        if (openCount > 0) {
+            bytes32[] memory feedIds = new bytes32[](openCount);
+            uint256[] memory openIndices = new uint256[](openCount);
+            uint256 k;
+            for (uint256 i = 0; i < marketIds.length; i++) {
+                uint128 marketId128 = marketIds[i].to128();
+                if (!MarketClose.load(marketId128).isClosed) {
+                    feedIds[k] = load(marketId128).feedId;
+                    openIndices[k] = i;
+                    k++;
+                }
+            }
+
+            bytes32[] memory runtimeKeys = new bytes32[](0);
+            // tolerance is STRICT (no runtime keys supplied here; mirrors previous behavior)
+            NodeOutput.Data[] memory outputs = oracleManager.processManyWithRuntime(
+                feedIds,
+                runtimeKeys,
+                runtimeKeys
+            );
+
+            // Map the compact outputs back to the original indices
+            for (uint256 j = 0; j < openCount; j++) {
+                prices[openIndices[j]] = outputs[j].price.toUint();
+            }
         }
     }
 
