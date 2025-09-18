@@ -6,6 +6,7 @@ import {FeatureFlag} from "@synthetixio/core-modules/contracts/storage/FeatureFl
 import {Account} from "@synthetixio/main/contracts/storage/Account.sol";
 import {AccountRBAC} from "@synthetixio/main/contracts/storage/AccountRBAC.sol";
 import {SafeCastU256, SafeCastI256} from "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
+import {SafeCastU128} from "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
 import {DecimalMath} from "@synthetixio/core-contracts/contracts/utils/DecimalMath.sol";
 import {OffchainOrder} from "../storage/OffchainOrder.sol";
 import {GlobalPerpsMarket} from "../storage/GlobalPerpsMarket.sol";
@@ -34,6 +35,7 @@ import {MathUtil} from "../utils/MathUtil.sol";
 contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, IAccountEvents {
     using SafeCastI256 for int256;
     using SafeCastU256 for uint256;
+    using SafeCastU128 for uint128;
     using DecimalMath for int128;
     using DecimalMath for uint256;
     using GlobalPerpsMarket for GlobalPerpsMarket.Data;
@@ -127,7 +129,7 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
         (
             partialFillData.firstOrderPartialFill,
             partialFillData.secondOrderPartialFill
-        ) = updateLimitOrderAmounts(shortOrder, longOrder);
+        ) = updateLimitOrderAmountsLegacy(shortOrder, longOrder);
 
         perpsMarketData.validateLimitOrderSize(
             marketConfig.maxMarketSize,
@@ -177,7 +179,7 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
         );
     }
 
-    function updateLimitOrderAmounts(
+    function updateLimitOrderAmountsLegacy(
         OffchainOrder.Data memory shortOrder,
         OffchainOrder.Data memory longOrder
     ) internal returns (bool firstOrderPartialFill, bool secondOrderPartialFill) {
@@ -233,6 +235,178 @@ contract OffchainLimitOrderModule is IOffchainLimitOrderModule, IMarketEvents, I
         } else if (longOrder.sizeDelta > -shortOrder.sizeDelta && longOrder.allowPartialMatching) {
             secondOrderPartialFill = true;
             longOrder.sizeDelta = -shortOrder.sizeDelta;
+        }
+    }
+
+    function settleOffchainLimitOrders(
+        OffchainOrder.Data memory shortOrder,
+        OffchainOrder.Signature memory shortSignature,
+        OffchainOrder.Data memory longOrder,
+        OffchainOrder.Signature memory longSignature,
+        uint128 fillSize
+    ) external {
+        FeatureFlag.ensureAccessToFeature(Flags.PERPS_SYSTEM);
+        FeatureFlag.ensureAccessToFeature(Flags.LIMIT_ORDER);
+        PerpsMarket.loadValid(shortOrder.marketId);
+        Account.exists(shortOrder.accountId);
+        Account.exists(longOrder.accountId);
+
+        checkSigPermission(shortOrder, shortSignature);
+        checkSigPermission(longOrder, longSignature);
+
+        LimitOrder.LimitOrderPartialFillData memory partialFillData;
+
+        uint256 lastPriceCheck;
+        {
+            SettlementStrategy.Data storage strategy = PerpsMarketConfiguration
+                .loadValidSettlementStrategy(shortOrder.marketId, shortOrder.settlementStrategyId);
+
+            lastPriceCheck = IPythERC7412Wrapper(strategy.priceVerificationContract)
+                .getLatestPrice(
+                    strategy.feedId,
+                    30 // 30 seconds
+                )
+                .toUint();
+        }
+
+        PerpsMarket.Data storage perpsMarketData = PerpsMarket.load(shortOrder.marketId);
+        perpsMarketData.recomputeFunding(lastPriceCheck);
+
+        PerpsMarketConfiguration.Data storage marketConfig = PerpsMarketConfiguration.load(
+            shortOrder.marketId
+        );
+
+        (
+            partialFillData.firstOrderPartialFill,
+            partialFillData.secondOrderPartialFill
+        ) = updateLimitOrderAmounts(shortOrder, longOrder, fillSize);
+
+        perpsMarketData.validateLimitOrderSize(
+            marketConfig.maxMarketSize,
+            marketConfig.maxMarketValue,
+            shortOrder.acceptablePrice,
+            shortOrder.sizeDelta
+        );
+
+        validateLimitOrder(shortOrder);
+        validateLimitOrder(longOrder);
+        validateLimitOrderPair(shortOrder, longOrder);
+
+        validateRelayerAndSettler(shortOrder.referrerOrRelayer);
+
+        if (shortOrder.limitOrderMaker) {
+            longOrder.acceptablePrice = shortOrder.acceptablePrice;
+        } else {
+            shortOrder.acceptablePrice = longOrder.acceptablePrice;
+        }
+
+        (
+            uint256 firstLimitOrderFees,
+            Position.Data storage firstOldPosition,
+            Position.Data memory firstNewPosition
+        ) = validateLimitOrderRequest(shortOrder, lastPriceCheck, marketConfig, perpsMarketData);
+        (
+            uint256 secondLimitOrderFees,
+            Position.Data storage secondOldPosition,
+            Position.Data memory secondNewPosition
+        ) = validateLimitOrderRequest(longOrder, lastPriceCheck, marketConfig, perpsMarketData);
+
+        settleLimitOrder(
+            shortOrder,
+            firstLimitOrderFees,
+            lastPriceCheck,
+            firstOldPosition,
+            firstNewPosition,
+            partialFillData.firstOrderPartialFill
+        );
+        settleLimitOrder(
+            longOrder,
+            secondLimitOrderFees,
+            lastPriceCheck,
+            secondOldPosition,
+            secondNewPosition,
+            partialFillData.secondOrderPartialFill
+        );
+    }
+
+    function updateLimitOrderAmounts(
+        OffchainOrder.Data memory shortOrder,
+        OffchainOrder.Data memory longOrder,
+        uint128 fillSize
+    ) internal returns (bool firstOrderPartialFill, bool secondOrderPartialFill) {
+        LimitOrder.Data storage limitOrderData = LimitOrder.load();
+
+        if (shortOrder.allowPartialMatching) {
+            shortOrder.sizeDelta = limitOrderData.getRemainingLimitOrderAmount(
+                shortOrder.accountId,
+                shortOrder.nonce,
+                shortOrder.sizeDelta
+            );
+        }
+
+        if (longOrder.allowPartialMatching) {
+            longOrder.sizeDelta = limitOrderData.getRemainingLimitOrderAmount(
+                longOrder.accountId,
+                longOrder.nonce,
+                longOrder.sizeDelta
+            );
+        }
+
+        uint128 shortRemaining = MathUtil.abs128(shortOrder.sizeDelta);
+        uint128 longRemaining = MathUtil.abs128(longOrder.sizeDelta);
+
+        if (fillSize > shortRemaining || fillSize > longRemaining) {
+            revert InvalidFillSize(fillSize, shortRemaining, longRemaining);
+        }
+
+        if (fillSize < shortRemaining) {
+            if (!shortOrder.allowPartialMatching) {
+                revert PartialMatchingNotAllowed(fillSize, shortRemaining, longRemaining);
+            }
+            firstOrderPartialFill = true;
+        }
+        if (fillSize < longRemaining) {
+            if (!longOrder.allowPartialMatching) {
+                revert PartialMatchingNotAllowed(fillSize, shortRemaining, longRemaining);
+            }
+            secondOrderPartialFill = true;
+        }
+
+        shortOrder.sizeDelta = -fillSize.toInt();
+        longOrder.sizeDelta = fillSize.toInt();
+
+        if (shortOrder.reduceOnly) {
+            int128 currentSize = PerpsMarket
+                .accountPosition(shortOrder.marketId, shortOrder.accountId)
+                .size;
+
+            if (
+                MathUtil.sameSide(currentSize, shortOrder.sizeDelta) ||
+                MathUtil.abs(currentSize) < -shortOrder.sizeDelta
+            ) {
+                revert OffchainOrder.ReduceOnlyOrder(
+                    shortOrder.accountId,
+                    currentSize,
+                    shortOrder.sizeDelta
+                );
+            }
+        }
+
+        if (longOrder.reduceOnly) {
+            int128 currentSize = PerpsMarket
+                .accountPosition(longOrder.marketId, longOrder.accountId)
+                .size;
+
+            if (
+                MathUtil.sameSide(currentSize, longOrder.sizeDelta) ||
+                MathUtil.abs(currentSize) < longOrder.sizeDelta
+            ) {
+                revert OffchainOrder.ReduceOnlyOrder(
+                    longOrder.accountId,
+                    currentSize,
+                    longOrder.sizeDelta
+                );
+            }
         }
     }
 

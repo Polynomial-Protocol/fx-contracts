@@ -5,7 +5,7 @@ import {ERC2771Context} from "@synthetixio/core-contracts/contracts/utils/ERC277
 import {FeatureFlag} from "@synthetixio/core-modules/contracts/storage/FeatureFlag.sol";
 import {Account} from "@synthetixio/main/contracts/storage/Account.sol";
 import {AccountRBAC} from "@synthetixio/main/contracts/storage/AccountRBAC.sol";
-import {SafeCastU256, SafeCastI256, SafeCastBytes32} from "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
+import {SafeCastU256, SafeCastI256, SafeCastBytes32, SafeCastU128} from "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
 import {DecimalMath} from "@synthetixio/core-contracts/contracts/utils/DecimalMath.sol";
 import {OffchainOrder} from "../../storage/OffchainOrder.sol";
 import {GlobalPerpsMarket} from "../../storage/GlobalPerpsMarket.sol";
@@ -38,6 +38,7 @@ contract OffchainLimitOrderPythLazerModule is
     using SafeCastI256 for int256;
     using SafeCastU256 for uint256;
     using SafeCastBytes32 for bytes32;
+    using SafeCastU128 for uint128;
     using DecimalMath for int128;
     using DecimalMath for uint256;
     using GlobalPerpsMarket for GlobalPerpsMarket.Data;
@@ -58,7 +59,8 @@ contract OffchainLimitOrderPythLazerModule is
         OffchainOrder.Data memory shortOrder,
         OffchainOrder.Signature memory shortSignature,
         OffchainOrder.Data memory longOrder,
-        OffchainOrder.Signature memory longSignature
+        OffchainOrder.Signature memory longSignature,
+        uint128 fillSize
     ) external {
         FeatureFlag.ensureAccessToFeature(Flags.PERPS_SYSTEM);
         FeatureFlag.ensureAccessToFeature(Flags.LIMIT_ORDER);
@@ -91,7 +93,7 @@ contract OffchainLimitOrderPythLazerModule is
         (
             partialFillData.firstOrderPartialFill,
             partialFillData.secondOrderPartialFill
-        ) = updateLimitOrderAmounts(shortOrder, longOrder);
+        ) = updateLimitOrderAmounts(shortOrder, longOrder, fillSize);
 
         perpsMarketData.validateLimitOrderSize(
             marketConfig.maxMarketSize,
@@ -137,37 +139,10 @@ contract OffchainLimitOrderPythLazerModule is
 
     function updateLimitOrderAmounts(
         OffchainOrder.Data memory shortOrder,
-        OffchainOrder.Data memory longOrder
+        OffchainOrder.Data memory longOrder,
+        uint128 fillSize
     ) internal returns (bool firstOrderPartialFill, bool secondOrderPartialFill) {
         LimitOrder.Data storage limitOrderData = LimitOrder.load();
-
-        if (shortOrder.reduceOnly) {
-            int128 currentSize = PerpsMarket
-                .accountPosition(shortOrder.marketId, shortOrder.accountId)
-                .size;
-
-            if (MathUtil.sameSide(currentSize, shortOrder.sizeDelta)) {
-                revert OffchainOrder.ReduceOnlyOrder(currentSize, shortOrder.sizeDelta);
-            }
-
-            if (MathUtil.abs(currentSize) <= MathUtil.abs(shortOrder.sizeDelta)) {
-                shortOrder.sizeDelta = -currentSize;
-            }
-        }
-
-        if (longOrder.reduceOnly) {
-            int128 currentSize = PerpsMarket
-                .accountPosition(longOrder.marketId, longOrder.accountId)
-                .size;
-
-            if (MathUtil.sameSide(currentSize, longOrder.sizeDelta)) {
-                revert OffchainOrder.ReduceOnlyOrder(currentSize, longOrder.sizeDelta);
-            }
-
-            if (MathUtil.abs(currentSize) <= MathUtil.abs(longOrder.sizeDelta)) {
-                longOrder.sizeDelta = -currentSize;
-            }
-        }
 
         if (shortOrder.allowPartialMatching) {
             shortOrder.sizeDelta = limitOrderData.getRemainingLimitOrderAmount(
@@ -185,12 +160,64 @@ contract OffchainLimitOrderPythLazerModule is
             );
         }
 
-        if (-shortOrder.sizeDelta > longOrder.sizeDelta && shortOrder.allowPartialMatching) {
+        uint128 shortRemaining = MathUtil.abs128(shortOrder.sizeDelta);
+        uint128 longRemaining = MathUtil.abs128(longOrder.sizeDelta);
+
+        if (fillSize > shortRemaining || fillSize > longRemaining) {
+            revert InvalidFillSize(fillSize, shortRemaining, longRemaining);
+        }
+
+        if (fillSize < shortRemaining) {
+            if (!shortOrder.allowPartialMatching) {
+                revert PartialMatchingNotAllowed(fillSize, shortRemaining, longRemaining);
+            }
             firstOrderPartialFill = true;
-            shortOrder.sizeDelta = -longOrder.sizeDelta;
-        } else if (longOrder.sizeDelta > -shortOrder.sizeDelta && longOrder.allowPartialMatching) {
+        }
+        if (fillSize < longRemaining) {
+            if (!longOrder.allowPartialMatching) {
+                revert PartialMatchingNotAllowed(fillSize, shortRemaining, longRemaining);
+            }
             secondOrderPartialFill = true;
-            longOrder.sizeDelta = -shortOrder.sizeDelta;
+        }
+
+        // Set exact sizes to the requested fill
+        shortOrder.sizeDelta = -fillSize.toInt();
+        longOrder.sizeDelta = fillSize.toInt();
+
+        if (shortOrder.reduceOnly) {
+            int128 currentSize = PerpsMarket
+                .accountPosition(shortOrder.marketId, shortOrder.accountId)
+                .size;
+
+            if (MathUtil.sameSide(currentSize, shortOrder.sizeDelta)) {
+                revert OffchainOrder.ReduceOnlyOrder(
+                    shortOrder.accountId,
+                    currentSize,
+                    shortOrder.sizeDelta
+                );
+            }
+
+            if (MathUtil.abs(currentSize) <= MathUtil.abs(shortOrder.sizeDelta)) {
+                shortOrder.sizeDelta = -currentSize;
+            }
+        }
+
+        if (longOrder.reduceOnly) {
+            int128 currentSize = PerpsMarket
+                .accountPosition(longOrder.marketId, longOrder.accountId)
+                .size;
+
+            if (MathUtil.sameSide(currentSize, longOrder.sizeDelta)) {
+                revert OffchainOrder.ReduceOnlyOrder(
+                    longOrder.accountId,
+                    currentSize,
+                    longOrder.sizeDelta
+                );
+            }
+
+            if (MathUtil.abs(currentSize) <= MathUtil.abs(longOrder.sizeDelta)) {
+                longOrder.sizeDelta = -currentSize;
+            }
         }
     }
 
