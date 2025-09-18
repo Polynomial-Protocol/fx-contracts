@@ -19,9 +19,5 @@ interface IOffchainLimitOrderPythLazerModule {
 
     error InvalidFillSize(uint128 fillSize, uint128 shortAmount, uint128 longAmount);
 
-    error PartialMatchingNotAllowed(
-        uint128 fillSize,
-        uint128 shortRemaining,
-        uint128 longRemaining
-    );
+    error PartialMatchingNotAllowed(uint128 accountId, uint128 fillSize, uint128 sizeRemaining);
 }

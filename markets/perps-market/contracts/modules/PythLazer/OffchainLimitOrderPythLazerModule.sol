@@ -169,13 +169,13 @@ contract OffchainLimitOrderPythLazerModule is
 
         if (fillSize < shortRemaining) {
             if (!shortOrder.allowPartialMatching) {
-                revert PartialMatchingNotAllowed(fillSize, shortRemaining, longRemaining);
+                revert PartialMatchingNotAllowed(shortOrder.accountId, fillSize, shortRemaining);
             }
             firstOrderPartialFill = true;
         }
         if (fillSize < longRemaining) {
             if (!longOrder.allowPartialMatching) {
-                revert PartialMatchingNotAllowed(fillSize, shortRemaining, longRemaining);
+                revert PartialMatchingNotAllowed(longOrder.accountId, fillSize, longRemaining);
             }
             secondOrderPartialFill = true;
         }
