@@ -336,14 +336,16 @@ library AsyncOrder {
 
         FeeTier.Data storage feeTier = FeeTier.load(account.feeTierId);
 
-        runtime.orderFees =
-            calculateOrderFee(
-                runtime.sizeDelta,
-                runtime.fillPrice,
-                perpsMarketData.skew,
-                FeeTier.getFees(feeTier, marketConfig.orderFees)
-            ) +
-            settlementRewardCost(strategy);
+        runtime.orderFees = calculateOrderFee(
+            runtime.sizeDelta,
+            runtime.fillPrice,
+            perpsMarketData.skew,
+            FeeTier.getFees(feeTier, marketConfig.orderFees)
+        );
+        if (marketConfig.orderFees.makerFee > 0 || marketConfig.orderFees.takerFee > 0) {
+            // Add settlement reward for markets with non-zero fee
+            runtime.orderFees += settlementRewardCost(strategy);
+        }
 
         oldPosition = PerpsMarket.accountPosition(runtime.marketId, runtime.accountId);
         runtime.newPositionSize = oldPosition.size + runtime.sizeDelta;
