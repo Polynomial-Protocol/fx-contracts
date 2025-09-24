@@ -94,6 +94,12 @@ contract MarketCloseModule is IMarketCloseModule {
             if (rolloverFee == 0) {
                 revert RolloverFeeNotSet(marketId);
             }
+
+            // Check if market is closed
+            MarketClose.Data storage market = MarketClose.load(marketId);
+            if (market.isClosed) {
+                revert MarketAlreadyClosed(marketId);
+            }
         }
 
         // Load core storage

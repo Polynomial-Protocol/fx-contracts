@@ -29,6 +29,12 @@ interface IMarketCloseModule {
     error RolloverFeeNotSet(uint128 marketId);
 
     /**
+     * @notice Gets thrown when the market is closed.
+     * @param marketId The ID of the market.
+     */
+    error MarketAlreadyClosed(uint128 marketId);
+
+    /**
      * @notice Gets fired when the rollover fee is set for a market.
      * @param marketId The ID of the market.
      * @param rolloverFee The rollover fee.
