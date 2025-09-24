@@ -169,11 +169,10 @@ contract OffchainAsyncOrderModule is IOffchainAsyncOrderModule, IMarketEvents, I
         runtime.updateData = processPositionUpdate(price, runtime, market, originalMarketSize);
         perpsAccount.updateOpenPositions(runtime.marketId, runtime.newPosition.size);
 
-        if (runtime.totalFees > 0) {
-            runtime.settlementReward = AsyncOrder.settlementRewardCost(settlementStrategy);
-            // Process fees
-            processFees(runtime, asyncOrder, factory);
-        }
+        runtime.settlementReward = AsyncOrder.settlementRewardCost(settlementStrategy);
+
+        // Process fees
+        processFees(runtime, asyncOrder, factory);
 
         // Emit events in a helper function
         emitSettlementEvents(runtime, asyncOrder);

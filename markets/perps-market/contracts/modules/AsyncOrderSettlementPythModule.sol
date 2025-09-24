@@ -111,11 +111,10 @@ contract AsyncOrderSettlementPythModule is
         runtime.updateData = _processPositionUpdate(price, runtime, market, originalMarketSize);
         perpsAccount.updateOpenPositions(runtime.marketId, runtime.newPosition.size);
 
-        if (runtime.totalFees > 0) {
-            runtime.settlementReward = AsyncOrder.settlementRewardCost(settlementStrategy);
-            // Process fees
-            _processFees(runtime, asyncOrder, factory);
-        }
+        runtime.settlementReward = AsyncOrder.settlementRewardCost(settlementStrategy);
+
+        // Process fees
+        _processFees(runtime, asyncOrder, factory);
 
         // Emit events in a helper function
         _emitSettlementEvents(runtime, asyncOrder);
