@@ -411,6 +411,7 @@ library AsyncOrder {
             latestInteractionPrice: runtime.fillPrice.to128(),
             latestInteractionFunding: perpsMarketData.lastFundingValue.to128(),
             latestInterestAccrued: 0,
+            latestRolloverAccruedAt: 0,
             size: runtime.newPositionSize
         });
         return (runtime.newPosition, runtime.orderFees, runtime.fillPrice, oldPosition);

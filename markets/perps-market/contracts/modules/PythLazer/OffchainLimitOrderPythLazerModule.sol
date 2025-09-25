@@ -342,6 +342,7 @@ contract OffchainLimitOrderPythLazerModule is
             latestInteractionPrice: order.acceptablePrice.to128(),
             latestInteractionFunding: perpsMarketData.lastFundingValue.to128(),
             latestInterestAccrued: 0,
+            latestRolloverAccruedAt: 0,
             size: runtime.newPositionSize
         });
 

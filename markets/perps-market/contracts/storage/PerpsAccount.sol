@@ -612,6 +612,7 @@ library PerpsAccount {
                 latestInteractionPrice: price.to128(),
                 latestInteractionFunding: perpsMarket.lastFundingValue.to128(),
                 latestInterestAccrued: 0,
+                latestRolloverAccruedAt: 0,
                 size: newPositionSize
             });
         }
