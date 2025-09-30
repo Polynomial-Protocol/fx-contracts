@@ -88,6 +88,16 @@ interface IMarketCloseModule {
     function closeMarkets(uint128[] calldata marketIds) external;
 
     /**
+     * @notice Closes a list of markets with timestamps.
+     * @param marketIds The IDs of the markets to close.
+     * @param timestamps The timestamps of the markets to close.
+     */
+    function closeMarketsWithTimestamps(
+        uint128[] calldata marketIds,
+        uint256[] calldata timestamps
+    ) external;
+
+    /**
      * @notice Closes a position.
      * @param accountId The ID of the account.
      * @param marketId The ID of the market.
