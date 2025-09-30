@@ -234,8 +234,9 @@ contract LiquidationModule is ILiquidationModule, IMarketEvents {
         LiquidateAccountRuntime memory runtime;
         runtime.accountId = account.id;
         uint256[] memory openPositionMarketIds = account.openPositionMarketIds.values();
-        uint256[] memory prices = PerpsPrice.getCurrentPricesWithClosedMarkets(
-            openPositionMarketIds
+        uint256[] memory prices = PerpsPrice.getCurrentPrices(
+            openPositionMarketIds,
+            PerpsPrice.Tolerance.STRICT
         );
 
         for (
