@@ -65,6 +65,36 @@ contract MarketCloseModule is IMarketCloseModule {
     /**
      * @inheritdoc IMarketCloseModule
      */
+    function closeMarketsWithTimestamps(
+        uint128[] calldata marketIds,
+        uint256[] calldata timestamps
+    ) external override {
+        FeatureFlag.ensureAccessToFeature(Flags.PERPS_SYSTEM);
+        OwnableStorage.onlyOwner();
+        for (uint256 i = 0; i < marketIds.length; i++) {
+            PerpsMarket.loadValid(marketIds[i]);
+            MarketClose.Data storage market = MarketClose.load(marketIds[i]);
+            market.isClosed = true;
+            market.closeTime = timestamps[i];
+
+            // Get settlement strategy (id = 0) for feed and wrapper
+            PerpsMarketConfiguration.Data storage marketConfig = PerpsMarketConfiguration.load(
+                marketIds[i]
+            );
+            SettlementStrategy.Data storage strategy = marketConfig.settlementStrategies[0];
+
+            // Get close price from Pyth Benchmarks
+            market.closePrice = IPythERC7412Wrapper(strategy.priceVerificationContract)
+                .getBenchmarkPrice(strategy.feedId, timestamps[i].to64())
+                .toUint();
+
+            emit MarketClosed(marketIds[i], timestamps[i], market.closePrice);
+        }
+    }
+
+    /**
+     * @inheritdoc IMarketCloseModule
+     */
     function openMarkets(uint128[] calldata marketIds) external override {
         FeatureFlag.ensureAccessToFeature(Flags.PERPS_SYSTEM);
         OwnableStorage.onlyOwner();
