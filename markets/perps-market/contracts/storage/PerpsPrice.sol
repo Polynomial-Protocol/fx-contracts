@@ -113,6 +113,13 @@ library PerpsPrice {
         uint128 marketId,
         Tolerance priceTolerance
     ) internal view returns (uint256 price) {
+        // Check if market is closed and return stored close price
+        MarketClose.Data storage mc = MarketClose.load(marketId);
+        if (mc.isClosed) {
+            return mc.closePrice;
+        }
+
+        // Market is open, fetch price from oracle
         Data storage self = load(marketId);
         PerpsMarketFactory.Data storage factory = PerpsMarketFactory.load();
         NodeOutput.Data memory output;
