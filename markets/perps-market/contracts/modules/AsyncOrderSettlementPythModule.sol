@@ -42,6 +42,13 @@ contract AsyncOrderSettlementPythModule is
     using KeeperCosts for KeeperCosts.Data;
 
     /**
+     * TODO: Delete this function
+     */
+    function time() external view returns (uint256) {
+        return block.timestamp;
+    }
+
+    /**
      * @inheritdoc IAsyncOrderSettlementPythModule
      */
     function settleOrder(uint128 accountId) external {

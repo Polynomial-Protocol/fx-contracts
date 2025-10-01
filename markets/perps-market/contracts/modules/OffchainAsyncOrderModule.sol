@@ -51,6 +51,13 @@ contract OffchainAsyncOrderModule is IOffchainAsyncOrderModule, IMarketEvents, I
     bytes32 private constant _ORDER_TYPEHASH =
         0xfa2db4cbdb01b350b8ce55fb85ef8bd1b19e1e933b085005ee10f6d931c67519;
 
+    /**
+     * TODO: Delete this function
+     */
+    function time(uint128) external view returns (uint256) {
+        return block.timestamp;
+    }
+
     function settleOffchainAsyncOrder(
         OffchainOrder.Data memory offchainOrder,
         OffchainOrder.Signature memory signature

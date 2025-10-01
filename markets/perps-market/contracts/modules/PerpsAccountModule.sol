@@ -314,13 +314,6 @@ contract PerpsAccountModule is IPerpsAccountModule, EIP712 {
         return PerpsAccount.load(accountId).openPositionMarketIds.values();
     }
 
-    /**
-     * TODO: Delete this function
-     */
-    function time() external view returns (uint256) {
-        return block.timestamp;
-    }
-
     function _depositMargin(
         PerpsMarketFactory.Data storage perpsMarketFactory,
         uint128 perpsMarketId,
