@@ -53,7 +53,7 @@ interface IMarketCloseModule {
      * @notice Gets fired when a list of markets are opened.
      * @param marketId The ID of the market to open.
      */
-    event MarketsOpened(uint128 indexed marketId);
+    event MarketOpened(uint128 indexed marketId);
 
     /**
      * @notice Gets fired when the account positions are updated.

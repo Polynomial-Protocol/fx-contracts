@@ -104,7 +104,7 @@ contract MarketCloseModule is IMarketCloseModule {
             market.isClosed = false;
             market.openTime = block.timestamp;
 
-            emit MarketsOpened(marketIds[i]);
+            emit MarketOpened(marketIds[i]);
         }
     }
 
