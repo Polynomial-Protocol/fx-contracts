@@ -6,6 +6,7 @@ import {NodeOutput} from "@synthetixio/oracle-manager/contracts/storage/NodeOutp
 import {SafeCastI256, SafeCastU256} from "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
 import {ParameterError} from "@synthetixio/core-contracts/contracts/errors/ParameterError.sol";
 import {PerpsMarketFactory} from "./PerpsMarketFactory.sol";
+import {MarketClose} from "./MarketClose.sol";
 
 /**
  * @title Price storage for a specific synth market.
@@ -45,39 +46,66 @@ library PerpsPrice {
         uint256[] memory marketIds,
         Tolerance priceTolerance
     ) internal view returns (uint256[] memory prices) {
-        // map all the market ids to feed ids
         INodeModule oracleManager = INodeModule(PerpsMarketFactory.load().oracle);
-        bytes32[] memory feedIds = new bytes32[](marketIds.length);
+        prices = new uint256[](marketIds.length);
+
+        // First pass: determine which markets are open and count them
+        uint256 openCount;
         for (uint256 i = 0; i < marketIds.length; i++) {
-            feedIds[i] = load(marketIds[i].to128()).feedId;
+            uint128 marketId128 = marketIds[i].to128();
+            MarketClose.Data storage mc = MarketClose.load(marketId128);
+            if (mc.isClosed) {
+                // Use the stored close price for closed markets
+                prices[i] = mc.closePrice;
+            } else {
+                openCount++;
+            }
         }
 
-        NodeOutput.Data[] memory outputs;
-        if (priceTolerance != Tolerance.DEFAULT) {
-            bytes32[] memory sharedRuntimeKeys = new bytes32[](1);
-            sharedRuntimeKeys[0] = bytes32("stalenessTolerance");
-
-            bytes32[][] memory runtimeKeys = new bytes32[][](marketIds.length);
-            bytes32[][] memory runtimeValues = new bytes32[][](marketIds.length);
-
+        // If there are open markets, query their feeds in a compact batch
+        if (openCount > 0) {
+            bytes32[] memory feedIds = new bytes32[](openCount);
+            uint256[] memory openIndices = new uint256[](openCount);
+            uint256 k;
             for (uint256 i = 0; i < marketIds.length; i++) {
-                bytes32[] memory newRuntimeValues = new bytes32[](1);
-                newRuntimeValues[0] = toleranceBytes(load(marketIds[i].to128()), priceTolerance);
-                runtimeKeys[i] = sharedRuntimeKeys;
-                runtimeValues[i] = newRuntimeValues;
+                uint128 marketId128 = marketIds[i].to128();
+                if (!MarketClose.load(marketId128).isClosed) {
+                    feedIds[k] = load(marketId128).feedId;
+                    openIndices[k] = i;
+                    k++;
+                }
             }
 
-            outputs = oracleManager.processManyWithManyRuntime(feedIds, runtimeKeys, runtimeValues);
-        } else {
-            bytes32[] memory runtimeKeys = new bytes32[](0);
-            // do the process call
-            outputs = oracleManager.processManyWithRuntime(feedIds, runtimeKeys, runtimeKeys);
-        }
+            NodeOutput.Data[] memory outputs;
+            if (priceTolerance != Tolerance.DEFAULT) {
+                bytes32[] memory sharedRuntimeKeys = new bytes32[](1);
+                sharedRuntimeKeys[0] = bytes32("stalenessTolerance");
 
-        // extract the prices
-        prices = new uint256[](marketIds.length);
-        for (uint256 i = 0; i < marketIds.length; i++) {
-            prices[i] = outputs[i].price.toUint();
+                bytes32[][] memory runtimeKeys = new bytes32[][](openCount);
+                bytes32[][] memory runtimeValues = new bytes32[][](openCount);
+
+                for (uint256 i = 0; i < openCount; i++) {
+                    bytes32[] memory newRuntimeValues = new bytes32[](1);
+                    uint128 marketId128 = marketIds[openIndices[i]].to128();
+                    newRuntimeValues[0] = toleranceBytes(load(marketId128), priceTolerance);
+                    runtimeKeys[i] = sharedRuntimeKeys;
+                    runtimeValues[i] = newRuntimeValues;
+                }
+
+                outputs = oracleManager.processManyWithManyRuntime(
+                    feedIds,
+                    runtimeKeys,
+                    runtimeValues
+                );
+            } else {
+                bytes32[] memory runtimeKeys = new bytes32[](0);
+                outputs = oracleManager.processManyWithRuntime(feedIds, runtimeKeys, runtimeKeys);
+            }
+
+            // Map the compact outputs back to the original indices
+            for (uint256 j = 0; j < openCount; j++) {
+                prices[openIndices[j]] = outputs[j].price.toUint();
+            }
         }
     }
 
@@ -85,6 +113,13 @@ library PerpsPrice {
         uint128 marketId,
         Tolerance priceTolerance
     ) internal view returns (uint256 price) {
+        // Check if market is closed and return stored close price
+        MarketClose.Data storage mc = MarketClose.load(marketId);
+        if (mc.isClosed) {
+            return mc.closePrice;
+        }
+
+        // Market is open, fetch price from oracle
         Data storage self = load(marketId);
         PerpsMarketFactory.Data storage factory = PerpsMarketFactory.load();
         NodeOutput.Data memory output;

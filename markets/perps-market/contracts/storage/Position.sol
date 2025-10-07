@@ -6,6 +6,7 @@ import {DecimalMath} from "@synthetixio/core-contracts/contracts/utils/DecimalMa
 import {PerpsMarket} from "./PerpsMarket.sol";
 import {PerpsMarketConfiguration} from "./PerpsMarketConfiguration.sol";
 import {InterestRate} from "./InterestRate.sol";
+import {MarketClose} from "./MarketClose.sol";
 import {MathUtil} from "../utils/MathUtil.sol";
 
 library Position {
@@ -22,6 +23,7 @@ library Position {
         uint128 latestInteractionPrice;
         int128 latestInteractionFunding;
         uint256 latestInterestAccrued;
+        uint256 latestRolloverAccruedAt;
     }
 
     function update(
@@ -34,6 +36,8 @@ library Position {
         self.latestInteractionPrice = newPosition.latestInteractionPrice;
         self.latestInteractionFunding = newPosition.latestInteractionFunding;
         self.latestInterestAccrued = latestInterestAccrued;
+        // Reset rollover accrual baseline to now to avoid double-charging
+        self.latestRolloverAccruedAt = block.timestamp;
     }
 
     function getPositionData(
@@ -99,6 +103,19 @@ library Position {
 
         // The interest is charged pro-rata on this position's contribution to the locked OI requirement
         chargedInterest = getLockedNotionalValue(self, price).mulDecimal(netInterestPerDollar);
+
+        // Continuous rollover fee (direction-agnostic): per-dollar-per-second on notional
+        uint256 baseline = self.latestRolloverAccruedAt;
+        if (baseline != 0) {
+            uint256 secondsElapsed = block.timestamp - baseline;
+            if (secondsElapsed > 0) {
+                uint256 notional = getNotionalValue(self, price);
+                uint256 feePerSec = MarketClose.load(self.marketId).rolloverFee;
+                if (feePerSec > 0 && notional > 0) {
+                    chargedInterest += notional.mulDecimal(feePerSec) * secondsElapsed;
+                }
+            }
+        }
     }
 
     function getLockedNotionalValue(

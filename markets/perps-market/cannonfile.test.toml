@@ -57,6 +57,9 @@ artifact = "LimitOrderModule"
 [contract.MarketConfigurationModule]
 artifact = "MarketConfigurationModule"
 
+[contract.MarketCloseModule]
+artifact = "MarketCloseModule"
+
 [contract.FeeTierModule]
 artifact = "FeeTierModule"
 
@@ -96,6 +99,7 @@ contracts = [
     "FeatureFlagModule",
     "LiquidationModule",
     "MarketConfigurationModule",
+    "MarketCloseModule",
     "CollateralConfigurationModule",
     "GlobalPerpsMarketModule",
     "LimitOrderModule",
