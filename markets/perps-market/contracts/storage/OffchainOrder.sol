@@ -2,7 +2,7 @@
 pragma solidity >=0.8.11 <0.9.0;
 
 library OffchainOrder {
-    error ReduceOnlyOrder(uint128 accountId, int128 currentSize, int128 sizeDelta);
+    error ReduceOnlyOrder(int128 currentSize, int128 sizeDelta);
 
     struct TpSlSettings {
         uint256 tpPriceA;
