@@ -174,11 +174,7 @@ library AsyncOrder {
                 .size;
 
             if (MathUtil.sameSide(currentSize, newRequest.sizeDelta)) {
-                revert OffchainOrder.ReduceOnlyOrder(
-                    newRequest.accountId,
-                    currentSize,
-                    newRequest.sizeDelta
-                );
+                revert OffchainOrder.ReduceOnlyOrder(currentSize, newRequest.sizeDelta);
             }
 
             if (MathUtil.abs(currentSize) <= MathUtil.abs(newRequest.sizeDelta)) {
