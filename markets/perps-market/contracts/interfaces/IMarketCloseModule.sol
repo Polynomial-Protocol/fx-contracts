@@ -103,4 +103,19 @@ interface IMarketCloseModule {
      * @param marketId The ID of the market.
      */
     function closePosition(uint128 accountId, uint128 marketId) external;
+
+    /**
+     * @notice Returns market close state for a market.
+     * @param marketId The ID of the market.
+     * @return isClosed Whether the market is closed.
+     * @return openTime The time the market was opened.
+     * @return closeTime The time the market was closed.
+     * @return closePrice The price the market was closed at.
+     */
+    function getMarketCloseData(
+        uint128 marketId
+    )
+        external
+        view
+        returns (bool isClosed, uint256 openTime, uint256 closeTime, uint256 closePrice);
 }
