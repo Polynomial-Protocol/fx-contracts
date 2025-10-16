@@ -84,12 +84,6 @@ contract ProfitShareModule is IProfitShareModule {
 
         StrategyMarketFactory.Data storage strategyMarketFactory = StrategyMarketFactory.load();
 
-        uint256 current = strategyMarketFactory.usdToken.allowance(address(this), address(this));
-        if (current < amount) {
-            uint256 allowanceNeeded = amount - current;
-            strategyMarketFactory.usdToken.approve(address(this), allowanceNeeded);
-        }
-
         strategyMarketFactory.synthetix.depositMarketUsd(
             strategyMarketFactory.strategyMarketId,
             address(this),
@@ -120,11 +114,6 @@ contract ProfitShareModule is IProfitShareModule {
 
         strategyMarketFactory.usdToken.transfer(profitShare.devAddress, devShare);
 
-        uint256 current = strategyMarketFactory.usdToken.allowance(address(this), address(this));
-        if (current < poolShare) {
-            uint256 allowanceNeeded = poolShare - current;
-            strategyMarketFactory.usdToken.approve(address(this), allowanceNeeded);
-        }
         strategyMarketFactory.synthetix.depositMarketUsd(
             strategyMarketFactory.strategyMarketId,
             address(this),
