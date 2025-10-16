@@ -14,6 +14,7 @@ contract ProfitShareModule is IProfitShareModule {
      * @inheritdoc IProfitShareModule
      */
     function setDevAddress(address newDev) external override {
+        OwnableStorage.onlyOwner();
         ProfitShare.load().devAddress = newDev;
         emit DevAddressSet(newDev);
     }
@@ -22,6 +23,7 @@ contract ProfitShareModule is IProfitShareModule {
      * @inheritdoc IProfitShareModule
      */
     function setDevShare(uint256 newDevShare) external override {
+        OwnableStorage.onlyOwner();
         if (newDevShare > 5000) {
             revert InvalidDevShare(newDevShare);
         }
