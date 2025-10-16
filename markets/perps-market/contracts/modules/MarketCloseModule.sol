@@ -25,6 +25,7 @@ import {SafeCastI256, SafeCastU256, SafeCastI128} from "@synthetixio/core-contra
 import {GlobalPerpsMarketConfiguration} from "../storage/GlobalPerpsMarketConfiguration.sol";
 import {SettlementStrategy} from "../storage/SettlementStrategy.sol";
 import {SetUtil} from "@synthetixio/core-contracts/contracts/utils/SetUtil.sol";
+import {AccessError} from "@synthetixio/core-contracts/contracts/errors/AccessError.sol";
 
 contract MarketCloseModule is IMarketCloseModule {
     using MarketClose for MarketClose.Data;
@@ -47,7 +48,8 @@ contract MarketCloseModule is IMarketCloseModule {
      */
     function closeMarkets(uint128[] calldata marketIds) external override {
         FeatureFlag.ensureAccessToFeature(Flags.PERPS_SYSTEM);
-        OwnableStorage.onlyOwner();
+        validateCaller();
+
         for (uint256 i = 0; i < marketIds.length; i++) {
             PerpsMarket.loadValid(marketIds[i]);
             MarketClose.Data storage market = MarketClose.load(marketIds[i]);
@@ -70,7 +72,8 @@ contract MarketCloseModule is IMarketCloseModule {
         uint256[] calldata timestamps
     ) external override {
         FeatureFlag.ensureAccessToFeature(Flags.PERPS_SYSTEM);
-        OwnableStorage.onlyOwner();
+        validateCaller();
+
         for (uint256 i = 0; i < marketIds.length; i++) {
             PerpsMarket.loadValid(marketIds[i]);
             MarketClose.Data storage market = MarketClose.load(marketIds[i]);
@@ -97,7 +100,8 @@ contract MarketCloseModule is IMarketCloseModule {
      */
     function openMarkets(uint128[] calldata marketIds) external override {
         FeatureFlag.ensureAccessToFeature(Flags.PERPS_SYSTEM);
-        OwnableStorage.onlyOwner();
+        validateCaller();
+
         for (uint256 i = 0; i < marketIds.length; i++) {
             PerpsMarket.loadValid(marketIds[i]);
             MarketClose.Data storage market = MarketClose.load(marketIds[i]);
@@ -152,7 +156,7 @@ contract MarketCloseModule is IMarketCloseModule {
 
         // Fetch latest oracle price with 60s tolerance and recompute funding
         uint256 orderPrice = IPythERC7412Wrapper(strategy.priceVerificationContract)
-            .getLatestPrice(strategy.feedId, 60)
+            .getLatestPrice(strategy.feedId, 10)
             .toUint();
         market.recomputeFunding(orderPrice);
 
@@ -260,5 +264,29 @@ contract MarketCloseModule is IMarketCloseModule {
             bytes32(0),
             ERC2771Context._msgSender()
         );
+    }
+
+    /**
+     * @inheritdoc IMarketCloseModule
+     */
+    function getMarketCloseData(
+        uint128 marketId
+    )
+        external
+        view
+        override
+        returns (bool isClosed, uint256 openTime, uint256 closeTime, uint256 closePrice)
+    {
+        MarketClose.Data storage market = MarketClose.load(marketId);
+        return (market.isClosed, market.openTime, market.closeTime, market.closePrice);
+    }
+
+    function validateCaller() internal view {
+        GlobalPerpsMarketConfiguration.Data storage store = GlobalPerpsMarketConfiguration.load();
+        address msgSender = ERC2771Context._msgSender();
+        bool isWhitelisted = store.whitelistedOffchainLimitOrderSettlers[msgSender];
+        if (!isWhitelisted) {
+            revert AccessError.Unauthorized(msgSender);
+        }
     }
 }
