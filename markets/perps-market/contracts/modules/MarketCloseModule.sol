@@ -19,6 +19,8 @@ import {PerpsMarketFactory} from "../storage/PerpsMarketFactory.sol";
 import {KeeperCosts} from "../storage/KeeperCosts.sol";
 import {FeeTier} from "../storage/FeeTier.sol";
 import {IAsyncOrderSettlementPythModule} from "../interfaces/IAsyncOrderSettlementPythModule.sol";
+import {IMarketEvents} from "../interfaces/IMarketEvents.sol";
+import {MarketUpdate} from "../storage/MarketUpdate.sol";
 import {AsyncOrder} from "../storage/AsyncOrder.sol";
 import {DecimalMath} from "@synthetixio/core-contracts/contracts/utils/DecimalMath.sol";
 import {SafeCastI256, SafeCastU256, SafeCastI128} from "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
@@ -27,7 +29,7 @@ import {SettlementStrategy} from "../storage/SettlementStrategy.sol";
 import {SetUtil} from "@synthetixio/core-contracts/contracts/utils/SetUtil.sol";
 import {AccessError} from "@synthetixio/core-contracts/contracts/errors/AccessError.sol";
 
-contract MarketCloseModule is IMarketCloseModule {
+contract MarketCloseModule is IMarketCloseModule, IMarketEvents {
     using MarketClose for MarketClose.Data;
     using PerpsMarket for PerpsMarket.Data;
     using DecimalMath for int128;
@@ -143,6 +145,8 @@ contract MarketCloseModule is IMarketCloseModule {
 
         MarketCloseRuntime memory runtime;
 
+        runtime.originalMarketSize = market.size;
+
         // If no position, nothing to do
         if (oldPosition.size == 0) {
             return;
@@ -198,8 +202,23 @@ contract MarketCloseModule is IMarketCloseModule {
             latestRolloverAccruedAt: 0
         });
 
-        market.updatePositionData(accountId, newPosition);
-        perpsAccount.updateOpenPositions(marketId, newPosition.size);
+        {
+            MarketUpdate.Data memory updateData = market.updatePositionData(accountId, newPosition);
+            perpsAccount.updateOpenPositions(marketId, newPosition.size);
+            // Calculate the market size delta (change in market size)
+            runtime.marketSizeDelta = market.size.toInt() - runtime.originalMarketSize.toInt();
+
+            emit MarketUpdated(
+                updateData.marketId,
+                orderPrice,
+                updateData.skew,
+                updateData.size,
+                runtime.marketSizeDelta,
+                updateData.currentFundingRate,
+                updateData.currentFundingVelocity,
+                updateData.interestRate
+            );
+        }
 
         // Process fees (keeper rewards + protocol/referrer split)
         PerpsMarketFactory.Data storage factory = PerpsMarketFactory.load();
@@ -288,5 +307,31 @@ contract MarketCloseModule is IMarketCloseModule {
         if (!isWhitelisted) {
             revert AccessError.Unauthorized(msgSender);
         }
+    }
+
+    function processPositionUpdate(
+        uint256 price,
+        uint128 accountId,
+        Position.Data memory newPosition,
+        PerpsMarket.Data storage market,
+        uint256 originalMarketSize
+    ) internal {
+        // Update position data
+        MarketUpdate.Data memory updateData = market.updatePositionData(accountId, newPosition);
+
+        // Calculate the market size delta (change in market size)
+        int256 marketSizeDelta = market.size.toInt() - originalMarketSize.toInt();
+
+        // Emit MarketUpdated event
+        emit MarketUpdated(
+            updateData.marketId,
+            price,
+            updateData.skew,
+            market.size,
+            marketSizeDelta,
+            updateData.currentFundingRate,
+            updateData.currentFundingVelocity,
+            updateData.interestRate
+        );
     }
 }
