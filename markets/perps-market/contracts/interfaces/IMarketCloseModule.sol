@@ -14,6 +14,8 @@ interface IMarketCloseModule {
         int256 accruedFunding;
         uint256 referralFees;
         uint256 feeCollectorFees;
+        uint256 originalMarketSize;
+        int256 marketSizeDelta;
     }
 
     /**
