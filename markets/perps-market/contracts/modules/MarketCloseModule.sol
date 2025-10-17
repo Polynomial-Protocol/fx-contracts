@@ -308,30 +308,4 @@ contract MarketCloseModule is IMarketCloseModule, IMarketEvents {
             revert AccessError.Unauthorized(msgSender);
         }
     }
-
-    function processPositionUpdate(
-        uint256 price,
-        uint128 accountId,
-        Position.Data memory newPosition,
-        PerpsMarket.Data storage market,
-        uint256 originalMarketSize
-    ) internal {
-        // Update position data
-        MarketUpdate.Data memory updateData = market.updatePositionData(accountId, newPosition);
-
-        // Calculate the market size delta (change in market size)
-        int256 marketSizeDelta = market.size.toInt() - originalMarketSize.toInt();
-
-        // Emit MarketUpdated event
-        emit MarketUpdated(
-            updateData.marketId,
-            price,
-            updateData.skew,
-            market.size,
-            marketSizeDelta,
-            updateData.currentFundingRate,
-            updateData.currentFundingVelocity,
-            updateData.interestRate
-        );
-    }
 }
