@@ -45,6 +45,7 @@ contract ProfitShareModule is IProfitShareModule {
             to,
             amount
         );
+        // solhint-disable-next-line numcast/safe-cast
         strategyMarketFactory.netIssuanceD18 += int256(amount);
         emit Borrowed(to, amount);
     }
@@ -63,16 +64,8 @@ contract ProfitShareModule is IProfitShareModule {
             from,
             amount
         );
+        // solhint-disable-next-line numcast/safe-cast
         strategyMarketFactory.netIssuanceD18 -= int256(amount);
-
-        strategyMarketFactory.synthetix.distributeDebtToPools(
-            strategyMarketFactory.strategyMarketId,
-            999999999
-        );
-        strategyMarketFactory.synthetix.rebalancePool(
-            strategyMarketFactory.strategyMarketId,
-            address(0)
-        );
         emit Repaid(from, amount);
     }
 
@@ -89,16 +82,8 @@ contract ProfitShareModule is IProfitShareModule {
             address(this),
             amount
         );
+        // solhint-disable-next-line numcast/safe-cast
         strategyMarketFactory.netIssuanceD18 -= int256(amount);
-
-        strategyMarketFactory.synthetix.distributeDebtToPools(
-            strategyMarketFactory.strategyMarketId,
-            999999999
-        );
-        strategyMarketFactory.synthetix.rebalancePool(
-            strategyMarketFactory.strategyMarketId,
-            address(0)
-        );
         emit Repaid(address(this), amount);
     }
 
@@ -119,16 +104,8 @@ contract ProfitShareModule is IProfitShareModule {
             address(this),
             poolShare
         );
+        // solhint-disable-next-line numcast/safe-cast
         strategyMarketFactory.netIssuanceD18 -= int256(poolShare);
-
-        strategyMarketFactory.synthetix.distributeDebtToPools(
-            strategyMarketFactory.strategyMarketId,
-            999999999
-        );
-        strategyMarketFactory.synthetix.rebalancePool(
-            strategyMarketFactory.strategyMarketId,
-            address(0)
-        );
         emit ProfitRealized(amount, poolShare, devShare);
     }
 }
