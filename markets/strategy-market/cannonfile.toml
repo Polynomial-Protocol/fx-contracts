@@ -1,0 +1,66 @@
+name = "fx-strategy-market"
+version = "<%= package.version %>"
+description = "Strategy market implementation"
+
+[setting.owner]
+description = "strategy market owner"
+defaultValue = "0x9f76043B23125024Ce5f0Fb4AE707482107dd2a8"
+
+[setting.polynomialCore]
+defaultValue = "polynomial-core"
+
+[setting.polynomialPreset]
+defaultValue = "main"
+
+[setting.salt]
+defaultValue = "polynomial"
+
+[import.synthetix]
+source = "<%= settings.polynomialCore %>"
+preset = "<%= settings.polynomialPreset %>"
+
+[contract.StrategyMarketFactoryModule]
+artifact = "StrategyMarketFactoryModule"
+
+[contract.ProfitShareModule]
+artifact = "ProfitShareModule"
+
+[contract.CoreModule]
+artifact = "contracts/modules/CoreModule.sol:CoreModule"
+
+[contract.InitialStrategyMarketProxy]
+artifact = "contracts/Proxy.sol:Proxy"
+args = ["<%= contracts.CoreModule.address %>", "<%= settings.owner %>"]
+abiOf = ["CoreModule"]
+salt = "<%= settings.salt %>"
+
+# Core
+[router.StrategyMarketRouter]
+contracts = ["CoreModule", "StrategyMarketFactoryModule", "ProfitShareModule"]
+
+[invoke.upgradeStrategyMarketProxy]
+target = ["InitialStrategyMarketProxy"]
+fromCall.func = "owner"
+func = "upgradeTo"
+args = ["<%= contracts.StrategyMarketRouter.address %>"]
+factory.StrategyMarketProxy.artifact = "contracts/Proxy.sol:Proxy"
+factory.StrategyMarketProxy.abiOf = ["StrategyMarketRouter"]
+factory.StrategyMarketProxy.event = "Upgraded"
+factory.StrategyMarketProxy.arg = 0
+factory.StrategyMarketProxy.highlight = true
+
+# add pool owner to feature flag allow list
+[invoke.addStrategyMarketToFeatureFlag]
+target = ["synthetix.CoreProxy"]
+func = "addToFeatureFlagAllowlist"
+fromCall.func = "owner"
+args = [
+    "<%= formatBytes32String('registerMarket') %>",
+    "<%= contracts.StrategyMarketProxy.address %>",
+]
+
+[invoke.setSynthetixSystem]
+target = ["StrategyMarketProxy"]
+fromCall.func = "owner"
+func = "setSynthetix"
+args = ["<%= imports.synthetix.contracts.CoreProxy.address %>"]
