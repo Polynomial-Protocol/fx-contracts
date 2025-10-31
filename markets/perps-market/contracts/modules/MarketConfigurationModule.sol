@@ -6,6 +6,9 @@ import {IMarketConfigurationModule} from "../interfaces/IMarketConfigurationModu
 import {SettlementStrategy} from "../storage/SettlementStrategy.sol";
 import {PerpsMarketConfiguration} from "../storage/PerpsMarketConfiguration.sol";
 import {PerpsPrice} from "../storage/PerpsPrice.sol";
+import {FeatureFlag} from "@synthetixio/core-modules/contracts/storage/FeatureFlag.sol";
+import "@synthetixio/core-contracts/contracts/utils/ERC2771Context.sol";
+import {Flags} from "../utils/Flags.sol";
 
 /**
  * @title Module for updating configuration in relation to async order modules.
@@ -139,7 +142,9 @@ contract MarketConfigurationModule is IMarketConfigurationModule {
      * @inheritdoc IMarketConfigurationModule
      */
     function setMaxMarketSize(uint128 marketId, uint256 maxMarketSize) external override {
-        OwnableStorage.onlyOwner();
+        if (ERC2771Context._msgSender() != OwnableStorage.getOwner()) {
+            FeatureFlag.ensureAccessToFeature(Flags.PERPS_CONFIGURATION);
+        }
         PerpsMarketConfiguration.Data storage config = PerpsMarketConfiguration.load(marketId);
         config.maxMarketSize = maxMarketSize;
         emit MaxMarketSizeSet(marketId, maxMarketSize);
@@ -149,7 +154,9 @@ contract MarketConfigurationModule is IMarketConfigurationModule {
      * @inheritdoc IMarketConfigurationModule
      */
     function setMaxMarketValue(uint128 marketId, uint256 maxMarketValue) external override {
-        OwnableStorage.onlyOwner();
+        if (ERC2771Context._msgSender() != OwnableStorage.getOwner()) {
+            FeatureFlag.ensureAccessToFeature(Flags.PERPS_CONFIGURATION);
+        }
         PerpsMarketConfiguration.Data storage config = PerpsMarketConfiguration.load(marketId);
         config.maxMarketValue = maxMarketValue;
         emit MaxMarketValueSet(marketId, maxMarketValue);
@@ -163,7 +170,9 @@ contract MarketConfigurationModule is IMarketConfigurationModule {
         uint256 skewScale,
         uint256 maxFundingVelocity
     ) external override {
-        OwnableStorage.onlyOwner();
+        if (ERC2771Context._msgSender() != OwnableStorage.getOwner()) {
+            FeatureFlag.ensureAccessToFeature(Flags.PERPS_CONFIGURATION);
+        }
         PerpsMarketConfiguration.Data storage config = PerpsMarketConfiguration.load(marketId);
 
         config.maxFundingVelocity = maxFundingVelocity;
@@ -181,7 +190,9 @@ contract MarketConfigurationModule is IMarketConfigurationModule {
         uint256 maxLiquidationPd,
         address endorsedLiquidator
     ) external override {
-        OwnableStorage.onlyOwner();
+        if (ERC2771Context._msgSender() != OwnableStorage.getOwner()) {
+            FeatureFlag.ensureAccessToFeature(Flags.PERPS_CONFIGURATION);
+        }
         PerpsMarketConfiguration.Data storage config = PerpsMarketConfiguration.load(marketId);
 
         config
@@ -210,7 +221,9 @@ contract MarketConfigurationModule is IMarketConfigurationModule {
         uint256 flagRewardRatioD18,
         uint256 minimumPositionMargin
     ) external override {
-        OwnableStorage.onlyOwner();
+        if (ERC2771Context._msgSender() != OwnableStorage.getOwner()) {
+            FeatureFlag.ensureAccessToFeature(Flags.PERPS_CONFIGURATION);
+        }
         PerpsMarketConfiguration.Data storage config = PerpsMarketConfiguration.load(marketId);
 
         config.initialMarginRatioD18 = initialMarginRatioD18;
@@ -233,7 +246,9 @@ contract MarketConfigurationModule is IMarketConfigurationModule {
      * @inheritdoc IMarketConfigurationModule
      */
     function setLockedOiRatio(uint128 marketId, uint256 lockedOiRatioD18) external override {
-        OwnableStorage.onlyOwner();
+        if (ERC2771Context._msgSender() != OwnableStorage.getOwner()) {
+            FeatureFlag.ensureAccessToFeature(Flags.PERPS_CONFIGURATION);
+        }
         PerpsMarketConfiguration.Data storage config = PerpsMarketConfiguration.load(marketId);
         config.lockedOiRatioD18 = lockedOiRatioD18;
         emit LockedOiRatioSet(marketId, lockedOiRatioD18);
