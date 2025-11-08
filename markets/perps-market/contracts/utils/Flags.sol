@@ -5,4 +5,5 @@ library Flags {
     bytes32 public constant PERPS_SYSTEM = "perpsSystem";
     bytes32 public constant CREATE_MARKET = "createMarket";
     bytes32 public constant LIMIT_ORDER = "limitOrder";
+    bytes32 public constant PERPS_CONFIGURATION = "perpsConfiguration";
 }
