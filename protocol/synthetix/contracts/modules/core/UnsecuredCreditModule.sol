@@ -150,12 +150,6 @@ contract UnsecuredCreditModule is IUnsecuredCreditModule {
         }
 
         if (config.epochLimitD18 != 0) {
-            uint256 remaining = config.epochLimitD18 > state.epochBorrowedD18
-                ? config.epochLimitD18 - state.epochBorrowedD18
-                : 0;
-            if (amountD18 > remaining) {
-                revert EpochLimitExceeded(amountD18, remaining);
-            }
             state.epochBorrowedD18 += amountD18;
         }
 
