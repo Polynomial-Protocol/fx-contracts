@@ -115,10 +115,13 @@ contract ProfitShareModule is IProfitShareModule {
         } else {
             uint256 current = strategyMarketFactory.usdToken.allowance(
                 address(this),
-                address(this)
+                address(strategyMarketFactory.synthetix)
             );
             if (current < amount) {
-                strategyMarketFactory.usdToken.approve(address(this), amount);
+                strategyMarketFactory.usdToken.approve(
+                    address(strategyMarketFactory.synthetix),
+                    amount
+                );
             }
             strategyMarketFactory.synthetix.depositMarketUsd(
                 strategyMarketFactory.strategyMarketId,
@@ -137,6 +140,7 @@ contract ProfitShareModule is IProfitShareModule {
      * @inheritdoc IProfitShareModule
      */
     function realizeProfit(uint256 amount) external override {
+        OwnableStorage.onlyOwner();
         YieldMarketFactory.Data storage strategyMarketFactory = YieldMarketFactory.load();
         ProfitShare.Data storage profitShare = ProfitShare.load();
 
@@ -148,10 +152,13 @@ contract ProfitShareModule is IProfitShareModule {
         if (strategyMarketFactory.useUnsecured) {
             uint256 current = strategyMarketFactory.usdToken.allowance(
                 address(this),
-                address(this)
+                address(strategyMarketFactory.synthetix)
             );
             if (current < poolShare) {
-                strategyMarketFactory.usdToken.approve(address(this), poolShare);
+                strategyMarketFactory.usdToken.approve(
+                    address(strategyMarketFactory.synthetix),
+                    poolShare
+                );
             }
             strategyMarketFactory.synthetix.repayUnsecured(
                 strategyMarketFactory.strategyMarketId,
@@ -161,10 +168,13 @@ contract ProfitShareModule is IProfitShareModule {
         } else {
             uint256 current = strategyMarketFactory.usdToken.allowance(
                 address(this),
-                address(this)
+                address(strategyMarketFactory.synthetix)
             );
             if (current < poolShare) {
-                strategyMarketFactory.usdToken.approve(address(this), poolShare);
+                strategyMarketFactory.usdToken.approve(
+                    address(strategyMarketFactory.synthetix),
+                    poolShare
+                );
             }
             strategyMarketFactory.synthetix.depositMarketUsd(
                 strategyMarketFactory.strategyMarketId,
