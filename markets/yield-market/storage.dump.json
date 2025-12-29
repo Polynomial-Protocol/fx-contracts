@@ -69,18 +69,11 @@
           "offset": 0
         },
         {
-          "type": "address",
-          "name": "unsecuredCreditModule",
-          "size": 20,
-          "slot": "6",
-          "offset": 0
-        },
-        {
           "type": "bool",
           "name": "useUnsecured",
           "size": 1,
           "slot": "6",
-          "offset": 20
+          "offset": 0
         }
       ]
     }

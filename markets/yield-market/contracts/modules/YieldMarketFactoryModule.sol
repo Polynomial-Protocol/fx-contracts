@@ -5,7 +5,6 @@ import {OwnableStorage} from "@synthetixio/core-contracts/contracts/ownership/Ow
 import {ISynthetixSystem} from "../interfaces/external/ISynthetixSystem.sol";
 import {YieldMarketFactory} from "../storage/YieldMarketFactory.sol";
 import {IYieldMarketFactoryModule} from "../interfaces/IYieldMarketFactoryModule.sol";
-import {IUnsecuredCreditModule} from "@synthetixio/main/contracts/interfaces/IUnsecuredCreditModule.sol";
 import {SafeCastI256} from "@synthetixio/core-contracts/contracts/utils/SafeCast.sol";
 import {IERC165} from "@synthetixio/core-contracts/contracts/interfaces/IERC165.sol";
 import {IMarket} from "@synthetixio/main/contracts/interfaces/external/IMarket.sol";
@@ -50,19 +49,11 @@ contract YieldMarketFactoryModule is IYieldMarketFactoryModule {
     /**
      * @inheritdoc IYieldMarketFactoryModule
      */
-    function setUnsecuredConfig(
-        address unsecuredCreditModule,
-        bool useUnsecured
-    ) external override {
+    function setUnsecuredConfig(bool useUnsecured) external override {
         OwnableStorage.onlyOwner();
         YieldMarketFactory.Data storage store = YieldMarketFactory.load();
-        if (unsecuredCreditModule != address(0)) {
-            // basic interface check
-            IUnsecuredCreditModule(unsecuredCreditModule);
-        }
-        store.unsecuredCreditModule = unsecuredCreditModule;
         store.useUnsecured = useUnsecured;
-        emit UnsecuredSettingsSet(unsecuredCreditModule, useUnsecured);
+        emit UnsecuredSettingsSet(useUnsecured);
     }
 
     /**
@@ -86,14 +77,10 @@ contract YieldMarketFactoryModule is IYieldMarketFactoryModule {
         YieldMarketFactory.Data storage store = YieldMarketFactory.load();
 
         uint256 unsecuredDebt;
-        if (store.unsecuredCreditModule != address(0)) {
-            (
-                uint256 principalD18,
-                uint256 accruedInterestD18,
-                uint256 badDebtD18
-            ) = IUnsecuredCreditModule(store.unsecuredCreditModule).getMarketUnsecuredDebt(
-                    store.strategyMarketId
-                );
+        if (store.useUnsecured && address(store.synthetix) != address(0)) {
+            (uint256 principalD18, uint256 accruedInterestD18, uint256 badDebtD18) = store
+                .synthetix
+                .getMarketUnsecuredDebt(store.strategyMarketId);
             unsecuredDebt = principalD18 + accruedInterestD18 + badDebtD18;
         }
 

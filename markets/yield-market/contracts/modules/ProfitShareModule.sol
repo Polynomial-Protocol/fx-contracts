@@ -5,7 +5,6 @@ import {IProfitShareModule} from "../interfaces/IProfitShareModule.sol";
 import {ProfitShare} from "../storage/ProfitShare.sol";
 import {YieldMarketFactory} from "../storage/YieldMarketFactory.sol";
 import {OwnableStorage} from "@synthetixio/core-contracts/contracts/ownership/OwnableStorage.sol";
-import {IUnsecuredCreditModule} from "@synthetixio/main/contracts/interfaces/IUnsecuredCreditModule.sol";
 import {IERC20} from "@synthetixio/core-contracts/contracts/interfaces/IERC20.sol";
 import {ERC2771Context} from "@synthetixio/core-contracts/contracts/utils/ERC2771Context.sol";
 
@@ -43,7 +42,7 @@ contract ProfitShareModule is IProfitShareModule {
         YieldMarketFactory.Data storage strategyMarketFactory = YieldMarketFactory.load();
 
         if (strategyMarketFactory.useUnsecured) {
-            IUnsecuredCreditModule(strategyMarketFactory.unsecuredCreditModule).borrowUnsecured(
+            strategyMarketFactory.synthetix.borrowUnsecured(
                 strategyMarketFactory.strategyMarketId,
                 to,
                 amount
@@ -72,7 +71,7 @@ contract ProfitShareModule is IProfitShareModule {
         YieldMarketFactory.Data storage strategyMarketFactory = YieldMarketFactory.load();
 
         if (strategyMarketFactory.useUnsecured) {
-            IUnsecuredCreditModule(strategyMarketFactory.unsecuredCreditModule).repayUnsecured(
+            strategyMarketFactory.synthetix.repayUnsecured(
                 strategyMarketFactory.strategyMarketId,
                 from,
                 amount
@@ -108,7 +107,7 @@ contract ProfitShareModule is IProfitShareModule {
             if (current < amount) {
                 strategyMarketFactory.usdToken.approve(address(this), amount);
             }
-            IUnsecuredCreditModule(strategyMarketFactory.unsecuredCreditModule).repayUnsecured(
+            strategyMarketFactory.synthetix.repayUnsecured(
                 strategyMarketFactory.strategyMarketId,
                 address(this),
                 amount
@@ -154,7 +153,7 @@ contract ProfitShareModule is IProfitShareModule {
             if (current < poolShare) {
                 strategyMarketFactory.usdToken.approve(address(this), poolShare);
             }
-            IUnsecuredCreditModule(strategyMarketFactory.unsecuredCreditModule).repayUnsecured(
+            strategyMarketFactory.synthetix.repayUnsecured(
                 strategyMarketFactory.strategyMarketId,
                 address(this),
                 poolShare

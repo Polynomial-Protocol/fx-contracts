@@ -5,6 +5,7 @@ import "@synthetixio/core-modules/contracts/interfaces/IAssociatedSystemsModule.
 import "@synthetixio/main/contracts/interfaces/IMarketManagerModule.sol";
 import "@synthetixio/main/contracts/interfaces/IMarketCollateralModule.sol";
 import "@synthetixio/main/contracts/interfaces/IUtilsModule.sol";
+import "@synthetixio/main/contracts/interfaces/IUnsecuredCreditModule.sol";
 import "@synthetixio/main/contracts/interfaces/IPoolModule.sol";
 
 // solhint-disable no-empty-blocks
@@ -13,6 +14,7 @@ interface ISynthetixSystem is
     IMarketCollateralModule,
     IMarketManagerModule,
     IPoolModule,
-    IUtilsModule
+    IUtilsModule,
+    IUnsecuredCreditModule
 {}
 // solhint-enable no-empty-blocks

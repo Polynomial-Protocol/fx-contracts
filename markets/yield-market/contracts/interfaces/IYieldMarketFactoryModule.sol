@@ -24,9 +24,9 @@ interface IYieldMarketFactoryModule is IMarket {
      */
     event MinCreditSet(uint256 minCreditD18);
     /**
-     * @notice Emitted when unsecured credit settings are updated.
+     * @notice Emitted when unsecured credit toggle is updated.
      */
-    event UnsecuredSettingsSet(address unsecuredCreditModule, bool useUnsecured);
+    event UnsecuredSettingsSet(bool useUnsecured);
 
     /**
      * @notice Sets the v3 synthetix core system.
@@ -42,9 +42,8 @@ interface IYieldMarketFactoryModule is IMarket {
     function setMinCredit(uint256 minCreditD18) external;
 
     /**
-     * @notice Sets the unsecured credit module and toggle.
-     * @param unsecuredCreditModule address of UnsecuredCreditModule (core)
+     * @notice Sets the unsecured credit toggle.
      * @param useUnsecured whether to route borrow/repay via unsecured module
      */
-    function setUnsecuredConfig(address unsecuredCreditModule, bool useUnsecured) external;
+    function setUnsecuredConfig(bool useUnsecured) external;
 }

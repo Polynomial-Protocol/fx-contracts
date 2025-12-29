@@ -35,10 +35,6 @@ library YieldMarketFactory {
          */
         int256 netIssuanceD18;
         /**
-         * @dev address of the unsecured credit module (core) if using unsecured flow
-         */
-        address unsecuredCreditModule;
-        /**
          * @dev whether unsecured borrow/repay path is enabled
          */
         bool useUnsecured;
