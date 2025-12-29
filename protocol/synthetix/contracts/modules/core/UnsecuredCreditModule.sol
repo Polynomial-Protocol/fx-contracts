@@ -53,6 +53,11 @@ contract UnsecuredCreditModule is IUnsecuredCreditModule {
         UnsecuredCredit.Data storage data = UnsecuredCredit.load();
         UnsecuredCredit.MarketConfig storage stored = data.marketConfig[marketId];
 
+        // Accrue any pending interest before changing parameters to avoid losing it.
+        if (stored.isWhitelisted) {
+            accrue(marketId);
+        }
+
         stored.isWhitelisted = config.isWhitelisted;
         stored.marketPaused = config.marketPaused;
         stored.debtCapD18 = config.debtCapD18;
