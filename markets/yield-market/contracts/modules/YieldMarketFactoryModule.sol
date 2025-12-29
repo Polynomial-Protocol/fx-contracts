@@ -83,8 +83,24 @@ contract YieldMarketFactoryModule is IYieldMarketFactoryModule {
      * @inheritdoc IMarket
      */
     function reportedDebt(uint128) external view returns (uint256 reportedDebtAmount) {
-        int256 netIssuance = YieldMarketFactory.load().netIssuanceD18;
-        return netIssuance < 0 ? 0 : netIssuance.toUint();
+        YieldMarketFactory.Data storage store = YieldMarketFactory.load();
+
+        uint256 unsecuredDebt;
+        if (store.unsecuredCreditModule != address(0)) {
+            (
+                uint256 principalD18,
+                uint256 accruedInterestD18,
+                uint256 badDebtD18
+            ) = IUnsecuredCreditModule(store.unsecuredCreditModule).getMarketUnsecuredDebt(
+                    store.strategyMarketId
+                );
+            unsecuredDebt = principalD18 + accruedInterestD18 + badDebtD18;
+        }
+
+        int256 netIssuance = store.netIssuanceD18;
+        uint256 mintedDebt = netIssuance < 0 ? 0 : netIssuance.toUint();
+
+        return mintedDebt + unsecuredDebt;
     }
 
     /**

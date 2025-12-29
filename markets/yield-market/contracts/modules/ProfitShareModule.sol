@@ -55,6 +55,8 @@ contract ProfitShareModule is IProfitShareModule {
                 to,
                 amount
             );
+        }
+        if (!strategyMarketFactory.useUnsecured) {
             // solhint-disable-next-line numcast/safe-cast
             strategyMarketFactory.netIssuanceD18 += int256(amount);
         }
@@ -82,6 +84,8 @@ contract ProfitShareModule is IProfitShareModule {
                 from,
                 amount
             );
+        }
+        if (!strategyMarketFactory.useUnsecured) {
             // solhint-disable-next-line numcast/safe-cast
             strategyMarketFactory.netIssuanceD18 -= int256(amount);
         }
@@ -102,8 +106,7 @@ contract ProfitShareModule is IProfitShareModule {
                 address(this)
             );
             if (current < amount) {
-                uint256 allowanceNeeded = amount - current;
-                strategyMarketFactory.usdToken.approve(address(this), allowanceNeeded);
+                strategyMarketFactory.usdToken.approve(address(this), amount);
             }
             IUnsecuredCreditModule(strategyMarketFactory.unsecuredCreditModule).repayUnsecured(
                 strategyMarketFactory.strategyMarketId,
@@ -116,14 +119,15 @@ contract ProfitShareModule is IProfitShareModule {
                 address(this)
             );
             if (current < amount) {
-                uint256 allowanceNeeded = amount - current;
-                strategyMarketFactory.usdToken.approve(address(this), allowanceNeeded);
+                strategyMarketFactory.usdToken.approve(address(this), amount);
             }
             strategyMarketFactory.synthetix.depositMarketUsd(
                 strategyMarketFactory.strategyMarketId,
                 address(this),
                 amount
             );
+        }
+        if (!strategyMarketFactory.useUnsecured) {
             // solhint-disable-next-line numcast/safe-cast
             strategyMarketFactory.netIssuanceD18 -= int256(amount);
         }
@@ -148,8 +152,7 @@ contract ProfitShareModule is IProfitShareModule {
                 address(this)
             );
             if (current < poolShare) {
-                uint256 allowanceNeeded = poolShare - current;
-                strategyMarketFactory.usdToken.approve(address(this), allowanceNeeded);
+                strategyMarketFactory.usdToken.approve(address(this), poolShare);
             }
             IUnsecuredCreditModule(strategyMarketFactory.unsecuredCreditModule).repayUnsecured(
                 strategyMarketFactory.strategyMarketId,
@@ -162,14 +165,15 @@ contract ProfitShareModule is IProfitShareModule {
                 address(this)
             );
             if (current < poolShare) {
-                uint256 allowanceNeeded = poolShare - current;
-                strategyMarketFactory.usdToken.approve(address(this), allowanceNeeded);
+                strategyMarketFactory.usdToken.approve(address(this), poolShare);
             }
             strategyMarketFactory.synthetix.depositMarketUsd(
                 strategyMarketFactory.strategyMarketId,
                 address(this),
                 poolShare
             );
+        }
+        if (!strategyMarketFactory.useUnsecured) {
             // solhint-disable-next-line numcast/safe-cast
             strategyMarketFactory.netIssuanceD18 -= int256(poolShare);
         }
@@ -196,10 +200,12 @@ contract ProfitShareModule is IProfitShareModule {
 
         IERC20 collateral = IERC20(collateralType);
         address caller = ERC2771Context._msgSender();
-        // pull collateral from owner/manager into market contract if not already held
-        if (collateral.allowance(caller, address(this)) >= amount) {
-            collateral.transferFrom(caller, address(this), amount);
+        uint256 currentAllowance = collateral.allowance(caller, address(this));
+        if (currentAllowance < amount) {
+            revert InsufficientAllowance(currentAllowance, amount);
         }
+        // pull collateral from owner/manager into market contract
+        collateral.transferFrom(caller, address(this), amount);
 
         if (
             collateral.allowance(address(this), address(strategyMarketFactory.synthetix)) < amount
