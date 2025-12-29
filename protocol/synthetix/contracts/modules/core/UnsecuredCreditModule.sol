@@ -66,6 +66,7 @@ contract UnsecuredCreditModule is IUnsecuredCreditModule {
         if (config.epochLength != 0) {
             // solhint-disable-next-line numcast/safe-cast
             state.lastEpoch = uint64(block.timestamp / config.epochLength);
+            state.epochBorrowedD18 = 0;
         }
 
         emit MarketConfigured(marketId, config);
@@ -195,6 +196,10 @@ contract UnsecuredCreditModule is IUnsecuredCreditModule {
 
         accrue(marketId);
 
+        uint256 totalDebt = state.accruedInterestD18 + state.principalD18 + state.badDebtD18;
+        if (amountD18 > totalDebt) {
+            amountD18 = totalDebt;
+        }
         IUSDTokenModule usdToken = IUSDTokenModule(
             address(AssociatedSystem.load(_USD_TOKEN).asToken())
         );
@@ -227,7 +232,10 @@ contract UnsecuredCreditModule is IUnsecuredCreditModule {
             data.totalDebtD18 = repaidTotal > data.totalDebtD18
                 ? 0
                 : data.totalDebtD18 - repaidTotal;
-            market.netIssuanceD18 -= repaidTotal.toInt().to128();
+            int128 repaidInt = repaidTotal.toInt().to128();
+            market.netIssuanceD18 = market.netIssuanceD18 > repaidInt
+                ? market.netIssuanceD18 - repaidInt
+                : int128(0); // solhint-disable-line numcast/safe-cast
         }
 
         emit Repaid(
