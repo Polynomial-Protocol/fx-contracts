@@ -115,13 +115,10 @@ contract ProfitShareModule is IProfitShareModule {
         } else {
             uint256 current = strategyMarketFactory.usdToken.allowance(
                 address(this),
-                address(strategyMarketFactory.synthetix)
+                address(this)
             );
             if (current < amount) {
-                strategyMarketFactory.usdToken.approve(
-                    address(strategyMarketFactory.synthetix),
-                    amount
-                );
+                strategyMarketFactory.usdToken.approve(address(this), amount);
             }
             strategyMarketFactory.synthetix.depositMarketUsd(
                 strategyMarketFactory.strategyMarketId,
@@ -152,13 +149,10 @@ contract ProfitShareModule is IProfitShareModule {
         if (strategyMarketFactory.useUnsecured) {
             uint256 current = strategyMarketFactory.usdToken.allowance(
                 address(this),
-                address(strategyMarketFactory.synthetix)
+                address(this)
             );
             if (current < poolShare) {
-                strategyMarketFactory.usdToken.approve(
-                    address(strategyMarketFactory.synthetix),
-                    poolShare
-                );
+                strategyMarketFactory.usdToken.approve(address(this), poolShare);
             }
             strategyMarketFactory.synthetix.repayUnsecured(
                 strategyMarketFactory.strategyMarketId,
@@ -168,13 +162,10 @@ contract ProfitShareModule is IProfitShareModule {
         } else {
             uint256 current = strategyMarketFactory.usdToken.allowance(
                 address(this),
-                address(strategyMarketFactory.synthetix)
+                address(this)
             );
             if (current < poolShare) {
-                strategyMarketFactory.usdToken.approve(
-                    address(strategyMarketFactory.synthetix),
-                    poolShare
-                );
+                strategyMarketFactory.usdToken.approve(address(this), poolShare);
             }
             strategyMarketFactory.synthetix.depositMarketUsd(
                 strategyMarketFactory.strategyMarketId,
