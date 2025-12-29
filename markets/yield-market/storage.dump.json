@@ -62,17 +62,10 @@
           "offset": 0
         },
         {
-          "type": "int256",
-          "name": "netIssuanceD18",
-          "size": 32,
-          "slot": "5",
-          "offset": 0
-        },
-        {
           "type": "bool",
           "name": "useUnsecured",
           "size": 1,
-          "slot": "6",
+          "slot": "5",
           "offset": 0
         }
       ]

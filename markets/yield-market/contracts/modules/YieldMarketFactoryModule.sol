@@ -21,6 +21,10 @@ contract YieldMarketFactoryModule is IYieldMarketFactoryModule {
         OwnableStorage.onlyOwner();
         YieldMarketFactory.Data storage store = YieldMarketFactory.load();
 
+        if (store.strategyMarketId != 0) {
+            revert SynthetixAlreadySet();
+        }
+
         store.synthetix = synthetix;
         (address usdTokenAddress, ) = synthetix.getAssociatedSystem("USDToken");
         store.usdToken = ITokenModule(usdTokenAddress);
@@ -74,20 +78,7 @@ contract YieldMarketFactoryModule is IYieldMarketFactoryModule {
      * @inheritdoc IMarket
      */
     function reportedDebt(uint128) external view returns (uint256 reportedDebtAmount) {
-        YieldMarketFactory.Data storage store = YieldMarketFactory.load();
-
-        uint256 unsecuredDebt;
-        if (store.useUnsecured && address(store.synthetix) != address(0)) {
-            (uint256 principalD18, uint256 accruedInterestD18, uint256 badDebtD18) = store
-                .synthetix
-                .getMarketUnsecuredDebt(store.strategyMarketId);
-            unsecuredDebt = principalD18 + accruedInterestD18 + badDebtD18;
-        }
-
-        int256 netIssuance = store.netIssuanceD18;
-        uint256 mintedDebt = netIssuance < 0 ? 0 : netIssuance.toUint();
-
-        return mintedDebt + unsecuredDebt;
+        return 0;
     }
 
     /**

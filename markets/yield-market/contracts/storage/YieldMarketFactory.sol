@@ -31,10 +31,6 @@ library YieldMarketFactory {
          */
         uint256 minCreditD18;
         /**
-         * @dev net issuance for the strategy market
-         */
-        int256 netIssuanceD18;
-        /**
          * @dev whether unsecured borrow/repay path is enabled
          */
         bool useUnsecured;

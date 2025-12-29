@@ -6,6 +6,10 @@ import {ISynthetixSystem} from "./external/ISynthetixSystem.sol";
 
 interface IYieldMarketFactoryModule is IMarket {
     /**
+     * @notice Thrown when the synthetix is already set
+     */
+    error SynthetixAlreadySet();
+    /**
      * @notice Gets fired when the synthetix is set
      * @param strategyMarketId id of the strategy market
      * @param synthetix address of the synthetix core contract

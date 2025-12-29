@@ -55,10 +55,6 @@ contract ProfitShareModule is IProfitShareModule {
                 amount
             );
         }
-        if (!strategyMarketFactory.useUnsecured) {
-            // solhint-disable-next-line numcast/safe-cast
-            strategyMarketFactory.netIssuanceD18 += int256(amount);
-        }
         emit Borrowed(to, amount);
     }
 
@@ -83,10 +79,6 @@ contract ProfitShareModule is IProfitShareModule {
                 from,
                 amount
             );
-        }
-        if (!strategyMarketFactory.useUnsecured) {
-            // solhint-disable-next-line numcast/safe-cast
-            strategyMarketFactory.netIssuanceD18 -= int256(amount);
         }
         emit Repaid(from, amount);
     }
@@ -125,10 +117,6 @@ contract ProfitShareModule is IProfitShareModule {
                 address(this),
                 amount
             );
-        }
-        if (!strategyMarketFactory.useUnsecured) {
-            // solhint-disable-next-line numcast/safe-cast
-            strategyMarketFactory.netIssuanceD18 -= int256(amount);
         }
         emit Repaid(address(this), amount);
     }
@@ -172,10 +160,6 @@ contract ProfitShareModule is IProfitShareModule {
                 address(this),
                 poolShare
             );
-        }
-        if (!strategyMarketFactory.useUnsecured) {
-            // solhint-disable-next-line numcast/safe-cast
-            strategyMarketFactory.netIssuanceD18 -= int256(poolShare);
         }
         emit ProfitRealized(amount, poolShare, devShare);
     }
