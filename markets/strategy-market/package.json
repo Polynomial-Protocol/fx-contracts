@@ -41,9 +41,18 @@
     "@synthetixio/core-modules": "workspace:*",
     "@synthetixio/docgen": "workspace:*",
     "@synthetixio/main": "workspace:*",
+    "@synthetixio/perps-market": "workspace:*",
     "@usecannon/cli": "2.18.2",
     "hardhat": "^2.19.5",
     "solidity-docgen": "^0.6.0-beta.36",
     "typescript": "^5.5.4"
+  },
+  "depcheck": {
+    "ignoreMatches": [
+      "@synthetixio/main",
+      "@synthetixio/core-contracts",
+      "@synthetixio/core-modules",
+      "@synthetixio/perps-market"
+    ]
   }
 }
