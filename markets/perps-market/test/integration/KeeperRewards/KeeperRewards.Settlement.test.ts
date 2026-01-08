@@ -15,7 +15,7 @@ describe('Keeper Rewards - Settlement', () => {
     flagCost: 3333,
     liquidateCost: 5555,
   };
-  const { systems, perpsMarkets, provider, trader1, keeperCostOracleNode, keeper, owner } =
+  const { systems, perpsMarkets, provider, trader1, trader2, keeperCostOracleNode, keeper, owner } =
     bootstrapMarkets({
       synthMarkets: [
         {
@@ -218,7 +218,7 @@ describe('Keeper Rewards - Settlement', () => {
     before('add collateral for account 3', async () => {
       await depositCollateral({
         systems,
-        trader: trader1,
+        trader: trader2,
         accountId: () => 3,
         collaterals: [
           {
@@ -230,7 +230,7 @@ describe('Keeper Rewards - Settlement', () => {
 
     before('commit the order for account 3', async () => {
       const txDisabled = await systems()
-        .PerpsMarket.connect(trader1())
+        .PerpsMarket.connect(trader2())
         .commitOrder({
           marketId: ethMarketId,
           accountId: 3,
