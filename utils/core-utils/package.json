@@ -63,7 +63,7 @@
   "dependencies": {
     "@ethersproject/abi": "^5.7.0",
     "chalk": "^4.1.2",
-    "ethereumjs-util": "^7.1.5",
+    "ethereumjs-util": "7.1.5",
     "fast-glob": "^3.3.2",
     "micromatch": "4.0.8",
     "prompts": "^2.4.2",
