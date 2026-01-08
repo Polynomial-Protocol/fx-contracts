@@ -111,6 +111,10 @@ library GlobalPerpsMarketConfiguration {
          * @dev Whitelist of addresses that can settle offchain limit orders
          */
         mapping(address => bool) whitelistedOffchainLimitOrderSettlers;
+        /**
+         * @dev Flag to disable settlement reward payout for specific accounts.
+         */
+        mapping(uint128 => bool) settlementRewardDisabled;
     }
 
     function load() internal pure returns (Data storage globalMarketConfig) {

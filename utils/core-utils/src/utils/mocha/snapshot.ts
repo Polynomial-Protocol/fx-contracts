@@ -11,7 +11,7 @@ export function snapshotCheckpoint(provider: () => ethers.providers.JsonRpcProvi
       for await (const tx of block.transactions) {
         try {
           await tx.wait();
-        } catch (e) {
+        } catch {
           // console.log('Leftover transaction', tx);
           // console.error(e);
           // I really don't care if you fail or not
