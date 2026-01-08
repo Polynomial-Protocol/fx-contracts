@@ -300,7 +300,10 @@ describe('Settlement Offchain Async Order test', () => {
           systems().PerpsMarket.address
         );
 
-        fastForwardTo(order.timestamp + DEFAULT_SETTLEMENT_STRATEGY.settlementDelay, provider());
+        await fastForwardTo(
+          order.timestamp + DEFAULT_SETTLEMENT_STRATEGY.settlementDelay,
+          provider()
+        );
 
         tx = await systems()
           .PerpsMarket.connect(relayer)
@@ -308,7 +311,7 @@ describe('Settlement Offchain Async Order test', () => {
       });
 
       it('should emit event', async () => {
-        assertEvent(tx, 'OrderSettled', systems().PerpsMarket);
+        await assertEvent(tx, 'OrderSettled', systems().PerpsMarket);
       });
 
       it('check position is live', async () => {
@@ -332,7 +335,10 @@ describe('Settlement Offchain Async Order test', () => {
             systems().PerpsMarket.address
           );
 
-          fastForwardTo(order.timestamp + DEFAULT_SETTLEMENT_STRATEGY.settlementDelay, provider());
+          await fastForwardTo(
+            order.timestamp + DEFAULT_SETTLEMENT_STRATEGY.settlementDelay,
+            provider()
+          );
 
           tx = await systems()
             .PerpsMarket.connect(relayer)

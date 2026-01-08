@@ -199,4 +199,81 @@ describe('Keeper Rewards - Settlement', () => {
     assertBn.equal(funding, bn(0));
     assertBn.equal(size, bn(1));
   });
+
+  describe('when settlement reward disabled for account', () => {
+    let startTimeDisabled: number;
+    let settleTxDisabled: ethers.ContractTransaction;
+    let keeperBalanceBeforeDisabled: ethers.BigNumber;
+
+    before('disable settlement reward for account 3', async () => {
+      const perpsWithOverride = systems().PerpsMarket.connect(owner()) as unknown as {
+        setSettlementRewardOverride(
+          accountId: number,
+          disabled: boolean
+        ): Promise<ethers.ContractTransaction>;
+      };
+      await perpsWithOverride.setSettlementRewardOverride(3, true);
+    });
+
+    before('add collateral for account 3', async () => {
+      await depositCollateral({
+        systems,
+        trader: trader1,
+        accountId: () => 3,
+        collaterals: [
+          {
+            snxUSDAmount: () => bn(10_000),
+          },
+        ],
+      });
+    });
+
+    before('commit the order for account 3', async () => {
+      const txDisabled = await systems()
+        .PerpsMarket.connect(trader1())
+        .commitOrder({
+          marketId: ethMarketId,
+          accountId: 3,
+          sizeDelta: bn(1),
+          settlementStrategyId: 0,
+          acceptablePrice: bn(1050), // 5% slippage
+          referrer: ethers.constants.AddressZero,
+          trackingCode: ethers.constants.HashZero,
+        });
+      startTimeDisabled = await getTxTime(provider(), txDisabled);
+    });
+
+    before('fast forward to settlement time for account 3', async () => {
+      await fastForwardTo(
+        startTimeDisabled + DEFAULT_SETTLEMENT_STRATEGY.settlementDelay + 1,
+        provider()
+      );
+    });
+
+    before('record keeper balance before disabled settlement', async () => {
+      keeperBalanceBeforeDisabled = await systems().USD.balanceOf(await keeper().getAddress());
+    });
+
+    before('settle disabled account order', async () => {
+      settleTxDisabled = await systems().PerpsMarket.connect(keeper()).settleOrder(3);
+    });
+
+    it('does not pay keeper when reward is disabled', async () => {
+      const keeperBalanceAfter = await systems().USD.balanceOf(await keeper().getAddress());
+      assertBn.equal(keeperBalanceAfter, keeperBalanceBeforeDisabled);
+    });
+
+    it('emits zero settlement reward in event', async () => {
+      const receipt = await settleTxDisabled.wait();
+      const iface = systems().PerpsMarket.interface;
+      const topic = iface.getEventTopic('OrderSettled');
+      const event = receipt.events?.find((evt) => evt.topics[0] === topic);
+      if (!event) {
+        throw new Error('OrderSettled event not found');
+      }
+
+      const decoded = iface.decodeEventLog('OrderSettled', event.data, event.topics);
+      assertBn.equal(decoded.settlementReward, bn(0));
+    });
+  });
 });

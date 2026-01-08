@@ -330,4 +330,20 @@ contract GlobalPerpsMarketModule is IGlobalPerpsMarketModule {
     ) external view override returns (bool isWhitelisted) {
         return GlobalPerpsMarketConfiguration.load().whitelistedOffchainLimitOrderSettlers[settler];
     }
+
+    /**
+     * @inheritdoc IGlobalPerpsMarketModule
+     */
+    function setSettlementRewardOverride(uint128 accountId, bool disabled) external override {
+        OwnableStorage.onlyOwner();
+        GlobalPerpsMarketConfiguration.load().settlementRewardDisabled[accountId] = disabled;
+        emit SettlementRewardOverrideSet(accountId, disabled);
+    }
+
+    /**
+     * @inheritdoc IGlobalPerpsMarketModule
+     */
+    function isSettlementRewardDisabled(uint128 accountId) external view override returns (bool) {
+        return GlobalPerpsMarketConfiguration.load().settlementRewardDisabled[accountId];
+    }
 }

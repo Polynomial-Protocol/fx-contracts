@@ -154,7 +154,7 @@ contract OffchainAsyncOrderModule is IOffchainAsyncOrderModule, IMarketEvents, I
 
         // validate order request can be settled; call reverts if not
         (runtime.newPosition, runtime.totalFees, runtime.fillPrice, oldPosition) = asyncOrder
-            .validateRequest(settlementStrategy, price);
+            .validateRequestWithAccountOverride(settlementStrategy, price);
 
         // validate final fill price is acceptable relative to price specified by trader
         asyncOrder.validateAcceptablePrice(runtime.fillPrice);
@@ -176,7 +176,10 @@ contract OffchainAsyncOrderModule is IOffchainAsyncOrderModule, IMarketEvents, I
         runtime.updateData = processPositionUpdate(price, runtime, market, originalMarketSize);
         perpsAccount.updateOpenPositions(runtime.marketId, runtime.newPosition.size);
 
-        runtime.settlementReward = AsyncOrder.settlementRewardCost(settlementStrategy);
+        runtime.settlementReward = AsyncOrder.settlementRewardCostForAccount(
+            settlementStrategy,
+            runtime.accountId
+        );
 
         // Process fees
         processFees(runtime, asyncOrder, factory);

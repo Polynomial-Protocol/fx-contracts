@@ -89,6 +89,13 @@ interface IGlobalPerpsMarketModule {
     event CommitFeeRecieverSet(address commitFeeReciever);
 
     /**
+     * @notice Gets fired when settlement reward is toggled for an account.
+     * @param accountId Account id being updated.
+     * @param disabled Flag indicating settlement reward is disabled for the account.
+     */
+    event SettlementRewardOverrideSet(uint128 accountId, bool disabled);
+
+    /**
      * @notice Thrown when the fee collector does not implement the IFeeCollector interface
      */
     error InvalidFeeCollectorInterface(address invalidFeeCollector);
@@ -299,4 +306,18 @@ interface IGlobalPerpsMarketModule {
     function isWhitelistedOffchainLimitOrderSettler(
         address settler
     ) external view returns (bool isWhitelisted);
+
+    /**
+     * @notice Enable/disable settlement reward payout for an account.
+     * @param accountId Account id to update.
+     * @param disabled When true, no settlement reward is paid for the account.
+     */
+    function setSettlementRewardOverride(uint128 accountId, bool disabled) external;
+
+    /**
+     * @notice Check if settlement reward is disabled for an account.
+     * @param accountId Account id to query.
+     * @return disabled True if settlement reward is disabled.
+     */
+    function isSettlementRewardDisabled(uint128 accountId) external view returns (bool disabled);
 }
