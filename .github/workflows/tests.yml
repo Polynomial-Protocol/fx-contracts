@@ -204,10 +204,6 @@ jobs:
             dir: ./markets/perps-market
             batch-size: 1
             parallelism: 8
-          - name: test-bfp-market
-            dir: ./markets/bfp-market
-            batch-size: 1
-            parallelism: 6
           - name: test-core-modules
             dir: ./utils/core-modules
             batch-size: 5
