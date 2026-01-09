@@ -103,7 +103,7 @@ describe('Settlement Offchain Async Order test', () => {
       .setFeeCollector(systems().FeeCollectorMock.address);
     await systems()
       .PerpsMarket.connect(owner())
-      .updateRelayerShare(await relayer.getAddress(), relayerRatio.toBN()); // 30%
+      .updateReferrerShare(await relayer.getAddress(), relayerRatio.toBN()); // 30%
     order1 = createOrder({
       accountId: testCases[0].collateralData.accountId(),
       marketId: ethMarketId,

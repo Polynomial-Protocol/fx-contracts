@@ -34,6 +34,9 @@
   "keywords": [],
   "author": "Synthetix",
   "license": "MIT",
+  "dependencies": {
+    "ethereumjs-util": "7.1.5"
+  },
   "devDependencies": {
     "@synthetixio/common-config": "workspace:*",
     "@synthetixio/core-contracts": "workspace:*",

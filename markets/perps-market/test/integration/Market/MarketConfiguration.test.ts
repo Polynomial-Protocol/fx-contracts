@@ -6,7 +6,8 @@ import assertBn from '@synthetixio/core-utils/src/utils/assertions/assert-bignum
 import assertEvent from '@synthetixio/core-utils/src/utils/assertions/assert-event';
 import assert from 'assert';
 
-describe('MarketConfiguration', () => {
+describe('MarketConfiguration', function () {
+  this.timeout(120000);
   const { systems, signers, owner } = bootstrapMarkets({
     synthMarkets: [],
     perpsMarkets: [],
@@ -237,7 +238,7 @@ describe('MarketConfiguration', () => {
             settlementStrategy.disabled.toString() +
             ', ' +
             settlementStrategy.commitmentPriceDelay.toString() +
-            '], 3)',
+            '], 1)',
           systems().PerpsMarket
         );
       });

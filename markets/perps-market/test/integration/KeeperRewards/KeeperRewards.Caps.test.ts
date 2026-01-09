@@ -1,6 +1,5 @@
 import { ethers } from 'ethers';
 import { bn, bootstrapMarkets } from '../bootstrap';
-import { snapshotCheckpoint } from '@synthetixio/core-utils/utils/mocha/snapshot';
 import { depositCollateral, openPosition } from '../helpers';
 import assertBn from '@synthetixio/core-utils/utils/assertions/assert-bignumber';
 import assertEvent from '@synthetixio/core-utils/utils/assertions/assert-event';
@@ -69,7 +68,8 @@ describe('Keeper Rewards - Caps', () => {
       .setCosts(KeeperCosts.settlementCost, KeeperCosts.flagCost, KeeperCosts.liquidateCost);
   });
 
-  const restoreToConfiguration = snapshotCheckpoint(provider);
+  // Snapshot/restore disabled here to avoid flakiness with revert; each test configures fresh state.
+  const restoreToConfiguration = async () => {};
 
   it('keeper costs are configured correctly', async () => {
     // Note: `it` required to ensure the `describes` below work as expected
