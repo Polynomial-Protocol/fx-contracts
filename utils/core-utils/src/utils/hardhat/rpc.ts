@@ -39,17 +39,11 @@ export async function getTxTime(
   tx: ethers.ContractTransaction
 ) {
   let txReceipt = null;
-  let counter = 0;
   while (txReceipt == null) {
     txReceipt = await provider.getTransactionReceipt(tx.hash);
     if (txReceipt == null) {
-      counter = counter + 1;
-      console.log(`Waiting for receipt ${tx.hash}... ${counter * 10} ms`);
       await new Promise((f) => setTimeout(f, 10));
     }
-  }
-  if (counter > 0) {
-    console.log(`Got receipt ${tx.hash} after ${counter * 10} ms`);
   }
 
   const block = await provider.getBlock(txReceipt.blockNumber);

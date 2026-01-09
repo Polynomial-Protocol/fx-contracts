@@ -2,7 +2,6 @@ import { bn, bootstrapMarkets } from '../bootstrap';
 import assertBn from '@synthetixio/core-utils/src/utils/assertions/assert-bignumber';
 import { wei } from '@synthetixio/wei';
 import { computeFees } from '../helpers';
-import { ethers } from 'ethers';
 
 const feeTiers = [
   { id: 0, makerDiscount: 0, takerDiscount: 0 }, // 0% / 0%
@@ -10,15 +9,6 @@ const feeTiers = [
   { id: 2, makerDiscount: 2000, takerDiscount: 1200 }, // 20% / 12%
   { id: 3, makerDiscount: 10000, takerDiscount: 10000 }, // 100% / 100%
 ];
-
-const getMessageHash = (feeTierId: number, expiry: number, accountId: number) => {
-  const encodePackedMessage = ethers.utils.solidityPack(
-    ['uint256', 'uint128', 'uint256'],
-    [feeTierId, accountId, expiry]
-  );
-  const encodedMessageHash = ethers.utils.keccak256(encodePackedMessage);
-  return encodedMessageHash;
-};
 
 describe('FeeTier', () => {
   const orderFees = {
@@ -57,23 +47,55 @@ describe('FeeTier', () => {
     }
   });
 
+  before('set endorsed fee tier updater', async () => {
+    await systems()
+      .PerpsMarket.connect(owner())
+      .setEndorsedFeeTierUpdater(await owner().getAddress());
+  });
+
   before('assign tiers to trading accounts', async () => {
     const ownerSigner = owner();
-    // create signed data for each tier
-    const messageHashForAccount1 = getMessageHash(1, 2034397312, 1);
-    const signatureForAccount1 = await ownerSigner.signMessage(
-      ethers.utils.arrayify(messageHashForAccount1)
-    );
-    const messageHashForAccount2 = getMessageHash(3, 2034397312, 2);
-    const signatureForAccount2 = await ownerSigner.signMessage(
-      ethers.utils.arrayify(messageHashForAccount2)
-    );
+    const expiry = 2034397312;
+    const chainId = (await ownerSigner.provider!.getNetwork()).chainId;
+    const perpsMarketAddress = systems().PerpsMarket.address;
+
+    // EIP-712 domain matching the contract (PolynomailFiScope v1)
+    const domain = {
+      name: 'PolynomailFiScope',
+      version: '1',
+      chainId,
+      verifyingContract: perpsMarketAddress,
+    };
+
+    // Type definition for FeeTier
+    const types = {
+      FeeTier: [
+        { name: 'feeTierId', type: 'uint256' },
+        { name: 'accountId', type: 'uint128' },
+        { name: 'expiry', type: 'uint256' },
+      ],
+    };
+
+    // Sign for account 1, tier 1
+    const signatureForAccount1 = await ownerSigner._signTypedData(domain, types, {
+      feeTierId: 1,
+      accountId: 1,
+      expiry,
+    });
+
+    // Sign for account 2, tier 3
+    const signatureForAccount2 = await ownerSigner._signTypedData(domain, types, {
+      feeTierId: 3,
+      accountId: 2,
+      expiry,
+    });
+
     await systems()
       .PerpsMarket.connect(trader1())
-      .updateFeeTier(1, 1, 2034397312, signatureForAccount1);
+      .updateFeeTier(1, 1, expiry, signatureForAccount1);
     await systems()
       .PerpsMarket.connect(trader1())
-      .updateFeeTier(2, 3, 2034397312, signatureForAccount2);
+      .updateFeeTier(2, 3, expiry, signatureForAccount2);
   });
 
   describe('getFeeTier', () => {
