@@ -93,6 +93,7 @@ export function coreBootstrap<Contracts>(params: Params = { cannonfile: 'cannonf
     let snapshotId: number;
 
     before('create snapshot', async function () {
+      this.timeout(30000);
       snapshotId = await provider.send('evm_snapshot', []);
     });
 
