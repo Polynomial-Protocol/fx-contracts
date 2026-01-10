@@ -1,0 +1,68 @@
+name = "fx-yield-market"
+version = "<%= package.version %>"
+description = "Yield market implementation"
+
+[setting.owner]
+description = "yield market owner"
+defaultValue = "0x9f76043B23125024Ce5f0Fb4AE707482107dd2a8"
+
+[setting.polynomialCore]
+defaultValue = "polynomial-core"
+
+[setting.polynomialPreset]
+defaultValue = "main"
+
+[setting.salt]
+defaultValue = "polynomial"
+
+[import.synthetix]
+source = "<%= settings.polynomialCore %>"
+preset = "<%= settings.polynomialPreset %>"
+
+[contract.YieldMarketFactoryModule]
+artifact = "YieldMarketFactoryModule"
+
+[contract.ProfitShareModule]
+artifact = "ProfitShareModule"
+
+[contract.CoreModule]
+artifact = "contracts/modules/CoreModule.sol:CoreModule"
+
+[contract.InitialYieldMarketProxy]
+artifact = "contracts/Proxy.sol:Proxy"
+args = ["<%= contracts.CoreModule.address %>", "<%= settings.owner %>"]
+abiOf = ["CoreModule"]
+salt = "<%= settings.salt %>"
+
+# Core
+[router.YieldMarketRouter]
+contracts = ["CoreModule", "YieldMarketFactoryModule", "ProfitShareModule"]
+
+[invoke.upgradeYieldMarketProxy]
+target = ["InitialYieldMarketProxy"]
+fromCall.func = "owner"
+func = "upgradeTo"
+args = ["<%= contracts.YieldMarketRouter.address %>"]
+factory.YieldMarketProxy.artifact = "contracts/Proxy.sol:Proxy"
+factory.YieldMarketProxy.abiOf = ["YieldMarketRouter"]
+factory.YieldMarketProxy.event = "Upgraded"
+factory.YieldMarketProxy.arg = 0
+factory.YieldMarketProxy.highlight = true
+
+# add pool owner to feature flag allow list
+[invoke.addYieldMarketToFeatureFlag]
+target = ["synthetix.CoreProxy"]
+func = "addToFeatureFlagAllowlist"
+fromCall.func = "owner"
+args = [
+    "<%= formatBytes32String('registerMarket') %>",
+    "<%= contracts.InitialYieldMarketProxy.address %>",
+]
+
+[invoke.setSynthetixSystem]
+target = ["YieldMarketProxy"]
+fromCall.func = "owner"
+func = "setSynthetix"
+args = ["<%= imports.synthetix.contracts.CoreProxy.address %>"]
+extra.strategyMarketId.event = "SynthetixSystemSet"
+extra.strategyMarketId.arg = 0
