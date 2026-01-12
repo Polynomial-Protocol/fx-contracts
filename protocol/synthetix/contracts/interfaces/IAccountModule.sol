@@ -253,7 +253,7 @@ interface IAccountModule {
      *
      * Requirements:
      *
-     * - `ERC2771Context._msgSender()` must have appropriate permissions (typically admin).
+     * - `ERC2771Context._msgSender()` must be the contract owner.
      *
      * Emits a {WithdrawalLockWhitelistUpdated} event.
      */

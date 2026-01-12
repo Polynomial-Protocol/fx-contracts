@@ -43,6 +43,11 @@ library Account {
     );
 
     /**
+     * @dev Thrown when a withdrawal is attempted on an account that has withdrawals locked.
+     */
+    error WithdrawalLocked(uint128 accountId);
+
+    /**
      * @notice Emitted when all the locks in an account were scaled down proportionally due to insufficient balance
      * @param totalDepositedD18 The observed deposited collateral
      * @param totalLockedD18 The observed locked collateral total
@@ -68,13 +73,13 @@ library Account {
         uint64 __slotAvailableForFutureUse;
         uint128 __slot2AvailableForFutureUse;
         /**
-         * @dev Whether withdrawals are locked for this account.
-         */
-        bool withdrawalLocked;
-        /**
          * @dev Address set of collaterals that are being used in the system by this account.
          */
         mapping(address => Collateral.Data) collaterals;
+        /**
+         * @dev Whether withdrawals are locked for this account.
+         */
+        bool withdrawalLocked;
     }
 
     /**
