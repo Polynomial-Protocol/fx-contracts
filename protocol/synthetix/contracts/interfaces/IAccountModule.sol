@@ -22,6 +22,11 @@ interface IAccountModule {
     error InvalidAccountId(uint128 accountId);
 
     /**
+     * @notice Thrown when an address that is not whitelisted attempts to set withdrawal lock.
+     */
+    error AddressNotWhitelisted(address account);
+
+    /**
      * @notice Emitted when an account token with id `accountId` is minted to `sender`.
      * @param accountId The id of the account.
      * @param owner The address that owns the created account.
@@ -54,6 +59,26 @@ interface IAccountModule {
         bytes32 indexed permission,
         address indexed user,
         address sender
+    );
+
+    /**
+     * @notice Emitted when withdrawal lock status is set for account `accountId` by `sender`.
+     * @param accountId The id of the account whose withdrawal lock status was set.
+     * @param locked Whether withdrawals are locked for this account.
+     * @param sender The address that set the withdrawal lock status.
+     */
+    event WithdrawalLockSet(uint128 indexed accountId, bool locked, address indexed sender);
+
+    /**
+     * @notice Emitted when an address is added or removed from the withdrawal lock whitelist.
+     * @param account The address that was added or removed from the whitelist.
+     * @param whitelisted Whether the address is now whitelisted.
+     * @param sender The address that modified the whitelist.
+     */
+    event WithdrawalLockWhitelistUpdated(
+        address indexed account,
+        bool whitelisted,
+        address indexed sender
     );
 
     /**
@@ -193,4 +218,44 @@ interface IAccountModule {
      * @return timestamp The unix timestamp of the last time a permissioned action occured with the account
      */
     function getAccountLastInteraction(uint128 accountId) external view returns (uint256 timestamp);
+
+    /**
+     * @notice Returns whether withdrawals are locked for the given account.
+     * @param accountId The account id to check.
+     * @return locked Whether withdrawals are locked for this account.
+     */
+    function getWithdrawalLocked(uint128 accountId) external view returns (bool locked);
+
+    /**
+     * @notice Sets the withdrawal lock status for the given account.
+     * @param accountId The account id whose withdrawal lock status is being set.
+     * @param locked Whether withdrawals should be locked for this account.
+     *
+     * Requirements:
+     *
+     * - `ERC2771Context._msgSender()` must be whitelisted to set withdrawal locks.
+     *
+     * Emits a {WithdrawalLockSet} event.
+     */
+    function setWithdrawalLocked(uint128 accountId, bool locked) external;
+
+    /**
+     * @notice Returns whether an address is whitelisted to set withdrawal locks.
+     * @param account The address to check.
+     * @return whitelisted Whether the address is whitelisted.
+     */
+    function isWithdrawalLockWhitelisted(address account) external view returns (bool whitelisted);
+
+    /**
+     * @notice Sets the whitelist status for an address to set withdrawal locks.
+     * @param account The address whose whitelist status is being set.
+     * @param whitelisted Whether the address should be whitelisted.
+     *
+     * Requirements:
+     *
+     * - `ERC2771Context._msgSender()` must have appropriate permissions (typically admin).
+     *
+     * Emits a {WithdrawalLockWhitelistUpdated} event.
+     */
+    function setWithdrawalLockWhitelisted(address account, bool whitelisted) external;
 }

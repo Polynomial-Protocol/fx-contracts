@@ -3,11 +3,13 @@ pragma solidity >=0.8.11 <0.9.0;
 
 import "@synthetixio/core-contracts/contracts/utils/ERC2771Context.sol";
 import "@synthetixio/core-modules/contracts/storage/AssociatedSystem.sol";
+import "@synthetixio/core-contracts/contracts/ownership/OwnableStorage.sol";
 
 import "../../interfaces/IAccountModule.sol";
 import "../../interfaces/IAccountTokenModule.sol";
 import "../../storage/Account.sol";
 import "../../storage/SystemAccountConfiguration.sol";
+import "../../storage/WithdrawalLockWhitelist.sol";
 
 import "@synthetixio/core-modules/contracts/storage/FeatureFlag.sol";
 
@@ -195,6 +197,48 @@ contract AccountModule is IAccountModule {
      */
     function getAccountLastInteraction(uint128 accountId) external view returns (uint256) {
         return Account.load(accountId).lastInteraction;
+    }
+
+    /**
+     * @inheritdoc IAccountModule
+     */
+    function getWithdrawalLocked(uint128 accountId) public view override returns (bool) {
+        return Account.load(accountId).withdrawalLocked;
+    }
+
+    /**
+     * @inheritdoc IAccountModule
+     */
+    function setWithdrawalLocked(uint128 accountId, bool locked) external override {
+        WithdrawalLockWhitelist.Data storage whitelist = WithdrawalLockWhitelist.load();
+
+        if (!whitelist.whitelistedAddresses[ERC2771Context._msgSender()]) {
+            revert AddressNotWhitelisted(ERC2771Context._msgSender());
+        }
+
+        Account.Data storage account = Account.exists(accountId);
+        account.withdrawalLocked = locked;
+
+        emit WithdrawalLockSet(accountId, locked, ERC2771Context._msgSender());
+    }
+
+    /**
+     * @inheritdoc IAccountModule
+     */
+    function isWithdrawalLockWhitelisted(address account) public view override returns (bool) {
+        return WithdrawalLockWhitelist.load().whitelistedAddresses[account];
+    }
+
+    /**
+     * @inheritdoc IAccountModule
+     */
+    function setWithdrawalLockWhitelisted(address account, bool whitelisted) external override {
+        OwnableStorage.onlyOwner();
+
+        WithdrawalLockWhitelist.Data storage whitelist = WithdrawalLockWhitelist.load();
+        whitelist.whitelistedAddresses[account] = whitelisted;
+
+        emit WithdrawalLockWhitelistUpdated(account, whitelisted, ERC2771Context._msgSender());
     }
 
     /**

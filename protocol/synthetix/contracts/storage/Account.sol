@@ -68,6 +68,10 @@ library Account {
         uint64 __slotAvailableForFutureUse;
         uint128 __slot2AvailableForFutureUse;
         /**
+         * @dev Whether withdrawals are locked for this account.
+         */
+        bool withdrawalLocked;
+        /**
          * @dev Address set of collaterals that are being used in the system by this account.
          */
         mapping(address => Collateral.Data) collaterals;
