@@ -205,4 +205,25 @@ contract ProfitShareModule is IProfitShareModule {
 
         emit StrategyCollateralDeposited(collateralType, amount);
     }
+
+    /**
+     * @inheritdoc IProfitShareModule
+     */
+    function withdrawStrategyCollateral(
+        address collateralType,
+        address to,
+        uint256 amount
+    ) external override {
+        OwnableStorage.onlyOwner();
+        YieldMarketFactory.Data storage strategyMarketFactory = YieldMarketFactory.load();
+
+        strategyMarketFactory.synthetix.withdrawMarketCollateral(
+            strategyMarketFactory.strategyMarketId,
+            collateralType,
+            amount
+        );
+
+        IERC20(collateralType).transfer(to, amount);
+        emit StrategyCollateralWithdrawn(collateralType, to, amount);
+    }
 }
