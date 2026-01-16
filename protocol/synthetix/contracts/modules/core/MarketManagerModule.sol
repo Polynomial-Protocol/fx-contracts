@@ -307,6 +307,50 @@ contract MarketManagerModule is IMarketManagerModule {
     /**
      * @inheritdoc IMarketManagerModule
      */
+    function donateMarketUsd(
+        uint128 marketId,
+        address target,
+        uint256 amount
+    ) external override returns (uint256 feeAmount) {
+        // Reuse deposit feature flag since this flow burns USD and reduces issuance.
+        FeatureFlag.ensureAccessToFeature(_DEPOSIT_MARKET_FEATURE_FLAG);
+        Market.Data storage market = Market.load(marketId);
+
+        // Call must come from the market itself.
+        if (ERC2771Context._msgSender() != market.marketAddress)
+            revert AccessError.Unauthorized(ERC2771Context._msgSender());
+
+        ITokenModule usdToken = AssociatedSystem.load(_USD_TOKEN).asToken();
+
+        // Adjust accounting without increasing credit capacity.
+        market.netIssuanceD18 -= amount.toInt().to128();
+
+        // Burn the incoming USD.
+        IUSDTokenModule(address(usdToken)).burnWithAllowance(
+            target,
+            ERC2771Context._msgSender(),
+            amount
+        );
+
+        (uint256 depositedCollateralValue, bytes memory possibleError) = market
+            .getDepositedCollateralValue();
+        RevertUtil.revertIfError(possibleError);
+
+        emit MarketUsdDonated(
+            marketId,
+            target,
+            amount,
+            ERC2771Context._msgSender(),
+            market.netIssuanceD18,
+            depositedCollateralValue
+        );
+
+        feeAmount = 0;
+    }
+
+    /**
+     * @inheritdoc IMarketManagerModule
+     */
     function distributeDebtToPools(
         uint128 marketId,
         uint256 maxIter

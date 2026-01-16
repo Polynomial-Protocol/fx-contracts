@@ -61,6 +61,10 @@ interface IProfitShareModule {
         address indexed to,
         uint256 amount
     );
+    /**
+     * @notice Emitted when profits are donated to backing pools.
+     */
+    event ProfitDonated(uint256 amount, uint256 debtRepaid, uint256 donated);
 
     /**
      * @notice Sets the dev address.
@@ -96,6 +100,12 @@ interface IProfitShareModule {
      * @param amount The amount of profit realized.
      */
     function realizeProfit(uint256 amount) external;
+
+    /**
+     * @notice Donate profits to backing pools without increasing credit capacity.
+     * @param amount The amount of USD to donate.
+     */
+    function donateProfit(uint256 amount) external;
 
     /**
      * @notice Withdraw USD held by this market to a target strategy wallet.
