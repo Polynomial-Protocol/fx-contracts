@@ -78,7 +78,16 @@ contract YieldMarketFactoryModule is IYieldMarketFactoryModule {
      * @inheritdoc IMarket
      */
     function reportedDebt(uint128) external view returns (uint256 reportedDebtAmount) {
-        return 0;
+        YieldMarketFactory.Data storage store = YieldMarketFactory.load();
+        if (!store.useUnsecured || address(store.synthetix) == address(0)) {
+            return 0;
+        }
+
+        (uint256 principalD18, uint256 accruedInterestD18, uint256 badDebtD18) = store
+            .synthetix
+            .getMarketUnsecuredDebt(store.strategyMarketId);
+
+        return principalD18 + accruedInterestD18 + badDebtD18;
     }
 
     /**
