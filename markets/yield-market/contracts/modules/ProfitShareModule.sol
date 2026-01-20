@@ -134,34 +134,18 @@ contract ProfitShareModule is IProfitShareModule {
 
         strategyMarketFactory.usdToken.transfer(profitShare.devAddress, devShare);
 
-        if (strategyMarketFactory.useUnsecured) {
-            uint256 current = strategyMarketFactory.usdToken.allowance(
-                address(this),
-                address(this)
-            );
-            if (current < poolShare) {
-                strategyMarketFactory.usdToken.approve(address(this), poolShare);
-            }
-            strategyMarketFactory.synthetix.repayUnsecured(
-                strategyMarketFactory.strategyMarketId,
-                address(this),
-                poolShare
-            );
-        } else {
-            uint256 current = strategyMarketFactory.usdToken.allowance(
-                address(this),
-                address(this)
-            );
-            if (current < poolShare) {
-                strategyMarketFactory.usdToken.approve(address(this), poolShare);
-            }
-            strategyMarketFactory.synthetix.depositMarketUsd(
-                strategyMarketFactory.strategyMarketId,
-                address(this),
-                poolShare
-            );
-        }
+        _donateToPools(strategyMarketFactory, poolShare);
         emit ProfitRealized(amount, poolShare, devShare);
+    }
+
+    /**
+     * @inheritdoc IProfitShareModule
+     */
+    function donateProfit(uint256 amount) external override {
+        OwnableStorage.onlyOwner();
+        YieldMarketFactory.Data storage strategyMarketFactory = YieldMarketFactory.load();
+
+        _donateToPools(strategyMarketFactory, amount);
     }
 
     /**
@@ -204,5 +188,64 @@ contract ProfitShareModule is IProfitShareModule {
         );
 
         emit StrategyCollateralDeposited(collateralType, amount);
+    }
+
+    function _donateToPools(YieldMarketFactory.Data storage store, uint256 amount) private {
+        if (amount == 0) {
+            return;
+        }
+
+        uint256 repaidDebt = 0;
+        uint256 donated = 0;
+
+        if (store.useUnsecured) {
+            (uint256 principalD18, uint256 accruedInterestD18, uint256 badDebtD18) = store
+                .synthetix
+                .getMarketUnsecuredDebt(store.strategyMarketId);
+            uint256 totalDebt = principalD18 + accruedInterestD18 + badDebtD18;
+            repaidDebt = amount > totalDebt ? totalDebt : amount;
+            if (repaidDebt > 0) {
+                _ensureUsdAllowance(store, repaidDebt);
+                store.synthetix.repayUnsecured(store.strategyMarketId, address(this), repaidDebt);
+            }
+            donated = amount - repaidDebt;
+        } else {
+            donated = amount;
+        }
+
+        if (donated > 0) {
+            _ensureUsdAllowance(store, donated);
+            store.synthetix.donateMarketUsd(store.strategyMarketId, address(this), donated);
+        }
+
+        emit ProfitDonated(amount, repaidDebt, donated);
+    }
+
+    function _ensureUsdAllowance(YieldMarketFactory.Data storage store, uint256 amount) private {
+        uint256 current = store.usdToken.allowance(address(this), address(this));
+        if (current < amount) {
+            store.usdToken.approve(address(this), amount);
+        }
+    }
+
+    /**
+     * @inheritdoc IProfitShareModule
+     */
+    function withdrawStrategyCollateral(
+        address collateralType,
+        address to,
+        uint256 amount
+    ) external override {
+        OwnableStorage.onlyOwner();
+        YieldMarketFactory.Data storage strategyMarketFactory = YieldMarketFactory.load();
+
+        strategyMarketFactory.synthetix.withdrawMarketCollateral(
+            strategyMarketFactory.strategyMarketId,
+            collateralType,
+            amount
+        );
+
+        IERC20(collateralType).transfer(to, amount);
+        emit StrategyCollateralWithdrawn(collateralType, to, amount);
     }
 }

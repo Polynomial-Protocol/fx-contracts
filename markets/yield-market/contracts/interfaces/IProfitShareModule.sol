@@ -53,6 +53,18 @@ interface IProfitShareModule {
      * @notice Emitted when collateral is deposited back from strategies.
      */
     event StrategyCollateralDeposited(address indexed collateralType, uint256 amount);
+    /**
+     * @notice Emitted when collateral is withdrawn back to strategies.
+     */
+    event StrategyCollateralWithdrawn(
+        address indexed collateralType,
+        address indexed to,
+        uint256 amount
+    );
+    /**
+     * @notice Emitted when profits are donated to backing pools.
+     */
+    event ProfitDonated(uint256 amount, uint256 debtRepaid, uint256 donated);
 
     /**
      * @notice Sets the dev address.
@@ -90,6 +102,12 @@ interface IProfitShareModule {
     function realizeProfit(uint256 amount) external;
 
     /**
+     * @notice Donate profits to backing pools without increasing credit capacity.
+     * @param amount The amount of USD to donate.
+     */
+    function donateProfit(uint256 amount) external;
+
+    /**
      * @notice Withdraw USD held by this market to a target strategy wallet.
      * @param to Recipient strategy address.
      * @param amount Amount of USD to transfer.
@@ -102,4 +120,16 @@ interface IProfitShareModule {
      * @param amount Token amount (native decimals).
      */
     function depositStrategyCollateral(address collateralType, uint256 amount) external;
+
+    /**
+     * @notice Withdraw collateral from core back to a strategy wallet.
+     * @param collateralType ERC20 collateral token.
+     * @param to Recipient strategy address.
+     * @param amount Token amount (native decimals).
+     */
+    function withdrawStrategyCollateral(
+        address collateralType,
+        address to,
+        uint256 amount
+    ) external;
 }

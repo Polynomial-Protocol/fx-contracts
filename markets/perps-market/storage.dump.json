@@ -713,6 +713,19 @@
           "size": 32,
           "slot": "18",
           "offset": 0
+        },
+        {
+          "type": "mapping",
+          "name": "settlementRewardDisabled",
+          "key": {
+            "type": "uint128"
+          },
+          "value": {
+            "type": "bool"
+          },
+          "size": 32,
+          "slot": "19",
+          "offset": 0
         }
       ]
     }

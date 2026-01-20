@@ -16,6 +16,7 @@ Yield Market lets a whitelisted market borrow USD from Synthetix and deploy it i
 - **Repay USD**: `repayUsdFrom(from, amount)` / `repayUsd(amount)` → routes to the selected mode.
 - **Withdraw for strategies**: `withdrawStrategyUsd(to, amount)` moves held USD to a strategy wallet.
 - **Return collateral**: `depositStrategyCollateral(collateral, amount)` pulls collateral (if approved) and calls `depositMarketCollateral` into core.
+- **Donate profits**: `donateProfit(amount)` repays unsecured debt first (if any), then donates remaining USD to backing pools without increasing credit capacity.
 - **Unsecured toggle**: `setUnsecuredConfig(useUnsecured)` on the factory to switch modes; unsecured calls are routed via the core proxy already set with `setSynthetix`.
 
 ## Deployment (cannon)
