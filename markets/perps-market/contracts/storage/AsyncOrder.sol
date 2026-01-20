@@ -10,6 +10,7 @@ import {PerpsMarket} from "./PerpsMarket.sol";
 import {PerpsPrice} from "./PerpsPrice.sol";
 import {PerpsAccount} from "./PerpsAccount.sol";
 import {GlobalPerpsMarket} from "./GlobalPerpsMarket.sol";
+import {GlobalPerpsMarketConfiguration} from "./GlobalPerpsMarketConfiguration.sol";
 import {MathUtil} from "../utils/MathUtil.sol";
 import {OrderFee} from "./OrderFee.sol";
 import {KeeperCosts} from "./KeeperCosts.sol";
@@ -295,6 +296,26 @@ library AsyncOrder {
         SettlementStrategy.Data storage strategy,
         uint256 orderPrice
     ) internal returns (Position.Data memory, uint256, uint256, Position.Data storage oldPosition) {
+        return _validateRequest(order, strategy, orderPrice, false);
+    }
+
+    /**
+     * @notice Checks if the order request can be settled applying per-account settlement reward override.
+     */
+    function validateRequestWithAccountOverride(
+        Data storage order,
+        SettlementStrategy.Data storage strategy,
+        uint256 orderPrice
+    ) internal returns (Position.Data memory, uint256, uint256, Position.Data storage oldPosition) {
+        return _validateRequest(order, strategy, orderPrice, true);
+    }
+
+    function _validateRequest(
+        Data storage order,
+        SettlementStrategy.Data storage strategy,
+        uint256 orderPrice,
+        bool useAccountOverride
+    ) private returns (Position.Data memory, uint256, uint256, Position.Data storage oldPosition) {
         /// @dev runtime stores order settlement data and prevents stack too deep
         SimulateDataRuntime memory runtime;
 
@@ -336,6 +357,10 @@ library AsyncOrder {
 
         FeeTier.Data storage feeTier = FeeTier.load(account.feeTierId);
 
+        uint256 settlementReward = useAccountOverride
+            ? settlementRewardCostForAccount(strategy, runtime.accountId)
+            : settlementRewardCost(strategy);
+
         runtime.orderFees =
             calculateOrderFee(
                 runtime.sizeDelta,
@@ -343,7 +368,7 @@ library AsyncOrder {
                 perpsMarketData.skew,
                 FeeTier.getFees(feeTier, marketConfig.orderFees)
             ) +
-            settlementRewardCost(strategy);
+            settlementReward;
 
         oldPosition = PerpsMarket.accountPosition(runtime.marketId, runtime.accountId);
         runtime.newPositionSize = oldPosition.size + runtime.sizeDelta;
@@ -477,6 +502,19 @@ library AsyncOrder {
         SettlementStrategy.Data storage strategy
     ) internal view returns (uint256) {
         return KeeperCosts.load().getSettlementKeeperCosts() + strategy.settlementReward;
+    }
+
+    function settlementRewardCostForAccount(
+        SettlementStrategy.Data storage strategy,
+        uint128 accountId
+    ) internal view returns (uint256) {
+        GlobalPerpsMarketConfiguration.Data storage globalConfig = GlobalPerpsMarketConfiguration
+            .load();
+        if (globalConfig.settlementRewardDisabled[accountId]) {
+            return 0;
+        }
+
+        return settlementRewardCost(strategy);
     }
 
     /**

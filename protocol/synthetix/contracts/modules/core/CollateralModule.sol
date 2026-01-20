@@ -80,6 +80,10 @@ contract CollateralModule is ICollateralModule {
             Config.readUint(_CONFIG_TIMEOUT_WITHDRAW, 0)
         );
 
+        if (account.withdrawalLocked) {
+            revert Account.WithdrawalLocked(accountId);
+        }
+
         uint256 tokenAmountD18 = CollateralConfiguration
             .load(collateralType)
             .convertTokenToSystemAmount(tokenAmount);
