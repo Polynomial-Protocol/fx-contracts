@@ -64,5 +64,5 @@ target = ["YieldMarketProxy"]
 fromCall.func = "owner"
 func = "setSynthetix"
 args = ["<%= imports.synthetix.contracts.CoreProxy.address %>"]
-extra.strategyMarketId.event = "SynthetixSystemSet"
-extra.strategyMarketId.arg = 0
+extra.yieldMarketId.event = "SynthetixSystemSet"
+extra.yieldMarketId.arg = 0
