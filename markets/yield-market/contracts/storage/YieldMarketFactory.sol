@@ -34,6 +34,10 @@ library YieldMarketFactory {
          * @dev whether unsecured borrow/repay path is enabled
          */
         bool useUnsecured;
+        /**
+         * @dev mapping of whitelisted callers for profit share operations
+         */
+        mapping(address => bool) whitelistedCallers;
     }
 
     function load() internal pure returns (Data storage yieldMarketFactory) {

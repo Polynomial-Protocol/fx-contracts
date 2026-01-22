@@ -65,6 +65,14 @@ interface IProfitShareModule {
      * @notice Emitted when profits are donated to backing pools.
      */
     event ProfitDonated(uint256 amount, uint256 debtRepaid, uint256 donated);
+    /**
+     * @notice Emitted when a caller is added to the whitelist.
+     */
+    event CallerWhitelisted(address indexed caller);
+    /**
+     * @notice Emitted when a caller is removed from the whitelist.
+     */
+    event CallerRemovedFromWhitelist(address indexed caller);
 
     /**
      * @notice Sets the dev address.
@@ -132,4 +140,23 @@ interface IProfitShareModule {
         address to,
         uint256 amount
     ) external;
+
+    /**
+     * @notice Adds a caller to the whitelist.
+     * @param caller The address to whitelist.
+     */
+    function whitelistCaller(address caller) external;
+
+    /**
+     * @notice Removes a caller from the whitelist.
+     * @param caller The address to remove from the whitelist.
+     */
+    function removeWhitelistedCaller(address caller) external;
+
+    /**
+     * @notice Checks if a caller is whitelisted.
+     * @param caller The address to check.
+     * @return isWhitelisted True if the caller is whitelisted, false otherwise.
+     */
+    function isWhitelistedCaller(address caller) external view returns (bool isWhitelisted);
 }

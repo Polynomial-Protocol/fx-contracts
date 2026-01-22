@@ -7,6 +7,8 @@ import {YieldMarketFactory} from "../storage/YieldMarketFactory.sol";
 import {OwnableStorage} from "@synthetixio/core-contracts/contracts/ownership/OwnableStorage.sol";
 import {IERC20} from "@synthetixio/core-contracts/contracts/interfaces/IERC20.sol";
 import {ERC2771Context} from "@synthetixio/core-contracts/contracts/utils/ERC2771Context.sol";
+import {AccessError} from "@synthetixio/core-contracts/contracts/errors/AccessError.sol";
+import {AddressError} from "@synthetixio/core-contracts/contracts/errors/AddressError.sol";
 
 contract ProfitShareModule is IProfitShareModule {
     using ProfitShare for ProfitShare.Data;
@@ -36,8 +38,47 @@ contract ProfitShareModule is IProfitShareModule {
     /**
      * @inheritdoc IProfitShareModule
      */
-    function borrowUsd(address to, uint256 amount) external override {
+    function whitelistCaller(address caller) external override {
         OwnableStorage.onlyOwner();
+
+        if (caller == address(0)) {
+            revert AddressError.ZeroAddress();
+        }
+
+        YieldMarketFactory.load().whitelistedCallers[caller] = true;
+
+        emit CallerWhitelisted(caller);
+    }
+
+    /**
+     * @inheritdoc IProfitShareModule
+     */
+    function removeWhitelistedCaller(address caller) external override {
+        OwnableStorage.onlyOwner();
+
+        if (caller == address(0)) {
+            revert AddressError.ZeroAddress();
+        }
+
+        delete YieldMarketFactory.load().whitelistedCallers[caller];
+
+        emit CallerRemovedFromWhitelist(caller);
+    }
+
+    /**
+     * @inheritdoc IProfitShareModule
+     */
+    function isWhitelistedCaller(
+        address caller
+    ) external view override returns (bool isWhitelisted) {
+        return YieldMarketFactory.load().whitelistedCallers[caller];
+    }
+
+    /**
+     * @inheritdoc IProfitShareModule
+     */
+    function borrowUsd(address to, uint256 amount) external override {
+        validateCaller();
 
         YieldMarketFactory.Data storage strategyMarketFactory = YieldMarketFactory.load();
 
@@ -62,7 +103,7 @@ contract ProfitShareModule is IProfitShareModule {
      * @inheritdoc IProfitShareModule
      */
     function repayUsdFrom(address from, uint256 amount) external override {
-        OwnableStorage.onlyOwner();
+        validateCaller();
 
         YieldMarketFactory.Data storage strategyMarketFactory = YieldMarketFactory.load();
 
@@ -87,7 +128,7 @@ contract ProfitShareModule is IProfitShareModule {
      * @inheritdoc IProfitShareModule
      */
     function repayUsd(uint256 amount) external override {
-        OwnableStorage.onlyOwner();
+        validateCaller();
 
         YieldMarketFactory.Data storage strategyMarketFactory = YieldMarketFactory.load();
 
@@ -125,7 +166,7 @@ contract ProfitShareModule is IProfitShareModule {
      * @inheritdoc IProfitShareModule
      */
     function realizeProfit(uint256 amount) external override {
-        OwnableStorage.onlyOwner();
+        validateCaller();
         YieldMarketFactory.Data storage strategyMarketFactory = YieldMarketFactory.load();
         ProfitShare.Data storage profitShare = ProfitShare.load();
 
@@ -142,7 +183,7 @@ contract ProfitShareModule is IProfitShareModule {
      * @inheritdoc IProfitShareModule
      */
     function donateProfit(uint256 amount) external override {
-        OwnableStorage.onlyOwner();
+        validateCaller();
         YieldMarketFactory.Data storage strategyMarketFactory = YieldMarketFactory.load();
 
         _donateToPools(strategyMarketFactory, amount);
@@ -152,7 +193,7 @@ contract ProfitShareModule is IProfitShareModule {
      * @inheritdoc IProfitShareModule
      */
     function withdrawStrategyUsd(address to, uint256 amount) external override {
-        OwnableStorage.onlyOwner();
+        validateCaller();
         YieldMarketFactory.Data storage strategyMarketFactory = YieldMarketFactory.load();
 
         strategyMarketFactory.usdToken.transfer(to, amount);
@@ -163,7 +204,7 @@ contract ProfitShareModule is IProfitShareModule {
      * @inheritdoc IProfitShareModule
      */
     function depositStrategyCollateral(address collateralType, uint256 amount) external override {
-        OwnableStorage.onlyOwner();
+        validateCaller();
         YieldMarketFactory.Data storage strategyMarketFactory = YieldMarketFactory.load();
 
         IERC20 collateral = IERC20(collateralType);
@@ -236,7 +277,7 @@ contract ProfitShareModule is IProfitShareModule {
         address to,
         uint256 amount
     ) external override {
-        OwnableStorage.onlyOwner();
+        validateCaller();
         YieldMarketFactory.Data storage strategyMarketFactory = YieldMarketFactory.load();
 
         strategyMarketFactory.synthetix.withdrawMarketCollateral(
@@ -247,5 +288,14 @@ contract ProfitShareModule is IProfitShareModule {
 
         IERC20(collateralType).transfer(to, amount);
         emit StrategyCollateralWithdrawn(collateralType, to, amount);
+    }
+
+    function validateCaller() internal view {
+        YieldMarketFactory.Data storage store = YieldMarketFactory.load();
+        address msgSender = ERC2771Context._msgSender();
+        bool isWhitelisted = store.whitelistedCallers[msgSender];
+        if (!isWhitelisted) {
+            revert AccessError.Unauthorized(msgSender);
+        }
     }
 }
