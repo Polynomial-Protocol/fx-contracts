@@ -11,6 +11,7 @@ contract PredictionMarketCreator {
     bytes32 public constant GLOBAL_CONFIGURATOR_ROLE = keccak256("GLOBAL_CONFIGURATOR_ROLE");
 
     IPerpsMarketProxy public immutable PERPS_MARKET_PROXY;
+    address public initialAdmin;
 
     mapping(bytes32 => mapping(address => bool)) private _roles;
 
@@ -43,6 +44,7 @@ contract PredictionMarketCreator {
             revert ZeroAddress();
         }
         PERPS_MARKET_PROXY = IPerpsMarketProxy(_perpsMarketProxy);
+        initialAdmin = _admin;
         _roles[ADMIN_ROLE][_admin] = true;
         emit RoleGranted(ADMIN_ROLE, _admin, ERC2771Context._msgSender());
     }
