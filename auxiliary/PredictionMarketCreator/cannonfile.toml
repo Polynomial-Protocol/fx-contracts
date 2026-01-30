@@ -1,0 +1,16 @@
+name = "prediction-market-creator"
+version = "<%= package.version %>"
+description = "Permissioned market creator contract for prediction markets"
+
+[setting.perpsMarketProxy]
+defaultValue = "0x0000000000000000000000000000000000000001"
+description = "Address of the PerpsMarketProxy contract"
+
+[setting.admin]
+defaultValue = "0x0000000000000000000000000000000000000001"
+description = "Initial admin address for the PredictionMarketCreator"
+
+[contract.PredictionMarketCreator]
+artifact = "src/PredictionMarketCreator.sol:PredictionMarketCreator"
+args = ["<%= settings.perpsMarketProxy %>", "<%= settings.admin %>"]
+create2 = true

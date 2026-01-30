@@ -15,6 +15,8 @@ import "../nodes/UniswapNode.sol";
 import "../nodes/ConstantNode.sol";
 import "../nodes/pyth/PythLazerNode.sol";
 import "../nodes/pyth/PythLazerOffchainLookupNode.sol";
+import "../nodes/FxOracleNode.sol";
+import "../nodes/FxOracleOffchainLookupNode.sol";
 
 library NodeDefinition {
     /**
@@ -39,7 +41,9 @@ library NodeDefinition {
         CONSTANT,
         PYTH_OFFCHAIN_LOOKUP, // works in conjunction with PYTH node
         PYTH_LAZER,
-        PYTH_LAZER_OFFCHAIN_LOOKUP
+        PYTH_LAZER_OFFCHAIN_LOOKUP,
+        FX_ORACLE,
+        FX_ORACLE_OFFCHAIN_LOOKUP
     }
 
     struct Data {
@@ -181,6 +185,14 @@ library NodeDefinition {
             );
         } else if (nodeType == NodeType.CONSTANT) {
             (price, possibleError) = ConstantNode.process(nodeDefinition.parameters);
+        } else if (nodeType == NodeType.FX_ORACLE) {
+            (price, possibleError) = FxOracleNode.process(nodeDefinition.parameters);
+        } else if (nodeType == NodeType.FX_ORACLE_OFFCHAIN_LOOKUP) {
+            (price, possibleError) = FxOracleOffchainLookupNode.process(
+                nodeDefinition.parameters,
+                runtimeKeys,
+                runtimeValues
+            );
         } else {
             possibleError = abi.encodeWithSelector(UnprocessableNode.selector, nodeId);
         }

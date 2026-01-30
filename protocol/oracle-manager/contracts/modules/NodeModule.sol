@@ -13,6 +13,8 @@ import "../nodes/PriceDeviationCircuitBreakerNode.sol";
 import "../nodes/StalenessCircuitBreakerNode.sol";
 import "../nodes/UniswapNode.sol";
 import "../nodes/ConstantNode.sol";
+import "../nodes/FxOracleNode.sol";
+import "../nodes/FxOracleOffchainLookupNode.sol";
 
 import "../storage/NodeOutput.sol";
 import "../storage/NodeDefinition.sol";
@@ -256,6 +258,10 @@ contract NodeModule is INodeModule {
             return StalenessCircuitBreakerNode.isValid(nodeDefinition);
         } else if (nodeDefinition.nodeType == NodeDefinition.NodeType.CONSTANT) {
             return ConstantNode.isValid(nodeDefinition);
+        } else if (nodeDefinition.nodeType == NodeDefinition.NodeType.FX_ORACLE) {
+            return FxOracleNode.isValid(nodeDefinition);
+        } else if (nodeDefinition.nodeType == NodeDefinition.NodeType.FX_ORACLE_OFFCHAIN_LOOKUP) {
+            return FxOracleOffchainLookupNode.isValid(nodeDefinition);
         }
         return false;
     }

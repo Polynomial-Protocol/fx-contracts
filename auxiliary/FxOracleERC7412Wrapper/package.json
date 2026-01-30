@@ -1,0 +1,32 @@
+{
+  "name": "@synthetixio/fx-oracle-erc7412-wrapper",
+  "version": "0.0.1",
+  "description": "FxOracle ERC7412 Wrapper",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "index.js",
+  "files": [
+    "src",
+    "storage.dump.json",
+    "*.toml"
+  ],
+  "repository": "Synthetixio/synthetix-v3",
+  "author": "Synthetix",
+  "license": "MIT",
+  "scripts": {
+    "cov": "forge coverage --report lcov && genhtml ./lcov.info --output-directory coverage",
+    "build": "CANNON_REGISTRY_PRIORITY=local cannon build",
+    "forge-test": "forge test -vvvvv",
+    "forge-coverage": "forge coverage --report lcov"
+  },
+  "devDependencies": {
+    "@usecannon/cli": "2.18.2",
+    "forge-std": "github:foundry-rs/forge-std#master"
+  },
+  "depcheck": {
+    "ignoreMatches": [
+      "forge-std"
+    ]
+  }
+}
