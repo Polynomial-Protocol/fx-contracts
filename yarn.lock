@@ -3624,6 +3624,28 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@synthetixio/yield-market@workspace:markets/yield-market":
+  version: 0.0.0-use.local
+  resolution: "@synthetixio/yield-market@workspace:markets/yield-market"
+  dependencies:
+    "@synthetixio/common-config": "workspace:*"
+    "@synthetixio/core-contracts": "workspace:*"
+    "@synthetixio/core-modules": "workspace:*"
+    "@synthetixio/core-utils": "workspace:*"
+    "@synthetixio/docgen": "workspace:*"
+    "@synthetixio/main": "workspace:*"
+    "@synthetixio/oracle-manager": "workspace:*"
+    "@synthetixio/wei": "npm:^2.74.4"
+    "@types/node-fetch": "npm:^2.6.11"
+    "@usecannon/cli": "npm:2.18.2"
+    ethers: "npm:^5.7.2"
+    hardhat: "npm:^2.19.5"
+    node-fetch: "npm:^2.7.0"
+    solidity-docgen: "npm:^0.6.0-beta.36"
+    typescript: "npm:^5.5.4"
+  languageName: unknown
+  linkType: soft
+
 "@szmarczak/http-timer@npm:^5.0.1":
   version: 5.0.1
   resolution: "@szmarczak/http-timer@npm:5.0.1"

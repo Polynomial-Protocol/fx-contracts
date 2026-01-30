@@ -67,6 +67,19 @@
           "size": 1,
           "slot": "5",
           "offset": 0
+        },
+        {
+          "type": "mapping",
+          "name": "whitelistedCallers",
+          "key": {
+            "type": "address"
+          },
+          "value": {
+            "type": "bool"
+          },
+          "size": 32,
+          "slot": "6",
+          "offset": 0
         }
       ]
     }

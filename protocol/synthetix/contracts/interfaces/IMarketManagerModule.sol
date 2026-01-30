@@ -71,6 +71,24 @@ interface IMarketManagerModule {
     );
 
     /**
+     * @notice Emitted when a market donates snxUSD to backing pools without increasing credit capacity.
+     * @param marketId The id of the market that donated snxUSD.
+     * @param target The address of the account that provided the snxUSD in the donation.
+     * @param amount The amount of snxUSD donated, denominated with 18 decimals of precision.
+     * @param market The address of the external market that is donating.
+     * @param netIssuance Updated net issuance.
+     * @param depositedCollateralValue Updated deposited collateral value of the market.
+     */
+    event MarketUsdDonated(
+        uint128 indexed marketId,
+        address indexed target,
+        uint256 amount,
+        address indexed market,
+        int128 netIssuance,
+        uint256 depositedCollateralValue
+    );
+
+    /**
      * @notice Emitted when a market sets an updated minimum delegation time
      * @param marketId The id of the market that the setting is applied to
      * @param minDelegateTime The minimum amount of time between delegation changes
@@ -117,6 +135,20 @@ interface IMarketManagerModule {
      * @return feeAmount Fee collected by the core system. Always 0 in the current implementation.
      */
     function withdrawMarketUsd(
+        uint128 marketId,
+        address target,
+        uint256 amount
+    ) external returns (uint256 feeAmount);
+
+    /**
+     * @notice Allows an external market to donate snxUSD without increasing credit capacity.
+     * @dev The system burns the incoming USD and reduces the market's net issuance, without changing credit capacity.
+     * @param marketId The id of the market for which snxUSD will be donated.
+     * @param target The address of the account on who's behalf the donation will be made.
+     * @param amount The amount of snxUSD to be donated, denominated with 18 decimals of precision.
+     * @return feeAmount Fee collected by the core system. Always 0 in the current implementation.
+     */
+    function donateMarketUsd(
         uint128 marketId,
         address target,
         uint256 amount
