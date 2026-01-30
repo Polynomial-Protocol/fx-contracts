@@ -1,0 +1,34 @@
+{
+  "name": "@synthetixio/prediction-market-creator",
+  "version": "0.0.1",
+  "description": "Permissioned market creator contract for prediction markets",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "index.js",
+  "files": [
+    "src",
+    "storage.dump.json",
+    "*.toml"
+  ],
+  "repository": "Synthetixio/synthetix-v3",
+  "author": "Synthetix",
+  "license": "MIT",
+  "scripts": {
+    "clean": "forge clean",
+    "build": "CANNON_REGISTRY_PRIORITY=local cannon build",
+    "test": "forge test",
+    "forge-test": "forge test -vvvvv",
+    "forge-coverage": "forge coverage --report lcov",
+    "storage-dump": "forge build --extra-output storageLayout"
+  },
+  "devDependencies": {
+    "@usecannon/cli": "2.18.2",
+    "forge-std": "github:foundry-rs/forge-std#master"
+  },
+  "depcheck": {
+    "ignoreMatches": [
+      "forge-std"
+    ]
+  }
+}
