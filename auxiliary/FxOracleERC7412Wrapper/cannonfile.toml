@@ -1,0 +1,12 @@
+name = "fx-oracle-erc7412-wrapper"
+version = "<%= package.version %>"
+description = "FxOracle ERC7412 Wrapper"
+
+[setting.fxOracleAddress]
+defaultValue = "0x9cE261A041424c3a71c79A94Ee31958e3AF4cB01"
+description = "FxOracle address"
+
+[contract.FxOracleERC7412Wrapper]
+artifact = "src/FxOracleERC7412Wrapper.sol:FxOracleERC7412Wrapper"
+args = ["<%= settings.fxOracleAddress %>"]
+create2 = true

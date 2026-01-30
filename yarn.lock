@@ -3300,6 +3300,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@synthetixio/fx-oracle-erc7412-wrapper@workspace:auxiliary/FxOracleERC7412Wrapper":
+  version: 0.0.0-use.local
+  resolution: "@synthetixio/fx-oracle-erc7412-wrapper@workspace:auxiliary/FxOracleERC7412Wrapper"
+  languageName: unknown
+  linkType: soft
+
 "@synthetixio/governance@workspace:protocol/governance":
   version: 0.0.0-use.local
   resolution: "@synthetixio/governance@workspace:protocol/governance"
