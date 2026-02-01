@@ -60,7 +60,7 @@ describe('Settle Offchain Partial Limit Order tests', () => {
       .setFeeCollector(systems().FeeCollectorMock.address);
     await systems()
       .PerpsMarket.connect(owner())
-      .updateRelayerShare(await relayer.getAddress(), relayerRatio.toBN()); // 30%
+      .updateReferrerShare(await relayer.getAddress(), relayerRatio.toBN()); // 30%
     await systems()
       .PerpsMarket.connect(owner())
       .setLimitOrderFees(ethMarketId, nonZeroLimitOrderMakerFee, nonZeroLimitOrderTakerFee);

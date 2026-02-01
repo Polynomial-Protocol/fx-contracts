@@ -103,7 +103,7 @@ describe('AsyncOrderModule pyth', () => {
       it('reverts', async () => {
         await assertRevert(
           systems().SpotMarket.connect(keeper).settleOrder(marketId(), 1),
-          `OracleDataRequired(${pythSettlementStrategy.feedId}, ${startTime})`
+          `OracleDataRequired("${systems().MockPythERC7412Wrapper.address}", "0x")`
         );
       });
 

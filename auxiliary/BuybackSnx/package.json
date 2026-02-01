@@ -20,7 +20,7 @@
     "build:contracts": "hardhat compile --force && yarn storage:dump && CANNON_REGISTRY_PRIORITY=local hardhat cannon:build",
     "storage:dump": "hardhat storage:dump --output storage.new.dump.json",
     "storage:verify": " hardhat storage:verify",
-    "build-testable": "CANNON_REGISTRY_PRIORITY=local hardhat cannon:build cannonfile.test.toml",
+    "build-testable": "CANNON_REGISTRY_PRIORITY=local hardhat cannon:build --wipe cannonfile.test.toml",
     "check:storage": "diff -uw storage.dump.json storage.new.dump.json",
     "compile-contracts": "hardhat compile",
     "size-contracts": "hardhat compile && hardhat size-contracts",

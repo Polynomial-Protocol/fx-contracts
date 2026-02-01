@@ -263,7 +263,7 @@ describe('Create Market test', () => {
 
                   trackingCode: ethers.constants.HashZero,
                 }),
-              'MaxPositionsPerAccountReached("0")'
+              'MaxPositionsPerAccountReached("2", "0")'
             );
           });
 

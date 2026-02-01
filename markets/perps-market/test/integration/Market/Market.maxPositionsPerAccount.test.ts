@@ -86,7 +86,7 @@ describe('Markets - Max positions per account', () => {
         sizeDelta: bn(10),
         marketId: market1.marketId(),
       }),
-      'MaxPositionsPerAccountReached("0")'
+      'MaxPositionsPerAccountReached("2", "0")'
     );
   });
 
@@ -112,7 +112,7 @@ describe('Markets - Max positions per account', () => {
           marketId: market2.marketId(),
           sizeDelta: bn(10),
         }),
-        'MaxPositionsPerAccountReached("1")'
+        'MaxPositionsPerAccountReached("2", "1")'
       );
     });
     it('can increase and decrease existing positon size', async () => {
@@ -162,7 +162,7 @@ describe('Markets - Max positions per account', () => {
             marketId: market3.marketId(),
             sizeDelta: bn(10),
           }),
-          'MaxPositionsPerAccountReached("2")'
+          'MaxPositionsPerAccountReached("2", "2")'
         );
       });
       it('should allow a new position if another is closed', async () => {

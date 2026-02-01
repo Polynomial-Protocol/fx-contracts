@@ -36,8 +36,8 @@ describe('USDTokenModule', function () {
   });
 
   it('applied the USD parameters', async () => {
-    assert.equal(await systems().USD.name(), 'Synthetic USD Token v3');
-    assert.equal(await systems().USD.symbol(), 'sUSD');
+    assert.equal(await systems().USD.name(), 'Polynomial USD Token');
+    assert.equal(await systems().USD.symbol(), 'fxUSD');
     assert.equal(await systems().USD.decimals(), 18);
   });
 
