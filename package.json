@@ -67,13 +67,13 @@
     "@nomiclabs/hardhat-ethers": "^2.2.3",
     "@synthetixio/deps": "workspace:*",
     "@types/mocha": "^10.0.6",
-    "@types/node": "^20.11.17",
+    "@types/node": "^25.6.0",
     "@typescript-eslint/eslint-plugin": "^8.4.0",
     "@typescript-eslint/parser": "^8.4.0",
     "@usecannon/cli": "2.18.2",
     "eslint": "^9.9.1",
     "eslint-plugin-no-only-tests": "^3.1.0",
-    "globals": "^15.9.0",
+    "globals": "^17.5.0",
     "lint-staged": "^15.2.10",
     "mocha": "^10.7.3",
     "mocha-junit-reporter": "^2.2.1",
@@ -85,7 +85,7 @@
     "solhint-plugin-meta-transactions": "^0.1.0",
     "solhint-plugin-numcast": "^1.0.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.5.4"
+    "typescript": "^6.0.3"
   },
   "resolutions": {
     "hardhat-gas-reporter/eth-gas-reporter": "git://github.com/dbeal-eth/eth-gas-reporter.git#fix-catch-errors"

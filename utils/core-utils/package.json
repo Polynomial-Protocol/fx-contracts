@@ -50,7 +50,7 @@
     "@usecannon/cli": "2.18.2",
     "ethers": "^5.7.2",
     "get-port": "^7.0.0",
-    "hardhat": "^2.19.5",
+    "hardhat": "^3.4.2",
     "mocha": "^10.7.3",
     "nyc": "^17.0.0",
     "sinon": "^18.0.0",
@@ -58,7 +58,7 @@
     "solidity-ast": "^0.4.55",
     "ts-node": "^10.9.2",
     "typechain": "^8.3.2",
-    "typescript": "^5.5.4"
+    "typescript": "^6.0.3"
   },
   "dependencies": {
     "@ethersproject/abi": "^5.7.0",

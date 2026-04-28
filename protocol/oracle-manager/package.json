@@ -39,10 +39,10 @@
     "@synthetixio/core-utils": "workspace:*",
     "@synthetixio/docgen": "workspace:*",
     "@synthetixio/wei": "^2.74.4",
-    "@types/node": "^20.11.17",
+    "@types/node": "^25.6.0",
     "ethers": "^5.7.2",
-    "hardhat": "^2.19.5",
+    "hardhat": "^3.4.2",
     "solidity-docgen": "^0.6.0-beta.36",
-    "typescript": "^5.5.4"
+    "typescript": "^6.0.3"
   }
 }
